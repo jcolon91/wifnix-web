@@ -2024,5 +2024,205 @@ function toggleFaq(el){
   if(!open){a.style.display='block';arrow.style.transform='rotate(180deg)';el.style.borderColor='rgba(11,143,204,0.35)'}
 }
 </script>
+
+<!-- CHAT WIDGET -->
+<div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:1000;font-family:'DM Sans',sans-serif">
+  
+  <!-- CHAT BUTTON -->
+  <button id="chat-toggle" onclick="toggleChat()" style="
+    width:60px;height:60px;border-radius:50%;
+    background:linear-gradient(135deg,#0B8FCC,#29B6F6);
+    border:none;cursor:pointer;
+    box-shadow:0 8px 32px rgba(11,143,204,0.4);
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s,box-shadow .2s;
+    position:relative;
+  " onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 12px 40px rgba(11,143,204,0.6)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(11,143,204,0.4)'">
+    <svg id="chat-icon-open" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <svg id="chat-icon-close" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:#00E5A0;border-radius:50%;border:2px solid #06090F;animation:pulse 2s infinite"></div>
+  </button>
+
+  <!-- CHAT BOX -->
+  <div id="chat-box" style="
+    display:none;
+    width:360px;height:500px;
+    background:#0A0E17;
+    border:1px solid rgba(11,143,204,0.25);
+    border-radius:16px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+    margin-bottom:16px;
+    flex-direction:column;
+    overflow:hidden;
+    position:absolute;bottom:76px;right:0;
+  ">
+    <!-- Header -->
+    <div style="padding:16px 20px;background:linear-gradient(135deg,#0D1526,#0B8FCC22);border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:12px">
+      <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;stroke:white;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M12 2a10 10 0 110 20 10 10 0 010-20zm0 5v5l3 3"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;color:#F0F4F8;font-size:0.9rem">Agente Wifnix</div>
+        <div style="font-size:0.7rem;color:#00E5A0;display:flex;align-items:center;gap:4px">
+          <div style="width:6px;height:6px;background:#00E5A0;border-radius:50%"></div>
+          En línea · IA activa
+        </div>
+      </div>
+      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;padding:4px">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#8BA0B4;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Messages -->
+    <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:thin;scrollbar-color:#0B8FCC transparent">
+      <!-- Welcome message -->
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:12px 12px 12px 0;padding:10px 14px;max-width:260px">
+          <p style="font-size:0.82rem;color:#F0F4F8;line-height:1.5;margin:0">Hola! Soy el agente de Wifnix. ¿En qué puedo ayudarte hoy? Puedo asistirte con CCTV, redes, HVAC, continuidad operacional y más.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typing indicator -->
+    <div id="chat-typing" style="display:none;padding:0 16px 8px;display:none">
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:10px 16px">
+          <div style="display:flex;gap:4px;align-items:center">
+            <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite"></div>
+            <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .2s"></div>
+            <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .4s"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div style="padding:12px 16px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px;align-items:center">
+      <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." 
+        style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:24px;padding:10px 16px;color:#F0F4F8;font-family:DM Sans,sans-serif;font-size:0.82rem;outline:none;"
+        onkeydown="if(event.key==='Enter')sendMessage()"
+        onfocus="this.style.borderColor='#0B8FCC'"
+        onblur="this.style.borderColor='rgba(11,143,204,0.2)'">
+      <button onclick="sendMessage()" style="width:38px;height:38px;border-radius:50%;background:#0B8FCC;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+
+    <!-- Tecnico request -->
+    <div id="chat-tecnico-bar" style="display:none;padding:10px 16px;background:rgba(255,193,7,0.08);border-top:1px solid rgba(255,193,7,0.2);text-align:center">
+      <p style="font-size:0.75rem;color:#FFC107;margin-bottom:8px">¿Necesitas hablar con un técnico?</p>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <a href="https://wa.me/17873549596" target="_blank" style="padding:6px 16px;background:#25D366;color:white;border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none">WhatsApp</a>
+        <a href="tel:7873549596" style="padding:6px 16px;background:rgba(11,143,204,0.2);color:#29B6F6;border-radius:20px;font-size:0.72rem;font-weight:700;text-decoration:none;border:1px solid rgba(11,143,204,0.3)">Llamar</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+#chat-messages::-webkit-scrollbar{width:3px}
+#chat-messages::-webkit-scrollbar-thumb{background:#0B8FCC;border-radius:2px}
+</style>
+
+<script>
+let chatOpen = false;
+let chatHistorial = [];
+let chatSesionId = null;
+let chatTyping = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const box = document.getElementById('chat-box');
+  const iconOpen = document.getElementById('chat-icon-open');
+  const iconClose = document.getElementById('chat-icon-close');
+  const notif = document.getElementById('chat-notif');
+  
+  box.style.display = chatOpen ? 'flex' : 'none';
+  iconOpen.style.display = chatOpen ? 'none' : 'block';
+  iconClose.style.display = chatOpen ? 'block' : 'none';
+  notif.style.display = chatOpen ? 'none' : 'block';
+  
+  if (chatOpen) {
+    setTimeout(() => document.getElementById('chat-input').focus(), 100);
+  }
+}
+
+function addMessage(text, sender) {
+  const messages = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  
+  if (sender === 'user') {
+    div.style.cssText = 'display:flex;justify-content:flex-end';
+    div.innerHTML = `<div style="background:linear-gradient(135deg,#0B8FCC,#29B6F6);border-radius:12px 12px 0 12px;padding:10px 14px;max-width:260px"><p style="font-size:0.82rem;color:white;line-height:1.5;margin:0">${text}</p></div>`;
+  } else {
+    div.style.cssText = 'display:flex;gap:8px;align-items:flex-start';
+    div.innerHTML = `
+      <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:12px 12px 12px 0;padding:10px 14px;max-width:260px">
+        <p style="font-size:0.82rem;color:#F0F4F8;line-height:1.5;margin:0">${text}</p>
+      </div>`;
+  }
+  
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping(show) {
+  document.getElementById('chat-typing').style.display = show ? 'block' : 'none';
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg || chatTyping) return;
+  
+  input.value = '';
+  addMessage(msg, 'user');
+  chatHistorial.push({role: 'user', content: msg});
+  
+  chatTyping = true;
+  showTyping(true);
+  
+  try {
+    const res = await fetch('https://api.wifnix.com/api/chat/mensaje', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        mensaje: msg,
+        historial: chatHistorial.slice(-10),
+        session_token: chatSesionId
+      })
+    });
+    
+    const data = await res.json();
+    showTyping(false);
+    chatTyping = false;
+    
+    if (data.respuesta) {
+      addMessage(data.respuesta, 'ia');
+      chatHistorial.push({role: 'assistant', content: data.respuesta});
+      chatSesionId = data.sesion_id;
+      
+      if (data.necesita_tecnico) {
+        document.getElementById('chat-tecnico-bar').style.display = 'block';
+      }
+    }
+  } catch(err) {
+    showTyping(false);
+    chatTyping = false;
+    addMessage('Lo siento, hubo un error. Puedes contactarnos al (787) 354-9596 o por WhatsApp.', 'ia');
+  }
+}
+</script>
+
 </body>
 </html>
