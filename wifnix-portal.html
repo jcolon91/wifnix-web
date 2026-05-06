@@ -14,25 +14,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .screen.show{display:flex}
 .auth-screen{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(11,143,204,0.1) 0%,transparent 60%);padding:20px}
 .auth-box{background:rgba(13,26,42,0.97);border:1px solid rgba(11,143,204,0.2);border-radius:16px;width:100%;max-width:440px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,0.5)}
-.auth-type-tabs{display:flex;border-bottom:1px solid rgba(11,143,204,0.1)}
-.auth-type-tab{flex:1;padding:13px 6px;text-align:center;font-size:0.65rem;font-weight:700;color:var(--gray2);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;letter-spacing:0.05em;text-transform:uppercase}
-.auth-type-tab:hover{color:var(--gray);background:rgba(11,143,204,0.03)}
-.auth-type-tab.active{color:var(--blue-light);border-bottom-color:var(--blue);background:rgba(11,143,204,0.05)}
+.auth-tabs{display:flex;border-bottom:1px solid rgba(11,143,204,0.1)}
+.auth-tab{flex:1;padding:13px 6px;text-align:center;font-size:0.65rem;font-weight:700;color:var(--gray2);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;letter-spacing:0.05em;text-transform:uppercase}
+.auth-tab:hover{color:var(--gray)}
+.auth-tab.active{color:var(--blue-light);border-bottom-color:var(--blue);background:rgba(11,143,204,0.05)}
 .auth-body{padding:24px 28px}
 .auth-logo{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--blue-light);text-align:center;margin-bottom:2px}
 .auth-sub{text-align:center;font-size:0.75rem;color:var(--gray);margin-bottom:20px}
-.mode-switcher{display:flex;background:rgba(0,0,0,0.3);border-radius:8px;padding:3px;margin-bottom:18px}
-.mode-btn{flex:1;padding:7px;text-align:center;font-size:0.72rem;font-weight:600;color:var(--gray);cursor:pointer;border-radius:5px;transition:all .2s}
-.mode-btn.active{background:var(--blue);color:white}
-.account-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.account-type{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
-.account-type:hover{border-color:rgba(11,143,204,0.35)}
-.account-type.selected{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.account-type svg{width:20px;height:20px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;margin-bottom:5px;transition:stroke .2s;display:block;margin-left:auto;margin-right:auto}
-.account-type.selected svg{stroke:var(--blue-light)}
-.account-type-name{font-size:0.65rem;font-weight:700;color:var(--gray);transition:color .2s;letter-spacing:0.04em}
-.account-type.selected .account-type-name{color:var(--blue-light)}
-.account-type-desc{font-size:0.56rem;color:var(--gray2);margin-top:2px;line-height:1.3}
+.acct-types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.acct-type{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
+.acct-type:hover{border-color:rgba(11,143,204,0.35)}
+.acct-type.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
+.acct-type svg{width:20px;height:20px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round;margin-bottom:5px;display:block;margin-left:auto;margin-right:auto;transition:stroke .2s}
+.acct-type.sel svg{stroke:var(--blue-light)}
+.acct-type-name{font-size:0.65rem;font-weight:700;color:var(--gray);letter-spacing:0.04em;transition:color .2s}
+.acct-type.sel .acct-type-name{color:var(--blue-light)}
+.acct-type-desc{font-size:0.55rem;color:var(--gray2);margin-top:2px;line-height:1.3}
 .f-field{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
 .f-field label{font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray)}
 .f-field input,.f-field select,.f-field textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;transition:border-color .2s;width:100%}
@@ -42,38 +39,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .f-field textarea{resize:vertical;min-height:70px}
 .f-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .f-full{grid-column:1/-1}
-.btn-primary{width:100%;padding:11px;background:var(--blue);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:background .2s,transform .2s;margin-top:4px}
-.btn-primary:hover{background:var(--blue-light);transform:translateY(-1px)}
-.btn-outline{width:100%;padding:9px;background:transparent;color:var(--blue);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:1px solid rgba(11,143,204,0.3);cursor:pointer;transition:all .2s;margin-top:8px}
-.btn-outline:hover{background:rgba(11,143,204,0.08);border-color:var(--blue)}
+.btn-p{width:100%;padding:11px;background:var(--blue);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:background .2s,transform .2s;margin-top:4px}
+.btn-p:hover{background:var(--blue-light);transform:translateY(-1px)}
+.btn-o{width:100%;padding:9px;background:transparent;color:var(--blue);font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;border-radius:8px;border:1px solid rgba(11,143,204,0.3);cursor:pointer;transition:all .2s;margin-top:8px}
+.btn-o:hover{background:rgba(11,143,204,0.08)}
 .alert{padding:10px 14px;border-radius:7px;font-size:0.77rem;margin-bottom:10px;display:none;line-height:1.5}
-.alert.error{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--error)}
-.alert.success{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--success)}
-.alert.warn{background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:var(--warn)}
+.alert.err{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--error)}
+.alert.ok{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--success)}
+.alert.wn{background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:var(--warn)}
 .auth-footer{text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px;line-height:1.7}
 .auth-footer a{color:var(--blue);text-decoration:none;cursor:pointer}
-.auth-footer a:hover{color:var(--blue-light)}
-.divider{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:0.68rem;color:var(--gray2)}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06)}
 /* VERIFY */
-.verify-screen{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(11,143,204,0.1) 0%,transparent 60%);padding:20px}
+.verify-screen{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(11,143,204,0.08) 0%,transparent 60%);padding:20px}
 .verify-box{background:rgba(13,26,42,0.97);border:1px solid rgba(11,143,204,0.2);border-radius:16px;width:100%;max-width:400px;padding:36px;text-align:center}
-.verify-icon{width:60px;height:60px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.verify-icon svg{width:26px;height:26px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
-.verify-code{display:flex;gap:8px;justify-content:center;margin:20px 0}
-.verify-code input{width:42px;height:50px;text-align:center;font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.2);border-radius:8px;color:var(--white);outline:none;transition:border-color .2s}
-.verify-code input:focus{border-color:var(--blue)}
+.v-icon{width:60px;height:60px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.v-icon svg{width:26px;height:26px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
+.code-row{display:flex;gap:8px;justify-content:center;margin:20px 0}
+.code-row input{width:42px;height:50px;text-align:center;font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.2);border-radius:8px;color:var(--white);outline:none;transition:border-color .2s}
+.code-row input:focus{border-color:var(--blue)}
 /* PENDING */
-.pending-screen{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,193,7,0.06) 0%,transparent 60%);padding:20px}
+.pending-screen{align-items:center;justify-content:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,193,7,0.05) 0%,transparent 60%);padding:20px}
 .pending-box{background:rgba(13,26,42,0.97);border:1px solid rgba(255,193,7,0.2);border-radius:16px;width:100%;max-width:420px;padding:40px;text-align:center}
 /* PORTAL */
 .portal-screen{flex-direction:column}
 .topbar{height:60px;background:rgba(6,9,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(11,143,204,0.1);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:50;flex-shrink:0}
 .topbar-logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--blue-light)}
-.user-chip{display:flex;align-items:center;gap:10px;background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:100px;padding:5px 14px 5px 5px;cursor:pointer;transition:all .2s}
-.user-chip:hover{background:rgba(11,143,204,0.15)}
-.chip-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.72rem;color:white;overflow:hidden;flex-shrink:0}
-.chip-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.chip{display:flex;align-items:center;gap:10px;background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:100px;padding:5px 14px 5px 5px;cursor:pointer;transition:all .2s}
+.chip:hover{background:rgba(11,143,204,0.15)}
+.chip-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.72rem;color:white;overflow:hidden;flex-shrink:0}
+.chip-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .chip-name{font-size:0.78rem;font-weight:600;color:var(--white)}
 .chip-tag{font-size:0.6rem;color:var(--blue-light)}
 .nav-tabs{display:flex;gap:2px;padding:0 28px;background:rgba(8,14,24,0.8);border-bottom:1px solid rgba(11,143,204,0.08);overflow-x:auto;flex-shrink:0}
@@ -81,7 +75,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .nav-tab:hover{color:var(--white)}
 .nav-tab.active{color:var(--blue-light);border-bottom-color:var(--blue)}
 .nav-tab svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round}
-.portal-content{flex:1;padding:28px;max-width:1100px;width:100%;margin:0 auto}
+.pcontent{flex:1;padding:28px;max-width:1100px;width:100%;margin:0 auto}
 .panel{display:none}.panel.active{display:block}
 .welcome-banner{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.6));border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:22px 26px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .welcome-text h2{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:3px}
@@ -109,28 +103,25 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .badge.warn{background:rgba(255,193,7,0.12);color:var(--warn);border:1px solid rgba(255,193,7,0.25)}
 .badge.red{background:rgba(255,85,85,0.12);color:var(--error);border:1px solid rgba(255,85,85,0.25)}
 .badge.gray{background:rgba(138,160,180,0.12);color:var(--gray);border:1px solid rgba(138,160,180,0.2)}
-.badge.purple{background:rgba(139,92,246,0.12);color:#C4B5FD;border:1px solid rgba(139,92,246,0.25)}
-.service-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
-.service-item:last-child{border-bottom:none}
-.service-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.service-name{font-weight:600;font-size:0.83rem;color:var(--white)}
-.service-detail{font-size:0.7rem;color:var(--gray);margin-top:1px}
+.svc-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.svc-item:last-child{border-bottom:none}
+.svc-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.svc-name{font-weight:600;font-size:0.83rem;color:var(--white)}
+.svc-detail{font-size:0.7rem;color:var(--gray);margin-top:1px}
 .equip-card{background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:16px;transition:border-color .3s}
 .equip-card:hover{border-color:rgba(11,143,204,0.3)}
 .equip-icon{width:36px;height:36px;background:rgba(11,143,204,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
 .equip-icon svg{width:18px;height:18px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
 .equip-name{font-weight:700;font-size:0.85rem;color:var(--white);margin-bottom:3px}
 .equip-serial{font-size:0.68rem;color:var(--gray);font-family:monospace;margin-bottom:8px}
-.warranty-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-top:6px}
-.warranty-fill{height:100%;border-radius:3px}
-.warranty-fill.ok{background:var(--success)}
-.warranty-fill.warn{background:var(--warn)}
-.warranty-fill.exp{background:var(--error)}
+.wbar{height:4px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-top:6px}
+.wfill{height:100%;border-radius:3px}
+.wfill.ok{background:var(--success)}.wfill.wn{background:var(--warn)}.wfill.ex{background:var(--error)}
 .notice{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:0.78rem;color:var(--warn);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
 .notice svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;margin-top:1px}
-.btn-sm{padding:6px 14px;font-size:0.65rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:6px;border:none}
-.btn-sm.blue{background:var(--blue);color:white}.btn-sm.blue:hover{background:var(--blue-light)}
-.btn-sm.outline{background:transparent;color:var(--blue);border:1px solid rgba(11,143,204,0.3)}.btn-sm.outline:hover{background:rgba(11,143,204,0.08)}
+.bsm{padding:6px 14px;font-size:0.65rem;font-family:'Syne',sans-serif;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:all .2s;border-radius:6px}
+.bsm.bl{background:var(--blue);color:white;border:none}.bsm.bl:hover{background:var(--blue-light)}
+.bsm.ou{background:transparent;color:var(--blue);border:1px solid rgba(11,143,204,0.3)}.bsm.ou:hover{background:rgba(11,143,204,0.08)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
 .modal{background:var(--card);border:1px solid rgba(11,143,204,0.2);border-radius:14px;padding:26px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
@@ -141,203 +132,161 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--card);border:1px solid rgba(0,229,160,0.3);border-radius:10px;padding:12px 20px;z-index:500;font-size:0.8rem;color:var(--white);opacity:0;transition:all .3s;white-space:nowrap;max-width:90vw}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:768px){
-  .portal-content{padding:16px}
-  .grid-2,.grid-3,.f-grid{grid-template-columns:1fr}
-  .f-full{grid-column:1}
-  .welcome-banner{flex-direction:column}
-  .nav-tabs{padding:0 12px}
-  .topbar{padding:0 16px}
-  .account-types{grid-template-columns:1fr 1fr 1fr}
-}
+@media(max-width:768px){.pcontent{padding:16px}.grid-2,.grid-3,.f-grid{grid-template-columns:1fr}.f-full{grid-column:1}.welcome-banner{flex-direction:column}.nav-tabs{padding:0 12px}.topbar{padding:0 16px}}
 </style>
 </head>
 <body>
 
-<!-- ══ AUTH SCREEN ══ -->
+<!-- AUTH -->
 <div class="screen auth-screen show" id="screen-auth">
   <div class="auth-box" style="animation:fadeUp .5s ease">
-
-    <!-- Type tabs — discreet at top -->
-    <div class="auth-type-tabs">
-      <div class="auth-type-tab active" onclick="setAuthType('login')" id="tab-login">Iniciar sesión</div>
-      <div class="auth-type-tab" onclick="setAuthType('register')" id="tab-register">Crear cuenta</div>
-      <div class="auth-type-tab" onclick="setAuthType('forgot')" id="tab-forgot">Recuperar</div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" onclick="setTab('login')" id="atab-login">Iniciar sesión</div>
+      <div class="auth-tab" onclick="setTab('register')" id="atab-register">Crear cuenta</div>
+      <div class="auth-tab" onclick="setTab('forgot')" id="atab-forgot">Recuperar</div>
     </div>
-
     <div class="auth-body">
       <div class="auth-logo">Wifnix</div>
       <div class="auth-sub" id="auth-sub">Portal de clientes · Acceso seguro</div>
+      <div class="alert err" id="al-err"></div>
+      <div class="alert ok" id="al-ok"></div>
+      <div class="alert wn" id="al-wn"></div>
 
-      <div class="alert error" id="alert-error"></div>
-      <div class="alert success" id="alert-success"></div>
-      <div class="alert warn" id="alert-warn"></div>
-
-      <!-- ── LOGIN ── -->
+      <!-- LOGIN -->
       <div id="form-login">
         <div class="f-field">
           <label>Email o número de cliente</label>
-          <input type="text" id="login-id" placeholder="email@empresa.com o WFX-00143" onkeydown="if(event.key==='Enter')doLogin()">
+          <input type="text" id="li-id" placeholder="email@empresa.com o WFX-00143">
         </div>
         <div class="f-field">
           <label>Contraseña</label>
-          <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+          <input type="password" id="li-pass" placeholder="••••••••">
         </div>
-        <button class="btn-primary" onclick="doLogin()">Iniciar Sesión</button>
+        <button class="btn-p" onclick="doLogin()">Iniciar Sesión</button>
         <div class="auth-footer">
-          <a onclick="setAuthType('forgot')">¿Olvidaste tu contraseña?</a><br>
-          ¿No tienes cuenta? <a onclick="setAuthType('register')">Regístrate aquí</a><br>
+          <a onclick="setTab('forgot')">¿Olvidaste tu contraseña?</a><br>
+          ¿No tienes cuenta? <a onclick="setTab('register')">Regístrate aquí</a><br>
           <a href="https://wifnix.com" style="color:var(--gray2)">← Volver al sitio</a>
         </div>
       </div>
 
-      <!-- ── REGISTER ── -->
+      <!-- REGISTER -->
       <div id="form-register" style="display:none">
-        <p style="font-size:0.75rem;color:var(--gray);margin-bottom:14px;text-align:center">Selecciona el tipo de cuenta que necesitas</p>
-
-        <div class="account-types" id="account-types">
-          <div class="account-type selected" onclick="selectAccountType('regular',this)">
+        <p style="font-size:0.73rem;color:var(--gray);margin-bottom:12px;text-align:center">Selecciona el tipo de cuenta</p>
+        <div class="acct-types">
+          <div class="acct-type sel" onclick="selType('regular',this)" id="type-regular">
             <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <div class="account-type-name">Cliente</div>
-            <div class="account-type-desc">Servicios personales o negocios pequeños</div>
+            <div class="acct-type-name">Cliente</div>
+            <div class="acct-type-desc">Acceso inmediato tras verificar email</div>
           </div>
-          <div class="account-type" onclick="selectAccountType('empresa',this)">
+          <div class="acct-type" onclick="selType('empresa',this)" id="type-empresa">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <div class="account-type-name">Empresa</div>
-            <div class="account-type-desc">Empresa que contrata servicios Wifnix · Acceso inmediato</div>
+            <div class="acct-type-name">Empresa</div>
+            <div class="acct-type-desc">Acceso inmediato tras verificar email</div>
           </div>
-          <div class="account-type" onclick="selectAccountType('revendedor',this)">
+          <div class="acct-type" onclick="selType('reseller',this)" id="type-reseller">
             <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            <div class="account-type-name">Reseller</div>
-            <div class="account-type-desc">Instalador o revendedor · Requiere verificación 48h</div>
+            <div class="acct-type-name">Reseller</div>
+            <div class="acct-type-desc">Evaluación requerida · 48h máximo</div>
           </div>
         </div>
 
-        <!-- Info box by type -->
-        <div id="type-info-regular" class="alert success" style="display:flex">
-          Precio completo · Acceso inmediato tras verificar email
-        </div>
-        <div id="type-info-empresa" class="alert success" style="display:none">
-          Precio full · Acceso inmediato tras verificar email
-        </div>
-        <div id="type-info-revendedor" class="alert warn" style="display:none">
-          Precio reseller · Evaluación en máximo 48h · Debes subir registro de comerciante y evidencia del negocio
-        </div>
+        <div class="alert ok" id="ti-regular" style="display:flex;font-size:0.75rem">Precio full · Acceso inmediato al verificar email</div>
+        <div class="alert ok" id="ti-empresa" style="display:none;font-size:0.75rem">Precio full · Acceso inmediato al verificar email</div>
+        <div class="alert wn" id="ti-reseller" style="display:none;font-size:0.75rem">Precio reseller · Admin evalúa documentos en máximo 48h</div>
 
         <div class="f-grid">
-          <div class="f-field"><label>Nombre *</label><input type="text" id="reg-nombre" placeholder="Tu nombre"></div>
-          <div class="f-field"><label>Apellido *</label><input type="text" id="reg-apellido" placeholder="Tu apellido"></div>
-          <div class="f-field f-full"><label>Email *</label><input type="email" id="reg-email" placeholder="tu@empresa.com"></div>
-          <div class="f-field"><label>Teléfono</label><input type="tel" id="reg-tel" placeholder="(787) 000-0000"></div>
-          <div class="f-field f-full" id="empresa-field" style="display:none"><label>Nombre de empresa *</label><input type="text" id="reg-empresa" placeholder="Nombre de tu empresa"></div>
-          <div class="f-field f-full" id="registro-field" style="display:none">
-            <label>Registro de comerciante (PDF o imagen) *</label>
-            <input type="file" id="reg-doc" accept=".pdf,.png,.jpg,.jpeg" style="padding:6px">
-          </div>
-          <div class="f-field f-full"><label>Contraseña *</label><input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres"></div>
-          <div class="f-field f-full"><label>Confirmar contraseña *</label><input type="password" id="reg-pass2" placeholder="Repite la contraseña"></div>
+          <div class="f-field"><label>Nombre *</label><input type="text" id="rg-nom" placeholder="Tu nombre"></div>
+          <div class="f-field"><label>Apellido *</label><input type="text" id="rg-ape" placeholder="Tu apellido"></div>
+          <div class="f-field f-full"><label>Email *</label><input type="email" id="rg-email" placeholder="tu@email.com"></div>
+          <div class="f-field" id="fld-empresa" style="display:none;grid-column:1/-1"><label>Empresa *</label><input type="text" id="rg-empresa" placeholder="Nombre de la empresa"></div>
+          <div class="f-field" id="fld-doc" style="display:none;grid-column:1/-1"><label>Registro de comerciante *</label><input type="file" id="rg-doc" accept=".pdf,.png,.jpg,.jpeg" style="padding:6px"></div>
+          <div class="f-field f-full"><label>Contraseña *</label><input type="password" id="rg-pass" placeholder="Mínimo 8 caracteres"></div>
+          <div class="f-field f-full"><label>Confirmar contraseña *</label><input type="password" id="rg-pass2" placeholder="Repite la contraseña"></div>
         </div>
-
-        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;margin-top:4px">
-          <input type="checkbox" id="reg-terms" style="margin-top:3px;accent-color:var(--blue)">
-          <label for="reg-terms" style="font-size:0.72rem;color:var(--gray);cursor:pointer;line-height:1.5">Acepto los <a href="https://wifnix.com" style="color:var(--blue)">términos y condiciones</a> de Wifnix LLC</label>
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:12px">
+          <input type="checkbox" id="rg-terms" style="margin-top:3px;accent-color:var(--blue)">
+          <label for="rg-terms" style="font-size:0.72rem;color:var(--gray);cursor:pointer;line-height:1.5">Acepto los <a href="https://wifnix.com" style="color:var(--blue)">términos y condiciones</a> de Wifnix LLC</label>
         </div>
-
-        <button class="btn-primary" onclick="doRegister()">Crear Cuenta</button>
-        <div class="auth-footer">
-          ¿Ya tienes cuenta? <a onclick="setAuthType('login')">Inicia sesión</a>
-        </div>
+        <button class="btn-p" onclick="doRegister()">Crear Cuenta</button>
+        <div class="auth-footer">¿Ya tienes cuenta? <a onclick="setTab('login')">Inicia sesión</a></div>
       </div>
 
-      <!-- ── FORGOT ── -->
+      <!-- FORGOT -->
       <div id="form-forgot" style="display:none">
-        <p style="font-size:0.8rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa tu email registrado y te enviaremos un código de verificación a <strong style="color:var(--white)">customerservice@wifnix.com</strong>.</p>
-        <div class="f-field">
-          <label>Email registrado</label>
-          <input type="email" id="forgot-email" placeholder="tu@empresa.com">
-        </div>
-        <button class="btn-primary" onclick="doForgot()">Enviar código</button>
-        <div class="auth-footer"><a onclick="setAuthType('login')">← Volver al login</a></div>
+        <p style="font-size:0.8rem;color:var(--gray);margin-bottom:14px;line-height:1.6">Ingresa tu email y te enviaremos instrucciones desde <strong style="color:var(--white)">customerservice@wifnix.com</strong></p>
+        <div class="f-field"><label>Email registrado</label><input type="email" id="fg-email" placeholder="tu@email.com"></div>
+        <button class="btn-p" onclick="doForgot()">Enviar instrucciones</button>
+        <div class="auth-footer"><a onclick="setTab('login')">← Volver al login</a></div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ══ VERIFY SCREEN ══ -->
+<!-- VERIFY -->
 <div class="screen verify-screen" id="screen-verify">
   <div class="verify-box" style="animation:fadeUp .5s ease">
-    <div class="verify-icon">
+    <div class="v-icon">
       <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
     </div>
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:8px">Verifica tu email</h2>
-    <p style="font-size:0.82rem;color:var(--gray);line-height:1.6;margin-bottom:4px">Enviamos un código de 6 dígitos a</p>
-    <p style="font-size:0.88rem;color:var(--blue-light);font-weight:600" id="verify-email-display">—</p>
-    <p style="font-size:0.72rem;color:var(--gray2);margin-top:4px">También revisa tu carpeta de spam</p>
-
-    <div class="verify-code">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,0)" onkeydown="prevCode(event,this,0)">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,1)" onkeydown="prevCode(event,this,1)">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,2)" onkeydown="prevCode(event,this,2)">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,3)" onkeydown="prevCode(event,this,3)">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,4)" onkeydown="prevCode(event,this,4)">
-      <input type="text" maxlength="1" class="code-input" oninput="nextCode(this,5)" onkeydown="prevCode(event,this,5)">
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:8px">Verifica tu email</h2>
+    <p style="font-size:0.82rem;color:var(--gray);line-height:1.6">Enviamos un código de 6 dígitos a</p>
+    <p style="font-size:0.88rem;color:var(--blue-light);font-weight:600;margin:4px 0" id="v-email">—</p>
+    <p style="font-size:0.7rem;color:var(--gray2)">Revisa también spam · Código de demo: <strong style="color:var(--warn)">123456</strong></p>
+    <div class="code-row">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,0)" onkeydown="pc(event,this,0)">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,1)" onkeydown="pc(event,this,1)">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,2)" onkeydown="pc(event,this,2)">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,3)" onkeydown="pc(event,this,3)">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,4)" onkeydown="pc(event,this,4)">
+      <input type="text" maxlength="1" class="ci" oninput="nc(this,5)" onkeydown="pc(event,this,5)">
     </div>
-
-    <div class="alert error" id="verify-error" style="text-align:left"></div>
-
-    <button class="btn-primary" onclick="verifyCode()">Verificar y activar cuenta</button>
-    <button class="btn-outline" onclick="resendCode()" style="margin-top:10px">Reenviar código</button>
-    <p style="font-size:0.72rem;color:var(--gray2);margin-top:14px">
-      ¿Necesitas ayuda? <a href="mailto:customerservice@wifnix.com" style="color:var(--blue)">customerservice@wifnix.com</a>
-    </p>
+    <div class="alert err" id="v-err" style="text-align:left"></div>
+    <button class="btn-p" onclick="verifyCode()">Verificar y activar cuenta</button>
+    <button class="btn-o" onclick="resendCode()">Reenviar código</button>
+    <p style="font-size:0.7rem;color:var(--gray2);margin-top:14px">¿Ayuda? <a href="mailto:customerservice@wifnix.com" style="color:var(--blue)">customerservice@wifnix.com</a></p>
   </div>
 </div>
 
-<!-- ══ PENDING SCREEN ══ -->
+<!-- PENDING -->
 <div class="screen pending-screen" id="screen-pending">
   <div class="pending-box" style="animation:fadeUp .5s ease">
     <div style="width:60px;height:60px;background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
       <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--warn);fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
     </div>
-    <h2 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin-bottom:10px">Solicitud en revisión</h2>
-    <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;margin-bottom:20px">Tu solicitud de cuenta reseller está siendo evaluada por nuestro equipo. Recibirás una respuesta en <strong style="color:var(--warn)">48 horas</strong> a tu email con el resultado.</p>
+    <h2 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-bottom:10px">Solicitud en revisión</h2>
+    <p style="font-size:0.82rem;color:var(--gray);line-height:1.7;margin-bottom:20px">Tu solicitud de cuenta reseller está siendo evaluada. Recibirás respuesta en <strong style="color:var(--warn)">máximo 48 horas</strong> a tu email desde <strong style="color:var(--white)">customerservice@wifnix.com</strong></p>
     <div style="background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;margin-bottom:20px;text-align:left">
-      <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:8px">Próximos pasos</div>
-      <div style="font-size:0.78rem;color:var(--gray);line-height:1.8">
+      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:8px">Proceso de evaluación</div>
+      <div style="font-size:0.78rem;color:var(--gray);line-height:1.9">
         1. Revisamos tu registro de comerciante<br>
-        2. Verificamos que el negocio está relacionado con el ramo<br>
-        3. Te notificamos aprobación o rechazo con la razón<br>
-        4. Si aprobado, accedes al portal reseller con precios especiales
+        2. Verificamos que el negocio aplica al ramo<br>
+        3. Aprobación o rechazo con explicación<br>
+        4. Si aprobado, accedes al portal reseller
       </div>
     </div>
-    <p style="font-size:0.75rem;color:var(--gray2)">¿Tienes preguntas? <a href="mailto:customerservice@wifnix.com" style="color:var(--blue)">customerservice@wifnix.com</a> · (787) 354-9596</p>
-    <button class="btn-outline" onclick="showScreen('auth')" style="margin-top:16px">← Volver al login</button>
+    <p style="font-size:0.72rem;color:var(--gray2)">¿Preguntas? <a href="mailto:customerservice@wifnix.com" style="color:var(--blue)">customerservice@wifnix.com</a> · (787) 354-9596</p>
+    <button class="btn-o" onclick="showScreen('auth')" style="margin-top:16px">← Volver al login</button>
   </div>
 </div>
 
-<!-- ══ PORTAL ══ -->
+<!-- PORTAL -->
 <div class="screen portal-screen" id="screen-portal">
-
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:14px">
       <span class="topbar-logo">Wifnix</span>
       <span style="font-size:0.65rem;color:var(--gray2)">Portal de Clientes</span>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="user-chip" onclick="showTab('perfil')">
-        <div class="chip-avatar" id="chip-avatar">?</div>
-        <div>
-          <div class="chip-name" id="chip-name">—</div>
-          <div class="chip-tag" id="chip-tag">—</div>
-        </div>
+      <div class="chip" onclick="showTab('perfil')">
+        <div class="chip-av" id="chip-av">?</div>
+        <div><div class="chip-name" id="chip-name">—</div><div class="chip-tag" id="chip-tag">—</div></div>
       </div>
       <button onclick="doLogout()" style="background:none;border:none;cursor:pointer;padding:8px" title="Cerrar sesión">
         <svg viewBox="0 0 24 24" style="width:17px;height:17px;stroke:var(--gray);fill:none;stroke-width:2;stroke-linecap:round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
       </button>
     </div>
   </div>
-
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="showTab('inicio')" id="tab-inicio">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Resumen
@@ -361,119 +310,85 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mi Perfil
     </div>
   </div>
-
-  <div class="portal-content">
-
+  <div class="pcontent">
     <div class="panel active" id="panel-inicio">
       <div class="welcome-banner">
-        <div class="welcome-text">
-          <h2 id="welcome-name">Bienvenido</h2>
-          <p id="welcome-empresa">Portal de clientes Wifnix LLC</p>
-        </div>
-        <div class="client-badge">
-          <p>Número de cliente</p>
-          <p id="welcome-num">—</p>
-        </div>
+        <div class="welcome-text"><h2 id="w-name">Bienvenido</h2><p id="w-empresa">Portal Wifnix LLC</p></div>
+        <div class="client-badge"><p>Número de cliente</p><p id="w-num">—</p></div>
       </div>
       <div class="grid-3" style="margin-bottom:18px">
-        <div class="stat-mini"><div class="stat-num" id="s-servicios">0</div><div class="stat-lbl">Servicios activos</div></div>
-        <div class="stat-mini"><div class="stat-num" id="s-equipos">0</div><div class="stat-lbl">Equipos registrados</div></div>
-        <div class="stat-mini"><div class="stat-num" id="s-tickets">0</div><div class="stat-lbl">Tickets abiertos</div></div>
+        <div class="stat-mini"><div class="stat-num" id="s-svc">0</div><div class="stat-lbl">Servicios activos</div></div>
+        <div class="stat-mini"><div class="stat-num" id="s-eq">0</div><div class="stat-lbl">Equipos registrados</div></div>
+        <div class="stat-mini"><div class="stat-num" id="s-tk">0</div><div class="stat-lbl">Tickets abiertos</div></div>
       </div>
       <div class="grid-2">
-        <div class="card">
-          <div class="card-header"><span class="card-title">Servicios Activos</span></div>
-          <div class="card-body" id="inicio-servicios" style="padding:8px 18px"></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><span class="card-title">Tickets Recientes</span><button class="btn-sm outline" onclick="showTab('tickets')">Ver todos</button></div>
-          <div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Estado</th></tr></thead><tbody id="inicio-tickets"></tbody></table></div>
-        </div>
+        <div class="card"><div class="card-header"><span class="card-title">Servicios Activos</span></div><div class="card-body" id="i-svcs" style="padding:8px 18px"></div></div>
+        <div class="card"><div class="card-header"><span class="card-title">Tickets Recientes</span><button class="bsm ou" onclick="showTab('tickets')">Ver todos</button></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Estado</th></tr></thead><tbody id="i-tks"></tbody></table></div></div>
       </div>
-      <div id="inicio-alertas"></div>
+      <div id="i-alerts"></div>
     </div>
-
     <div class="panel" id="panel-servicios">
-      <div class="card"><div class="card-header"><span class="card-title">Servicios Contratados</span></div><div class="card-body" id="servicios-list" style="padding:8px 18px"></div></div>
-      <div class="card"><div class="card-header"><span class="card-title">Planes Mensuales</span></div><div class="card-body" id="planes-list" style="padding:8px 18px"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Servicios Contratados</span></div><div class="card-body" id="p-svcs" style="padding:8px 18px"></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Planes Mensuales</span></div><div class="card-body" id="p-plans" style="padding:8px 18px"></div></div>
     </div>
-
-    <div class="panel" id="panel-equipos">
-      <div class="grid-3" id="equipos-grid"></div>
-    </div>
-
+    <div class="panel" id="panel-equipos"><div class="grid-3" id="p-equips"></div></div>
     <div class="panel" id="panel-garantias">
-      <div class="notice"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Para reclamar garantía contacta a tu técnico o llama al (787) 354-9596. Solo técnicos de Wifnix crean tickets de garantía.</div>
-      <div class="card"><div class="card-header"><span class="card-title">Garantías</span></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>Equipo</th><th>N/S</th><th>Instalación</th><th>Vence</th><th>Restante</th><th>Estado</th></tr></thead><tbody id="garantias-body"></tbody></table></div></div>
+      <div class="notice"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Para reclamar garantía contacta a tu técnico o llama al (787) 354-9596. Los técnicos de Wifnix crean los tickets de garantía/RMA.</div>
+      <div class="card"><div class="card-header"><span class="card-title">Garantías y RMA</span></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>Equipo</th><th>N/S</th><th>Instalación</th><th>Restante</th><th>Estado</th></tr></thead><tbody id="p-gars"></tbody></table></div></div>
     </div>
-
     <div class="panel" id="panel-tickets">
       <div class="notice"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Los tickets son creados por tu técnico asignado. Para reportar un problema usa el chat o llama al <strong>(787) 354-9596</strong> con tu número de cliente.</div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Mis Tickets</span><button class="btn-sm blue" onclick="openModal('modal-contactar')">Contactar soporte</button></div>
-        <div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Técnico</th><th>Fecha</th><th>Tiempo</th><th>Estado</th></tr></thead><tbody id="tickets-body"></tbody></table></div>
-      </div>
+      <div class="card"><div class="card-header"><span class="card-title">Mis Tickets</span><button class="bsm bl" onclick="openModal('modal-contact')">Contactar soporte</button></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Técnico</th><th>Fecha</th><th>Tiempo</th><th>Estado</th></tr></thead><tbody id="p-tks"></tbody></table></div></div>
     </div>
-
     <div class="panel" id="panel-facturas">
-      <div class="card"><div class="card-header"><span class="card-title">Historial de Facturas</span></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Fecha</th><th>Descripción</th><th>Monto</th><th>Método</th><th>Estado</th><th></th></tr></thead><tbody id="facturas-body"></tbody></table></div></div>
+      <div class="card"><div class="card-header"><span class="card-title">Historial de Facturas</span></div><div class="card-body" style="padding:0"><table class="table"><thead><tr><th>#</th><th>Fecha</th><th>Descripción</th><th>Monto</th><th>Método</th><th>Estado</th><th></th></tr></thead><tbody id="p-facts"></tbody></table></div></div>
     </div>
-
     <div class="panel" id="panel-perfil">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Mi Perfil</span></div>
+      <div class="card"><div class="card-header"><span class="card-title">Mi Perfil</span></div>
         <div class="card-body">
           <div style="display:flex;align-items:center;gap:16px;padding:16px;background:rgba(0,0,0,0.2);border-radius:10px;margin-bottom:18px">
-            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem;color:white;border:2px solid rgba(11,143,204,0.3);cursor:pointer;overflow:hidden;flex-shrink:0" id="perfil-photo" onclick="document.getElementById('photo-upload').click()">
-              <span id="perfil-initials">?</span>
+            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem;color:white;border:2px solid rgba(11,143,204,0.3);cursor:pointer;overflow:hidden;flex-shrink:0" id="p-photo" onclick="document.getElementById('photo-up').click()">
+              <span id="p-initials">?</span>
             </div>
-            <div>
-              <div style="font-weight:700;color:var(--white)" id="perfil-fullname">—</div>
-              <div style="font-size:0.75rem;color:var(--blue-light)" id="perfil-num-show">—</div>
-              <div style="font-size:0.68rem;color:var(--gray);margin-top:3px">Haz clic en la foto para cambiarla</div>
-            </div>
-            <input type="file" id="photo-upload" accept="image/*" style="display:none" onchange="handlePhoto(event)">
+            <div><div style="font-weight:700;color:var(--white)" id="p-fullname">—</div><div style="font-size:0.75rem;color:var(--blue-light)" id="p-numshow">—</div><div style="font-size:0.68rem;color:var(--gray);margin-top:3px">Clic en foto para cambiar</div></div>
+            <input type="file" id="photo-up" accept="image/*" style="display:none" onchange="handlePhoto(event)">
           </div>
           <div class="f-grid">
-            <div class="f-field"><label>Nombre *</label><input type="text" id="p-nombre"></div>
-            <div class="f-field"><label>Apellido *</label><input type="text" id="p-apellido"></div>
-            <div class="f-field f-full"><label>Email</label><input type="email" id="p-email" readonly style="opacity:0.6"></div>
-            <div class="f-field"><label>Teléfono</label><input type="tel" id="p-tel"></div>
-            <div class="f-field f-full"><label>Empresa</label><input type="text" id="p-empresa"></div>
-            <div class="f-field f-full"><label>Dirección del servicio</label><input type="text" id="p-dir"></div>
+            <div class="f-field"><label>Nombre *</label><input type="text" id="pf-nom"></div>
+            <div class="f-field"><label>Apellido *</label><input type="text" id="pf-ape"></div>
+            <div class="f-field f-full"><label>Email</label><input type="email" id="pf-email" readonly style="opacity:0.6"></div>
+            <div class="f-field"><label>Teléfono</label><input type="tel" id="pf-tel"></div>
+            <div class="f-field f-full"><label>Empresa</label><input type="text" id="pf-emp"></div>
+            <div class="f-field f-full"><label>Dirección del servicio</label><input type="text" id="pf-dir"></div>
             <div class="f-field"><label>Nueva contraseña</label><input type="password" placeholder="Dejar en blanco"></div>
             <div class="f-field"><label>Confirmar contraseña</label><input type="password" placeholder="Dejar en blanco"></div>
           </div>
-          <button class="btn-primary" onclick="savePerfil()" style="margin-top:8px">Guardar cambios</button>
+          <button class="btn-p" onclick="savePerfil()" style="margin-top:8px">Guardar cambios</button>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Información de Cuenta</span></div>
-        <div class="card-body">
-          <div class="grid-2" style="gap:12px">
-            <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Número de cliente</div><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--blue-light)" id="p-num">—</div></div>
-            <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Tipo de cuenta</div><div id="p-tipo">—</div></div>
-            <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Cliente desde</div><div style="color:var(--white);font-size:0.85rem" id="p-desde">—</div></div>
-            <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Técnico asignado</div><div style="color:var(--white);font-size:0.85rem" id="p-tecnico">—</div></div>
-          </div>
-        </div>
+      <div class="card"><div class="card-header"><span class="card-title">Información de Cuenta</span></div>
+        <div class="card-body"><div class="grid-2" style="gap:12px">
+          <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Número de cliente</div><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--blue-light)" id="pf-num">—</div></div>
+          <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Tipo de cuenta</div><div id="pf-tipo">—</div></div>
+          <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Cliente desde</div><div style="color:var(--white);font-size:0.85rem" id="pf-desde">—</div></div>
+          <div><div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:4px">Técnico asignado</div><div style="color:var(--white);font-size:0.85rem" id="pf-tec">—</div></div>
+        </div></div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- MODAL CONTACTAR -->
-<div class="modal-overlay" id="modal-contactar">
+<!-- MODAL CONTACT -->
+<div class="modal-overlay" id="modal-contact">
   <div class="modal">
-    <div class="modal-header"><span class="modal-title">Contactar Soporte</span><button class="modal-close" onclick="closeModal('modal-contactar')">✕</button></div>
-    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:14px;line-height:1.5">Tu técnico asignado creará el ticket. Describe tu problema:</p>
-    <div class="f-field"><label>Asunto *</label><input type="text" id="c-asunto" placeholder="Describe brevemente el problema"></div>
-    <div class="f-field"><label>Descripción *</label><textarea id="c-desc" placeholder="Más detalles del problema..."></textarea></div>
-    <div class="f-field"><label>Urgencia</label><select id="c-urgencia"><option value="normal">Normal — Próximas 48h</option><option value="alto">Alto — Hoy</option><option value="critico">Crítico — Sistema caído</option></select></div>
+    <div class="modal-header"><span class="modal-title">Contactar Soporte</span><button class="modal-close" onclick="closeModal('modal-contact')">✕</button></div>
+    <p style="font-size:0.8rem;color:var(--gray);margin-bottom:14px;line-height:1.5">Tu técnico asignado creará el ticket. Describe el problema:</p>
+    <div class="f-field"><label>Asunto *</label><input type="text" id="ct-asunto" placeholder="Describe brevemente el problema"></div>
+    <div class="f-field"><label>Descripción *</label><textarea id="ct-desc" placeholder="Más detalles..."></textarea></div>
+    <div class="f-field"><label>Urgencia</label><select id="ct-urg"><option value="normal">Normal — Próximas 48h</option><option value="alto">Alto — Hoy</option><option value="critico">Crítico — Sistema caído</option></select></div>
     <div style="display:flex;gap:10px;margin-top:14px">
-      <button class="btn-sm blue" style="flex:1;padding:10px" onclick="enviarSolicitud()">Enviar solicitud</button>
-      <button class="btn-sm outline" style="flex:1;padding:10px" onclick="closeModal('modal-contactar')">Cancelar</button>
+      <button class="bsm bl" style="flex:1;padding:10px" onclick="enviarContact()">Enviar</button>
+      <button class="bsm ou" style="flex:1;padding:10px" onclick="closeModal('modal-contact')">Cancelar</button>
     </div>
   </div>
 </div>
@@ -481,299 +396,218 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════
-// DATABASE DEMO
-// ══════════════════════════════
-const DEMO_CLIENTS = {
+// DEMO DATABASE
+const DB = {
   'cliente@transdev.com': {
     pass:'Trans2025',num:'WFX-00001',nombre:'Roberto',apellido:'Colón',empresa:'Transdev PR',
     email:'cliente@transdev.com',tel:'(787) 555-0101',dir:'Av. Ferré, San Juan, PR',
     tipo:'enterprise',desde:'Enero 2023',tecnico:'Miguel Rivera',
-    servicios:[{nombre:'CCTV Empresarial 32 cámaras',status:'activo',plan:'Managed Enterprise Plan'},{nombre:'Red Empresarial',status:'activo',plan:'Managed Enterprise Plan'}],
-    planes:[{nombre:'Managed Enterprise Plan',monto:'$2,000/mes',status:'activo',renovacion:'Jun 1, 2025'}],
-    equipos:[{nombre:'NVR Hikvision 32ch',serial:'HK-NVR-0042',inst:'Ene 2023',gm:36,mu:28,icono:'nvr'},{nombre:'Cámara IP 4K x32',serial:'CAM-IP-SET01',inst:'Ene 2023',gm:24,mu:28,icono:'cam'}],
-    tickets:[{num:'#084',asunto:'Red inestable',tecnico:'Carlos T.',fecha:'May 2',tiempo:'05:12',status:'en_proceso'},{num:'#071',asunto:'Cámara 14 sin señal',tecnico:'Miguel R.',fecha:'Abr 10',tiempo:'01:30',status:'resuelto'}],
-    facturas:[{num:'#1042',fecha:'May 1',desc:'Plan Enterprise Mayo',monto:'$2,000',metodo:'ACH',status:'pagado'},{num:'#1038',fecha:'Abr 1',desc:'Plan Enterprise Abril',monto:'$2,000',metodo:'ACH',status:'pagado'}]
+    servicios:[{n:'CCTV Empresarial 32 cámaras',s:'activo',p:'Managed Enterprise Plan'},{n:'Red Empresarial',s:'activo',p:'Managed Enterprise Plan'}],
+    planes:[{n:'Managed Enterprise Plan',m:'$2,000/mes',s:'activo',r:'Jun 1, 2025'}],
+    equipos:[{n:'NVR Hikvision 32ch',sn:'HK-NVR-0042',i:'Ene 2023',gm:36,mu:28,ic:'nvr'},{n:'Cámara IP 4K x32',sn:'CAM-IP-SET01',i:'Ene 2023',gm:24,mu:28,ic:'cam'}],
+    tickets:[{num:'#084',a:'Red inestable',t:'Carlos T.',f:'May 2',ti:'05:12',s:'en_proceso'},{num:'#071',a:'Cámara 14 sin señal',t:'Miguel R.',f:'Abr 10',ti:'01:30',s:'resuelto'}],
+    facturas:[{num:'#1042',f:'May 1',d:'Plan Enterprise Mayo',m:'$2,000',mt:'ACH',s:'pagado'},{num:'#1038',f:'Abr 1',d:'Plan Enterprise Abril',m:'$2,000',mt:'ACH',s:'pagado'}]
   },
   'pedro@donruiz.com': {
     pass:'DonRuiz2025',num:'WFX-00034',nombre:'Pedro',apellido:'Ruiz',empresa:'Don Ruiz Coffee',
     email:'pedro@donruiz.com',tel:'(787) 555-0505',dir:'Calle Loíza 420, San Juan',
     tipo:'negocio',desde:'Agosto 2023',tecnico:'Luis Martínez',
-    servicios:[{nombre:'CCTV Comercial 8 cámaras',status:'activo',plan:'Instalación + Mant.'},{nombre:'Control de Acceso 2 puertas',status:'activo',plan:'Instalación'}],
+    servicios:[{n:'CCTV Comercial 8 cámaras',s:'activo',p:'Instalación + Mant.'},{n:'Control de Acceso 2 puertas',s:'activo',p:'Instalación'}],
     planes:[],
-    equipos:[{nombre:'DVR Dahua 8ch',serial:'DH-DVR-0088',inst:'Ago 2023',gm:24,mu:20,icono:'dvr'},{nombre:'Control Acceso ZKTeco',serial:'ZK-AC-0012',inst:'Sep 2023',gm:24,mu:19,icono:'access'}],
-    tickets:[{num:'#083',asunto:'Mant. preventivo HVAC',tecnico:'Sin asignar',fecha:'May 3',tiempo:'—',status:'abierto'}],
-    facturas:[{num:'#1039',fecha:'Ago 2023',desc:'Instalación CCTV 8 cámaras',monto:'$1,850',metodo:'ATH Móvil',status:'pagado'}]
+    equipos:[{n:'DVR Dahua 8ch',sn:'DH-DVR-0088',i:'Ago 2023',gm:24,mu:20,ic:'dvr'},{n:'Control Acceso ZKTeco',sn:'ZK-AC-0012',i:'Sep 2023',gm:24,mu:19,ic:'access'}],
+    tickets:[{num:'#083',a:'Mant. preventivo HVAC',t:'Sin asignar',f:'May 3',ti:'—',s:'abierto'}],
+    facturas:[{num:'#1039',f:'Ago 2023',d:'Instalación CCTV 8 cámaras',m:'$1,850',mt:'ATH Móvil',s:'pagado'}]
   }
 };
-
 const BY_NUM = {};
-Object.values(DEMO_CLIENTS).forEach(c=>{BY_NUM[c.num]=c;});
+Object.values(DB).forEach(c => { BY_NUM[c.num] = c; });
 
-let currentClient = null;
-let selectedType = 'regular';
-let verifyEmail = '';
-let verifyCode = '123456'; // Demo code
-let pendingRegData = null;
+let CU = null; // current user
+let selType_val = 'regular';
+let pendingReg = null;
+let vEmail = '';
 
-// ══ AUTH TYPE ══
-function setAuthType(type) {
-  ['login','register','forgot'].forEach(t=>{
-    document.getElementById('form-'+t).style.display = t===type?'block':'none';
-    document.getElementById('tab-'+t).classList.toggle('active',t===type);
+// ── AUTH TABS ──
+function setTab(t) {
+  ['login','register','forgot'].forEach(x => {
+    document.getElementById('form-'+x).style.display = x===t ? 'block' : 'none';
+    document.getElementById('atab-'+x).classList.toggle('active', x===t);
   });
   clearAlerts();
   const subs = {login:'Portal de clientes · Acceso seguro',register:'Crea tu cuenta Wifnix',forgot:'Recupera tu acceso'};
-  document.getElementById('auth-sub').textContent = subs[type];
+  document.getElementById('auth-sub').textContent = subs[t] || '';
 }
 
-function selectAccountType(type, el) {
-  selectedType = type;
-  document.querySelectorAll('.account-type').forEach(e=>e.classList.remove('selected'));
-  el.classList.add('selected');
-  ['regular','empresa','revendedor'].forEach(t=>{
-    document.getElementById('type-info-'+t).style.display = t===type?'flex':'none';
+// ── ACCOUNT TYPE ──
+function selType(type, el) {
+  selType_val = type;
+  document.querySelectorAll('.acct-type').forEach(e => e.classList.remove('sel'));
+  el.classList.add('sel');
+  ['regular','empresa','reseller'].forEach(t => {
+    document.getElementById('ti-'+t).style.display = t===type ? 'flex' : 'none';
   });
-  document.getElementById('empresa-field').style.display = ['empresa','revendedor'].includes(type)?'block':'none';
-  document.getElementById('registro-field').style.display = type==='revendedor'?'block':'none';
+  document.getElementById('fld-empresa').style.display = ['empresa','reseller'].includes(type) ? 'block' : 'none';
+  document.getElementById('fld-doc').style.display = type==='reseller' ? 'block' : 'none';
 }
 
-// ══ LOGIN ══
+// ── LOGIN ──
 function doLogin() {
-  const id = document.getElementById('login-id').value.trim();
-  const pass = document.getElementById('login-pass').value;
   clearAlerts();
-  const client = DEMO_CLIENTS[id.toLowerCase()] || BY_NUM[id.toUpperCase()];
-  if (!client || client.pass !== pass) {
-    showAlert('error','Credenciales incorrectas. Solo clientes registrados pueden acceder.');
-    return;
-  }
-  currentClient = client;
+  const id = document.getElementById('li-id').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  const c = DB[id.toLowerCase()] || BY_NUM[id.toUpperCase()];
+  if (!c || c.pass !== pass) { showAlert('err','Credenciales incorrectas. Solo clientes registrados pueden acceder.'); return; }
+  CU = c;
   initPortal();
 }
 
-// ══ REGISTER ══
+// ── REGISTER ──
 function doRegister() {
   clearAlerts();
-  const nombre = document.getElementById('reg-nombre').value;
-  const email = document.getElementById('reg-email').value;
-  const pass = document.getElementById('reg-pass').value;
-  const pass2 = document.getElementById('reg-pass2').value;
-  const terms = document.getElementById('reg-terms').checked;
-  if (!nombre || !email || !pass) { showAlert('error','Completa todos los campos requeridos.'); return; }
-  if (pass !== pass2) { showAlert('error','Las contraseñas no coinciden.'); return; }
-  if (pass.length < 8) { showAlert('error','La contraseña debe tener al menos 8 caracteres.'); return; }
-  if (!terms) { showAlert('error','Debes aceptar los términos y condiciones.'); return; }
-  if (['empresa','revendedor'].includes(selectedType)) {
-    const empresa = document.getElementById('reg-empresa').value;
-    if (!empresa) { showAlert('error','El nombre de empresa es requerido para este tipo de cuenta.'); return; }
+  const nom = document.getElementById('rg-nom').value.trim();
+  const email = document.getElementById('rg-email').value.trim();
+  const pass = document.getElementById('rg-pass').value;
+  const pass2 = document.getElementById('rg-pass2').value;
+  const terms = document.getElementById('rg-terms').checked;
+  if (!nom || !email || !pass) { showAlert('err','Completa todos los campos requeridos.'); return; }
+  if (pass !== pass2) { showAlert('err','Las contraseñas no coinciden.'); return; }
+  if (pass.length < 8) { showAlert('err','La contraseña debe tener al menos 8 caracteres.'); return; }
+  if (!terms) { showAlert('err','Debes aceptar los términos y condiciones.'); return; }
+  if (['empresa','reseller'].includes(selType_val)) {
+    const emp = document.getElementById('rg-empresa').value.trim();
+    if (!emp) { showAlert('err','El nombre de empresa es requerido.'); return; }
   }
-  pendingRegData = { nombre, email, pass, tipo: selectedType };
-  verifyEmail = email;
-  document.getElementById('verify-email-display').textContent = email;
-  // Simulate sending email
-  simulateSendVerifyEmail(email, nombre);
+  pendingReg = { nom, email, pass, tipo: selType_val };
+  vEmail = email;
+  document.getElementById('v-email').textContent = email;
   showScreen('verify');
 }
 
-function simulateSendVerifyEmail(email, nombre) {
-  // In production: call /api/auth/send-verify with email
-  // Email sent from customerservice@wifnix.com
-  console.log(\`[DEMO] Verification email sent to ${email} from customerservice@wifnix.com\`);
-  console.log(\`[DEMO] Code: ${verifyCode}\`);
-}
-
-// ══ VERIFY ══
-function nextCode(input, idx) {
+// ── VERIFY ──
+function nc(input, idx) {
   input.value = input.value.replace(/[^0-9]/g,'');
-  const inputs = document.querySelectorAll('.code-input');
+  const inputs = document.querySelectorAll('.ci');
   if (input.value && idx < 5) inputs[idx+1].focus();
-  if ([...inputs].every(i=>i.value)) verifyCode_auto();
+  if ([...inputs].every(i => i.value)) setTimeout(verifyCode, 200);
 }
-
-function prevCode(e, input, idx) {
-  if (e.key==='Backspace' && !input.value && idx > 0) {
-    document.querySelectorAll('.code-input')[idx-1].focus();
-  }
+function pc(e, input, idx) {
+  if (e.key==='Backspace' && !input.value && idx > 0) document.querySelectorAll('.ci')[idx-1].focus();
 }
-
-function verifyCode_auto() { setTimeout(verifyCode, 200); }
 
 function verifyCode() {
-  const inputs = document.querySelectorAll('.code-input');
-  const entered = [...inputs].map(i=>i.value).join('');
-  const errEl = document.getElementById('verify-error');
+  const inputs = document.querySelectorAll('.ci');
+  const code = [...inputs].map(i => i.value).join('');
+  const errEl = document.getElementById('v-err');
   errEl.style.display = 'none';
-
-  // Demo: accept 123456 or any 6 digits
-  if (entered.length !== 6) {
-    errEl.style.display = 'block';
-    errEl.textContent = 'Por favor ingresa el código completo de 6 dígitos.';
-    return;
-  }
-
-  if (entered !== verifyCode && entered !== '123456') {
-    errEl.style.display = 'block';
-    errEl.textContent = 'Código incorrecto. Revisa tu email o solicita uno nuevo.';
-    return;
-  }
-
-  // Success
-  if (pendingRegData && pendingRegData.tipo === 'revendedor') {
-    // Reseller → pending approval 48h
-    simulateSendPendingEmail(pendingRegData.email, pendingRegData.nombre, pendingRegData.tipo);
+  if (code.length !== 6) { errEl.style.display='block'; errEl.textContent='Ingresa el código completo de 6 dígitos.'; return; }
+  // Demo: accept 123456
+  if (code !== '123456') { errEl.style.display='block'; errEl.textContent='Código incorrecto. Código de demo: 123456'; return; }
+  if (pendingReg && pendingReg.tipo === 'reseller') {
     showScreen('pending');
-  } else if (pendingRegData) {
-    // Regular client or empresa → activate immediately
-    simulateSendWelcomeEmail(pendingRegData.email, pendingRegData.nombre, pendingRegData.tipo);
-    showAlert('success','¡Cuenta verificada! Inicia sesión con tus credenciales.');
-    setAuthType('login');
+  } else {
+    showAlert('ok','¡Cuenta verificada! Ya puedes iniciar sesión.');
+    setTab('login');
     showScreen('auth');
   }
 }
 
-function simulateSendWelcomeEmail(email, nombre, tipo) {
-  console.log(\`[EMAIL] Welcome email → ${email}\`);
-  console.log(\`Subject: ¡Bienvenido a Wifnix, ${nombre}!\`);
-  console.log(\`From: customerservice@wifnix.com\`);
-  console.log(\`Body: Tu cuenta ha sido activada. Número de cliente: WFX-XXXXX\`);
-}
-
-function simulateSendPendingEmail(email, nombre, tipo) {
-  console.log(\`[EMAIL] Pending approval email → ${email}\`);
-  console.log(\`Subject: Solicitud de cuenta ${tipo} recibida — Wifnix\`);
-  console.log(\`From: customerservice@wifnix.com\`);
-  console.log(\`Body: Hola ${nombre}, recibimos tu solicitud. Revisión en 48 horas.\`);
-}
-
 function resendCode() {
-  simulateSendVerifyEmail(verifyEmail, 'Cliente');
-  showToast('Código reenviado a '+verifyEmail);
-  document.querySelectorAll('.code-input').forEach(i=>i.value='');
-  document.querySelectorAll('.code-input')[0].focus();
+  showToast('Código reenviado a ' + vEmail);
+  document.querySelectorAll('.ci').forEach(i => i.value='');
+  document.querySelectorAll('.ci')[0].focus();
 }
 
-// ══ FORGOT ══
+// ── FORGOT ──
 function doForgot() {
-  const email = document.getElementById('forgot-email').value;
-  if (!email) { showAlert('error','Ingresa tu email.'); return; }
-  showAlert('success','Si el email está registrado, recibirás instrucciones de customerservice@wifnix.com');
+  const email = document.getElementById('fg-email').value.trim();
+  if (!email) { showAlert('err','Ingresa tu email.'); return; }
+  showAlert('ok','Si el email está registrado recibirás instrucciones de customerservice@wifnix.com');
 }
 
-// ══ PORTAL ══
+// ── PORTAL INIT ──
 function initPortal() {
-  const c = currentClient;
-  const initials = (c.nombre[0]+c.apellido[0]).toUpperCase();
-  const typeLabels = {enterprise:'Enterprise',negocio:'Negocio',regular:'Cliente',revendedor:'Revendedor'};
-  const typeColors = {enterprise:'#8B5CF6',negocio:'#29B6F6',regular:'#00E5A0',revendedor:'#FFC107'};
+  const c = CU;
+  const ini = (c.nombre[0]+c.apellido[0]).toUpperCase();
+  const tipos = {enterprise:'Enterprise',negocio:'Negocio',regular:'Cliente',reseller:'Reseller'};
+  const tcolors = {enterprise:'#8B5CF6',negocio:'#29B6F6',regular:'#00E5A0',reseller:'#FFC107'};
 
-  // Topbar
-  document.getElementById('chip-avatar').textContent = initials;
+  document.getElementById('chip-av').textContent = ini;
   document.getElementById('chip-name').textContent = c.nombre+' '+c.apellido;
-  document.getElementById('chip-tag').textContent = typeLabels[c.tipo]||c.tipo;
+  document.getElementById('chip-tag').textContent = tipos[c.tipo]||c.tipo;
+  document.getElementById('w-name').textContent = 'Bienvenido, '+c.nombre;
+  document.getElementById('w-empresa').textContent = c.empresa||'Portal Wifnix LLC';
+  document.getElementById('w-num').textContent = c.num;
+  document.getElementById('s-svc').textContent = c.servicios.length;
+  document.getElementById('s-eq').textContent = c.equipos.length;
+  document.getElementById('s-tk').textContent = c.tickets.filter(t=>t.s!=='resuelto').length;
 
-  // Welcome
-  document.getElementById('welcome-name').textContent = 'Bienvenido, '+c.nombre;
-  document.getElementById('welcome-empresa').textContent = c.empresa||'Portal Wifnix';
-  document.getElementById('welcome-num').textContent = c.num;
-
-  // Stats
-  document.getElementById('s-servicios').textContent = c.servicios.length;
-  document.getElementById('s-equipos').textContent = c.equipos.length;
-  document.getElementById('s-tickets').textContent = c.tickets.filter(t=>t.status!=='resuelto').length;
-
-  // Inicio servicios
-  document.getElementById('inicio-servicios').innerHTML = c.servicios.map(s=>`
-    <div class="service-item">
-      <div class="service-dot" style="background:${s.status==='activo'?'var(--success)":'var(--gray)'}"></div>
-      <div style="flex:1"><div class="service-name">${s.nombre}</div><div class="service-detail">${s.plan}</div></div>
-      <span class="badge ${s.status==='activo'?'green':'gray'}">${s.status}</span>
-    </div>
-  `).join('');
-
-  // Inicio tickets
-  document.getElementById('inicio-tickets').innerHTML = c.tickets.slice(0,3).map(t=>`
-    <tr><td style="color:var(--gray2)">${t.num}</td><td style="color:var(--white)">${t.asunto}</td><td><span class="badge ${sColor(t.status)}">${sLabel(t.status)}</span></td></tr>
-  `).join('') || '<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--gray2)">Sin tickets</td></tr>';
-
-  // Alertas garantías
-  const alertas = c.equipos.filter(e=>(e.gm-e.mu)<=3).map(e=>
-    `<div style="padding:10px 14px;border-radius:8px;font-size:0.78rem;margin-bottom:8px;background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);color:var(--warn)">⚠️ Garantía por vencer: ${e.nombre} — ${e.gm-e.mu} meses restantes</div>`
+  document.getElementById('i-svcs').innerHTML = c.servicios.map(s =>
+    '<div class="svc-item"><div class="svc-dot" style="background:'+(s.s==='activo'?'var(--success)':'var(--gray)')+'"></div><div style="flex:1"><div class="svc-name">'+s.n+'</div><div class="svc-detail">'+s.p+'</div></div><span class="badge '+(s.s==='activo'?'green':'gray')+'">'+s.s+'</span></div>'
   ).join('');
-  document.getElementById('inicio-alertas').innerHTML = alertas;
 
-  // Servicios tab
-  document.getElementById('servicios-list').innerHTML = c.servicios.map(s=>`
-    <div class="service-item"><div class="service-dot" style="background:${s.status==='activo'?'var(--success)':'var(--gray)'}"></div><div style="flex:1"><div class="service-name">${s.nombre}</div><div class="service-detail">${s.plan}</div></div><span class="badge ${s.status==='activo'?'green':'gray'}">${s.status}</span></div>
-  `).join('');
-  document.getElementById('planes-list').innerHTML = c.planes.length ? c.planes.map(p=>`
-    <div class="service-item"><div class="service-dot" style="background:var(--blue-light)"></div><div style="flex:1"><div class="service-name">${p.nombre}</div><div class="service-detail">${p.monto} · Renovación: ${p.renovacion}</div></div><span class="badge blue">${p.status}</span></div>
-  `).join('') : '<p style="color:var(--gray2);font-size:0.8rem">Sin planes mensuales activos.</p>';
+  document.getElementById('i-tks').innerHTML = c.tickets.slice(0,3).map(t =>
+    '<tr><td style="color:var(--gray2)">'+t.num+'</td><td style="color:var(--white)">'+t.a+'</td><td><span class="badge '+sc(t.s)+'">'+sl(t.s)+'</span></td></tr>'
+  ).join('') || '<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--gray2)">Sin tickets</td></tr>';
 
-  // Equipos
+  const alertas = c.equipos.filter(e=>(e.gm-e.mu)<=3).map(e=>
+    '<div style="padding:10px 14px;border-radius:8px;font-size:0.78rem;margin-bottom:8px;background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);color:var(--warn)">⚠️ Garantía por vencer: '+e.n+' — '+(e.gm-e.mu)+' meses restantes</div>'
+  ).join('');
+  document.getElementById('i-alerts').innerHTML = alertas;
+
+  document.getElementById('p-svcs').innerHTML = c.servicios.map(s =>
+    '<div class="svc-item"><div class="svc-dot" style="background:'+(s.s==='activo'?'var(--success)':'var(--gray)')+'"></div><div style="flex:1"><div class="svc-name">'+s.n+'</div><div class="svc-detail">'+s.p+'</div></div><span class="badge '+(s.s==='activo'?'green':'gray')+'">'+s.s+'</span></div>'
+  ).join('');
+
+  document.getElementById('p-plans').innerHTML = c.planes.length ? c.planes.map(p =>
+    '<div class="svc-item"><div class="svc-dot" style="background:var(--blue-light)"></div><div style="flex:1"><div class="svc-name">'+p.n+'</div><div class="svc-detail">'+p.m+' · Renovación: '+p.r+'</div></div><span class="badge blue">'+p.s+'</span></div>'
+  ).join('') : '<p style="color:var(--gray2);font-size:0.8rem">Sin planes mensuales activos.</p>';
+
   const icons = {
     nvr:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
     dvr:'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
     cam:'<path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>',
-    access:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>',
+    access:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>'
   };
-  document.getElementById('equipos-grid').innerHTML = c.equipos.map(e=>{
+  document.getElementById('p-equips').innerHTML = c.equipos.map(e => {
     const rem = e.gm-e.mu;
     const pct = Math.max(0,(rem/e.gm)*100);
-    const cls = pct<=0?'exp':pct<=20?'warn':'ok';
-    return `
-      <div class="equip-card">
-        <div class="equip-icon"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round">${icons[e.icono]||icons.cam}</svg></div>
-        <div class="equip-name">${e.nombre}</div>
-        <div class="equip-serial">N/S: ${e.serial}</div>
-        <div style="font-size:0.7rem;color:var(--gray)">Instalado: ${e.inst}</div>
-        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray);margin-top:8px">
-          <span>Garantía</span>
-          <span style="color:${cls==='ok'?'var(--success)':cls==='warn'?'var(--warn)':'var(--error)'}">${rem>0?rem+' meses':'VENCIDA'}</span>
-        </div>
-        <div class="warranty-bar"><div class="warranty-fill ${cls}" style="width:${pct}%"></div></div>
-      </div>
-    \`;
+    const cls = pct<=0?'ex':pct<=20?'wn':'ok';
+    return '<div class="equip-card"><div class="equip-icon"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round">'+(icons[e.ic]||icons.cam)+'</svg></div><div class="equip-name">'+e.n+'</div><div class="equip-serial">N/S: '+e.sn+'</div><div style="font-size:0.7rem;color:var(--gray)">Instalado: '+e.i+'</div><div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray);margin-top:8px"><span>Garantía</span><span style="color:'+(cls==='ok'?'var(--success)':cls==='wn'?'var(--warn)':'var(--error)')+'">'+( rem>0?rem+' meses':'VENCIDA')+'</span></div><div class="wbar"><div class="wfill '+cls+'" style="width:'+pct+'%"></div></div></div>';
   }).join('');
 
-  // Garantías
-  document.getElementById('garantias-body').innerHTML = c.equipos.map(e=>{
+  document.getElementById('p-gars').innerHTML = c.equipos.map(e => {
     const rem = e.gm-e.mu;
     const cls = rem<=0?'red':rem<=4?'warn':'green';
-    return `<tr><td style="color:var(--white)">${e.nombre}</td><td style="font-family:monospace;color:var(--gray2)">${e.serial}</td><td>${e.inst}</td><td>—</td><td style="color:${rem<=0?'var(--error)':rem<=4?'var(--warn)':'var(--success)'};font-weight:600">${rem>0?rem+' meses':'VENCIDA'}</td><td><span class="badge ${cls}">${rem<=0?'Vencida':rem<=4?'Por vencer':'Vigente'}</span></td></tr>`;
+    return '<tr><td style="color:var(--white)">'+e.n+'</td><td style="font-family:monospace;color:var(--gray2)">'+e.sn+'</td><td>'+e.i+'</td><td style="color:'+(rem<=0?'var(--error)':rem<=4?'var(--warn)':'var(--success)')+'">'+( rem>0?rem+' meses':'VENCIDA')+'</td><td><span class="badge '+cls+'">'+( rem<=0?'Vencida':rem<=4?'Por vencer':'Vigente')+'</span></td></tr>';
   }).join('');
 
-  // Tickets
-  document.getElementById('tickets-body').innerHTML = c.tickets.map(t=>`
-    <tr><td style="color:var(--gray2)">${t.num}</td><td style="color:var(--white)">${t.asunto}</td><td>${t.tecnico}</td><td>${t.fecha}</td><td style="color:${t.status==='resuelto'?'var(--gray)':'var(--blue-light)'};font-weight:600">${t.tiempo}</td><td><span class="badge ${sColor(t.status)}">${sLabel(t.status)}</span></td></tr>
-  `).join('') || '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--gray2)">Sin tickets</td></tr>';
+  document.getElementById('p-tks').innerHTML = c.tickets.map(t =>
+    '<tr><td style="color:var(--gray2)">'+t.num+'</td><td style="color:var(--white)">'+t.a+'</td><td>'+t.t+'</td><td>'+t.f+'</td><td style="color:"+(t.s==="resuelto"?"var(--gray)":"var(--blue-light)")+";font-weight:600">'+t.ti+'</td><td><span class="badge '+sc(t.s)+'">'+sl(t.s)+'</span></td></tr>'
+  ).join('') || '<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--gray2)">Sin tickets</td></tr>';
 
-  // Facturas
-  document.getElementById('facturas-body').innerHTML = c.facturas.map(f=>`
-    <tr><td style="color:var(--gray2)">${f.num}</td><td>${f.fecha}</td><td style="color:var(--white)">${f.desc}</td><td style="color:var(--success);font-weight:600">${f.monto}</td><td>${f.metodo}</td><td><span class="badge ${f.status==='pagado'?'green':'warn'}">${f.status}</span></td><td><button class="btn-sm outline" onclick="showToast('PDF descargado')">PDF</button></td></tr>
-  `).join('');
+  document.getElementById('p-facts').innerHTML = c.facturas.map(f =>
+    '<tr><td style="color:var(--gray2)">'+f.num+'</td><td>'+f.f+'</td><td style="color:var(--white)">'+f.d+'</td><td style="color:var(--success);font-weight:600">'+f.m+'</td><td>'+f.mt+'</td><td><span class="badge '+(f.s==='pagado'?'green':'warn')+'">'+f.s+'</span></td><td><button class="bsm ou" onclick="showToast(\'PDF descargado\')">PDF</button></td></tr>'
+  ).join('');
 
-  // Perfil
-  const initials2 = (c.nombre[0]+c.apellido[0]).toUpperCase();
-  document.getElementById('p-nombre').value = c.nombre;
-  document.getElementById('p-apellido').value = c.apellido;
-  document.getElementById('p-email').value = c.email;
-  document.getElementById('p-tel').value = c.tel||'';;
-  document.getElementById('p-empresa').value = c.empresa||'';
-  document.getElementById('p-dir').value = c.dir||'';
-  document.getElementById('perfil-initials').textContent = initials2;
-  document.getElementById('perfil-fullname').textContent = c.nombre+' '+c.apellido;
-  document.getElementById('perfil-num-show').textContent = c.num;
-  document.getElementById('p-num').textContent = c.num;
-  document.getElementById('p-tipo').innerHTML = `<span class="badge" style="background:${typeColors[c.tipo]}22;color:${typeColors[c.tipo]};border:1px solid ${typeColors[c.tipo]}44">${typeLabels[c.tipo]}</span>`;
-  document.getElementById('p-desde').textContent = c.desde;
-  document.getElementById('p-tecnico').textContent = c.tecnico;
+  document.getElementById('p-initials').textContent = ini;
+  document.getElementById('p-fullname').textContent = c.nombre+' '+c.apellido;
+  document.getElementById('p-numshow').textContent = c.num;
+  document.getElementById('pf-nom').value = c.nombre;
+  document.getElementById('pf-ape').value = c.apellido;
+  document.getElementById('pf-email').value = c.email;
+  document.getElementById('pf-tel').value = c.tel||'';
+  document.getElementById('pf-emp').value = c.empresa||'';
+  document.getElementById('pf-dir').value = c.dir||'';
+  document.getElementById('pf-num').textContent = c.num;
+  document.getElementById('pf-tipo').innerHTML = '<span class="badge" style="background:'+tcolors[c.tipo]+'22;color:'+tcolors[c.tipo]+';border:1px solid '+tcolors[c.tipo]+'44">'+(tipos[c.tipo]||c.tipo)+'</span>';
+  document.getElementById('pf-desde').textContent = c.desde;
+  document.getElementById('pf-tec').textContent = c.tecnico;
 
   showScreen('portal');
 }
 
-function sColor(s){return{abierto:'gray',en_proceso:'blue',en_revision:'warn',resuelto:'green',critico:'red'}[s]||'gray';}
-function sLabel(s){return{abierto:'Abierto',en_proceso:'En proceso',en_revision:'En revisión',resuelto:'Resuelto',critico:'Crítico'}[s]||s;}
+function sc(s){return{abierto:'gray',en_proceso:'blue',en_revision:'warn',resuelto:'green',critico:'red'}[s]||'gray';}
+function sl(s){return{abierto:'Abierto',en_proceso:'En proceso',en_revision:'En revisión',resuelto:'Resuelto',critico:'Crítico'}[s]||s;}
 
 function showTab(id) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -788,24 +622,23 @@ function showScreen(id) {
 }
 
 function doLogout() {
-  currentClient = null;
-  pendingRegData = null;
-  document.getElementById('login-id').value = '';
-  document.getElementById('login-pass').value = '';
+  CU = null; pendingReg = null;
+  document.getElementById('li-id').value='';
+  document.getElementById('li-pass').value='';
   clearAlerts();
   showScreen('auth');
-  setAuthType('login');
+  setTab('login');
 }
 
 function clearAlerts() {
-  ['error','success','warn'].forEach(t=>{
-    const el = document.getElementById('alert-'+t);
+  ['err','ok','wn'].forEach(t => {
+    const el = document.getElementById('al-'+t);
     if(el) el.style.display='none';
   });
 }
 function showAlert(type, msg) {
   clearAlerts();
-  const el = document.getElementById('alert-'+type);
+  const el = document.getElementById('al-'+type);
   if(el){el.textContent=msg;el.style.display='block';}
 }
 
@@ -814,37 +647,36 @@ function handlePhoto(e) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
-    document.getElementById('perfil-photo').innerHTML = `<img src="${ev.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
-    document.getElementById('chip-avatar').innerHTML = `<img src="${ev.target.result}">`;
+    document.getElementById('p-photo').innerHTML = '<img src="'+ev.target.result+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    document.getElementById('chip-av').innerHTML = '<img src="'+ev.target.result+'">';
     showToast('Foto actualizada');
   };
   reader.readAsDataURL(file);
 }
 
 function savePerfil() {
-  const nombre = document.getElementById('p-nombre').value;
-  document.getElementById('chip-name').textContent = nombre+' '+document.getElementById('p-apellido').value;
+  const n = document.getElementById('pf-nom').value;
+  const a = document.getElementById('pf-ape').value;
+  document.getElementById('chip-name').textContent = n+' '+a;
   showToast('Perfil guardado correctamente');
 }
 
-function enviarSolicitud() {
-  const asunto = document.getElementById('c-asunto').value;
-  if (!asunto) { showToast('Por favor describe el problema'); return; }
+function enviarContact() {
+  const a = document.getElementById('ct-asunto').value;
+  if (!a) { showToast('Describe el problema'); return; }
   showToast('Solicitud enviada. Tu técnico te contactará pronto.');
-  closeModal('modal-contactar');
+  closeModal('modal-contact');
 }
 
-function openModal(id) { document.getElementById(id).classList.add('show'); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-document.addEventListener('click', e => { if(e.target.classList.contains('modal-overlay')) e.target.classList.remove('show'); });
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.remove('show');});
 
 let toastT;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastT);
-  toastT = setTimeout(()=>t.classList.remove('show'),3200);
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200);
 }
 </script>
 </body>
