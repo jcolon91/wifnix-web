@@ -294,81 +294,177 @@ function resetQuiz() {
 renderQ();
 </script>
 
+
 <!-- LEAD CAPTURE MODAL -->
 <div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:440px;animation:fadeUp .4s ease">
-    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización formal</div>
-    <div style="font-size:0.8rem;color:#8BA0B4;margin-bottom:22px;line-height:1.6" id="lead-modal-sub">Nuestro equipo te contactará en menos de 24 horas con una propuesta detallada.</div>
-    <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-        <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+
+    <!-- LOGGED IN STATE -->
+    <div id="lead-loggedin" style="display:none">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div>
+          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+        </div>
       </div>
-      <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-        <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
+      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="margin-bottom:12px">
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
+        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
-      <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-        <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      <div style="display:flex;gap:10px">
+        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
+        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
       </div>
     </div>
-    <div id="lead-summary" style="margin-top:14px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
-    <div style="display:flex;gap:10px;margin-top:18px">
-      <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-      <button onclick="closeLead()" style="padding:12px 18px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+
+    <!-- GUEST STATE -->
+    <div id="lead-guest" style="display:none">
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
+      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+
+      <!-- AUTH OPTIONS -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+        <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
+          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+        </div>
+        <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
+          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+        </div>
+      </div>
+
+      <!-- GUEST FORM -->
+      <div id="guest-form" style="display:none">
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
+            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+          </div>
+          <div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
+            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+          </div>
+          <div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
+            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+          </div>
+        </div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
+          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        </div>
+        <div style="text-align:center;margin-top:12px">
+          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+        </div>
+      </div>
+
+      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
     </div>
-    <p style="font-size:0.68rem;color:#3D5166;text-align:center;margin-top:12px">Sin compromiso · Tu información es confidencial</p>
+
   </div>
 </div>
 
-<!-- LEAD SUCCESS -->
+<!-- SUCCESS -->
 <div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
   <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
       <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
     <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px" id="lead-success-msg">Nuestro equipo te contactará en menos de 24 horas.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:22px" id="lead-success-email"></div>
-    <button onclick="closeLead()" style="padding:11px 28px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+    </div>
   </div>
 </div>
 
 <script>
 var _leadData = {};
+var _wifnixUser = null;
+
+// Check if user is logged in via portal session
+try {
+  var stored = localStorage.getItem('wifnix_user');
+  if (stored) _wifnixUser = JSON.parse(stored);
+} catch(e) {}
 
 function openLead(title, summary, datos, estimado, herramienta) {
-  _leadData = { datos: datos || {}, estimado: estimado || '', herramienta: herramienta || document.title };
-  if (title) document.getElementById('lead-modal-title').textContent = title;
-  if (summary) document.getElementById('lead-summary').innerHTML = summary;
-  else document.getElementById('lead-summary').style.display = 'none';
+  _leadData = { datos: datos||{}, estimado: estimado||'', herramienta: herramienta||document.title };
   document.getElementById('lead-overlay').style.display = 'flex';
+
+  if (_wifnixUser && _wifnixUser.nombre) {
+    // Logged in
+    document.getElementById('lead-loggedin').style.display = 'block';
+    document.getElementById('lead-guest').style.display = 'none';
+    var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
+    document.getElementById('lead-avatar').textContent = initials.toUpperCase();
+    document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
+    if (title) document.getElementById('lead-modal-title-li').textContent = title;
+    if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
+  } else {
+    // Guest
+    document.getElementById('lead-loggedin').style.display = 'none';
+    document.getElementById('lead-guest').style.display = 'block';
+    document.getElementById('guest-form').style.display = 'none';
+    if (title) document.getElementById('lead-modal-title').textContent = title;
+    if (summary) document.getElementById('lead-summary').innerHTML = summary;
+  }
+}
+
+function showGuestForm() {
+  document.getElementById('guest-form').style.display = 'block';
   document.getElementById('lead-nombre').focus();
+}
+
+function goToPortal() {
+  // Save current tool data to sessionStorage so portal can use it
+  try {
+    sessionStorage.setItem('lead_pending', JSON.stringify(_leadData));
+  } catch(e) {}
+  window.open('https://portal.wifnix.com', '_blank');
 }
 
 function closeLead() {
   document.getElementById('lead-overlay').style.display = 'none';
   document.getElementById('lead-success').style.display = 'none';
-  document.getElementById('lead-alert').style.display = 'none';
 }
 
 function submitLead() {
   var nombre = document.getElementById('lead-nombre').value.trim();
   var email = document.getElementById('lead-email').value.trim();
   var tel = document.getElementById('lead-tel').value.trim();
-  var alert = document.getElementById('lead-alert');
-
+  var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
-    alert.style.display = 'block';
-    alert.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.style.display = 'block';
+    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
     return;
   }
+  sendLead(nombre, email, tel, '');
+}
 
-  var btn = document.querySelector('#lead-overlay button');
-  btn.textContent = 'Enviando...';
-  btn.disabled = true;
+function submitLeadLoggedIn() {
+  if (!_wifnixUser) return;
+  var msg = document.getElementById('lead-msg').value.trim();
+  sendLead(_wifnixUser.nombre + ' ' + (_wifnixUser.apellido||''), _wifnixUser.email, _wifnixUser.telefono||'', msg);
+}
+
+function sendLead(nombre, email, tel, msg) {
+  var datos = Object.assign({}, _leadData.datos);
+  if (msg) datos.mensaje = msg;
+  if (_wifnixUser) datos.numero_cliente = _wifnixUser.num||'';
 
   fetch('https://api.wifnix.com/api/leads', {
     method: 'POST',
@@ -378,27 +474,24 @@ function submitLead() {
       email: email,
       telefono: tel,
       herramienta: _leadData.herramienta,
-      datos: _leadData.datos,
+      datos: datos,
       estimado: _leadData.estimado
     })
   })
   .then(function(r) { return r.json(); })
-  .then(function(data) {
+  .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
     document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
-    alert.style.display = 'block';
-    alert.textContent = 'Error al enviar. Llámanos al (787) 354-9596';
-    btn.textContent = 'Enviar solicitud';
-    btn.disabled = false;
+    var alertEl = document.getElementById('lead-alert');
+    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
   });
 }
 
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLead();
-});
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
+document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
 
 </body>
