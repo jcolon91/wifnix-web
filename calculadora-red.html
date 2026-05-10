@@ -222,7 +222,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
       <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</h3>
       <p style="font-size:0.78rem;color:var(--gray)">Diseñamos, instalamos y gestionamos redes empresariales en Puerto Rico. Evaluación gratuita.</p>
     </div>
-    <a href="https://wifnix.com/#contacto" class="cta-btn">Agendar evaluación</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn">Agendar evaluación</a>
   </div>
 </div>
 
@@ -315,5 +315,113 @@ function update() {
 
 update();
 </script>
+
+<!-- LEAD CAPTURE MODAL -->
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:440px;animation:fadeUp .4s ease">
+    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización formal</div>
+    <div style="font-size:0.8rem;color:#8BA0B4;margin-bottom:22px;line-height:1.6" id="lead-modal-sub">Nuestro equipo te contactará en menos de 24 horas con una propuesta detallada.</div>
+    <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
+        <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
+        <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
+        <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+    </div>
+    <div id="lead-summary" style="margin-top:14px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
+      <button onclick="closeLead()" style="padding:12px 18px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+    </div>
+    <p style="font-size:0.68rem;color:#3D5166;text-align:center;margin-top:12px">Sin compromiso · Tu información es confidencial</p>
+  </div>
+</div>
+
+<!-- LEAD SUCCESS -->
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+    <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
+    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px" id="lead-success-msg">Nuestro equipo te contactará en menos de 24 horas.</div>
+    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:22px" id="lead-success-email"></div>
+    <button onclick="closeLead()" style="padding:11px 28px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+  </div>
+</div>
+
+<script>
+var _leadData = {};
+
+function openLead(title, summary, datos, estimado, herramienta) {
+  _leadData = { datos: datos || {}, estimado: estimado || '', herramienta: herramienta || document.title };
+  if (title) document.getElementById('lead-modal-title').textContent = title;
+  if (summary) document.getElementById('lead-summary').innerHTML = summary;
+  else document.getElementById('lead-summary').style.display = 'none';
+  document.getElementById('lead-overlay').style.display = 'flex';
+  document.getElementById('lead-nombre').focus();
+}
+
+function closeLead() {
+  document.getElementById('lead-overlay').style.display = 'none';
+  document.getElementById('lead-success').style.display = 'none';
+  document.getElementById('lead-alert').style.display = 'none';
+}
+
+function submitLead() {
+  var nombre = document.getElementById('lead-nombre').value.trim();
+  var email = document.getElementById('lead-email').value.trim();
+  var tel = document.getElementById('lead-tel').value.trim();
+  var alert = document.getElementById('lead-alert');
+
+  if (!nombre || !email) {
+    alert.style.display = 'block';
+    alert.textContent = 'Por favor ingresa tu nombre y email.';
+    return;
+  }
+
+  var btn = document.querySelector('#lead-overlay button');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  fetch('https://api.wifnix.com/api/leads', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      nombre: nombre,
+      email: email,
+      telefono: tel,
+      herramienta: _leadData.herramienta,
+      datos: _leadData.datos,
+      estimado: _leadData.estimado
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    document.getElementById('lead-overlay').style.display = 'none';
+    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success').style.display = 'flex';
+  })
+  .catch(function() {
+    alert.style.display = 'block';
+    alert.textContent = 'Error al enviar. Llámanos al (787) 354-9596';
+    btn.textContent = 'Enviar solicitud';
+    btn.disabled = false;
+  });
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLead();
+});
+</script>
+
 </body>
 </html>
