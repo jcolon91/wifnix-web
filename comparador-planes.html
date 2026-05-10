@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparador de Planes — Wifnix</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--purple:#8B5CF6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.page{max-width:1000px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(--blue-light)}
+.needs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.need-card{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);text-align:center}
+.need-card:hover{border-color:rgba(11,143,204,0.35)}
+.need-card.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
+.need-icon{font-size:1.5rem;margin-bottom:6px}
+.need-name{font-size:0.78rem;font-weight:700;color:var(--gray);transition:color .2s}
+.need-card.sel .need-name{color:var(--white)}
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.plan-card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:24px;position:relative;transition:all .3s}
+.plan-card.featured{border-color:var(--blue);transform:scale(1.02)}
+.plan-card.recommended{border-color:var(--success)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.plan-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:4px;text-align:center}
+.plan-price{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--blue-light);text-align:center;margin:12px 0 4px}
+.plan-period{font-size:0.72rem;color:var(--gray);text-align:center;margin-bottom:16px}
+.plan-features{display:flex;flex-direction:column;gap:8px}
+.plan-feature{display:flex;align-items:flex-start;gap:8px;font-size:0.75rem;color:var(--gray);line-height:1.4}
+.plan-feature.yes::before{content:'✓';color:var(--success);font-weight:800;flex-shrink:0}
+.plan-feature.no{opacity:0.4;text-decoration:line-through}
+.plan-feature.no::before{content:'✗';color:var(--error);font-weight:800;flex-shrink:0}
+.plan-btn{width:100%;margin-top:20px;padding:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+.plan-btn.primary{background:var(--blue);color:white}.plan-btn.primary:hover{background:var(--blue-light)}
+.plan-btn.outline{background:transparent;color:var(--blue);border:1px solid rgba(11,143,204,0.3)}.plan-btn.outline:hover{background:rgba(11,143,204,0.08)}
+.plan-btn.success-btn{background:var(--success);color:var(--black)}.plan-btn.success-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
+.compare-table{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,0.04)}
+.compare-row:last-child{border-bottom:none}
+.compare-row.header-row{background:rgba(11,143,204,0.06)}
+.compare-cell{padding:12px 16px;font-size:0.78rem;color:var(--gray);display:flex;align-items:center}
+.compare-cell.feature-name{color:var(--white);font-weight:500}
+.compare-cell.center{justify-content:center;text-align:center}
+.check-yes{color:var(--success);font-size:1rem;font-weight:800}
+.check-no{color:var(--error);opacity:0.5;font-size:1rem}
+.check-partial{color:var(--warn);font-size:0.78rem;font-weight:600}
+.cta-box{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
+@media(max-width:768px){.plans-grid{grid-template-columns:1fr 1fr}.needs-grid{grid-template-columns:repeat(3,1fr)}.compare-row{grid-template-columns:1.5fr 1fr 1fr}.compare-cell:nth-child(4),.compare-cell:nth-child(5){display:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header" style="animation:fadeUp .5s ease">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+      <span style="font-size:1rem">🎯</span>
+      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">Encuentra tu plan ideal</span>
+    </div>
+    <h1>Comparador de <span>Planes Wifnix</span></h1>
+    <p>Selecciona lo que necesitas y te mostramos el plan que mejor se adapta a tu negocio y presupuesto.</p>
+  </div>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:14px">¿Qué necesitas proteger? <span style="font-size:0.72rem;font-weight:400;color:var(--gray)">(selecciona todo lo que aplique)</span></div>
+  <div class="needs-grid">
+    <div class="need-card" onclick="toggleNeed('cctv',this)"><div class="need-icon">📹</div><div class="need-name">Cámaras CCTV</div></div>
+    <div class="need-card" onclick="toggleNeed('hvac',this)"><div class="need-icon">❄️</div><div class="need-name">HVAC</div></div>
+    <div class="need-card" onclick="toggleNeed('redes',this)"><div class="need-icon">🌐</div><div class="need-name">Redes WiFi</div></div>
+    <div class="need-card" onclick="toggleNeed('acceso',this)"><div class="need-icon">🔐</div><div class="need-name">Control Acceso</div></div>
+    <div class="need-card" onclick="toggleNeed('continuidad',this)"><div class="need-icon">⚡</div><div class="need-name">Continuidad</div></div>
+    <div class="need-card" onclick="toggleNeed('monitoreo',this)"><div class="need-icon">👁️</div><div class="need-name">Monitoreo 24/7</div></div>
+    <div class="need-card" onclick="toggleNeed('mantenimiento',this)"><div class="need-icon">🔧</div><div class="need-name">Mantenimiento</div></div>
+    <div class="need-card" onclick="toggleNeed('soporte',this)"><div class="need-icon">🤝</div><div class="need-name">Soporte técnico</div></div>
+    <div class="need-card" onclick="toggleNeed('web',this)"><div class="need-icon">💻</div><div class="need-name">Web / IA</div></div>
+  </div>
+
+  <div class="plans-grid" id="plans-grid">
+    <!-- Filled by JS -->
+  </div>
+
+  <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:16px">Comparación detallada</div>
+  <div class="compare-table">
+    <div class="compare-row header-row">
+      <div class="compare-cell feature-name" style="font-family:'Syne',sans-serif;font-weight:800">Característica</div>
+      <div class="compare-cell center" style="color:var(--blue-light);font-weight:700">Básico</div>
+      <div class="compare-cell center" style="color:var(--blue-light);font-weight:700">Profesional</div>
+      <div class="compare-cell center" style="color:var(--success);font-weight:700">Enterprise</div>
+      <div class="compare-cell center" style="color:#C084FC;font-weight:700">Managed</div>
+    </div>
+    <div class="compare-row"><div class="compare-cell feature-name">Instalación profesional</div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">CCTV incluido</div><div class="compare-cell center"><span class="check-partial">4 cámaras</span></div><div class="compare-cell center"><span class="check-partial">8 cámaras</span></div><div class="compare-cell center"><span class="check-partial">16+ cámaras</span></div><div class="compare-cell center"><span class="check-partial">Custom</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Resolución de cámaras</div><div class="compare-cell center"><span class="check-partial">1080p</span></div><div class="compare-cell center"><span class="check-partial">4K</span></div><div class="compare-cell center"><span class="check-partial">4K + IA</span></div><div class="compare-cell center"><span class="check-partial">4K + IA</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Acceso remoto app móvil</div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">WiFi empresarial</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Control de acceso</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Opcional</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Monitoreo 24/7</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Mantenimiento preventivo</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Anual</span></div><div class="compare-cell center"><span class="check-partial">Semestral</span></div><div class="compare-cell center"><span class="check-yes">Mensual</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">SLA de soporte</div><div class="compare-cell center"><span class="check-partial">48h</span></div><div class="compare-cell center"><span class="check-partial">24h</span></div><div class="compare-cell center"><span class="check-partial">8h</span></div><div class="compare-cell center"><span class="check-partial">4h</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Garantía de equipos</div><div class="compare-cell center"><span class="check-partial">1 año</span></div><div class="compare-cell center"><span class="check-partial">2 años</span></div><div class="compare-cell center"><span class="check-partial">3 años</span></div><div class="compare-cell center"><span class="check-partial">3 años+</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Backup internet 4G</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Opcional</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Panel de gestión web</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name">Informes y reportes</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Básico</span></div><div class="compare-cell center"><span class="check-partial">Avanzado</span></div><div class="compare-cell center"><span class="check-yes">Completo</span></div></div>
+  </div>
+
+  <div class="cta-box">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas un plan personalizado?</h3>
+      <p style="font-size:0.78rem;color:var(--gray)">Creamos soluciones a la medida de tu negocio. Hablemos sin compromiso.</p>
+    </div>
+    <a href="https://wifnix.com/#contacto" class="cta-btn">Hablar con un experto</a>
+  </div>
+</div>
+
+<script>
+const needs = new Set();
+
+const PLANS = [
+  {
+    id:'basico', name:'Básico', price:'Desde $800', period:'pago único',
+    badge:'Para empezar', badgeColor:'rgba(11,143,204,0.2)', badgeTextColor:'var(--blue-light)',
+    features:['4 cámaras Full HD 1080p','DVR 4 canales 1TB','App móvil incluida','Instalación profesional','Garantía 1 año'],
+    noFeatures:['WiFi empresarial','Control de acceso','Monitoreo 24/7','Backup internet'],
+    score:{cctv:2,soporte:1},
+    btn:'outline'
+  },
+  {
+    id:'profesional', name:'Profesional', price:'Desde $2,400', period:'pago único',
+    badge:'Más popular', badgeColor:'rgba(11,143,204,0.3)', badgeTextColor:'white',
+    features:['8 cámaras IP 4K','NVR 8ch con 4TB','WiFi empresarial','App + alertas inteligentes','Soporte 24h','Garantía 2 años'],
+    noFeatures:['Monitoreo 24/7','Control de acceso incluido'],
+    score:{cctv:3,redes:3,soporte:2,mantenimiento:1},
+    btn:'primary'
+  },
+  {
+    id:'enterprise', name:'Enterprise', price:'Desde $6,000', period:'pago único',
+    badge:'Recomendado', badgeColor:'rgba(0,229,160,0.2)', badgeTextColor:'var(--success)',
+    features:['16-32 cámaras 4K + IA','Red gestionada completa','Control de acceso biométrico','Monitoreo 24/7','Backup internet 4G','Soporte SLA 8h','Garantía 3 años'],
+    noFeatures:[],
+    score:{cctv:4,redes:4,acceso:4,continuidad:3,monitoreo:4,mantenimiento:3,soporte:3},
+    btn:'primary'
+  },
+  {
+    id:'managed', name:'Managed Services', price:'$299/mes', period:'por mes',
+    badge:'Todo incluido', badgeColor:'rgba(139,92,246,0.2)', badgeTextColor:'#C084FC',
+    features:['Todo el plan Enterprise','Mantenimiento mensual','Monitoreo NOC 24/7','SLA 4 horas garantizado','Reemplazo de equipos','Actualizaciones incluidas','Informes ejecutivos mensuales'],
+    noFeatures:[],
+    score:{cctv:4,redes:4,acceso:4,continuidad:4,monitoreo:4,mantenimiento:4,soporte:4,hvac:2,web:2},
+    btn:'success-btn'
+  }
+];
+
+function toggleNeed(key, el) {
+  el.classList.toggle('sel');
+  if (needs.has(key)) needs.delete(key); else needs.add(key);
+  renderPlans();
+}
+
+function renderPlans() {
+  let scored = PLANS.map(p => {
+    let score = 0;
+    needs.forEach(n => { score += (p.score[n]||0); });
+    return {...p, totalScore: score};
+  }).sort((a,b) => b.totalScore - a.totalScore);
+
+  const maxScore = Math.max(...scored.map(p=>p.totalScore),1);
+  const recommended = scored[0].id;
+
+  document.getElementById('plans-grid').innerHTML = scored.map(p => `
+    <div class="plan-card ${p.id === recommended && needs.size > 0 ? 'recommended' : ''}" style="animation:fadeUp .4s ease">
+      ${p.badge ? `<div class="plan-badge" style="background:${p.badgeColor};color:${p.badgeTextColor}">${p.id === recommended && needs.size > 0 ? '⭐ Ideal para ti' : p.badge}</div>` : ''}
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">${p.price}</div>
+      <div class="plan-period">${p.period}</div>
+      <div class="plan-features">
+        ${p.features.map(f=>`<div class="plan-feature yes">${f}</div>`).join('')}
+        ${p.noFeatures.map(f=>`<div class="plan-feature no">${f}</div>`).join('')}
+      </div>
+      <button class="plan-btn ${p.btn}" onclick="window.location.href='https://wifnix.com/#contacto'">Solicitar información</button>
+    </div>
+  `).join('');
+}
+
+renderPlans();
+</script>
+</body>
+</html>

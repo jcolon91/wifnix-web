@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — ¿Qué sistema necesitas? — Wifnix</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--purple:#8B5CF6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.page{max-width:700px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(--purple)}
+.header p{font-size:0.88rem;color:var(--gray);line-height:1.7}
+.progress-wrap{margin-bottom:32px}
+.progress-top{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray2);margin-bottom:8px}
+.progress{background:rgba(255,255,255,0.06);border-radius:100px;height:6px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),#C084FC);border-radius:100px;transition:width .4s}
+.question-card{background:var(--card);border:1px solid rgba(139,92,246,0.2);border-radius:16px;padding:32px;animation:fadeUp .4s ease}
+.question-num{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
+.question-text{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);line-height:1.4;margin-bottom:24px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:16px 20px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:14px}
+.opt:hover{border-color:rgba(139,92,246,0.4);background:rgba(139,92,246,0.06)}
+.opt.sel{border-color:var(--purple);background:rgba(139,92,246,0.12)}
+.opt-icon{font-size:1.4rem;flex-shrink:0;width:36px;text-align:center}
+.opt-text{font-size:0.85rem;font-weight:600;color:var(--gray);transition:color .2s}
+.opt.sel .opt-text{color:var(--white)}
+.opt-sub{font-size:0.7rem;color:var(--gray2);margin-top:2px}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+.btn-next{padding:12px 28px;background:var(--purple);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
+.btn-next:hover{background:#A78BFA;transform:translateY(-1px)}
+.btn-prev{padding:10px 20px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:600;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .2s}
+.btn-prev:hover{border-color:var(--gray);color:var(--white)}
+/* RESULTS */
+.result-header{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(13,26,42,0.9));border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.result-plan{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--purple)}
+.pkg-card{background:var(--card);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:20px;margin-bottom:12px}
+.pkg-card.recommended{border-color:var(--purple);background:rgba(139,92,246,0.06)}
+.pkg-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:8px}
+.pkg-price{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--success)}
+.pkg-features{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.pkg-feature{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--gray)}
+.pkg-feature::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0}
+.cta-box{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+.cta-btn{padding:12px 28px;background:var(--purple);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:#A78BFA;transform:translateY(-2px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+      <span style="font-size:1rem">🎯</span>
+      <span style="font-size:0.7rem;font-weight:700;color:#C084FC;letter-spacing:0.08em;text-transform:uppercase">Quiz de 8 preguntas</span>
+    </div>
+    <h1>¿Qué sistema <span>necesitas?</span></h1>
+    <p>Responde 8 preguntas rápidas y te decimos exactamente qué solución de seguridad y tecnología se adapta a tu negocio.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-top"><span id="q-label">Pregunta 1 de 8</span><span id="q-pct">12%</span></div>
+    <div class="progress"><div class="progress-fill" id="prog" style="width:12%"></div></div>
+  </div>
+
+  <div id="quiz-section">
+    <div class="question-card" id="q-card">
+      <div class="question-num" id="q-num">Pregunta 1</div>
+      <div class="question-text" id="q-text">Cargando...</div>
+      <div class="options" id="q-opts"></div>
+      <div class="nav">
+        <button class="btn-prev" id="btn-prev" onclick="prevQ()" style="visibility:hidden">← Anterior</button>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="result-section" style="display:none;animation:fadeUp .5s ease">
+    <div class="result-header">
+      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C084FC;margin-bottom:10px">Tu solución ideal</div>
+      <div class="result-plan" id="r-plan">—</div>
+      <div style="font-size:0.85rem;color:var(--gray);margin-top:8px;line-height:1.6" id="r-desc">—</div>
+    </div>
+    <div id="r-pkgs"></div>
+    <div class="cta-box">
+      <div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Lista para proteger tu negocio?</h3>
+        <p style="font-size:0.78rem;color:var(--gray)">Agenda una evaluación gratuita. Nuestros expertos van a tu local sin costo ni compromiso.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="https://wifnix.com/#contacto" class="cta-btn">Agendar evaluación</a>
+        <button onclick="resetQuiz()" style="padding:9px;background:transparent;color:var(--gray);font-size:0.75rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer">Repetir quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    text: '¿Qué tipo de negocio o espacio tienes?',
+    opts: [
+      {icon:'🏪',text:'Tienda o comercio retail',sub:'Boutique, farmacia, supermercado',val:'comercio'},
+      {icon:'🏢',text:'Oficina o empresa',sub:'Corporativo, coworking, consultorio',val:'oficina'},
+      {icon:'🍽️',text:'Restaurante o cafetería',sub:'Comida, bar, café',val:'restaurante'},
+      {icon:'🏠',text:'Residencia',sub:'Casa, apartamento, villa',val:'residencia'},
+      {icon:'🏭',text:'Almacén o manufactura',sub:'Warehouse, fábrica, taller',val:'industrial'},
+      {icon:'✂️',text:'Salón o spa',sub:'Barbería, salón de belleza, spa',val:'salon'},
+    ]
+  },
+  {
+    text: '¿Cuántas personas trabajan o visitan el espacio diariamente?',
+    opts: [
+      {icon:'👤',text:'1-5 personas',sub:'Negocio pequeño o residencia',val:'micro'},
+      {icon:'👥',text:'6-20 personas',sub:'Equipo pequeño o mediano',val:'pequeno'},
+      {icon:'👨‍👩‍👧‍👦',text:'21-50 personas',sub:'Empresa mediana',val:'mediano'},
+      {icon:'🏙️',text:'Más de 50 personas',sub:'Empresa grande o espacio público',val:'grande'},
+    ]
+  },
+  {
+    text: '¿Cuál es tu mayor preocupación de seguridad?',
+    opts: [
+      {icon:'🦹',text:'Robos o intrusiones',sub:'Acceso no autorizado, vandalismo',val:'robo'},
+      {icon:'📋',text:'Evidencia y documentación',sub:'Registrar incidentes, disputas, auditorías',val:'evidencia'},
+      {icon:'👷',text:'Seguridad de empleados',sub:'Monitorear trabajo, prevenir accidentes',val:'empleados'},
+      {icon:'🔑',text:'Control de quién entra y sale',sub:'Acceso a áreas restringidas',val:'acceso'},
+    ]
+  },
+  {
+    text: '¿Tienes actualmente algún sistema de seguridad?',
+    opts: [
+      {icon:'❌',text:'No tengo nada',sub:'Empezando desde cero',val:'nada'},
+      {icon:'📷',text:'Cámaras básicas o análogas',sub:'Sistema antiguo o de baja calidad',val:'basico'},
+      {icon:'🔐',text:'Alarma solamente',sub:'Sin cámaras ni control de acceso',val:'alarma'},
+      {icon:'✅',text:'Sistema completo',sub:'Quiero expandirlo o mejorarlo',val:'completo'},
+    ]
+  },
+  {
+    text: '¿Cuánto espacio necesitas cubrir?',
+    opts: [
+      {icon:'🏠',text:'Menos de 500 ft²',sub:'Local pequeño, residencia',val:'xs'},
+      {icon:'🏪',text:'500 - 1,500 ft²',sub:'Tienda o oficina mediana',val:'sm'},
+      {icon:'🏢',text:'1,500 - 5,000 ft²',sub:'Empresa o local grande',val:'md'},
+      {icon:'🏭',text:'Más de 5,000 ft²',sub:'Complejo o múltiples áreas',val:'lg'},
+    ]
+  },
+  {
+    text: '¿Tienes internet estable en el negocio?',
+    opts: [
+      {icon:'📶',text:'Sí, fibra óptica o cable',sub:'Conexión rápida y estable',val:'fibra'},
+      {icon:'📡',text:'Sí, pero a veces falla',sub:'Interrupciones ocasionales',val:'inestable'},
+      {icon:'📱',text:'Solo celular/4G',sub:'Sin internet fijo',val:'movil'},
+      {icon:'❓',text:'No sé / sin internet',sub:'Sin conectividad',val:'sin_internet'},
+    ]
+  },
+  {
+    text: '¿Cuál es tu presupuesto aproximado para inversión inicial?',
+    opts: [
+      {icon:'💵',text:'Menos de $1,000',sub:'Solución básica y esencial',val:'basico'},
+      {icon:'💰',text:'$1,000 - $3,000',sub:'Buen sistema para la mayoría',val:'medio'},
+      {icon:'💎',text:'$3,000 - $8,000',sub:'Sistema profesional completo',val:'premium'},
+      {icon:'🚀',text:'Más de $8,000',sub:'Enterprise, sin límite de calidad',val:'enterprise'},
+    ]
+  },
+  {
+    text: '¿Qué es más importante para ti en el servicio?',
+    opts: [
+      {icon:'⚡',text:'Instalación rápida',sub:'Lo necesito funcionando ya',val:'rapido'},
+      {icon:'💰',text:'Mejor precio posible',sub:'Maximizar el valor',val:'precio'},
+      {icon:'🛡️',text:'Máxima calidad y garantía',sub:'Equipo de primera, larga vida',val:'calidad'},
+      {icon:'🤝',text:'Soporte y mantenimiento',sub:'Alguien que me respalde siempre',val:'soporte'},
+    ]
+  }
+];
+
+const RESULTS = {
+  starter: {
+    plan: 'Paquete Starter',
+    desc: 'Basado en tus respuestas, un sistema básico pero efectivo es todo lo que necesitas para empezar a proteger tu negocio con una inversión mínima.',
+    pkgs: [
+      {name:'CCTV Starter — 4 cámaras HD', price:'Desde $800', features:['4 cámaras Full HD 1080p','DVR 4 canales con 1TB','Acceso remoto desde el celular','Instalación profesional incluida','Garantía 1 año'], recommended:true},
+      {name:'Plan Mantenimiento Básico', price:'$99/mes', features:['Revisión trimestral','Soporte remoto','Actualizaciones de firmware'], recommended:false}
+    ]
+  },
+  profesional: {
+    plan: 'Paquete Profesional',
+    desc: 'Tu negocio necesita una solución robusta. Te recomendamos un sistema completo de CCTV IP con almacenamiento NVR y acceso remoto full HD.',
+    pkgs: [
+      {name:'CCTV Profesional — 8 cámaras 4K', price:'Desde $2,400', features:['8 cámaras IP 4K Ultra HD','NVR 8 canales con 4TB','Visión nocturna avanzada','App móvil y alertas inteligentes','Red dedicada PoE'], recommended:true},
+      {name:'Control de Acceso — 2 puertas', price:'+$1,300', features:['Lectores RFID','Control desde app','Registro de entradas/salidas'], recommended:false}
+    ]
+  },
+  enterprise: {
+    plan: 'Solución Enterprise',
+    desc: 'Tu operación requiere un sistema de nivel corporativo con redundancia, análisis de video inteligente y soporte prioritario 24/7.',
+    pkgs: [
+      {name:'CCTV Enterprise — 16-32 cámaras 4K', price:'Desde $6,000', features:['16-32 cámaras IP 4K','NVR con RAID redundante 16TB+','Análisis de video con IA','Reconocimiento facial y de placas','Monitoreo 24/7 incluido'], recommended:true},
+      {name:'Control de Acceso + Red + HVAC', price:'Cotización personalizada', features:['Control de acceso biométrico','Red empresarial gestionada','HVAC con monitoreo inteligente','Soporte SLA 4 horas'], recommended:false}
+    ]
+  },
+  mixto: {
+    plan: 'Paquete Integrado',
+    desc: 'Tu situación requiere una combinación de servicios. Te recomendamos un sistema integrado que cubra seguridad, redes y continuidad operacional.',
+    pkgs: [
+      {name:'Sistema Integrado Wifnix', price:'Desde $3,500', features:['CCTV 8 cámaras 4K IP','Red WiFi empresarial','UPS y backup de internet','Control de acceso 2 puertas','Plan mantenimiento 1 año'], recommended:true},
+      {name:'Managed Services Plan', price:'$299/mes', features:['Monitoreo remoto 24/7','Soporte prioritario','Actualizaciones y parches','Reemplazo de equipos defectuosos'], recommended:false}
+    ]
+  }
+};
+
+let currentQ = 0;
+const answers = {};
+
+function renderQ() {
+  const q = QUESTIONS[currentQ];
+  document.getElementById('q-num').textContent = 'Pregunta '+(currentQ+1);
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-label').textContent = 'Pregunta '+(currentQ+1)+' de '+QUESTIONS.length;
+  const pct = Math.round(((currentQ+1)/QUESTIONS.length)*100);
+  document.getElementById('q-pct').textContent = pct+'%';
+  document.getElementById('prog').style.width = pct+'%';
+  document.getElementById('btn-prev').style.visibility = currentQ > 0 ? 'visible' : 'hidden';
+  document.getElementById('btn-next').textContent = currentQ === QUESTIONS.length-1 ? 'Ver mi resultado →' : 'Siguiente →';
+
+  const sel = answers[currentQ];
+  document.getElementById('q-opts').innerHTML = q.opts.map((o,i) => `
+    <div class="opt ${sel===i?'sel':''}" onclick="selectOpt(${i})">
+      <div class="opt-icon">${o.icon}</div>
+      <div><div class="opt-text">${o.text}</div><div class="opt-sub">${o.sub}</div></div>
+    </div>
+  `).join('');
+  document.getElementById('q-card').style.animation = 'none';
+  setTimeout(()=>document.getElementById('q-card').style.animation='fadeUp .4s ease',10);
+}
+
+function selectOpt(i) {
+  answers[currentQ] = i;
+  document.querySelectorAll('.opt').forEach((e,idx) => e.classList.toggle('sel', idx===i));
+}
+
+function nextQ() {
+  if (answers[currentQ] === undefined) {
+    document.querySelectorAll('.opt')[0].style.borderColor = 'var(--error)';
+    setTimeout(()=>document.querySelectorAll('.opt').forEach(e=>e.style.borderColor=''),1000);
+    return;
+  }
+  if (currentQ === QUESTIONS.length-1) { showResult(); return; }
+  currentQ++;
+  renderQ();
+}
+
+function prevQ() {
+  if (currentQ > 0) { currentQ--; renderQ(); }
+}
+
+function showResult() {
+  // Simple scoring logic
+  const presupuesto = QUESTIONS[6].opts[answers[6]]?.val;
+  const tamano = QUESTIONS[4].opts[answers[4]]?.val;
+  let resultKey = 'profesional';
+  if (presupuesto === 'basico' || tamano === 'xs') resultKey = 'starter';
+  else if (presupuesto === 'enterprise' || tamano === 'lg') resultKey = 'enterprise';
+  else if (answers[2] !== undefined && QUESTIONS[2].opts[answers[2]]?.val === 'acceso') resultKey = 'mixto';
+
+  const res = RESULTS[resultKey];
+  document.getElementById('result-section').style.display = 'block';
+  document.getElementById('quiz-section').style.display = 'none';
+  document.getElementById('r-plan').textContent = res.plan;
+  document.getElementById('r-desc').textContent = res.desc;
+  document.getElementById('r-pkgs').innerHTML = res.pkgs.map(p => `
+    <div class="pkg-card ${p.recommended?'recommended':''}">
+      ${p.recommended?'<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);margin-bottom:8px">✓ Recomendado para ti</div>':''}
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+        <div class="pkg-name">${p.name}</div>
+        <div class="pkg-price">${p.price}</div>
+      </div>
+      <div class="pkg-features">${p.features.map(f=>`<div class="pkg-feature">${f}</div>`).join('')}</div>
+    </div>
+  `).join('');
+  window.scrollTo(0,0);
+}
+
+function resetQuiz() {
+  Object.keys(answers).forEach(k=>delete answers[k]);
+  currentQ = 0;
+  document.getElementById('result-section').style.display = 'none';
+  document.getElementById('quiz-section').style.display = 'block';
+  renderQ();
+}
+
+renderQ();
+</script>
+</body>
+</html>

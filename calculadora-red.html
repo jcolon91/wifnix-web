@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Red Empresarial — Wifnix</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(--blue-light)}
+.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:28px;margin-bottom:18px}
+.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.card-title svg{width:20px;height:20px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
+.device-row{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,0,0,0.2);border:1px solid rgba(11,143,204,0.08);border-radius:8px;margin-bottom:8px;transition:border-color .2s}
+.device-row:hover{border-color:rgba(11,143,204,0.2)}
+.device-icon{font-size:1.2rem;flex-shrink:0;width:32px;text-align:center}
+.device-info{flex:1}
+.device-name{font-size:0.82rem;font-weight:600;color:var(--white)}
+.device-bw{font-size:0.68rem;color:var(--gray);margin-top:1px}
+.device-qty{display:flex;align-items:center;gap:8px}
+.qty-btn{width:26px;height:26px;border-radius:5px;background:rgba(11,143,204,0.15);border:1px solid rgba(11,143,204,0.25);color:var(--blue-light);font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qty-btn:hover{background:rgba(11,143,204,0.3)}
+.qty-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);min-width:24px;text-align:center}
+.f-group{margin-bottom:16px}
+.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:flex;justify-content:space-between}
+.f-label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--blue-light)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer}
+.results-hero{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.bw-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--blue-light);line-height:1}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.rec-card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:18px;margin-bottom:10px}
+.rec-card.top{border-color:var(--blue-light)}
+.rec-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px}
+.rec-detail{font-size:0.78rem;color:var(--gray);line-height:1.6}
+.rec-price{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--success);margin-top:8px}
+.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--blue);margin-bottom:16px}
+.tip-box strong{color:var(--white)}
+.cta-box{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
+@media(max-width:768px){.grid-2,.stats-row{grid-template-columns:1fr}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header" style="animation:fadeUp .5s ease">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+      <span style="font-size:1rem">🌐</span>
+      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">Red empresarial</span>
+    </div>
+    <h1>Calculadora de <span>Ancho de Banda</span></h1>
+    <p>Calcula el ancho de banda que necesita tu empresa según los dispositivos, usuarios y tipo de trabajo. Te recomendamos el equipo ideal.</p>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Usuarios y dispositivos
+        </div>
+        <div id="devices-list">
+          <div class="device-row">
+            <div class="device-icon">💻</div>
+            <div class="device-info"><div class="device-name">Computadoras / Laptops</div><div class="device-bw">~5 Mbps por usuario</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('pc',-1)">−</button>
+              <div class="qty-val" id="v-pc">5</div>
+              <button class="qty-btn" onclick="chg('pc',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">📱</div>
+            <div class="device-info"><div class="device-name">Teléfonos / Tablets</div><div class="device-bw">~3 Mbps por dispositivo</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('mobile',-1)">−</button>
+              <div class="qty-val" id="v-mobile">8</div>
+              <button class="qty-btn" onclick="chg('mobile',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">📹</div>
+            <div class="device-info"><div class="device-name">Cámaras IP (CCTV)</div><div class="device-bw">~4 Mbps por cámara 4K</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('cam',-1)">−</button>
+              <div class="qty-val" id="v-cam">0</div>
+              <button class="qty-btn" onclick="chg('cam',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">📞</div>
+            <div class="device-info"><div class="device-name">Teléfonos VoIP</div><div class="device-bw">~0.1 Mbps por línea</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('voip',-1)">−</button>
+              <div class="qty-val" id="v-voip">0</div>
+              <button class="qty-btn" onclick="chg('voip',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">🖨️</div>
+            <div class="device-info"><div class="device-name">Impresoras en red</div><div class="device-bw">~0.5 Mbps por impresora</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('printer',-1)">−</button>
+              <div class="qty-val" id="v-printer">0</div>
+              <button class="qty-btn" onclick="chg('printer',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">🖥️</div>
+            <div class="device-info"><div class="device-name">Servidores locales</div><div class="device-bw">~20 Mbps por servidor</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('server',-1)">−</button>
+              <div class="qty-val" id="v-server">0</div>
+              <button class="qty-btn" onclick="chg('server',1)">+</button>
+            </div>
+          </div>
+          <div class="device-row">
+            <div class="device-icon">📺</div>
+            <div class="device-info"><div class="device-name">Smart TVs / Digital Signage</div><div class="device-bw">~10 Mbps en 4K streaming</div></div>
+            <div class="device-qty">
+              <button class="qty-btn" onclick="chg('tv',-1)">−</button>
+              <div class="qty-val" id="v-tv">0</div>
+              <button class="qty-btn" onclick="chg('tv',1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
+          Tipo de uso
+        </div>
+        <div class="f-group">
+          <div class="f-label">% uso en videoconferencias <span id="lbl-video">30</span>%</div>
+          <input type="range" id="sl-video" min="0" max="100" value="30" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Zoom, Teams, Google Meet — ~3Mbps por sesión HD</div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">% uso en la nube <span id="lbl-cloud">50</span>%</div>
+          <input type="range" id="sl-cloud" min="0" max="100" value="50" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Google Drive, Dropbox, Office 365, AWS</div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Pico de uso simultáneo <span id="lbl-peak">80</span>%</div>
+          <input type="range" id="sl-peak" min="20" max="100" value="80" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Porcentaje de dispositivos activos a la vez</div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Factor de crecimiento (12 meses) <span id="lbl-growth">20</span>%</div>
+          <input type="range" id="sl-growth" min="0" max="100" value="20" oninput="update()">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Infraestructura actual
+        </div>
+        <div class="f-group">
+          <div class="f-label" style="margin-bottom:8px">Internet actual contratado</div>
+          <select id="sel-current" onchange="update()">
+            <option value="0">No tengo / No sé</option>
+            <option value="100">100 Mbps</option>
+            <option value="200">200 Mbps</option>
+            <option value="300">300 Mbps</option>
+            <option value="500">500 Mbps</option>
+            <option value="1000">1 Gbps</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label" style="margin-bottom:8px">¿Tienes WiFi empresarial?</div>
+          <select id="sel-wifi" onchange="update()">
+            <option value="no">No / Router básico de hogar</option>
+            <option value="basico">Router empresarial básico</option>
+            <option value="profesional">APs profesionales (Ubiquiti, Cisco)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-hero">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:10px">Ancho de banda recomendado</div>
+    <div class="bw-num" id="r-bw">0 Mbps</div>
+    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-bw-sub">Con margen de crecimiento incluido</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="r-actual">0 Mbps</div><div class="stat-lbl">Uso actual estimado</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--blue-light)" id="r-pico">0 Mbps</div><div class="stat-lbl">Pico máximo</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--success)" id="r-crecimiento">0 Mbps</div><div class="stat-lbl">Con crecimiento 12 meses</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+      Equipo recomendado
+    </div>
+    <div id="r-equipment"></div>
+  </div>
+
+  <div class="tip-box" id="tip-box">Agrega dispositivos para ver tu recomendación.</div>
+
+  <div class="cta-box">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</h3>
+      <p style="font-size:0.78rem;color:var(--gray)">Diseñamos, instalamos y gestionamos redes empresariales en Puerto Rico. Evaluación gratuita.</p>
+    </div>
+    <a href="https://wifnix.com/#contacto" class="cta-btn">Agendar evaluación</a>
+  </div>
+</div>
+
+<script>
+const QTY = {pc:5,mobile:8,cam:0,voip:0,printer:0,server:0,tv:0};
+const BW = {pc:5,mobile:3,cam:4,voip:0.1,printer:0.5,server:20,tv:10};
+
+function chg(key,delta) {
+  QTY[key] = Math.max(0,QTY[key]+delta);
+  document.getElementById('v-'+key).textContent = QTY[key];
+  update();
+}
+
+function update() {
+  const video = parseInt(document.getElementById('sl-video').value);
+  const cloud = parseInt(document.getElementById('sl-cloud').value);
+  const peak = parseInt(document.getElementById('sl-peak').value);
+  const growth = parseInt(document.getElementById('sl-growth').value);
+  const current = parseInt(document.getElementById('sel-current').value);
+  const wifi = document.getElementById('sel-wifi').value;
+
+  document.getElementById('lbl-video').textContent = video;
+  document.getElementById('lbl-cloud').textContent = cloud;
+  document.getElementById('lbl-peak').textContent = peak;
+  document.getElementById('lbl-growth').textContent = growth;
+
+  // Base BW
+  let baseBW = Object.entries(QTY).reduce((sum,[key,qty])=>sum+(qty*BW[key]),0);
+
+  // Video factor
+  const totalUsers = QTY.pc + QTY.mobile;
+  const videoExtra = totalUsers * (video/100) * 3;
+  baseBW += videoExtra;
+
+  // Peak usage
+  const peakBW = baseBW * (peak/100);
+
+  // With growth
+  const withGrowth = peakBW * (1 + growth/100);
+
+  // Recommended (add 30% buffer)
+  const recommended = Math.ceil(withGrowth * 1.3 / 100) * 100;
+
+  document.getElementById('r-actual').textContent = Math.round(baseBW)+' Mbps';
+  document.getElementById('r-pico').textContent = Math.round(peakBW)+' Mbps';
+  document.getElementById('r-crecimiento').textContent = Math.round(withGrowth)+' Mbps';
+  document.getElementById('r-bw').textContent = recommended+' Mbps';
+  document.getElementById('r-bw-sub').textContent = `Incluye buffer 30% + ${growth}% crecimiento proyectado`;
+
+  // Equipment recommendations
+  const totalDevices = Object.values(QTY).reduce((a,b)=>a+b,0);
+  let equipment = [];
+
+  if (recommended <= 200) {
+    equipment.push({name:'Router Empresarial + Switch 8p PoE',detail:'Ideal para redes de hasta 20 dispositivos. Incluye gestión de ancho de banda por usuario y red de invitados separada.',price:'Desde $450',top:true});
+  } else if (recommended <= 500) {
+    equipment.push({name:'Router Empresarial + Switch 24p PoE',detail:'Para redes medianas de 20-50 dispositivos. Con VLANs, QoS para priorizar VoIP y cámaras, y gestión centralizada.',price:'Desde $850',top:true});
+  } else {
+    equipment.push({name:'Sistema de red empresarial gestionado',detail:'Firewall dedicado + Switch core + Switches de distribución. Para más de 50 dispositivos con máxima seguridad y disponibilidad.',price:'Desde $2,500',top:true});
+  }
+
+  const aps = Math.ceil(totalDevices / 30);
+  equipment.push({name:`${aps} Access Point${aps>1?'s':''} WiFi 6 (802.11ax)`,detail:`Cobertura WiFi profesional para ${totalDevices} dispositivos. WiFi 6 soporta más dispositivos simultáneos con menor latencia. Radio dual 2.4/5GHz.`,price:`Desde $${aps*350} instalado`,top:false});
+
+  if (current > 0 && current < recommended) {
+    equipment.push({name:'Upgrade de plan de internet',detail:`Tu plan actual (${current} Mbps) es insuficiente. Necesitas al menos ${recommended} Mbps. Considera Liberty, Claro o AT&T Fiber para mayor disponibilidad.`,price:'Contactar proveedor',top:false});
+  }
+
+  if (QTY.cam > 0) {
+    equipment.push({name:'VLAN dedicada para cámaras CCTV',detail:`Con ${QTY.cam} cámaras IP necesitas una red separada para no afectar el rendimiento de las otras operaciones. Incluido en configuración profesional.`,price:'Incluido en instalación',top:false});
+  }
+
+  document.getElementById('r-equipment').innerHTML = equipment.map(e=>`
+    <div class="rec-card ${e.top?'top':''}">
+      ${e.top?'<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue-light);margin-bottom:6px">✓ Principal</div>':''}
+      <div class="rec-name">${e.name}</div>
+      <div class="rec-detail">${e.detail}</div>
+      <div class="rec-price">${e.price}</div>
+    </div>
+  `).join('');
+
+  // Tips
+  let tip = `<strong>Tu red necesita al menos ${recommended} Mbps</strong> para operar sin problemas con los ${totalDevices} dispositivos configurados.<br><br>`;
+  if (wifi === 'no') tip += '⚠️ <strong>Router de hogar detectado:</strong> Un router residencial no puede manejar correctamente múltiples dispositivos empresariales. Un AP profesional puede mejorar la experiencia hasta un 300%.<br><br>';
+  if (QTY.cam > 4) tip += '📹 <strong>Muchas cámaras CCTV:</strong> Con '+QTY.cam+' cámaras IP es crítico tener una VLAN separada para no degradar el rendimiento de la red de trabajo.<br><br>';
+  if (video > 50) tip += '📹 <strong>Alto uso de videoconferencias:</strong> Considera QoS (Quality of Service) para priorizar el tráfico de video y evitar cortes durante reuniones importantes.<br><br>';
+  tip += '💡 <strong>Consejo:</strong> Siempre contrata un 30-50% más de lo que calculas necesitar. El uso de internet en empresas crece ~25% cada año.';
+  document.getElementById('tip-box').innerHTML = tip;
+}
+
+update();
+</script>
+</body>
+</html>

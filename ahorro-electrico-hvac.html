@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Ahorro Eléctrico HVAC — Wifnix</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--green:#00E5A0}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(--success)}
+.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
+.card{background:var(--card);border:1px solid rgba(0,229,160,0.12);border-radius:14px;padding:28px;margin-bottom:18px}
+.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.card-title svg{width:20px;height:20px;stroke:var(--success);fill:none;stroke-width:1.5;stroke-linecap:round}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.f-group{margin-bottom:18px}
+.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:flex;justify-content:space-between}
+.f-label span{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--success)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--success);cursor:pointer;transition:transform .2s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+select,input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(0,229,160,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+select option{background:var(--navy)}
+.seer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.seer-btn{padding:12px 8px;text-align:center;border:1px solid rgba(0,229,160,0.15);border-radius:8px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
+.seer-btn:hover{border-color:rgba(0,229,160,0.4)}
+.seer-btn.sel{border-color:var(--success);background:rgba(0,229,160,0.1)}
+.seer-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gray);transition:color .2s}
+.seer-btn.sel .seer-val{color:var(--success)}
+.seer-label{font-size:0.62rem;color:var(--gray2);margin-top:3px}
+.results-hero{background:linear-gradient(135deg,rgba(0,229,160,0.12),rgba(13,26,42,0.9));border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.saving-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--success);line-height:1}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.1);border-radius:10px;padding:16px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.compare-bar{margin-bottom:16px}
+.bar-label{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:6px}
+.bar-track{height:28px;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-size:0.72rem;font-weight:700;color:white;transition:width .6s}
+.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:18px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--success);margin-bottom:16px}
+.tip-box strong{color:var(--white)}
+.cta-box{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:12px 28px;background:var(--success);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
+@media(max-width:768px){.grid-2,.stats-row,.seer-grid{grid-template-columns:1fr 1fr}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header" style="animation:fadeUp .5s ease">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+      <span style="font-size:1rem">💰</span>
+      <span style="font-size:0.7rem;font-weight:700;color:var(--success);letter-spacing:0.08em;text-transform:uppercase">Calcula tu ahorro real</span>
+    </div>
+    <h1>Calculadora de <span>Ahorro Eléctrico HVAC</span></h1>
+    <p>Descubre cuánto dinero puedes ahorrar al año cambiando tu sistema de aire acondicionado por uno de alta eficiencia y en cuánto tiempo recuperas la inversión.</p>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
+          Tu sistema actual
+        </div>
+        <div class="f-group">
+          <div class="f-label">Capacidad (BTU/hora) <span id="lbl-btu-act">24,000</span></div>
+          <input type="range" id="sl-btu" min="9000" max="60000" step="3000" value="24000" oninput="update()">
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>9K</span><span>18K</span><span>36K</span><span>60K</span></div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">SEER actual (eficiencia) — <span id="lbl-seer-act" style="color:var(--warn)">10</span></div>
+          <div class="seer-grid">
+            <div class="seer-btn sel" onclick="selSeer('act',8,this)"><div class="seer-val">8</div><div class="seer-label">Muy antiguo</div></div>
+            <div class="seer-btn" onclick="selSeer('act',10,this)"><div class="seer-val">10</div><div class="seer-label">Antiguo</div></div>
+            <div class="seer-btn" onclick="selSeer('act',13,this)"><div class="seer-val">13</div><div class="seer-label">Estándar</div></div>
+            <div class="seer-btn" onclick="selSeer('act',16,this)"><div class="seer-val">16</div><div class="seer-label">Moderno</div></div>
+          </div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Horas de uso al día <span id="lbl-hrs">12</span>h</div>
+          <input type="range" id="sl-hrs" min="1" max="24" value="12" oninput="update()">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Días de uso al mes <span id="lbl-dias">30</span></div>
+          <input type="range" id="sl-dias" min="1" max="31" value="30" oninput="update()">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Costo de electricidad ($/kWh)</div>
+          <select id="sel-kwh" onchange="update()">
+            <option value="0.22">$0.22/kWh — Residencial PR promedio</option>
+            <option value="0.25" selected>$0.25/kWh — Comercial PR promedio</option>
+            <option value="0.28">$0.28/kWh — Industrial PR</option>
+            <option value="0.30">$0.30/kWh — Alta tarifa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          Sistema nuevo (alta eficiencia)
+        </div>
+        <div class="f-group">
+          <div style="font-size:0.62rem;color:var(--gray);margin-bottom:10px;line-height:1.6">El sistema nuevo tiene la misma capacidad que el actual pero con mayor eficiencia SEER.</div>
+          <div class="f-label">SEER nuevo (eficiencia) — <span id="lbl-seer-new" style="color:var(--success)">20</span></div>
+          <div class="seer-grid">
+            <div class="seer-btn" onclick="selSeer('new',16,this)"><div class="seer-val">16</div><div class="seer-label">Eficiente</div></div>
+            <div class="seer-btn sel" onclick="selSeer('new',20,this)"><div class="seer-val">20</div><div class="seer-label">Alta efic.</div></div>
+            <div class="seer-btn" onclick="selSeer('new',24,this)"><div class="seer-val">24</div><div class="seer-label">Premium</div></div>
+            <div class="seer-btn" onclick="selSeer('new',28,this)"><div class="seer-val">28</div><div class="seer-label">Inverter+</div></div>
+          </div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Costo del sistema nuevo (equipo + instalación)</div>
+          <select id="sel-costo" onchange="update()">
+            <option value="1400">$1,400 — Mini split 18K BTU</option>
+            <option value="1800" selected>$1,800 — Mini split 24K BTU</option>
+            <option value="2400">$2,400 — Mini split 36K BTU</option>
+            <option value="3500">$3,500 — Sistema central 3 Ton</option>
+            <option value="5000">$5,000 — Sistema central 5 Ton</option>
+            <option value="8000">$8,000 — Sistema central 7.5+ Ton</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">¿Tienes incentivos o créditos?</div>
+          <select id="sel-incentivo" onchange="update()">
+            <option value="0">Sin incentivos</option>
+            <option value="200">$200 — Descuento comercial Wifnix</option>
+            <option value="500">$500 — Crédito energía renovable</option>
+            <option value="800">$800 — Incentivo gubernamental PR</option>
+          </select>
+        </div>
+        <div style="background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:16px;margin-top:8px">
+          <div style="font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Inversión neta</div>
+          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--white)" id="inversion-neta">$1,800</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-hero" id="results">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--success);margin-bottom:10px">Ahorro anual estimado</div>
+    <div class="saving-num" id="r-ahorro-anual">$0</div>
+    <div style="font-size:0.9rem;color:var(--gray);margin-top:6px">en tu factura eléctrica</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white);margin-top:14px" id="r-payback">Se paga sola en X meses</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" style="color:var(--error)" id="r-costo-act">$0</div><div class="stat-lbl">Gasto actual/año</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--success)" id="r-costo-new">$0</div><div class="stat-lbl">Gasto nuevo/año</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="r-ahorro-mes">$0</div><div class="stat-lbl">Ahorro mensual</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--blue-light)" id="r-5años">$0</div><div class="stat-lbl">Ahorro en 5 años</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Comparación de consumo
+    </div>
+    <div class="compare-bar">
+      <div class="bar-label"><span style="color:var(--error)">Sistema actual (SEER <span id="b-seer-act">8</span>)</span><span style="color:var(--error)" id="b-kwh-act">0 kWh/mes</span></div>
+      <div class="bar-track"><div class="bar-fill" id="bar-act" style="background:var(--error);width:100%">100%</div></div>
+    </div>
+    <div class="compare-bar">
+      <div class="bar-label"><span style="color:var(--success)">Sistema nuevo (SEER <span id="b-seer-new">20</span>)</span><span style="color:var(--success)" id="b-kwh-new">0 kWh/mes</span></div>
+      <div class="bar-track"><div class="bar-fill" id="bar-new" style="background:var(--success);width:50%"><span id="bar-pct">50%</span></div></div>
+    </div>
+    <div style="margin-top:16px;padding:14px;background:rgba(0,229,160,0.06);border-radius:10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div style="font-size:0.82rem;color:var(--gray)">Reducción en consumo eléctrico</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--success)" id="r-reduccion">0%</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      Proyección de ahorro a 10 años
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px" id="proyeccion-grid"></div>
+  </div>
+
+  <div class="tip-box" id="tip-box">Ajusta los valores para ver tu ahorro estimado.</div>
+
+  <div class="cta-box">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Listo para empezar a ahorrar?</h3>
+      <p style="font-size:0.78rem;color:var(--gray)">Instalamos sistemas de alta eficiencia Carrier, LG, Daikin y más. Evaluación gratis en tu local.</p>
+    </div>
+    <a href="https://wifnix.com/#contacto" class="cta-btn">Agendar evaluación gratis</a>
+  </div>
+</div>
+
+<script>
+let seerAct = 8, seerNew = 20;
+
+function selSeer(type, val, el) {
+  if (type === 'act') {
+    seerAct = val;
+    document.getElementById('lbl-seer-act').textContent = val;
+    document.querySelectorAll('.seer-grid')[0].querySelectorAll('.seer-btn').forEach(e=>e.classList.remove('sel'));
+  } else {
+    seerNew = val;
+    document.getElementById('lbl-seer-new').textContent = val;
+    document.querySelectorAll('.seer-grid')[1].querySelectorAll('.seer-btn').forEach(e=>e.classList.remove('sel'));
+  }
+  el.classList.add('sel');
+  update();
+}
+
+function update() {
+  const btu = parseInt(document.getElementById('sl-btu').value);
+  const hrs = parseInt(document.getElementById('sl-hrs').value);
+  const dias = parseInt(document.getElementById('sl-dias').value);
+  const kwh = parseFloat(document.getElementById('sel-kwh').value);
+  const costoNuevo = parseInt(document.getElementById('sel-costo').value);
+  const incentivo = parseInt(document.getElementById('sel-incentivo').value);
+
+  document.getElementById('lbl-btu-act').textContent = (btu/1000).toFixed(0)+'K';
+  document.getElementById('lbl-hrs').textContent = hrs+'h';
+  document.getElementById('lbl-dias').textContent = dias;
+
+  // Consumo en kW
+  const kw = btu / 3412;
+
+  // kWh por mes (actual vs nuevo)
+  const kwhActMes = (kw / seerAct) * 3.517 * hrs * dias; // Adjusted for SEER
+  const kwhNewMes = (kw / seerNew) * 3.517 * hrs * dias;
+
+  // Corrección: SEER = BTU / (Wh) → consumo = BTU*hrs / (SEER * 1000) kWh
+  const kwhActMes2 = (btu * hrs * dias) / (seerAct * 1000);
+  const kwhNewMes2 = (btu * hrs * dias) / (seerNew * 1000);
+
+  const costoActMes = kwhActMes2 * kwh;
+  const costoNewMes = kwhNewMes2 * kwh;
+  const ahorroMes = costoActMes - costoNewMes;
+  const ahorroAno = ahorroMes * 12;
+  const costoActAno = costoActMes * 12;
+  const costoNewAno = costoNewMes * 12;
+  const inversionNeta = costoNuevo - incentivo;
+  const paybackMeses = ahorroMes > 0 ? inversionNeta / ahorroMes : 999;
+  const reduccion = ((kwhActMes2 - kwhNewMes2) / kwhActMes2 * 100);
+
+  // Update UI
+  document.getElementById('r-ahorro-anual').textContent = '$'+Math.round(ahorroAno).toLocaleString();
+  document.getElementById('r-costo-act').textContent = '$'+Math.round(costoActAno).toLocaleString();
+  document.getElementById('r-costo-new').textContent = '$'+Math.round(costoNewAno).toLocaleString();
+  document.getElementById('r-ahorro-mes').textContent = '$'+Math.round(ahorroMes).toLocaleString();
+  document.getElementById('r-5años').textContent = '$'+Math.round(ahorroAno*5).toLocaleString();
+  document.getElementById('inversion-neta').textContent = '$'+inversionNeta.toLocaleString();
+  document.getElementById('r-reduccion').textContent = Math.round(reduccion)+'%';
+
+  if (paybackMeses < 12) {
+    document.getElementById('r-payback').textContent = 'Se paga sola en '+Math.round(paybackMeses)+' meses';
+  } else {
+    document.getElementById('r-payback').textContent = 'Se paga sola en '+(paybackMeses/12).toFixed(1)+' años';
+  }
+
+  // Bars
+  const pct = Math.round((kwhNewMes2/kwhActMes2)*100);
+  document.getElementById('bar-new').style.width = pct+'%';
+  document.getElementById('bar-pct').textContent = pct+'%';
+  document.getElementById('b-seer-act').textContent = seerAct;
+  document.getElementById('b-seer-new').textContent = seerNew;
+  document.getElementById('b-kwh-act').textContent = Math.round(kwhActMes2).toLocaleString()+' kWh/mes';
+  document.getElementById('b-kwh-new').textContent = Math.round(kwhNewMes2).toLocaleString()+' kWh/mes';
+
+  // Proyección 10 años
+  let grid = '';
+  for (let y = 2; y <= 10; y += 2) {
+    const ahorro = ahorroAno * y - (y === 2 ? inversionNeta : inversionNeta);
+    const netAhorro = ahorroAno * y - inversionNeta;
+    const color = netAhorro >= 0 ? 'var(--success)' : 'var(--warn)';
+    grid += `<div style="background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.1);border-radius:8px;padding:12px;text-align:center">
+      <div style="font-size:0.6rem;color:var(--gray);text-transform:uppercase;margin-bottom:4px">Año ${y}</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:${color}">${netAhorro>=0?'+':''}$${Math.round(netAhorro).toLocaleString()}</div>
+      <div style="font-size:0.58rem;color:var(--gray2);margin-top:2px">${netAhorro>=0?'ganancia neta':'pendiente'}</div>
+    </div>`;
+  }
+  document.getElementById('proyeccion-grid').innerHTML = grid;
+
+  // Tips
+  let tip = `<strong>Con SEER ${seerAct} actual vs SEER ${seerNew} nuevo</strong>, reducirás tu consumo eléctrico un <strong style="color:var(--success)">${Math.round(reduccion)}%</strong>.<br><br>`;
+  tip += `Ahorrarás aproximadamente <strong style="color:var(--success)">$${Math.round(ahorroMes)}/mes</strong> y la inversión de $${inversionNeta.toLocaleString()} se recupera en <strong>${paybackMeses<12?Math.round(paybackMeses)+' meses':(paybackMeses/12).toFixed(1)+' años'}</strong>.<br><br>`;
+  if (seerNew >= 20) tip += '🌟 <strong>Unidades SEER 20+ son inverter</strong> — ajustan su velocidad automáticamente, son más silenciosas y duran más que las unidades convencionales.<br><br>';
+  if (reduccion > 40) tip += '⚡ <strong>Ahorro excepcional:</strong> Un cambio tan significativo en eficiencia también reduce el desgaste del sistema eléctrico y puede extender la vida útil de otros equipos.<br><br>';
+  tip += '💡 <strong>Consejo adicional:</strong> Combinar el cambio de unidad con mantenimiento preventivo cada 6 meses puede añadir un 10-15% adicional de eficiencia.';
+  document.getElementById('tip-box').innerHTML = tip;
+}
+
+update();
+</script>
+</body>
+</html>

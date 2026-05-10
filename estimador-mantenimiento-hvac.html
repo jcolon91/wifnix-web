@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estimador de Mantenimiento HVAC — Wifnix</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.page{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 span{color:var(--orange)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:18px}
+.f-group{margin-bottom:14px}
+.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
+select,input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+select option{background:var(--navy)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
+.lbl-val{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange);float:right}
+.verdict-hero{background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(13,26,42,0.9));border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
+.verdict-icon{font-size:3rem;margin-bottom:12px}
+.verdict-text{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.1);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.maint-plan{background:var(--card);border:1px solid rgba(249,115,22,0.15);border-radius:12px;padding:20px;margin-bottom:12px}
+.maint-plan.recommended{border-color:var(--orange)}
+.maint-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px}
+.maint-detail{font-size:0.78rem;color:var(--gray);line-height:1.6;margin-bottom:10px}
+.maint-price{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--success)}
+.checklist{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.check-item-sm{display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--gray)}
+.check-item-sm::before{content:'✓';color:var(--success);font-weight:800;flex-shrink:0}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.tl-content-title{font-size:0.82rem;font-weight:600;color:var(--white);margin-bottom:2px}
+.tl-content-detail{font-size:0.72rem;color:var(--gray);line-height:1.4}
+.tl-freq{font-size:0.65rem;color:var(--orange);font-weight:600;margin-top:3px}
+.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--orange);margin-bottom:16px}
+.tip-box strong{color:var(--white)}
+.cta-box{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
+@media(max-width:768px){.grid-2,.stats-row{grid-template-columns:1fr}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header" style="animation:fadeUp .5s ease">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+      <span style="font-size:1rem">🔧</span>
+      <span style="font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase">¿Reparar o reemplazar?</span>
+    </div>
+    <h1>Estimador de <span>Mantenimiento HVAC</span></h1>
+    <p>Determina si conviene reparar tu equipo actual o reemplazarlo. Obtén un plan de mantenimiento personalizado y el costo estimado.</p>
+  </div>
+
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title">❄️ Tu equipo actual</div>
+        <div class="f-group">
+          <div class="f-label">Tipo de sistema</div>
+          <select id="tipo-equipo" onchange="update()">
+            <option value="minisplit">Mini Split</option>
+            <option value="central">Sistema Central / Manejadora</option>
+            <option value="ventana">A/C de ventana</option>
+            <option value="portatil">Portátil</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Capacidad (BTU/Ton)</div>
+          <select id="capacidad" onchange="update()">
+            <option value="12000">12,000 BTU (1 Ton)</option>
+            <option value="18000">18,000 BTU (1.5 Ton)</option>
+            <option value="24000" selected>24,000 BTU (2 Ton)</option>
+            <option value="36000">36,000 BTU (3 Ton)</option>
+            <option value="60000">60,000+ BTU (5+ Ton)</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Marca</div>
+          <select id="marca" onchange="update()">
+            <option value="carrier">Carrier</option>
+            <option value="lg">LG</option>
+            <option value="daikin">Daikin</option>
+            <option value="samsung">Samsung</option>
+            <option value="trane">Trane / York</option>
+            <option value="otra">Otra / Desconocida</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Antigüedad del equipo <span class="lbl-val" id="lbl-anos">5 años</span></div>
+          <input type="range" id="sl-anos" min="1" max="25" value="5" oninput="update()">
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1 año</span><span>10 años</span><span>25 años</span></div>
+        </div>
+        <div class="f-group">
+          <div class="f-label">SEER del equipo (si lo sabe)</div>
+          <select id="seer-actual" onchange="update()">
+            <option value="8">8 SEER — Muy antiguo</option>
+            <option value="10">10 SEER — Antiguo</option>
+            <option value="13" selected>13 SEER — Estándar</option>
+            <option value="16">16 SEER — Moderno</option>
+            <option value="20">20+ SEER — Alta eficiencia</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">🔍 Estado del equipo</div>
+        <div class="f-group">
+          <div class="f-label">¿Cuándo fue el último mantenimiento?</div>
+          <select id="ultimo-mant" onchange="update()">
+            <option value="reciente">Hace menos de 6 meses</option>
+            <option value="ano">Hace 6-12 meses</option>
+            <option value="2anos" selected>Hace 1-2 años</option>
+            <option value="nunca">Hace más de 2 años / Nunca</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Problemas que experimenta</div>
+          <select id="problema" onchange="update()">
+            <option value="ninguno">Ninguno — Funciona bien</option>
+            <option value="ruido">Hace ruidos inusuales</option>
+            <option value="enfria_mal">No enfría como antes</option>
+            <option value="agua">Gotea agua / humedad excesiva</option>
+            <option value="apaga">Se apaga solo / Error frecuente</option>
+            <option value="no_enciende">No enciende</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">¿Ha necesitado reparaciones antes?</div>
+          <select id="reparaciones" onchange="update()">
+            <option value="no">No, nunca</option>
+            <option value="una">Una vez (menor)</option>
+            <option value="varias">Varias veces</option>
+            <option value="frecuente">Frecuentemente / Costosas</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <div class="f-label">Costo estimado de la reparación actual ($)</div>
+          <input type="number" id="costo-rep" value="0" oninput="update()" placeholder="$0 si no sabe aún">
+        </div>
+        <div class="f-group">
+          <div class="f-label">Uso del sistema (horas/día) <span class="lbl-val" id="lbl-uso">12h</span></div>
+          <input type="range" id="sl-uso" min="1" max="24" value="12" oninput="update()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-hero" id="verdict-hero">
+    <div class="verdict-icon" id="verdict-icon">🔧</div>
+    <div class="verdict-text" id="verdict-text">Analizando tu equipo...</div>
+    <div style="font-size:0.85rem;color:var(--gray);margin-top:8px" id="verdict-sub">—</div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num" id="r-costo-rep" style="color:var(--warn)">$0</div><div class="stat-lbl">Costo reparación</div></div>
+    <div class="stat"><div class="stat-num" id="r-costo-nuevo" style="color:var(--blue-light)">$0</div><div class="stat-lbl">Costo equipo nuevo</div></div>
+    <div class="stat"><div class="stat-num" id="r-vida-util" style="color:var(--success)">0 años</div><div class="stat-lbl">Vida útil restante</div></div>
+  </div>
+
+  <!-- MAINTENANCE PLANS -->
+  <div class="card">
+    <div class="card-title">📋 Plan de mantenimiento preventivo</div>
+    <div id="maint-plans"></div>
+  </div>
+
+  <!-- MAINTENANCE TIMELINE -->
+  <div class="card">
+    <div class="card-title">🗓️ Calendario de mantenimiento recomendado</div>
+    <div class="timeline" id="maint-timeline"></div>
+  </div>
+
+  <div class="tip-box" id="tip-box">Completa los datos de tu equipo.</div>
+
+  <div class="cta-box">
+    <div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas mantenimiento o reemplazo?</h3>
+      <p style="font-size:0.78rem;color:var(--gray)">Técnicos certificados en HVAC disponibles en Puerto Rico. Diagnóstico gratis.</p>
+    </div>
+    <a href="https://wifnix.com/#contacto" class="cta-btn">Agendar diagnóstico</a>
+  </div>
+</div>
+
+<script>
+const VIDA_UTIL = {minisplit:15,central:20,ventana:10,portatil:8};
+const PRECIO_NUEVO = {
+  minisplit:{12000:1200,18000:1500,24000:1800,36000:2400,60000:4000},
+  central:{12000:2000,18000:2500,24000:3000,36000:4000,60000:7000},
+  ventana:{12000:400,18000:600,24000:800,36000:1000,60000:1500},
+  portatil:{12000:350,18000:500,24000:700,36000:900,60000:1200}
+};
+const PROBLEMA_COST = {ninguno:0,ruido:250,enfria_mal:400,agua:350,apaga:500,no_enciende:600};
+const PROBLEMA_SEVERITY = {ninguno:0,ruido:1,enfria_mal:2,agua:2,apaga:3,no_enciende:4};
+
+function update() {
+  const tipo = document.getElementById('tipo-equipo').value;
+  const cap = parseInt(document.getElementById('capacidad').value);
+  const anos = parseInt(document.getElementById('sl-anos').value);
+  const seer = parseInt(document.getElementById('seer-actual').value);
+  const uso = parseInt(document.getElementById('sl-uso').value);
+  const problema = document.getElementById('problema').value;
+  const reparaciones = document.getElementById('reparaciones').value;
+  const ultimoMant = document.getElementById('ultimo-mant').value;
+  const costoRepInput = parseFloat(document.getElementById('costo-rep').value)||0;
+
+  document.getElementById('lbl-anos').textContent = anos + ' año'+(anos>1?'s':'');
+  document.getElementById('lbl-uso').textContent = uso+'h';
+
+  const vidaUtil = VIDA_UTIL[tipo] || 15;
+  const precioNuevo = PRECIO_NUEVO[tipo]?.[cap] || 1800;
+  const vidaRestante = Math.max(0, vidaUtil - anos);
+  const porcentajeVida = (anos / vidaUtil) * 100;
+
+  // Estimate repair cost if not provided
+  let costoRep = costoRepInput || PROBLEMA_COST[problema];
+  if (reparaciones === 'varias') costoRep *= 1.5;
+  if (reparaciones === 'frecuente') costoRep *= 2;
+
+  // Rule of thumb: if repair > 50% of new equipment, replace
+  const repair50pct = precioNuevo * 0.5;
+  const severity = PROBLEMA_SEVERITY[problema];
+
+  let verdict, verdictSub, verdictIcon, verdictColor;
+
+  if (anos <= 5 && severity <= 2 && costoRep < repair50pct) {
+    verdict = 'Reparar — Equipo relativamente nuevo';
+    verdictSub = 'Con '+vidaRestante+' años de vida útil restante, la reparación es la opción más económica.';
+    verdictIcon = '🔧';
+    verdictColor = 'var(--success)';
+  } else if (anos >= vidaUtil * 0.75 || severity >= 4 || costoRep > repair50pct || reparaciones === 'frecuente') {
+    verdict = 'Reemplazar — Mayor costo-beneficio';
+    verdictSub = 'La edad o condición del equipo hace que invertir en uno nuevo sea más inteligente a largo plazo.';
+    verdictIcon = '🆕';
+    verdictColor = 'var(--orange)';
+  } else {
+    verdict = 'Evaluar — Depende del diagnóstico';
+    verdictSub = 'Tu equipo está en una zona intermedia. Un técnico debe diagnosticar antes de decidir.';
+    verdictIcon = '🔍';
+    verdictColor = 'var(--warn)';
+  }
+
+  document.getElementById('verdict-icon').textContent = verdictIcon;
+  document.getElementById('verdict-text').textContent = verdict;
+  document.getElementById('verdict-text').style.color = verdictColor;
+  document.getElementById('verdict-sub').textContent = verdictSub;
+  document.getElementById('r-costo-rep').textContent = '$'+costoRep.toLocaleString();
+  document.getElementById('r-costo-nuevo').textContent = '$'+precioNuevo.toLocaleString();
+  document.getElementById('r-vida-util').textContent = vidaRestante+' años';
+
+  // Maintenance plans
+  const freqMant = uso >= 12 ? 'cada 3 meses' : 'cada 6 meses';
+  const costoMant = uso >= 12 ? 149 : 99;
+  document.getElementById('maint-plans').innerHTML = `
+    <div class="maint-plan recommended">
+      <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:6px">✓ Recomendado para tu uso (${uso}h/día)</div>
+      <div class="maint-name">Plan Preventivo ${uso>=12?'Trimestral':'Semestral'}</div>
+      <div class="maint-detail">Mantenimiento ${freqMant} — ideal para sistemas con uso ${uso>=12?'intensivo':'moderado'} como el tuyo. Incluye limpieza de filtros, revisión de gas refrigerante, verificación eléctrica y reporte del estado del equipo.</div>
+      <div class="maint-price">$${costoMant}/visita · $${costoMant*(uso>=12?4:2)}/año</div>
+      <div class="checklist">
+        <div class="check-item-sm">Limpieza de filtros y serpentines</div>
+        <div class="check-item-sm">Verificación de nivel de gas refrigerante</div>
+        <div class="check-item-sm">Revisión de conexiones eléctricas</div>
+        <div class="check-item-sm">Limpieza de bandeja de condensado</div>
+        <div class="check-item-sm">Reporte digital del estado del equipo</div>
+      </div>
+    </div>
+    <div class="maint-plan">
+      <div class="maint-name">Plan Premium — Anual con prioridad</div>
+      <div class="maint-detail">4 visitas al año con técnico dedicado. Prioridad en emergencias, descuento del 20% en reparaciones y piezas, y reporte completo de eficiencia energética.</div>
+      <div class="maint-price">$${costoMant*4*0.8}/año — Ahorra 20%</div>
+    </div>
+  `;
+
+  // Timeline
+  document.getElementById('maint-timeline').innerHTML = [
+    {color:'var(--success)',title:'Limpieza de filtros',detail:'Filtros sucios reducen la eficiencia hasta 25%. En PR con el polvo y la humedad, es crítico.',freq:uso>=12?'Cada mes':'Cada 2 meses'},
+    {color:'var(--blue-light)',title:'Limpieza de serpentines (evaporador y condensador)',detail:'Acumulación de suciedad reduce la transferencia de calor y hace trabajar más el compresor.',freq:uso>=12?'Cada 3 meses':'Cada 6 meses'},
+    {color:'var(--orange)',title:'Verificación de gas refrigerante (R-410A)',detail:'Pérdida de gas reduce la capacidad de enfriamiento y puede dañar el compresor permanentemente.',freq:'Cada 6 meses'},
+    {color:'var(--warn)',title:'Revisión eléctrica completa',detail:'Conexiones flojas, capacitores débiles y controles pueden causar fallas inesperadas y costosas.',freq:'Anual'},
+    {color:'var(--purple)||#8B5CF6',title:'Evaluación general del sistema',detail:'Inspección completa: compresor, válvulas, ductos, drenaje. Detecta problemas antes que fallen.',freq:'Anual'},
+  ].map(t=>`
+    <div class="tl-item">
+      <div class="tl-dot" style="background:${t.color}"></div>
+      <div>
+        <div class="tl-content-title">${t.title}</div>
+        <div class="tl-content-detail">${t.detail}</div>
+        <div class="tl-freq">${t.freq}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Tips
+  let tip = '';
+  if (ultimoMant === 'nunca' || ultimoMant === '2anos') {
+    tip += `⚠️ <strong>Sin mantenimiento reciente:</strong> Un equipo sin mantenimiento consume hasta un 25% más de electricidad y tiene 3x más probabilidad de fallar en el peor momento. Agenda una revisión hoy.<br><br>`;
+  }
+  if (porcentajeVida >= 75) {
+    tip += `🕐 <strong>Equipo en la etapa final de vida útil:</strong> Tu ${tipo} tiene ${anos} años de ${vidaUtil} años de vida útil promedio. Las reparaciones serán más frecuentes y costosas. Planifica el reemplazo.<br><br>`;
+  }
+  if (seer <= 10) {
+    tip += `⚡ <strong>SEER muy bajo:</strong> Un equipo SEER ${seer} consume el doble de electricidad que uno moderno SEER 20. El reemplazo puede ahorrarte $${Math.round((uso/24)*30*12*0.25*cap/seer*(1-10/20))}/año en electricidad.<br><br>`;
+  }
+  if (!tip) tip = `✅ <strong>Tu equipo está en buenas condiciones.</strong> Con mantenimiento preventivo ${freqMant}, puedes extender su vida útil ${vidaRestante} años más y mantener la máxima eficiencia.`;
+  document.getElementById('tip-box').innerHTML = tip;
+}
+
+update();
+</script>
+</body>
+</html>
