@@ -326,7 +326,8 @@ var user = null;
 function showAuthTab(tab) {
   // Restore login tab in case it was replaced by 2FA screen
   var loginTab = document.getElementById('tab-login');
-  if (loginTab && !loginTab.querySelector('#login-email')) {
+  // Always restore login form
+  if (loginTab) {
     loginTab.innerHTML = '<div class="f-field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com"></div><div class="f-field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div><button class="btn-primary" onclick="doLogin()">Iniciar sesión</button><p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">¿No tienes cuenta? <span style="color:var(--blue-light);cursor:pointer" onclick="showAuthTab('registro')">Créala gratis</span></p>';
   }
   ['login','registro','recuperar'].forEach(function(t){
@@ -355,32 +356,35 @@ document.getElementById('reg-tipo').addEventListener('change', function() {
 });
 
 async function doLogin() {
-  var email = document.getElementById('login-email').value.trim();
-  var pass = document.getElementById('login-pass').value;
-  if (!email || !pass) { showAlert('Completa todos los campos'); return; }
+  var email = document.getElementById('login-email');
+  var pass = document.getElementById('login-pass');
   var btn = document.querySelector('#tab-login .btn-primary');
+  if (!email || !pass) return;
+  if (!email.value.trim() || !pass.value) { showAlert('Completa todos los campos'); return; }
   btn.disabled = true; btn.textContent = 'Verificando...';
   try {
-    var r = await fetch(API+'/api/auth/login-2fa', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({email: email, password: pass})
+    var resp = await fetch(API+'/api/auth/login-2fa', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email: email.value.trim(), password: pass.value})
     });
-    var data = await r.json();
+    var data = await resp.json();
     if (data.token && !data.requiere_2fa) {
-      // No tiene teléfono - login directo
       var u = data.usuario || data.user;
       localStorage.setItem('wifnix_token', data.token);
       localStorage.setItem('wifnix_user', JSON.stringify(u));
       token = data.token; user = u;
       initPortal();
     } else if (data.requiere_2fa) {
-      // Mostrar pantalla de código 2FA
       show2FAScreen(data.usuario_id, data.mensaje);
     } else {
       showAlert(data.error || 'Credenciales incorrectas');
+      btn.disabled = false; btn.textContent = 'Iniciar sesión';
     }
-  } catch(e) { showAlert('Error de conexión. Intenta nuevamente.'); }
-  finally { btn.disabled = false; btn.textContent = 'Iniciar sesión'; }
+  } catch(e) {
+    showAlert('Error de conexión. Intenta nuevamente.');
+    btn.disabled = false; btn.textContent = 'Iniciar sesión';
+  }
 }
 
 function show2FAScreen(usuarioId, mensaje) {
