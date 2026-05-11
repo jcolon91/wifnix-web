@@ -349,9 +349,10 @@ async function doLogin() {
     var data = await r.json();
     if (data.token) {
       localStorage.setItem('wifnix_token', data.token);
-      localStorage.setItem('wifnix_user', JSON.stringify(data.usuario));
+      var u = data.usuario || data.user;
+      localStorage.setItem('wifnix_user', JSON.stringify(u));
       token = data.token;
-      user = data.usuario;
+      user = u;
       initPortal();
     } else {
       showAlert(data.error || 'Credenciales incorrectas');
@@ -381,9 +382,10 @@ async function doRegistro() {
     var data = await r.json();
     if (data.token) {
       localStorage.setItem('wifnix_token', data.token);
-      localStorage.setItem('wifnix_user', JSON.stringify(data.usuario));
+      var u = data.usuario || data.user;
+      localStorage.setItem('wifnix_user', JSON.stringify(u));
       token = data.token;
-      user = data.usuario;
+      user = u;
       initPortal();
     } else {
       showAlert(data.error || 'Error al crear la cuenta');
@@ -551,8 +553,8 @@ async function loadServicios() {
 async function loadPerfil() {
   try {
     var data = await apiFetch('/api/auth/me');
-    if (data.usuario) {
-      var u = data.usuario;
+    if (data.usuario || data.user) {
+      var u = data.usuario || data.user;
       document.getElementById('p-nombre').value = u.nombre||'';
       document.getElementById('p-apellido').value = u.apellido||'';
       document.getElementById('p-email').value = u.email||'';
