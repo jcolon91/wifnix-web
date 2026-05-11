@@ -2435,12 +2435,14 @@ function sendMessage() {
   });
 }
 
-// Auto-open if ?chat=1
-if (window.location.search.includes('chat=1') || window.location.hash === '#chat') {
-  setTimeout(function() {
-    if (!chatOpen) toggleChat();
-  }, 1200);
-}
+// Auto-open if ?chat=1 or #chat
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.location.search.includes('chat=1') || window.location.hash === '#chat') {
+    setTimeout(function() {
+      if (typeof toggleChat === 'function' && !chatOpen) toggleChat();
+    }, 1500);
+  }
+});
 </script>
 
 
