@@ -263,6 +263,10 @@ textarea:focus{border-color:var(--blue)}
       <div class="page-header"><h1>Mi Perfil</h1><p>Actualiza tu información personal</p></div>
       <div class="card">
         <div class="card-title">Información personal</div>
+        <div id="tel-verif-banner" style="display:none;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="font-size:0.8rem;color:#FFC107">Teléfono sin verificar — verifica para mayor seguridad</div>
+          <button onclick="solicitarVerifTel()" style="padding:6px 14px;background:rgba(255,193,7,0.15);color:#FFC107;border:1px solid rgba(255,193,7,0.3);border-radius:6px;font-size:0.72rem;font-weight:700;cursor:pointer">Verificar ahora</button>
+        </div>
         <div class="grid-2">
           <div class="f-field"><label>Nombre</label><input type="text" id="p-nombre"></div>
           <div class="f-field"><label>Apellido</label><input type="text" id="p-apellido"></div>
@@ -436,6 +440,85 @@ async function doRegistro() {
     }
   } catch(e) { showAlert('Error de conexión. Intenta nuevamente.'); }
   btn.disabled = false; btn.textContent = 'Crear cuenta gratis';
+}
+
+async function iniciarVerificacion(usuarioId, telefono) {
+  // Send verification SMS
+  try {
+    var r = await fetch(API+'/api/auth/enviar-verificacion-registro', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({usuario_id: usuarioId})
+    });
+    var data = await r.json();
+    if (data.sin_telefono) {
+      // No phone - skip verification
+      showAlert('Cuenta creada. Agrega un teléfono en tu perfil para mayor seguridad.', 'success');
+      return;
+    }
+    showVerificacionScreen(usuarioId, data.mensaje || 'Código enviado');
+  } catch(e) {
+    showAlert('Cuenta creada pero error enviando SMS. Contacta soporte.', 'success');
+  }
+}
+
+function showVerificacionScreen(usuarioId, mensaje) {
+  // Hide auth box content and show verification
+  document.querySelector('.auth-box').innerHTML =
+    '<div class="auth-logo"><h1>Wifnix <span>Portal</span></h1></div>' +
+    '<div style="text-align:center;margin-bottom:20px">' +
+      '<div style="width:56px;height:56px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">' +
+        '<svg viewBox="0 0 24 24" style="width:24px;height:24px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>' +
+      '</div>' +
+      '<div style="font-family:Syne,sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px">Verifica tu teléfono</div>' +
+      '<div style="font-size:0.8rem;color:#8BA0B4;line-height:1.6">' + mensaje + '</div>' +
+    '</div>' +
+    '<div id="verif-alert" class="auth-alert"></div>' +
+    '<div class="f-field"><label>Código de verificación</label>' +
+      '<input type="text" id="verif-codigo" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.5rem;font-family:monospace;letter-spacing:0.25em" autofocus>' +
+    '</div>' +
+    '<button class="btn-primary" onclick="confirmarVerificacion('' + usuarioId + '')">Verificar teléfono</button>' +
+    '<div style="text-align:center;margin-top:14px">' +
+      '<span style="font-size:0.72rem;color:#3D5166">¿No recibiste el código? </span>' +
+      '<span style="font-size:0.72rem;color:#0B8FCC;cursor:pointer" onclick="reenviarCodigo('' + usuarioId + '')">Reenviar</span>' +
+    '</div>';
+}
+
+async function confirmarVerificacion(usuarioId) {
+  var codigo = document.getElementById('verif-codigo').value.trim();
+  var al = document.getElementById('verif-alert');
+  if (codigo.length !== 6) { al.className='auth-alert error'; al.textContent='Ingresa el código de 6 dígitos'; al.style.display='block'; return; }
+  var btn = document.querySelector('.auth-box .btn-primary');
+  btn.disabled=true; btn.textContent='Verificando...';
+  try {
+    var r = await fetch(API+'/api/auth/verificar-registro', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({usuario_id: usuarioId, codigo: codigo})
+    });
+    var data = await r.json();
+    if (data.ok && data.token) {
+      var u = data.usuario;
+      localStorage.setItem('wifnix_token', data.token);
+      localStorage.setItem('wifnix_user', JSON.stringify(u));
+      token = data.token; user = u;
+      initPortal();
+    } else {
+      al.className='auth-alert error'; al.textContent=data.error||'Código incorrecto'; al.style.display='block';
+      btn.disabled=false; btn.textContent='Verificar teléfono';
+    }
+  } catch(e) { al.className='auth-alert error'; al.textContent='Error de conexión'; al.style.display='block'; btn.disabled=false; btn.textContent='Verificar teléfono'; }
+}
+
+async function reenviarCodigo(usuarioId) {
+  try {
+    var r = await fetch(API+'/api/auth/enviar-verificacion-registro', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({usuario_id: usuarioId})
+    });
+    var data = await r.json();
+    var al = document.getElementById('verif-alert');
+    al.className='auth-alert success'; al.textContent='Código reenviado: '+( data.mensaje||''); al.style.display='block';
+    setTimeout(function(){ al.style.display='none'; }, 4000);
+  } catch(e) {}
 }
 
 async function doRecuperar() {
@@ -619,6 +702,21 @@ async function loadPerfil() {
       document.getElementById('p-ein').value = u.empresa_ein||'';
     }
   } catch(e) {}
+}
+
+async function solicitarVerifTel() {
+  try {
+    var r = await apiFetch('/api/auth/enviar-verificacion-tel', {method:'POST'});
+    if (r.ok) {
+      var codigo = prompt('Código enviado a tu teléfono. Ingresa el código de 6 dígitos:');
+      if (!codigo) return;
+      var r2 = await apiFetch('/api/auth/verificar-telefono', {method:'POST', body:JSON.stringify({codigo: codigo.trim()})});
+      if (r2.ok) {
+        alert('Teléfono verificado correctamente');
+        document.getElementById('tel-verif-banner').style.display='none';
+      } else { alert(r2.error || 'Código incorrecto'); }
+    } else { alert(r.error || 'Error enviando SMS'); }
+  } catch(e) { alert('Error de conexión'); }
 }
 
 async function cambiarPassword() {
