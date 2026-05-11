@@ -258,8 +258,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 
   <div class="cta-bottom" style="animation:fadeUp .5s ease .8s both">
     <h2>No encuentras lo que buscas</h2>
-    <p>Nuestros expertos te asesoran sin costo — evaluación presencial o por videollamada en toda Puerto Rico.</p>
-    <a href="https://wifnix.com/#contacto" class="cta-btn">Hablar con un experto gratis</a>
+    <p>Nuestros expertos te asesoran sin costo — evaluación presencial o por videollamada en todo Puerto Rico.</p>
+    <a href="https://wifnix.com/?chat=1" target="_blank" class="cta-btn">Hablar con un experto</a>
   </div>
 
 </div>
@@ -290,5 +290,81 @@ function filterTools() {
   document.getElementById('empty-state').style.display = visible === 0 ? 'block' : 'none';
 }
 </script>
+
+<!-- LEAD MODAL -->
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:440px">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px">Hablar con un experto</div>
+    <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas. Sin compromiso.</div>
+    <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre *</div>
+        <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
+        <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+      <div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
+        <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button onclick="submitLeadHub()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar</button>
+      <button onclick="document.getElementById('lead-overlay').style.display='none'" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center">
+    <div style="width:60px;height:60px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+      <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:8px">Solicitud enviada</div>
+    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:20px">Nuestro equipo te contactará en menos de 24 horas.</div>
+    <button onclick="document.getElementById('lead-success').style.display='none'" style="padding:11px 28px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+  </div>
+</div>
+
+<script>
+function openLeadHub() {
+  document.getElementById('lead-overlay').style.display = 'flex';
+  document.getElementById('lead-nombre').focus();
+}
+function submitLeadHub() {
+  var nombre = document.getElementById('lead-nombre').value.trim();
+  var email = document.getElementById('lead-email').value.trim();
+  var tel = document.getElementById('lead-tel').value.trim();
+  var alertEl = document.getElementById('lead-alert');
+  if (!nombre || !email) { alertEl.style.display='block'; alertEl.textContent='Por favor ingresa tu nombre y email.'; return; }
+  fetch('https://api.wifnix.com/api/leads', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({nombre:nombre,email:email,telefono:tel,herramienta:'Hub de Herramientas',estimado:''})
+  }).then(function(){
+    document.getElementById('lead-overlay').style.display='none';
+    document.getElementById('lead-success').style.display='flex';
+  }).catch(function(){
+    alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596';
+  });
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('lead-overlay').style.display='none';document.getElementById('lead-success').style.display='none';}});
+</script>
+
+
+<script>
+function abrirChat() {
+  // If chat widget exists on this page open it
+  if (typeof toggleChat === 'function') {
+    toggleChat();
+    return;
+  }
+  // Otherwise redirect to main site with chat open
+  window.location.href = 'https://wifnix.com/?chat=1';
+}
+</script>
+
 </body>
 </html>
