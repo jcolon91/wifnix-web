@@ -2436,8 +2436,10 @@ function sendMessage() {
 }
 
 // Auto-open if ?chat=1
-if (window.location.search.includes('chat=1')) {
-  setTimeout(toggleChat, 800);
+if (window.location.search.includes('chat=1') || window.location.hash === '#chat') {
+  setTimeout(function() {
+    if (!chatOpen) toggleChat();
+  }, 1200);
 }
 </script>
 
