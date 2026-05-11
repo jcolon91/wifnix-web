@@ -2056,403 +2056,6 @@ function toggleFaq(el){
 </script>
 
 
-<!-- AGENTE WIFNIX -->
-<div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:1000;font-family:'DM Sans',sans-serif">
-
-  <button onclick="toggleChat()" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);border:none;cursor:pointer;box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-    <svg id="ico-open" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-    <svg id="ico-close" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:#00E5A0;border-radius:50%;border:2px solid #06090F"></div>
-  </button>
-
-  <div id="chat-box" style="display:none;width:360px;background:#0A0E17;border:1px solid rgba(11,143,204,0.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-bottom:16px;position:absolute;bottom:76px;right:0;overflow:hidden;flex-direction:column">
-
-    <!-- HEADER -->
-    <div style="padding:14px 18px;background:linear-gradient(135deg,#0D1526,rgba(11,143,204,0.12));border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:10px">
-      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div style="flex:1">
-        <div style="font-weight:700;color:#F0F4F8;font-size:0.88rem">Agente Wifnix</div>
-        <div style="font-size:0.65rem;color:#00E5A0;display:flex;align-items:center;gap:4px"><div style="width:5px;height:5px;background:#00E5A0;border-radius:50%"></div>En línea · Lun-Vie 8am-6pm</div>
-      </div>
-      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:#8BA0B4;padding:4px">
-        <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <!-- AGENT STEPS -->
-    <div id="agent-body" style="padding:16px;max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:0">
-
-      <!-- STEP 0: Email para verificar -->
-      <div id="stp-0" class="astp">
-        <div class="abbl">Hola, bienvenido a Wifnix. Para atenderte mejor, ¿cuál es tu email?</div>
-        <input type="email" id="ag-email" placeholder="tu@empresa.com" class="ainp" onkeydown="if(event.key==='Enter')verificarEmail()">
-        <button class="abtn" onclick="verificarEmail()">Continuar</button>
-      </div>
-
-      <!-- STEP 1a: Cliente verificado -->
-      <div id="stp-1a" class="astp" style="display:none">
-        <div class="abbl" style="border-color:rgba(0,229,160,0.3)">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-            <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span style="color:#00E5A0;font-size:0.72rem;font-weight:700">Cliente verificado</span>
-          </div>
-          Hola <strong id="ag-nombre-show" style="color:#F0F4F8"></strong>. ¿En qué podemos ayudarte hoy?
-        </div>
-        <div class="aopts">
-          <div class="aopt" onclick="selServicio('CCTV y Seguridad',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>CCTV y Seguridad</div>
-          <div class="aopt" onclick="selServicio('HVAC / Aire Acondicionado',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>HVAC</div>
-          <div class="aopt" onclick="selServicio('Redes y WiFi',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>Redes y WiFi</div>
-          <div class="aopt" onclick="selServicio('Continuidad Operacional',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Continuidad</div>
-          <div class="aopt" onclick="selServicio('Mantenimiento de equipo',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>Mantenimiento</div>
-          <div class="aopt" onclick="selServicio('Otro / Consulta general',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>Otro</div>
-        </div>
-      </div>
-
-      <!-- STEP 1b: No es cliente -->
-      <div id="stp-1b" class="astp" style="display:none">
-        <div class="abbl" style="border-color:rgba(255,193,7,0.3)">
-          No encontramos una cuenta con ese email. Para atenderte con prioridad y llevar un historial de tus servicios, te recomendamos crear una cuenta gratuita.
-        </div>
-        <a href="https://portal.wifnix.com" target="_blank" class="abtn" style="display:block;text-align:center;text-decoration:none;background:#0B8FCC;color:white;padding:10px;border-radius:8px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px">Crear cuenta gratis</a>
-        <button class="abtn" style="background:rgba(255,255,255,0.05);color:#8BA0B4;border:1px solid rgba(255,255,255,0.1)" onclick="continuarSinCuenta()">Continuar sin cuenta</button>
-        <div style="font-size:0.68rem;color:#3D5166;text-align:center;margin-top:8px">Con cuenta: historial, tickets con prioridad, garantías y más</div>
-      </div>
-
-      <!-- STEP 2: Tipo de contacto (para no clientes) -->
-      <div id="stp-2" class="astp" style="display:none">
-        <div class="abbl">¿Qué tipo de servicio necesitas?</div>
-        <div class="aopts">
-          <div class="aopt" onclick="selServicio('CCTV y Seguridad',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>CCTV y Seguridad</div>
-          <div class="aopt" onclick="selServicio('HVAC / Aire Acondicionado',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>HVAC</div>
-          <div class="aopt" onclick="selServicio('Redes y WiFi',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>Redes y WiFi</div>
-          <div class="aopt" onclick="selServicio('Continuidad Operacional',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Continuidad</div>
-          <div class="aopt" onclick="selServicio('Web o IA',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9l-6 6"/></svg>Web o IA</div>
-          <div class="aopt" onclick="selServicio('Otro',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>Otro</div>
-        </div>
-      </div>
-
-      <!-- STEP 3: Canal de contacto -->
-      <div id="stp-3" class="astp" style="display:none">
-        <div class="abbl">¿Cómo prefieres que te contactemos?</div>
-        <div class="aopts">
-          <div class="aopt" onclick="selCanal('Llamada telefónica',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Llamada telefónica</div>
-          <div class="aopt" onclick="selCanal('WhatsApp',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp</div>
-          <div class="aopt" onclick="selCanal('Visita presencial',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Visita presencial</div>
-          <div class="aopt" onclick="selCanal('Videollamada',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>Videollamada</div>
-          <div class="aopt" onclick="selCanal('Email',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Por email</div>
-        </div>
-      </div>
-
-      <!-- STEP 4: Disponibilidad -->
-      <div id="stp-4" class="astp" style="display:none">
-        <div class="abbl" id="stp4-msg">¿Cuándo tienes disponibilidad? Nuestro horario es Lunes a Viernes 8am–6pm y Sábados 9am–1pm.</div>
-        <div class="aopts">
-          <div class="aopt" onclick="selDisp('Hoy mismo si es posible',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Hoy mismo</div>
-          <div class="aopt" onclick="selDisp('Esta semana',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Esta semana</div>
-          <div class="aopt" onclick="selDisp('La próxima semana',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Próxima semana</div>
-          <div class="aopt" onclick="selDisp('Mañana en la mañana',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>Mañana mañana</div>
-          <div class="aopt" onclick="selDisp('Mañana en la tarde',this)"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 18a5 5 0 00-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/></svg>Mañana tarde</div>
-        </div>
-      </div>
-
-      <!-- STEP 5: Nombre (solo no-clientes) -->
-      <div id="stp-5" class="astp" style="display:none">
-        <div class="abbl">¿Cuál es tu nombre completo?</div>
-        <input type="text" id="ag-nombre" placeholder="Tu nombre y apellido" class="ainp" onkeydown="if(event.key==='Enter')finalSubmit()">
-        <button class="abtn" onclick="finalSubmit()">Enviar solicitud</button>
-      </div>
-
-      <!-- STEP FINAL: Confirmación -->
-      <div id="stp-final" class="astp" style="display:none"></div>
-
-    </div>
-
-    <!-- AI CHAT -->
-    <div id="ai-chat-section" style="display:none;flex-direction:column">
-      <div style="padding:8px 14px;background:rgba(11,143,204,0.06);border-top:1px solid rgba(11,143,204,0.1);font-size:0.7rem;color:#8BA0B4;text-align:center">Ahora estás hablando con el Agente IA de Wifnix</div>
-      <div id="chat-messages" style="padding:12px;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px"></div>
-      <div id="chat-typing" style="display:none;padding:0 12px 8px">
-        <div style="display:flex;gap:4px;align-items:center">
-          <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%"></div>
-          <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%"></div>
-          <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%"></div>
-        </div>
-      </div>
-      <div style="padding:10px 14px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px">
-        <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
-        <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:#0B8FCC;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-        </button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<style>
-.astp{animation:fadeUp .3s ease}
-.abbl{background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 14px;font-size:0.8rem;color:#F0F4F8;line-height:1.6;margin-bottom:12px}
-.ainp{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.2);border-radius:8px;padding:9px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;margin-bottom:8px;transition:border-color .2s}
-.ainp:focus{border-color:#0B8FCC}
-.ainp::placeholder{color:#3D5166}
-.abtn{width:100%;padding:10px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:background .2s}
-.abtn:hover{background:#29B6F6}
-.aopts{display:flex;flex-direction:column;gap:7px}
-.aopt{display:flex;align-items:center;gap:10px;padding:10px 13px;background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.8rem;color:#8BA0B4;transition:all .2s}
-.aopt:hover{border-color:rgba(11,143,204,0.4);color:#F0F4F8;background:rgba(11,143,204,0.08)}
-.aopt.sel{border-color:#0B8FCC;background:rgba(11,143,204,0.12);color:#F0F4F8}
-.chat-msg-ai{display:flex;gap:8px;align-items:flex-start}
-.chat-msg-user{display:flex;justify-content:flex-end}
-.chat-bubble-ai{background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:9px 12px;max-width:260px;font-size:0.8rem;color:#F0F4F8;line-height:1.5}
-.chat-bubble-user{background:linear-gradient(135deg,#0B8FCC,#29B6F6);border-radius:10px 10px 0 10px;padding:9px 12px;max-width:260px;font-size:0.8rem;color:white;line-height:1.5}
-</style>
-
-<script>
-var chatOpen = false;
-var agState = { email:'', nombre:'', servicio:'', canal:'', disp:'', esCliente:false, clienteId:null, clienteTipo:'' };
-var chatHistorial = [];
-var chatTyping = false;
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  var box = document.getElementById('chat-box');
-  document.getElementById('ico-open').style.display = chatOpen ? 'none' : 'block';
-  document.getElementById('ico-close').style.display = chatOpen ? 'block' : 'none';
-  document.getElementById('chat-notif').style.display = chatOpen ? 'none' : 'block';
-  box.style.display = chatOpen ? 'flex' : 'none';
-  if (chatOpen) setTimeout(function(){ var e=document.getElementById('ag-email'); if(e)e.focus(); },100);
-}
-
-function showStep(id) {
-  ['stp-0','stp-1a','stp-1b','stp-2','stp-3','stp-4','stp-5','stp-final'].forEach(function(s){
-    var el = document.getElementById(s);
-    if (el) el.style.display = s===id ? 'block' : 'none';
-  });
-  // Scroll to bottom
-  var body = document.getElementById('agent-body');
-  setTimeout(function(){ body.scrollTop = body.scrollHeight; }, 100);
-}
-
-function verificarEmail() {
-  var email = document.getElementById('ag-email').value.trim();
-  if (!email || !email.includes('@')) {
-    document.getElementById('ag-email').style.borderColor='#FF5555';
-    return;
-  }
-  agState.email = email;
-  fetch('https://api.wifnix.com/api/verificar-cliente', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({email: email})
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    if (data.existe) {
-      agState.esCliente = true;
-      agState.clienteId = data.id;
-      agState.clienteTipo = data.tipo;
-      agState.nombre = data.nombre + ' ' + (data.apellido||'');
-      document.getElementById('ag-nombre-show').textContent = data.nombre;
-      showStep('stp-1a');
-    } else {
-      agState.esCliente = false;
-      showStep('stp-1b');
-    }
-  })
-  .catch(function(){
-    agState.esCliente = false;
-    showStep('stp-1b');
-  });
-}
-
-function continuarSinCuenta() {
-  showStep('stp-2');
-}
-
-function selServicio(svc, el) {
-  agState.servicio = svc;
-  document.querySelectorAll('.aopt').forEach(function(e){e.classList.remove('sel')});
-  el.classList.add('sel');
-  setTimeout(function(){ showStep('stp-3'); }, 300);
-}
-
-function selCanal(canal, el) {
-  agState.canal = canal;
-  document.querySelectorAll('.aopt').forEach(function(e){e.classList.remove('sel')});
-  el.classList.add('sel');
-  var msg = document.getElementById('stp4-msg');
-  if (canal === 'Llamada telefónica') msg.textContent = '¿Cuándo tienes disponibilidad para la llamada? Lun–Vie 8am–6pm, Sáb 9am–1pm.';
-  else if (canal === 'WhatsApp') msg.textContent = '¿Cuándo prefieres que te escribamos por WhatsApp?';
-  else if (canal === 'Visita presencial') msg.textContent = '¿Cuándo tienes disponibilidad para la visita? Nuestros técnicos cubren todo Puerto Rico.';
-  else if (canal === 'Videollamada') msg.textContent = '¿Cuándo tienes disponibilidad para la videollamada? Lun–Vie 8am–6pm.';
-  else msg.textContent = '¿Cuándo prefieres que te contactemos?';
-  setTimeout(function(){ showStep('stp-4'); }, 300);
-}
-
-function selDisp(disp, el) {
-  agState.disp = disp;
-  document.querySelectorAll('.aopt').forEach(function(e){e.classList.remove('sel')});
-  el.classList.add('sel');
-  setTimeout(function(){
-    if (agState.esCliente) {
-      submitFinal();
-    } else {
-      showStep('stp-5');
-    }
-  }, 300);
-}
-
-function finalSubmit() {
-  var nombre = document.getElementById('ag-nombre').value.trim();
-  if (!nombre) { document.getElementById('ag-nombre').style.borderColor='#FF5555'; return; }
-  agState.nombre = nombre;
-  submitFinal();
-}
-
-function submitFinal() {
-  var finalDiv = document.getElementById('stp-final');
-  showStep('stp-final');
-
-  if (agState.esCliente) {
-    // Create ticket with priority
-    fetch('https://api.wifnix.com/api/tickets-agente', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        usuario_id: agState.clienteId,
-        servicio: agState.servicio,
-        contacto: agState.canal,
-        disponibilidad: agState.disp,
-        notas: 'Solicitud via agente web. Canal: '+agState.canal+'. Disponibilidad: '+agState.disp
-      })
-    }).catch(function(){});
-
-    finalDiv.innerHTML = '<div class="abbl" style="border-color:rgba(0,229,160,0.3)">' +
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
-      '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
-      '<span style="color:#00E5A0;font-weight:700;font-size:0.8rem">Ticket de prioridad creado</span></div>' +
-      agState.nombre + ', tu solicitud de <strong>' + agState.servicio + '</strong> fue registrada con prioridad alta.<br><br>' +
-      '<strong style="color:#F0F4F8">Canal:</strong> ' + agState.canal + '<br>' +
-      '<strong style="color:#F0F4F8">Disponibilidad:</strong> ' + agState.disp + '<br>' +
-      '<strong style="color:#F0F4F8">Horario de atención:</strong> Lun–Vie 8am–6pm · Sáb 9am–1pm<br><br>' +
-      '<span style="color:#8BA0B4;font-size:0.75rem">Un técnico se comunicará contigo a la brevedad posible dentro de tu disponibilidad indicada.</span>' +
-      '</div>' +
-      getCanalButton();
-  } else {
-    // Save lead
-    fetch('https://api.wifnix.com/api/leads', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        nombre: agState.nombre, email: agState.email,
-        herramienta: 'Agente de Coordinación',
-        datos: { servicio: agState.servicio, canal: agState.canal, disponibilidad: agState.disp },
-        estimado: ''
-      })
-    }).catch(function(){});
-
-    finalDiv.innerHTML = '<div class="abbl">' +
-      agState.nombre + ', recibimos tu solicitud. Nuestro equipo te contactará a la brevedad posible.<br><br>' +
-      '<strong style="color:#F0F4F8">Servicio:</strong> ' + agState.servicio + '<br>' +
-      '<strong style="color:#F0F4F8">Canal:</strong> ' + agState.canal + '<br>' +
-      '<strong style="color:#F0F4F8">Disponibilidad:</strong> ' + agState.disp + '<br>' +
-      '<strong style="color:#F0F4F8">Horario de atención:</strong> Lun–Vie 8am–6pm · Sáb 9am–1pm<br><br>' +
-      '<span style="color:#FFC107;font-size:0.75rem">Crea una cuenta gratis para recibir atención con prioridad en el futuro.</span>' +
-      '</div>' +
-      getCanalButton() +
-      '<a href="https://portal.wifnix.com" target="_blank" style="display:block;text-align:center;padding:9px;background:transparent;color:#00E5A0;border:1px solid rgba(0,229,160,0.3);border-radius:8px;font-family:Syne,sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;margin-top:8px">Crear cuenta gratis</a>';
-  }
-
-  // Start AI chat after 2 seconds
-  setTimeout(function(){
-    startAIChat();
-  }, 3000);
-}
-
-function getCanalButton() {
-  if (agState.canal === 'Llamada telefónica') {
-    return '<a href="tel:7873549596" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(11,143,204,0.12);border:1px solid rgba(11,143,204,0.3);border-radius:8px;color:#29B6F6;text-decoration:none;font-size:0.8rem;font-weight:700;margin-top:10px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>(787) 354-9596</a>';
-  } else if (agState.canal === 'WhatsApp') {
-    return '<a href="https://wa.me/17873549596?text=Hola, soy '+encodeURIComponent(agState.nombre)+' y necesito ayuda con '+encodeURIComponent(agState.servicio)+'" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.3);border-radius:8px;color:#25D366;text-decoration:none;font-size:0.8rem;font-weight:700;margin-top:10px"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>Abrir WhatsApp</a>';
-  }
-  return '';
-}
-
-function startAIChat() {
-  document.getElementById('agent-body').style.display = 'none';
-  var aiSection = document.getElementById('ai-chat-section');
-  aiSection.style.display = 'flex';
-  var msg = 'Hola ' + agState.nombre.split(' ')[0] + '. Ya registré tu solicitud de ' + agState.servicio + '. ¿Tienes alguna pregunta adicional mientras coordinas con nuestro equipo?';
-  chatHistorial.push({role:'assistant', content: msg});
-  var msgs = document.getElementById('chat-messages');
-  msgs.innerHTML = '<div class="chat-msg-ai"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="chat-bubble-ai">'+msg+'</div></div>';
-  setTimeout(function(){ document.getElementById('chat-input').focus(); }, 100);
-}
-
-function addMsg(text, who) {
-  var msgs = document.getElementById('chat-messages');
-  var div = document.createElement('div');
-  if (who === 'user') {
-    div.className = 'chat-msg-user';
-    div.innerHTML = '<div class="chat-bubble-user">'+text+'</div>';
-  } else {
-    div.className = 'chat-msg-ai';
-    div.innerHTML = '<div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="chat-bubble-ai">'+text+'</div>';
-  }
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function sendMessage() {
-  var input = document.getElementById('chat-input');
-  var msg = input.value.trim();
-  if (!msg || chatTyping) return;
-  input.value = '';
-  addMsg(msg, 'user');
-  chatHistorial.push({role:'user', content: msg});
-  chatTyping = true;
-  document.getElementById('chat-typing').style.display = 'block';
-  fetch('https://api.wifnix.com/api/chat/mensaje', {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({
-      mensaje: msg,
-      historial: chatHistorial.slice(-8),
-      contexto: 'Cliente: '+agState.nombre+'. Servicio: '+agState.servicio+'. Canal: '+agState.canal
-    })
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    document.getElementById('chat-typing').style.display = 'none';
-    chatTyping = false;
-    if (data.respuesta) {
-      addMsg(data.respuesta, 'ai');
-      chatHistorial.push({role:'assistant', content: data.respuesta});
-    }
-  })
-  .catch(function(){
-    document.getElementById('chat-typing').style.display = 'none';
-    chatTyping = false;
-    addMsg('Lo siento, hubo un error. Llámanos al (787) 354-9596.', 'ai');
-  });
-}
-
-// Auto-open if ?chat=1 or #chat
-(function tryOpenChat() {
-  var params = window.location.search + window.location.hash;
-  if (params.includes('chat=1') || params.includes('#chat')) {
-    var attempts = 0;
-    var interval = setInterval(function() {
-      attempts++;
-      if (typeof toggleChat === 'function') {
-        clearInterval(interval);
-        if (!chatOpen) toggleChat();
-      }
-      if (attempts > 20) clearInterval(interval);
-    }, 200);
-  }
-})();
-</script>
-
-
 <script>
 function toggleMenu() {
   var nav = document.getElementById('nav-links');
@@ -2470,6 +2073,259 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+</script>
+
+<!-- AGENTE WIFNIX -->
+<div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:1000;font-family:'DM Sans',sans-serif">
+
+  <button onclick="toggleChat()" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);border:none;cursor:pointer;box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <svg id="ico-open" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <svg id="ico-close" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:#00E5A0;border-radius:50%;border:2px solid #06090F"></div>
+  </button>
+
+  <div id="chat-box" style="display:none;width:340px;background:#0A0E17;border:1px solid rgba(11,143,204,0.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-bottom:16px;position:absolute;bottom:76px;right:0;overflow:hidden;flex-direction:column">
+
+    <!-- HEADER -->
+    <div style="padding:14px 18px;background:linear-gradient(135deg,#0D1526,rgba(11,143,204,0.12));border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:10px">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-weight:700;color:#F0F4F8;font-size:0.88rem">Agente Wifnix</div>
+        <div style="font-size:0.65rem;color:#00E5A0;display:flex;align-items:center;gap:4px">
+          <div style="width:5px;height:5px;background:#00E5A0;border-radius:50%"></div>
+          En línea · Lun-Vie 8am-6pm
+        </div>
+      </div>
+      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:#8BA0B4;padding:4px">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="chat-messages" style="padding:14px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
+
+      <!-- Welcome message -->
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 13px;max-width:260px;font-size:0.8rem;color:#F0F4F8;line-height:1.6">
+          Hola, soy tu agente virtual de Wifnix. Si tienes alguna duda, aquí estoy para servirte. ¿En qué puedo ayudarte hoy?
+        </div>
+      </div>
+
+      <!-- Quick options -->
+      <div id="quick-opts" style="display:flex;flex-direction:column;gap:7px;padding-left:34px">
+        <div class="qopt" onclick="selOpt('servicios')">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Información sobre servicios
+        </div>
+        <div class="qopt" onclick="selOpt('herramientas')">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
+          Usar herramientas gratuitas
+        </div>
+        <div class="qopt" onclick="selOpt('precios')">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          Ver precios y planes
+        </div>
+        <div class="qopt" onclick="selOpt('profesional')">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          Hablar con un profesional
+        </div>
+        <div class="qopt" onclick="selOpt('otro')">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          Tengo otra pregunta
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TYPING -->
+    <div id="chat-typing" style="display:none;padding:0 14px 8px;padding-left:48px">
+      <div style="display:flex;gap:4px;align-items:center">
+        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite"></div>
+        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .2s"></div>
+        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .4s"></div>
+      </div>
+    </div>
+
+    <!-- INPUT -->
+    <div style="padding:10px 14px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px">
+      <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
+      <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:#0B8FCC;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:#8BA0B4;transition:all .2s}
+.qopt:hover{border-color:rgba(11,143,204,0.4);color:#F0F4F8;background:rgba(11,143,204,0.08)}
+.msg-ai{display:flex;gap:8px;align-items:flex-start}
+.msg-user{display:flex;justify-content:flex-end}
+.bbl-ai{background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:9px 12px;max-width:260px;font-size:0.8rem;color:#F0F4F8;line-height:1.55}
+.bbl-user{background:linear-gradient(135deg,#0B8FCC,#29B6F6);border-radius:10px 10px 0 10px;padding:9px 12px;max-width:260px;font-size:0.8rem;color:white;line-height:1.55}
+.ai-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+</style>
+
+<script>
+var chatOpen = false;
+var chatHistorial = [];
+var chatTypingActive = false;
+var quickOptsHidden = false;
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  var box = document.getElementById('chat-box');
+  document.getElementById('ico-open').style.display = chatOpen ? 'none' : 'block';
+  document.getElementById('ico-close').style.display = chatOpen ? 'block' : 'none';
+  document.getElementById('chat-notif').style.display = chatOpen ? 'none' : 'block';
+  box.style.display = chatOpen ? 'flex' : 'none';
+  if (chatOpen) setTimeout(function(){ document.getElementById('chat-input').focus(); }, 100);
+}
+
+function addAiMsg(text) {
+  var msgs = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'msg-ai';
+  div.innerHTML = '<div class="ai-avatar"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="bbl-ai">'+text+'</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  var msgs = document.getElementById('chat-messages');
+  var div = document.createElement('div');
+  div.className = 'msg-user';
+  div.innerHTML = '<div class="bbl-user">'+text+'</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function hideQuickOpts() {
+  if (!quickOptsHidden) {
+    var opts = document.getElementById('quick-opts');
+    if (opts) opts.style.display = 'none';
+    quickOptsHidden = true;
+  }
+}
+
+function selOpt(opt) {
+  hideQuickOpts();
+  var labels = {
+    servicios: 'Información sobre servicios',
+    herramientas: 'Usar herramientas gratuitas',
+    precios: 'Ver precios y planes',
+    profesional: 'Hablar con un profesional',
+    otro: 'Tengo otra pregunta'
+  };
+  addUserMsg(labels[opt]);
+  chatHistorial.push({role:'user', content: labels[opt]});
+
+  if (opt === 'herramientas') {
+    setTimeout(function(){
+      addAiMsg('Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:#0B8FCC;color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver todas las herramientas</a>');
+    }, 600);
+    return;
+  }
+
+  if (opt === 'profesional') {
+    setTimeout(function(){
+      addAiMsg('Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com" target="_blank" style="display:inline-block;padding:8px 16px;background:#00E5A0;color:#06090F;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Crear cuenta gratis</a>');
+      setTimeout(function(){
+        addAiMsg('¿Prefieres contactarnos directamente? Llámanos al <a href="tel:7873549596" style="color:#29B6F6">(787) 354-9596</a> o escríbenos por <a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.');
+      }, 1500);
+    }, 600);
+    return;
+  }
+
+  if (opt === 'precios') {
+    setTimeout(function(){
+      addAiMsg('Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:#0B8FCC;color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver comparador de planes</a>');
+    }, 600);
+    return;
+  }
+
+  // For servicios and otro - use AI
+  showTyping(true);
+  var prompt = opt === 'servicios'
+    ? 'El usuario quiere información sobre los servicios de Wifnix (CCTV, HVAC, redes, continuidad operacional, diseño web e IA). Da una respuesta concisa y atractiva.'
+    : labels[opt];
+
+  fetch('https://api.wifnix.com/api/chat/mensaje', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({mensaje: prompt, historial: chatHistorial.slice(-6)})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    showTyping(false);
+    if (data.respuesta) {
+      addAiMsg(data.respuesta);
+      chatHistorial.push({role:'assistant', content: data.respuesta});
+    }
+  })
+  .catch(function(){
+    showTyping(false);
+    addAiMsg('Lo siento, tuve un problema. Llámanos al (787) 354-9596 o escríbenos por WhatsApp.');
+  });
+}
+
+function showTyping(show) {
+  document.getElementById('chat-typing').style.display = show ? 'block' : 'none';
+}
+
+function sendMessage() {
+  var input = document.getElementById('chat-input');
+  var msg = input.value.trim();
+  if (!msg || chatTypingActive) return;
+  input.value = '';
+  hideQuickOpts();
+  addUserMsg(msg);
+  chatHistorial.push({role:'user', content: msg});
+  chatTypingActive = true;
+  showTyping(true);
+
+  fetch('https://api.wifnix.com/api/chat/mensaje', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({mensaje: msg, historial: chatHistorial.slice(-8)})
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    showTyping(false);
+    chatTypingActive = false;
+    if (data.respuesta) {
+      addAiMsg(data.respuesta);
+      chatHistorial.push({role:'assistant', content: data.respuesta});
+    }
+  })
+  .catch(function(){
+    showTyping(false);
+    chatTypingActive = false;
+    addAiMsg('Lo siento, tuve un problema. Llámanos al (787) 354-9596.');
+  });
+}
+
+// Auto-open if #chat
+(function(){
+  if (window.location.hash === '#chat' || window.location.search.includes('chat=1')) {
+    var attempts = 0;
+    var t = setInterval(function(){
+      attempts++;
+      if (typeof toggleChat === 'function' && !chatOpen) {
+        clearInterval(t);
+        toggleChat();
+      }
+      if (attempts > 15) clearInterval(t);
+    }, 300);
+  }
+})();
 </script>
 
 </body>
