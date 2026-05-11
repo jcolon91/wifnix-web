@@ -2436,13 +2436,20 @@ function sendMessage() {
 }
 
 // Auto-open if ?chat=1 or #chat
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.location.search.includes('chat=1') || window.location.hash === '#chat') {
-    setTimeout(function() {
-      if (typeof toggleChat === 'function' && !chatOpen) toggleChat();
-    }, 1500);
+(function tryOpenChat() {
+  var params = window.location.search + window.location.hash;
+  if (params.includes('chat=1') || params.includes('#chat')) {
+    var attempts = 0;
+    var interval = setInterval(function() {
+      attempts++;
+      if (typeof toggleChat === 'function') {
+        clearInterval(interval);
+        if (!chatOpen) toggleChat();
+      }
+      if (attempts > 20) clearInterval(interval);
+    }, 200);
   }
-});
+})();
 </script>
 
 
