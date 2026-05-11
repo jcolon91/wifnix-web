@@ -324,8 +324,14 @@ var user = null;
 
 // ══ AUTH ══
 function showAuthTab(tab) {
+  // Restore login tab in case it was replaced by 2FA screen
+  var loginTab = document.getElementById('tab-login');
+  if (loginTab && !loginTab.querySelector('#login-email')) {
+    loginTab.innerHTML = '<div class="f-field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com"></div><div class="f-field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div><button class="btn-primary" onclick="doLogin()">Iniciar sesión</button><p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">¿No tienes cuenta? <span style="color:var(--blue-light);cursor:pointer" onclick="showAuthTab('registro')">Créala gratis</span></p>';
+  }
   ['login','registro','recuperar'].forEach(function(t){
-    document.getElementById('tab-'+t).style.display = t===tab?'block':'none';
+    var el = document.getElementById('tab-'+t);
+    if (el) el.style.display = t===tab?'block':'none';
   });
   document.querySelectorAll('.auth-tab').forEach(function(el,i){
     el.classList.toggle('active', ['login','registro','recuperar'][i]===tab);
@@ -374,7 +380,7 @@ async function doLogin() {
       showAlert(data.error || 'Credenciales incorrectas');
     }
   } catch(e) { showAlert('Error de conexión. Intenta nuevamente.'); }
-  btn.disabled = false; btn.textContent = 'Iniciar sesión';
+  finally { btn.disabled = false; btn.textContent = 'Iniciar sesión'; }
 }
 
 function show2FAScreen(usuarioId, mensaje) {
@@ -425,7 +431,7 @@ async function doRegistro() {
   try {
     var r = await fetch(API+'/api/auth/registro', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({nombre, apellido, email, password: pass, telefono: tel, tipo_cuenta: tipo, empresa_nombre: empresa, empresa_ein: ein})
+      body: JSON.stringify({nombre: nombre, apellido: apellido, email: email, password: pass, telefono: tel, tipo_cuenta: tipo, empresa_nombre: empresa, empresa_ein: ein})
     });
     var data = await r.json();
     if (data.token) {
