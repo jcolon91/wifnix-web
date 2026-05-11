@@ -275,6 +275,15 @@ textarea:focus{border-color:var(--blue)}
         <div id="perfil-alert" class="auth-alert" style="margin-top:12px"></div>
         <button class="btn-primary" onclick="guardarPerfil()" style="margin-top:12px">Guardar cambios</button>
       </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="card-title">Cambiar contraseña</div>
+        <div class="f-field"><label>Contraseña actual</label><input type="password" id="p-pass-actual" placeholder="••••••••"></div>
+        <div class="f-field"><label>Nueva contraseña</label><input type="password" id="p-pass-nuevo" placeholder="Mínimo 8 caracteres"></div>
+        <div class="f-field"><label>Confirmar nueva contraseña</label><input type="password" id="p-pass-confirm" placeholder="Repite la nueva contraseña"></div>
+        <div id="pass-alert" class="auth-alert" style="margin-top:8px"></div>
+        <button class="btn-primary" onclick="cambiarPassword()" style="margin-top:12px">Cambiar contraseña</button>
+      </div>
     </div>
 
   </div>
@@ -342,23 +351,58 @@ async function doLogin() {
   var btn = document.querySelector('#tab-login .btn-primary');
   btn.disabled = true; btn.textContent = 'Verificando...';
   try {
-    var r = await fetch(API+'/api/auth/login', {
+    var r = await fetch(API+'/api/auth/login-2fa', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({email, password: pass})
+      body: JSON.stringify({email: email, password: pass})
     });
     var data = await r.json();
-    if (data.token) {
-      localStorage.setItem('wifnix_token', data.token);
+    if (data.token && !data.requiere_2fa) {
+      // No tiene teléfono - login directo
       var u = data.usuario || data.user;
+      localStorage.setItem('wifnix_token', data.token);
       localStorage.setItem('wifnix_user', JSON.stringify(u));
-      token = data.token;
-      user = u;
+      token = data.token; user = u;
       initPortal();
+    } else if (data.requiere_2fa) {
+      // Mostrar pantalla de código 2FA
+      show2FAScreen(data.usuario_id, data.mensaje);
     } else {
       showAlert(data.error || 'Credenciales incorrectas');
     }
   } catch(e) { showAlert('Error de conexión. Intenta nuevamente.'); }
   btn.disabled = false; btn.textContent = 'Iniciar sesión';
+}
+
+function show2FAScreen(usuarioId, mensaje) {
+  document.getElementById('tab-login').innerHTML =
+    '<div style="text-align:center;margin-bottom:16px"><div style="width:48px;height:48px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px"><svg viewBox=\"0 0 24 24\" style=\"width:22px;height:22px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round\"><path d=\"M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z\"/></svg></div><div style=\"font-size:0.85rem;color:var(--white);font-weight:700;margin-bottom:6px\">Verificación en dos pasos</div><div style=\"font-size:0.78rem;color:var(--gray);line-height:1.6\">' + mensaje + '</div></div>' +
+    '<div class=\"f-field\"><label>Código de verificación</label><input type=\"text\" id=\"codigo-2fa\" placeholder=\"000000\" maxlength=\"6\" style=\"text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em\" onkeydown=\"if(event.key==='Enter')verificar2FA('' + usuarioId + '')\" autofocus></div>' +
+    '<button class=\"btn-primary\" onclick=\"verificar2FA('' + usuarioId + '')\">Verificar código</button>' +
+    '<p style=\"text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:12px\">El código expira en 10 minutos · <span style=\"color:var(--blue-light);cursor:pointer\" onclick=\"location.reload()\">Cancelar</span></p>';
+}
+
+async function verificar2FA(usuarioId) {
+  var codigo = document.getElementById('codigo-2fa').value.trim();
+  if (codigo.length !== 6) { showAlert('Ingresa el código de 6 dígitos'); return; }
+  var btn = document.querySelector('#tab-login .btn-primary');
+  btn.disabled = true; btn.textContent = 'Verificando...';
+  try {
+    var r = await fetch(API+'/api/auth/verificar-2fa', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({usuario_id: usuarioId, codigo: codigo})
+    });
+    var data = await r.json();
+    if (data.token) {
+      var u = data.usuario || data.user;
+      localStorage.setItem('wifnix_token', data.token);
+      localStorage.setItem('wifnix_user', JSON.stringify(u));
+      token = data.token; user = u;
+      initPortal();
+    } else {
+      showAlert(data.error || 'Código incorrecto');
+      btn.disabled = false; btn.textContent = 'Verificar código';
+    }
+  } catch(e) { showAlert('Error de conexión'); btn.disabled = false; btn.textContent = 'Verificar código'; }
 }
 
 async function doRegistro() {
@@ -398,6 +442,15 @@ async function doRecuperar() {
   var email = document.getElementById('rec-email').value.trim();
   if (!email) { showAlert('Ingresa tu email'); return; }
   showAlert('Si existe una cuenta con ese email, recibirás instrucciones en breve.', 'success');
+}
+
+async function cancelarTicket(id) {
+  if (!confirm('¿Cancelar este ticket?')) return;
+  try {
+    var r = await apiFetch('/api/mis-tickets/'+id+'/cancelar', {method:'PUT'});
+    if (r.ok) { loadTickets(); loadDashboard(); }
+    else alert(r.error || 'Error al cancelar');
+  } catch(e) { alert('Error de conexión'); }
 }
 
 function doLogout() {
@@ -479,13 +532,15 @@ async function loadTickets() {
 function renderTicketsTable(tickets) {
   var colors = {abierto:'badge-blue',en_progreso:'badge-warn',resuelto:'badge-green',cerrado:'badge-red'};
   var labels = {abierto:'Abierto',en_progreso:'En progreso',resuelto:'Resuelto',cerrado:'Cerrado'};
-  return '<table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Categoría</th><th>Estado</th><th>Fecha</th></tr></thead><tbody>'+
+  return '<table class="table"><thead><tr><th>#</th><th>Asunto</th><th>Categoría</th><th>Estado</th><th>Fecha</th><th></th></tr></thead><tbody>'+
     tickets.map(function(t){
+      var canCancel = t.status !== 'resuelto' && t.status !== 'cerrado';
       return '<tr><td style="color:var(--white);font-weight:600">#'+t.numero+'</td>'+
         '<td style="color:var(--white)">'+t.asunto+'</td>'+
         '<td>'+t.categoria+'</td>'+
         '<td><span class="badge '+( colors[t.status]||'badge-blue')+'">'+( labels[t.status]||t.status)+'</span></td>'+
-        '<td>'+new Date(t.creado_en).toLocaleDateString('es-PR')+'</td></tr>';
+        '<td>'+new Date(t.creado_en).toLocaleDateString('es-PR')+'</td>'+
+        '<td>'+(canCancel?'<button class=\"btn-sm\" style=\"background:rgba(255,85,85,0.1);color:var(--error);border:1px solid rgba(255,85,85,0.25)\" onclick=\"cancelarTicket(''+t.id+'')\">Cancelar</button>':'—')+'</td></tr>';
     }).join('')+'</tbody></table>';
 }
 
@@ -564,6 +619,27 @@ async function loadPerfil() {
       document.getElementById('p-ein').value = u.empresa_ein||'';
     }
   } catch(e) {}
+}
+
+async function cambiarPassword() {
+  var actual = document.getElementById('p-pass-actual').value;
+  var nuevo = document.getElementById('p-pass-nuevo').value;
+  var confirm = document.getElementById('p-pass-confirm').value;
+  var al = document.getElementById('pass-alert');
+  if (!actual || !nuevo || !confirm) { al.className='auth-alert error'; al.textContent='Completa todos los campos'; al.style.display='block'; return; }
+  if (nuevo !== confirm) { al.className='auth-alert error'; al.textContent='Las contraseñas no coinciden'; al.style.display='block'; return; }
+  if (nuevo.length < 8) { al.className='auth-alert error'; al.textContent='La contraseña debe tener al menos 8 caracteres'; al.style.display='block'; return; }
+  var btn = document.querySelector('#sec-perfil .card:nth-child(2) .btn-primary');
+  btn.disabled=true; btn.textContent='Cambiando...';
+  try {
+    var r = await apiFetch('/api/auth/cambiar-password', {method:'PUT', body:JSON.stringify({password_actual:actual, password_nuevo:nuevo})});
+    al.className = r.ok ? 'auth-alert success' : 'auth-alert error';
+    al.textContent = r.ok ? 'Contraseña actualizada correctamente' : (r.error || 'Error al cambiar contraseña');
+    al.style.display='block';
+    if (r.ok) { document.getElementById('p-pass-actual').value=''; document.getElementById('p-pass-nuevo').value=''; document.getElementById('p-pass-confirm').value=''; }
+    setTimeout(function(){ al.style.display='none'; }, 4000);
+  } catch(e) { al.className='auth-alert error'; al.textContent='Error de conexión'; al.style.display='block'; }
+  btn.disabled=false; btn.textContent='Cambiar contraseña';
 }
 
 async function guardarPerfil() {
