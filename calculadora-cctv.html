@@ -3,662 +3,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora CCTV — Wifnix</title>
+<title>Calculadora de Almacenamiento CCTV — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
-.page{max-width:960px;margin:0 auto;padding:40px 20px}
-.header{text-align:center;margin-bottom:48px}
-.header h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);margin-bottom:8px}
-.header h1 span{color:var(--blue-light)}
-.header p{font-size:0.9rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:28px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:22px;display:flex;align-items:center;gap:10px}
-.card-title svg{width:20px;height:20px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
-.f-group{margin-bottom:20px}
-.f-label{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.f-label span{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;color:var(--blue-light)}
+.page{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
+.badge span{font-size:0.7rem;font-weight:700;color:var(--bl);letter-spacing:0.08em;text-transform:uppercase}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 em{color:var(--bl);font-style:normal}
+.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.field{margin-bottom:16px}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--bl)}
 input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);border:2px solid var(--blue-light);cursor:pointer;transition:transform .2s}
-input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
-.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
-.res-btn{padding:10px 6px;text-align:center;border:1px solid rgba(11,143,204,0.2);border-radius:8px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
-.res-btn:hover{border-color:rgba(11,143,204,0.4)}
-.res-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.12)}
-.res-btn-name{font-size:0.72rem;font-weight:700;color:var(--gray);transition:color .2s}
-.res-btn.sel .res-btn-name{color:var(--blue-light)}
-.res-btn-detail{font-size:0.58rem;color:var(--gray2);margin-top:2px}
-.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
-.comp-btn{padding:10px;text-align:center;border:1px solid rgba(11,143,204,0.2);border-radius:8px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
-.comp-btn:hover{border-color:rgba(11,143,204,0.4)}
-.comp-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.12)}
-.comp-name{font-size:0.75rem;font-weight:700;color:var(--gray);transition:color .2s}
-.comp-btn.sel .comp-name{color:var(--blue-light)}
-.comp-save{font-size:0.6rem;color:var(--success);margin-top:2px}
-.disk-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.disk-row select{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-.disk-row select option{background:var(--navy)}
-.disk-qty{width:60px;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 8px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;text-align:center}
-.add-disk{padding:9px 14px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:7px;color:var(--blue-light);font-size:0.75rem;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
-.add-disk:hover{background:rgba(11,143,204,0.2)}
-.results{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.8));border:1px solid rgba(11,143,204,0.25);border-radius:14px;padding:28px;margin-top:24px}
-.results-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:22px;display:flex;align-items:center;gap:10px}
-.results-title svg{width:20px;height:20px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
-.res-grid-out{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-.res-stat{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;text-align:center;border:1px solid rgba(11,143,204,0.1)}
-.res-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;line-height:1;margin-bottom:4px}
-.res-lbl{font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
-.days-bar-wrap{margin-bottom:20px}
-.days-bar-label{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--gray);margin-bottom:6px}
-.days-bar{height:10px;background:rgba(255,255,255,0.06);border-radius:5px;overflow:hidden}
-.days-fill{height:100%;border-radius:5px;transition:width .5s,background .5s}
-.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.7;border-left:3px solid var(--blue)}
-.tip-box strong{color:var(--white)}
-.cta-box{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:10px;padding:20px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-text h3{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px}
-.cta-text p{font-size:0.78rem;color:var(--gray)}
-.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;white-space:nowrap;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
-.motion-hours{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
-.motion-btn{padding:7px 14px;border:1px solid rgba(11,143,204,0.2);border-radius:6px;font-size:0.72rem;font-weight:600;color:var(--gray);cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
-.motion-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.12);color:var(--blue-light)}
-@media(max-width:768px){.grid{grid-template-columns:1fr}.res-grid-out{grid-template-columns:1fr 1fr}.res-grid{grid-template-columns:1fr 1fr}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer}
+select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--navy)}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
+.opt:hover{border-color:rgba(11,143,204,0.35)}
+.opt.sel{border-color:var(--blue);background:rgba(11,143,204,0.08)}
+.opt-name{font-size:0.78rem;font-weight:700;color:var(--gray)}
+.opt.sel .opt-name{color:var(--white)}
+.opt-detail{font-size:0.65rem;color:var(--gray2);margin-top:3px}
+.opt-bitrate{font-size:0.68rem;color:var(--bl);font-weight:600;margin-top:4px}
+.result-hero{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.storage-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--bl);line-height:1}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.hdd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.hdd-card{background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:10px;padding:14px;text-align:center}
+.hdd-card.rec{border-color:var(--blue)}
+.hdd-size{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--bl);margin-bottom:4px}
+.hdd-days{font-size:0.72rem;color:var(--gray)}
+.hdd-price{font-size:0.78rem;color:var(--green);font-weight:600;margin-top:6px}
+.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.tip strong{color:var(--white)}
+.cta{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--bl);transform:translateY(-2px)}
+@media(max-width:768px){.grid-2,.stats,.hdd-grid{grid-template-columns:1fr 1fr}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:var(--blue-light);fill:none;stroke-width:2;stroke-linecap:round"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">Herramienta profesional</span>
-    </div>
-    <h1>Calculadora de <span>Almacenamiento CCTV</span></h1>
-    <p>Calcula exactamente cuánto almacenamiento necesitas para tu sistema de videovigilancia según resolución, número de cámaras y días de retención.</p>
+  <div class="header">
+    <div class="badge"><span>Fórmula bitrate real por resolución</span></div>
+    <h1>Calculadora de <em>Almacenamiento CCTV</em></h1>
+    <p>Calcula exactamente cuánto disco necesitas para tu sistema de videovigilancia según resolución, compresión, horas de grabación y días de retención.</p>
   </div>
 
-  <div class="grid">
-
-    <!-- CONFIGURACIÓN IZQUIERDA -->
+  <div class="grid-2">
     <div>
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-          Cámaras y Resolución
-        </div>
-
-        <div class="f-group">
-          <div class="f-label">Número de cámaras <span id="lbl-cams">8</span></div>
-          <input type="range" id="sl-cams" min="1" max="64" value="8" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1</span><span>16</span><span>32</span><span>64</span></div>
-        </div>
-
-        <div class="f-group">
-          <div class="f-label" style="margin-bottom:10px">Resolución de las cámaras</div>
-          <div class="res-grid">
-            <div class="res-btn" onclick="selRes('HD',this)">
-              <div class="res-btn-name">HD</div>
-              <div class="res-btn-detail">720p · 1MP</div>
-            </div>
-            <div class="res-btn sel" onclick="selRes('FHD',this)">
-              <div class="res-btn-name">Full HD</div>
-              <div class="res-btn-detail">1080p · 2MP</div>
-            </div>
-            <div class="res-btn" onclick="selRes('2K',this)">
-              <div class="res-btn-name">2K</div>
-              <div class="res-btn-detail">1440p · 4MP</div>
-            </div>
-            <div class="res-btn" onclick="selRes('4K',this)">
-              <div class="res-btn-name">4K</div>
-              <div class="res-btn-detail">2160p · 8MP</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="f-group">
-          <div class="f-label" style="margin-bottom:10px">Compresión de video</div>
-          <div class="comp-grid">
-            <div class="comp-btn" onclick="selComp('H264',this)">
-              <div class="comp-name">H.264</div>
-              <div class="comp-save" style="color:var(--gray)">Estándar</div>
-            </div>
-            <div class="comp-btn sel" onclick="selComp('H265',this)">
-              <div class="comp-name">H.265</div>
-              <div class="comp-save">Ahorra ~50% espacio</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Horario de Grabación
+        <div class="card-title">Cámaras</div>
+        <div class="field">
+          <label>Número de cámaras <span id="lbl-cams">4</span></label>
+          <input type="range" id="sl-cams" min="1" max="64" value="4" oninput="update()">
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1</span><span>8</span><span>16</span><span>32</span><span>64</span></div>
         </div>
-
-        <div class="f-group">
-          <div class="f-label">Horas de grabación por día <span id="lbl-hrs">24</span></div>
+        <div class="field">
+          <label>Días de retención <span id="lbl-dias">30</span></label>
+          <input type="range" id="sl-dias" min="7" max="90" value="30" oninput="update()">
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>7 días</span><span>30 días</span><span>60 días</span><span>90 días</span></div>
+        </div>
+        <div class="field">
+          <label>Horas de grabación al día <span id="lbl-hrs">24</span>h</label>
           <input type="range" id="sl-hrs" min="1" max="24" value="24" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1h</span><span>8h</span><span>16h</span><span>24h</span></div>
         </div>
-
-        <div class="f-group">
-          <div class="f-label" style="margin-bottom:8px">Tipo de grabación</div>
-          <div class="motion-hours">
-            <div class="motion-btn sel" onclick="selMode('continua',this)" id="mode-continua">Continua 24/7</div>
-            <div class="motion-btn" onclick="selMode('motion',this)" id="mode-motion">Solo movimiento</div>
-            <div class="motion-btn" onclick="selMode('horario',this)" id="mode-horario">Por horario</div>
-          </div>
-          <div style="font-size:0.72rem;color:var(--gray);margin-top:8px" id="mode-desc">Grabación continua las 24 horas todos los días. Mayor seguridad, más almacenamiento.</div>
+        <div class="field">
+          <label>Porcentaje de movimiento detectado <span id="lbl-mov">30</span>%</label>
+          <input type="range" id="sl-mov" min="5" max="100" value="30" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Si grabas 24/7 usa 100%. Si grabas por movimiento, ¿qué % del tiempo hay actividad?</div>
         </div>
       </div>
     </div>
 
-    <!-- CONFIGURACIÓN DERECHA -->
     <div>
-      <div class="card" style="margin-bottom:20px">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-          Discos Duros (HDD/SSD)
-        </div>
-
-        <div id="disks-container">
-          <div class="disk-row">
-            <select onchange="update()">
-              <option value="1000">1 TB</option>
-              <option value="2000">2 TB</option>
-              <option value="4000" selected>4 TB</option>
-              <option value="6000">6 TB</option>
-              <option value="8000">8 TB</option>
-              <option value="10000">10 TB</option>
-              <option value="12000">12 TB</option>
-              <option value="16000">16 TB</option>
-              <option value="20000">20 TB</option>
-            </select>
-            <input type="number" class="disk-qty" value="1" min="1" max="16" onchange="update()">
-            <button class="add-disk" onclick="removeDisk(this)" style="background:rgba(255,85,85,0.1);border-color:rgba(255,85,85,0.25);color:var(--error)">✕</button>
+      <div class="card">
+        <div class="card-title">Resolución y compresión</div>
+        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Resolución</div>
+        <div class="opt-grid" style="margin-bottom:14px">
+          <div class="opt" onclick="selRes('720p',this)">
+            <div class="opt-name">HD 720p</div>
+            <div class="opt-detail">1280×720 px</div>
+            <div class="opt-bitrate">~1 Mbps (H.265)</div>
+          </div>
+          <div class="opt sel" onclick="selRes('1080p',this)">
+            <div class="opt-name">Full HD 1080p</div>
+            <div class="opt-detail">1920×1080 px</div>
+            <div class="opt-bitrate">~2 Mbps (H.265)</div>
+          </div>
+          <div class="opt" onclick="selRes('4mp',this)">
+            <div class="opt-name">4 Megapíxeles</div>
+            <div class="opt-detail">2688×1520 px</div>
+            <div class="opt-bitrate">~4 Mbps (H.265)</div>
+          </div>
+          <div class="opt" onclick="selRes('4k',this)">
+            <div class="opt-name">4K Ultra HD</div>
+            <div class="opt-detail">3840×2160 px</div>
+            <div class="opt-bitrate">~8 Mbps (H.265)</div>
           </div>
         </div>
-        <button class="add-disk" onclick="addDisk()" style="width:100%;margin-top:4px;justify-content:center;display:flex">+ Añadir disco</button>
-
-        <div style="margin-top:16px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px">
-          <div style="font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px">Capacidad total</div>
-          <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--blue-light)" id="total-disk">4.0 TB</div>
-          <div style="font-size:0.7rem;color:var(--gray);margin-top:2px">Capacidad usable estimada: <span id="usable-disk" style="color:var(--white)">3.6 TB</span></div>
+        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Compresión de video</div>
+        <div class="opt-grid">
+          <div class="opt" onclick="selComp('h264',this)">
+            <div class="opt-name">H.264 / AVC</div>
+            <div class="opt-detail">Estándar, compatible universal</div>
+            <div class="opt-bitrate">2× más espacio que H.265</div>
+          </div>
+          <div class="opt sel" onclick="selComp('h265',this)">
+            <div class="opt-name">H.265 / HEVC</div>
+            <div class="opt-detail">Alta eficiencia, recomendado</div>
+            <div class="opt-bitrate">50% menos espacio</div>
+          </div>
+          <div class="opt" onclick="selComp('h264+',this)">
+            <div class="opt-name">H.264+</div>
+            <div class="opt-detail">Optimizado por fabricante</div>
+            <div class="opt-bitrate">~30% menos que H.264</div>
+          </div>
+          <div class="opt" onclick="selComp('h265+',this)">
+            <div class="opt-name">H.265+</div>
+            <div class="opt-detail">Mejor compresión disponible</div>
+            <div class="opt-bitrate">Hasta 70% menos espacio</div>
+          </div>
         </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Opciones avanzadas
-        </div>
-
-        <div class="f-group">
-          <div class="f-label">% de actividad de movimiento <span id="lbl-motion">30</span>%</div>
-          <input type="range" id="sl-motion" min="5" max="100" value="30" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Estimado de cuánto tiempo hay movimiento en cámara</div>
-        </div>
-
-        <div class="f-group">
-          <div class="f-label">Calidad del stream <span id="lbl-quality">Alta</span></div>
-          <input type="range" id="sl-quality" min="1" max="3" value="2" step="1" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>Económica</span><span>Alta</span><span>Máxima</span></div>
-        </div>
-
-        <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:14px;font-size:0.75rem;color:var(--gray);line-height:1.7">
-          <strong style="color:var(--white)">Bitrates por resolución:</strong><br>
-          HD 720p: 0.5–1.5 Mbps · FHD 1080p: 1–3 Mbps<br>
-          2K/4MP: 3–6 Mbps · 4K/8MP: 6–15 Mbps<br>
-          <span style="color:var(--success)">H.265 reduce el espacio hasta un 50%</span>
+        <div class="field" style="margin-top:14px">
+          <label>Frames por segundo (FPS)</label>
+          <select id="sel-fps" onchange="update()">
+            <option value="15">15 FPS — Fluido, ahorra espacio</option>
+            <option value="20">20 FPS — Buena fluidez</option>
+            <option value="25" selected>25 FPS — Estándar PAL (Europa/PR)</option>
+            <option value="30">30 FPS — Máxima fluidez</option>
+          </select>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RESULTADOS -->
-  <div class="results" id="results" style="animation:fadeUp .6s ease .2s both">
-    <div class="results-title">
-      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      Resultados del cálculo
-    </div>
-
-    <div class="res-grid-out">
-      <div class="res-stat">
-        <div class="res-num" id="r-daily" style="color:var(--blue-light)">0 GB</div>
-        <div class="res-lbl">Uso diario</div>
-      </div>
-      <div class="res-stat">
-        <div class="res-num" id="r-weekly" style="color:var(--warn)">0 GB</div>
-        <div class="res-lbl">Uso semanal</div>
-      </div>
-      <div class="res-stat">
-        <div class="res-num" id="r-monthly" style="color:var(--white)">0 TB</div>
-        <div class="res-lbl">Uso mensual</div>
-      </div>
-      <div class="res-stat">
-        <div class="res-num" id="r-days" style="color:var(--success)">0 días</div>
-        <div class="res-lbl">Días de retención</div>
-      </div>
-    </div>
-
-    <div class="days-bar-wrap">
-      <div class="days-bar-label">
-        <span>Días de grabación con el almacenamiento actual</span>
-        <span id="r-days-label" style="font-weight:700;color:var(--success)">0 días</span>
-      </div>
-      <div class="days-bar"><div class="days-fill" id="days-fill" style="width:0%"></div></div>
-      <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px">
-        <span>0</span><span>7 días</span><span>15 días</span><span>30 días</span><span>60+ días</span>
-      </div>
-    </div>
-
-    <div class="tip-box" id="tip-box">
-      Ajusta los parámetros para ver el resultado.
-    </div>
-
-    <div class="cta-box">
-      <div class="cta-text">
-        <h3>¿Necesitas ayuda para dimensionar tu sistema?</h3>
-        <p>Nuestros expertos en CCTV te asesoran sin costo — evaluación gratuita en persona o por videollamada.</p>
-      </div>
-      <a href="#" onclick="openLead(); return false;" class="cta-btn">Solicitar evaluación</a>
-    </div>
+  <!-- RESULTS -->
+  <div class="result-hero">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bl);margin-bottom:10px">Almacenamiento necesario</div>
+    <div class="storage-num" id="r-storage">0 TB</div>
+    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-storage-sub">Para 0 cámaras durante 0 días</div>
   </div>
 
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-bitrate">0 Mbps</div><div class="stat-lbl">Bitrate por cámara</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-gbdia">0 GB</div><div class="stat-lbl">GB por cámara/día</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--green)" id="s-total-dia">0 GB</div><div class="stat-lbl">Total por día</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-raw">0 TB</div><div class="stat-lbl">Sin redundancia</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Opciones de disco recomendadas</div>
+    <div class="hdd-grid" id="r-hdd"></div>
+    <div style="font-size:0.72rem;color:var(--gray2);margin-top:8px">* Precios estimados de discos duros WD Purple o Seagate SkyHawk (optimizados para CCTV). Se recomienda usar discos específicos para vigilancia, no discos de computadora.</div>
+  </div>
+
+  <div class="tip" id="r-tip"></div>
+
+  <div class="cta">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas un sistema CCTV completo?</div>
+      <div style="font-size:0.78rem;color:var(--gray)">Instalamos sistemas IP y análogos en todo Puerto Rico. Evaluación gratuita.</div>
+    </div>
+    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
+  </div>
 </div>
 
 <script>
-// CONFIG
-const BITRATES = {
-  HD:  {H264: 1.0,  H265: 0.5},
-  FHD: {H264: 2.5,  H265: 1.25},
-  '2K':{H264: 5.0,  H265: 2.5},
-  '4K':{H264: 12.0, H265: 6.0}
+// Bitrates reales basados en estándares de la industria
+// H.265 a 25fps — valores promedio en escenas mixtas (no movimiento constante)
+var BITRATES = {
+  '720p':  { h265: 1.0, h264: 2.0, 'h264+': 1.4, 'h265+': 0.6 },   // Mbps
+  '1080p': { h265: 2.0, h264: 4.0, 'h264+': 2.8, 'h265+': 1.2 },
+  '4mp':   { h265: 4.0, h264: 8.0, 'h264+': 5.6, 'h265+': 2.4 },
+  '4k':    { h265: 8.0, h264: 16.0,'h264+': 11.2,'h265+': 4.8 }
 };
 
-const QUALITY_MULT = {1: 0.7, 2: 1.0, 3: 1.4};
-const MODE_FACTOR = {continua: 1.0, motion: 0.3, horario: 0.6};
-const QUALITY_LABELS = {1:'Económica', 2:'Alta', 3:'Máxima'};
-const MODE_DESC = {
-  continua: 'Grabación continua las 24 horas todos los días. Mayor seguridad, más almacenamiento.',
-  motion: 'Graba solo cuando detecta movimiento. Ahorra hasta 70% de almacenamiento.',
-  horario: 'Graba en horarios específicos. Balance entre seguridad y almacenamiento.'
-};
+// Factor de FPS (relativo a 25fps base)
+var FPS_FACTOR = { 15: 0.6, 20: 0.8, 25: 1.0, 30: 1.2 };
 
-let selResVal = 'FHD';
-let selCompVal = 'H265';
-let selModeVal = 'continua';
+var selResVal = '1080p';
+var selCompVal = 'h265';
 
 function selRes(val, el) {
   selResVal = val;
-  document.querySelectorAll('.res-btn').forEach(e => e.classList.remove('sel'));
+  el.closest('.opt-grid').querySelectorAll('.opt').forEach(function(e) { e.classList.remove('sel'); });
   el.classList.add('sel');
   update();
 }
 
 function selComp(val, el) {
   selCompVal = val;
-  document.querySelectorAll('.comp-btn').forEach(e => e.classList.remove('sel'));
+  el.closest('.opt-grid').querySelectorAll('.opt').forEach(function(e) { e.classList.remove('sel'); });
   el.classList.add('sel');
   update();
-}
-
-function selMode(val, el) {
-  selModeVal = val;
-  document.querySelectorAll('.motion-btn').forEach(e => e.classList.remove('sel'));
-  el.classList.add('sel');
-  document.getElementById('mode-desc').textContent = MODE_DESC[val];
-  update();
-}
-
-function addDisk() {
-  const container = document.getElementById('disks-container');
-  const row = document.createElement('div');
-  row.className = 'disk-row';
-  row.innerHTML = `
-    <select onchange="update()">
-      <option value="1000">1 TB</option>
-      <option value="2000">2 TB</option>
-      <option value="4000" selected>4 TB</option>
-      <option value="6000">6 TB</option>
-      <option value="8000">8 TB</option>
-      <option value="10000">10 TB</option>
-      <option value="12000">12 TB</option>
-      <option value="16000">16 TB</option>
-      <option value="20000">20 TB</option>
-    </select>
-    <input type="number" class="disk-qty" value="1" min="1" max="16" onchange="update()">
-    <button class="add-disk" onclick="removeDisk(this)" style="background:rgba(255,85,85,0.1);border-color:rgba(255,85,85,0.25);color:var(--error)">✕</button>
-  `;
-  container.appendChild(row);
-  update();
-}
-
-function removeDisk(btn) {
-  const rows = document.querySelectorAll('#disks-container .disk-row');
-  if (rows.length > 1) {
-    btn.closest('.disk-row').remove();
-    update();
-  }
-}
-
-function getTotalDiskGB() {
-  let total = 0;
-  document.querySelectorAll('#disks-container .disk-row').forEach(row => {
-    const size = parseInt(row.querySelector('select').value);
-    const qty = parseInt(row.querySelector('.disk-qty').value) || 1;
-    total += size * qty;
-  });
-  return total;
-}
-
-function formatSize(gb) {
-  if (gb >= 1000) return (gb/1000).toFixed(1) + ' TB';
-  return Math.round(gb) + ' GB';
 }
 
 function update() {
-  const cams = parseInt(document.getElementById('sl-cams').value);
-  const hrs = parseInt(document.getElementById('sl-hrs').value);
-  const motion = parseInt(document.getElementById('sl-motion').value);
-  const quality = parseInt(document.getElementById('sl-quality').value);
+  var cams = parseInt(document.getElementById('sl-cams').value);
+  var dias = parseInt(document.getElementById('sl-dias').value);
+  var hrs = parseInt(document.getElementById('sl-hrs').value);
+  var mov = parseInt(document.getElementById('sl-mov').value);
+  var fps = parseInt(document.getElementById('sel-fps').value);
 
   document.getElementById('lbl-cams').textContent = cams;
-  document.getElementById('lbl-hrs').textContent = hrs + 'h';
-  document.getElementById('lbl-motion').textContent = motion;
-  document.getElementById('lbl-quality').textContent = QUALITY_LABELS[quality];
+  document.getElementById('lbl-dias').textContent = dias;
+  document.getElementById('lbl-hrs').textContent = hrs;
+  document.getElementById('lbl-mov').textContent = mov;
 
-  // Bitrate en Mbps por cámara
-  const baseBitrate = BITRATES[selResVal][selCompVal];
-  const effectiveBitrate = baseBitrate * QUALITY_MULT[quality] * MODE_FACTOR[selModeVal];
+  // Bitrate base según resolución y compresión
+  var bitrateMbps = (BITRATES[selResVal] || BITRATES['1080p'])[selCompVal] || 2.0;
 
-  // GB por cámara por hora: (Mbps * 3600 seg) / (8 bits/byte * 1024 MB/GB)
-  const gbPerCamPerHour = (effectiveBitrate * 3600) / (8 * 1024);
+  // Ajuste por FPS
+  bitrateMbps = bitrateMbps * (FPS_FACTOR[fps] || 1.0);
 
-  // GB por día total
-  const dailyGB = gbPerCamPerHour * hrs * cams;
-  const weeklyGB = dailyGB * 7;
-  const monthlyGB = dailyGB * 30;
+  // GB por cámara por hora
+  // Fórmula: (Mbps × 3600 segundos) / (8 bits/byte × 1024 MB/GB × 1024 KB/MB)
+  // Simplificado: Mbps × 450 / 1000 = GB/hora
+  var gbPorCamaraHora = (bitrateMbps * 3600) / (8 * 1024);
 
-  // Total disco
-  const totalDiskGB = getTotalDiskGB();
-  const usableDiskGB = totalDiskGB * 0.9; // 90% usable
+  // GB por cámara por día (con factor de movimiento)
+  var gbPorCamaraDia = gbPorCamaraHora * hrs * (mov / 100);
 
-  // Días de retención
-  const retentionDays = usableDiskGB / dailyGB;
+  // Total GB por día (todas las cámaras)
+  var gbTotalDia = gbPorCamaraDia * cams;
 
-  // Update labels
-  document.getElementById('r-daily').textContent = formatSize(dailyGB);
-  document.getElementById('r-weekly').textContent = formatSize(weeklyGB);
-  document.getElementById('r-monthly').textContent = formatSize(monthlyGB);
-  document.getElementById('r-days').textContent = Math.floor(retentionDays) + ' días';
-  document.getElementById('r-days-label').textContent = Math.floor(retentionDays) + ' días';
+  // Total TB para la retención
+  var gbTotal = gbTotalDia * dias;
+  var tbTotal = gbTotal / 1024;
 
-  // Disk display
-  if (totalDiskGB >= 1000) {
-    document.getElementById('total-disk').textContent = (totalDiskGB/1000).toFixed(1) + ' TB';
-    document.getElementById('usable-disk').textContent = (usableDiskGB/1000).toFixed(1) + ' TB';
-  } else {
-    document.getElementById('total-disk').textContent = totalDiskGB + ' GB';
-    document.getElementById('usable-disk').textContent = Math.round(usableDiskGB) + ' GB';
-  }
+  // Con margen del 20% para sistema de archivos y overhead del NVR
+  var tbConMargen = tbTotal * 1.20;
 
-  // Bar — max 60 días = 100%
-  const barPct = Math.min(100, (retentionDays / 60) * 100);
-  const fill = document.getElementById('days-fill');
-  fill.style.width = barPct + '%';
-  if (retentionDays < 7) {
-    fill.style.background = 'var(--error)';
-    document.getElementById('r-days').style.color = 'var(--error)';
-    document.getElementById('r-days-label').style.color = 'var(--error)';
-  } else if (retentionDays < 14) {
-    fill.style.background = 'var(--warn)';
-    document.getElementById('r-days').style.color = 'var(--warn)';
-    document.getElementById('r-days-label').style.color = 'var(--warn)';
-  } else {
-    fill.style.background = 'var(--success)';
-    document.getElementById('r-days').style.color = 'var(--success)';
-    document.getElementById('r-days-label').style.color = 'var(--success)';
-  }
+  // Actualizar UI
+  document.getElementById('r-storage').textContent = tbConMargen >= 1
+    ? tbConMargen.toFixed(2) + ' TB'
+    : Math.round(tbConMargen * 1024) + ' GB';
+  document.getElementById('r-storage-sub').textContent = 'Para ' + cams + ' cámara' + (cams > 1 ? 's' : '') + ' durante ' + dias + ' días (' + hrs + 'h/día, ' + mov + '% actividad)';
 
-  // Tips
-  let tip = '';
-  const days = Math.floor(retentionDays);
-  const recDays = Math.ceil(dailyGB * 30);
+  document.getElementById('s-bitrate').textContent = bitrateMbps.toFixed(1) + ' Mbps';
+  document.getElementById('s-gbdia').textContent = gbPorCamaraDia.toFixed(2) + ' GB';
+  document.getElementById('s-total-dia').textContent = gbTotalDia.toFixed(1) + ' GB';
+  document.getElementById('s-raw').textContent = tbTotal >= 1 ? tbTotal.toFixed(2) + ' TB' : Math.round(tbTotal * 1024) + ' GB';
 
-  if (days < 7) {
-    tip = `<strong style="color:var(--error)">⚠️ Almacenamiento insuficiente.</strong> Con esta configuración solo grabarás ${days} días. Para seguridad adecuada necesitas mínimo 7-14 días. <strong>Recomendamos agregar más discos hasta alcanzar al menos ${formatSize(dailyGB * 14)} de capacidad total.</strong>`;
-  } else if (days < 14) {
-    tip = `<strong style="color:var(--warn)">📦 Almacenamiento básico.</strong> Tendrás ${days} días de retención. Para instalaciones comerciales recomendamos mínimo 30 días. <strong>Para llegar a 30 días necesitas ${formatSize(dailyGB * 30)} de capacidad total.</strong> Considera agregar ${formatSize(dailyGB * 30 - usableDiskGB)} más de almacenamiento.`;
-  } else if (days < 30) {
-    tip = `<strong style="color:var(--warn)">✅ Almacenamiento aceptable.</strong> Tendrás ${days} días de retención. Para un sistema profesional recomendamos 30 días. <strong>Necesitas ${formatSize(dailyGB * 30 - usableDiskGB)} más de almacenamiento para llegar a 30 días.</strong>`;
-  } else if (days < 60) {
-    tip = `<strong style="color:var(--success)">✅ Almacenamiento excelente.</strong> Tendrás ${days} días de retención — ideal para instalaciones comerciales y empresariales. Uso mensual estimado: <strong>${formatSize(monthlyGB)}</strong>. Tu sistema está bien dimensionado.`;
-  } else {
-    tip = `<strong style="color:var(--success)">🏆 Almacenamiento superior.</strong> Con ${days} días de retención tienes una configuración de nivel enterprise. Uso mensual: <strong>${formatSize(monthlyGB)}</strong>. Podrías reducir el almacenamiento si el presupuesto es una preocupación.`;
-  }
-
-  // Add compression tip
-  if (selCompVal === 'H264') {
-    tip += `<br><br><strong style="color:var(--blue-light)">💡 Tip:</strong> Cambia a compresión H.265 y duplicarás tus días de retención sin añadir más discos.`;
-  }
-
-  // Add motion tip
-  if (selModeVal === 'continua' && days < 30) {
-    tip += `<br><strong style="color:var(--blue-light)">💡 Tip:</strong> Activar grabación por movimiento puede reducir el uso de almacenamiento hasta un 70%.`;
-  }
-
-  document.getElementById('tip-box').innerHTML = tip;
+  // Opciones de disco
+  renderHDD(tbConMargen, cams);
+  renderTip(bitrateMbps, gbPorCamaraDia, tbConMargen, cams, selResVal, selCompVal, dias);
 }
 
-// Init
+function renderHDD(tbNecesario, cams) {
+  var opciones = [
+    { size: 1, tb: 1, price: '$45-55' },
+    { size: 2, tb: 2, price: '$65-80' },
+    { size: 4, tb: 4, price: '$95-115' },
+    { size: 6, tb: 6, price: '$130-155' },
+    { size: 8, tb: 8, price: '$160-190' },
+    { size: 10, tb: 10, price: '$200-240' },
+    { size: 12, tb: 12, price: '$250-290' },
+    { size: 16, tb: 16, price: '$340-390' },
+  ];
+
+  // Mostrar 3 opciones: una más pequeña, la recomendada y una más grande
+  var recomendada = opciones.find(function(o) { return o.tb >= tbNecesario; }) || opciones[opciones.length - 1];
+  var idxRec = opciones.indexOf(recomendada);
+  var mostrar = [];
+  if (idxRec > 0) mostrar.push(opciones[idxRec - 1]);
+  mostrar.push(recomendada);
+  if (idxRec < opciones.length - 1) mostrar.push(opciones[idxRec + 1]);
+
+  document.getElementById('r-hdd').innerHTML = mostrar.map(function(o) {
+    var diasQueAlmacena = Math.floor((o.tb * 1024 * 0.80) / (parseFloat(document.getElementById('s-total-dia').textContent)));
+    var esRec = o === recomendada;
+    return '<div class="hdd-card ' + (esRec ? 'rec' : '') + '">' +
+      (esRec ? '<div style="font-size:0.58rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Recomendado</div>' : '') +
+      '<div class="hdd-size">' + o.size + ' TB</div>' +
+      '<div class="hdd-days">Almacena ~' + diasQueAlmacena + ' días</div>' +
+      '<div class="hdd-price">' + o.price + ' aprox.</div>' +
+    '</div>';
+  }).join('');
+
+  // Si necesita más de 16TB sugerir múltiples discos
+  if (tbNecesario > 16) {
+    var numDiscos = Math.ceil(tbNecesario / 8);
+    document.getElementById('r-hdd').innerHTML += '<div style="grid-column:1/-1;background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:8px;padding:14px;font-size:0.8rem;color:var(--gray);margin-top:4px"><strong style="color:var(--white)">Sistema de múltiples discos:</strong> Para ' + tbNecesario.toFixed(1) + ' TB se recomiendan ' + numDiscos + ' discos de 8TB en un NVR con múltiples bahías o un arreglo RAID para redundancia.</div>';
+  }
+}
+
+function renderTip(bitrate, gbDia, tb, cams, res, comp, dias) {
+  var tip = '<strong>¿Cómo se calcula?</strong> El almacenamiento = Bitrate × Horas × Factor de actividad × Días.<br>';
+  tip += 'Con ' + res + ' en ' + comp.toUpperCase() + ' a ' + bitrate.toFixed(1) + ' Mbps, cada cámara usa ~' + gbDia.toFixed(2) + ' GB al día.<br><br>';
+
+  if (comp === 'h264') {
+    tip += '<strong>Consejo:</strong> Cambia a H.265 y reducirás el almacenamiento a la mitad sin perder calidad de imagen. La mayoría de cámaras IP modernas lo soportan.<br><br>';
+  }
+  if (res === '4k') {
+    tip += '<strong>Almacenamiento 4K:</strong> Las cámaras 4K generan muchos datos. Si no necesitas identificar matrículas o rostros a gran distancia, 1080p ofrece excelente calidad con 4× menos espacio.<br><br>';
+  }
+  tip += '<strong>Discos para vigilancia:</strong> Usa discos WD Purple, Seagate SkyHawk o Toshiba S300. Están diseñados para escritura continua 24/7. Los discos de escritorio normales fallan prematuramente en NVR.<br><br>';
+  tip += '<strong>RAID:</strong> Para sistemas críticos considera RAID 1 (espejo) o RAID 5. Duplica la protección ante fallas de disco a costo de capacidad adicional.';
+
+  document.getElementById('r-tip').innerHTML = tip;
+}
+
 update();
 </script>
-
-
-<!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
-
-    <!-- LOGGED IN STATE -->
-    <div id="lead-loggedin" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
-        <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
-        </div>
-      </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-      </div>
-    </div>
-
-    <!-- GUEST STATE -->
-    <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
-
-      <!-- AUTH OPTIONS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
-        <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
-        </div>
-        <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
-        </div>
-      </div>
-
-      <!-- GUEST FORM -->
-      <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-        </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
-        </div>
-      </div>
-
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
-    <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script>
-var _leadData = {};
-var _wifnixUser = null;
-
-// Check if user is logged in via portal session
-try {
-  var stored = localStorage.getItem('wifnix_user');
-  if (stored) _wifnixUser = JSON.parse(stored);
-} catch(e) {}
-
-function openLead(title, summary, datos, estimado, herramienta) {
-  _leadData = { datos: datos||{}, estimado: estimado||'', herramienta: herramienta||document.title };
-  document.getElementById('lead-overlay').style.display = 'flex';
-
-  if (_wifnixUser && _wifnixUser.nombre) {
-    // Logged in
-    document.getElementById('lead-loggedin').style.display = 'block';
-    document.getElementById('lead-guest').style.display = 'none';
-    var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
-    document.getElementById('lead-avatar').textContent = initials.toUpperCase();
-    document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
-    if (title) document.getElementById('lead-modal-title-li').textContent = title;
-    if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
-  } else {
-    // Guest
-    document.getElementById('lead-loggedin').style.display = 'none';
-    document.getElementById('lead-guest').style.display = 'block';
-    document.getElementById('guest-form').style.display = 'none';
-    if (title) document.getElementById('lead-modal-title').textContent = title;
-    if (summary) document.getElementById('lead-summary').innerHTML = summary;
-  }
-}
-
-function showGuestForm() {
-  document.getElementById('guest-form').style.display = 'block';
-  document.getElementById('lead-nombre').focus();
-}
-
-function goToPortal() {
-  // Save current tool data to sessionStorage so portal can use it
-  try {
-    sessionStorage.setItem('lead_pending', JSON.stringify(_leadData));
-  } catch(e) {}
-  window.open('https://portal.wifnix.com', '_blank');
-}
-
-function closeLead() {
-  document.getElementById('lead-overlay').style.display = 'none';
-  document.getElementById('lead-success').style.display = 'none';
-}
-
-function submitLead() {
-  var nombre = document.getElementById('lead-nombre').value.trim();
-  var email = document.getElementById('lead-email').value.trim();
-  var tel = document.getElementById('lead-tel').value.trim();
-  var alertEl = document.getElementById('lead-alert');
-  if (!nombre || !email) {
-    alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
-    return;
-  }
-  sendLead(nombre, email, tel, '');
-}
-
-function submitLeadLoggedIn() {
-  if (!_wifnixUser) return;
-  var msg = document.getElementById('lead-msg').value.trim();
-  sendLead(_wifnixUser.nombre + ' ' + (_wifnixUser.apellido||''), _wifnixUser.email, _wifnixUser.telefono||'', msg);
-}
-
-function sendLead(nombre, email, tel, msg) {
-  var datos = Object.assign({}, _leadData.datos);
-  if (msg) datos.mensaje = msg;
-  if (_wifnixUser) datos.numero_cliente = _wifnixUser.num||'';
-
-  fetch('https://api.wifnix.com/api/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      nombre: nombre,
-      email: email,
-      telefono: tel,
-      herramienta: _leadData.herramienta,
-      datos: datos,
-      estimado: _leadData.estimado
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function() {
-    document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
-    document.getElementById('lead-success').style.display = 'flex';
-  })
-  .catch(function() {
-    var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
-  });
-}
-
-document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
-document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
-</script>
-
 </body>
 </html>

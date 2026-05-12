@@ -3,873 +3,404 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora BTU / HVAC — Wifnix</title>
+<title>Calculadora BTU — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
-.page{max-width:1000px;margin:0 auto;padding:40px 20px}
-.header{text-align:center;margin-bottom:48px}
-.header h1{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);margin-bottom:8px}
-.header h1 span{color:var(--orange)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:580px;margin:0 auto;line-height:1.7}
-.steps{display:flex;gap:8px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
-.step{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;font-size:0.72rem;font-weight:600;border:1px solid rgba(255,255,255,0.08);color:var(--gray2);transition:all .3s}
-.step.active{background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.4);color:var(--orange)}
-.step.done{background:rgba(0,229,160,0.08);border-color:rgba(0,229,160,0.3);color:var(--success)}
-.step-num{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:800}
-.step.active .step-num{background:var(--orange);color:white}
-.step.done .step-num{background:var(--success);color:var(--black)}
-.section{display:none}.section.active{display:block}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:14px;padding:28px;margin-bottom:20px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:22px;display:flex;align-items:center;gap:10px}
-.card-title svg{width:20px;height:20px;stroke:var(--orange);fill:none;stroke-width:1.5;stroke-linecap:round}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.f-group{margin-bottom:18px}
-.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:flex;justify-content:space-between}
-.f-label span{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:800;color:var(--orange)}
+.page{max-width:900px;margin:0 auto;padding:40px 20px}
+.header{text-align:center;margin-bottom:40px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
+.badge span{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
+.header h1 em{color:var(--orange);font-style:normal}
+.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.field{margin-bottom:16px}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange)}
 input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);border:2px solid #FD8A4B;cursor:pointer;transition:transform .2s}
-input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
-input[type=number],input[type=text]{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;transition:border-color .2s;width:100%}
-input[type=number]:focus,input[type=text]:focus{border-color:var(--orange)}
-input[type=number]::placeholder{color:var(--gray2)}
-select{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
+select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
 select option{background:var(--navy)}
-.opt-grid{display:grid;gap:8px;margin-top:6px}
-.opt-btn{border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px}
-.opt-btn:hover{border-color:rgba(249,115,22,0.35)}
-.opt-btn.sel{border-color:var(--orange);background:rgba(249,115,22,0.1)}
-.opt-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem;transition:background .2s}
-.opt-btn.sel .opt-icon{background:rgba(249,115,22,0.15)}
-.opt-name{font-size:0.82rem;font-weight:600;color:var(--gray);transition:color .2s}
-.opt-btn.sel .opt-name{color:var(--white)}
-.opt-desc{font-size:0.68rem;color:var(--gray2);margin-top:1px}
-.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.06);border-radius:8px;cursor:pointer;transition:all .2s}
-.check-item:hover{border-color:rgba(249,115,22,0.3)}
-.check-item.sel{border-color:var(--orange);background:rgba(249,115,22,0.08)}
-.check-item input[type=checkbox]{accent-color:var(--orange);width:15px;height:15px}
-.check-label{font-size:0.78rem;color:var(--gray);cursor:pointer}
-.check-item.sel .check-label{color:var(--white)}
-.nav-btns{display:flex;gap:12px;justify-content:flex-end;margin-top:8px}
-.btn-next{padding:12px 28px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
-.btn-next:hover{background:#FD8A4B;transform:translateY(-1px)}
-.btn-prev{padding:12px 24px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .2s}
-.btn-prev:hover{border-color:var(--gray);color:var(--white)}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1px solid rgba(249,115,22,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px}
+.opt:hover{border-color:rgba(249,115,22,0.35)}
+.opt.sel{border-color:var(--orange);background:rgba(249,115,22,0.08)}
+.opt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;flex-shrink:0;color:var(--gray)}
+.opt.sel svg{color:var(--orange)}
+.opt-text{font-size:0.78rem;color:var(--gray);line-height:1.3}
+.opt.sel .opt-text{color:var(--white)}
+.opt-sub{font-size:0.65rem;color:var(--gray2);margin-top:2px}
 /* RESULTS */
-.result-hero{background:linear-gradient(135deg,rgba(249,115,22,0.15),rgba(13,26,42,0.9));border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:24px}
+.result-hero{background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(13,26,42,0.9));border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
 .btu-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--orange);line-height:1}
-.ton-num{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--white);margin-top:8px}
-.breakdown-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.bk-card{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.1);border-radius:10px;padding:14px;text-align:center}
-.bk-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--orange)}
-.bk-lbl{font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;margin-top:3px}
-.unit-card{background:var(--card);border:1px solid rgba(249,115,22,0.15);border-radius:12px;padding:20px;margin-bottom:12px;display:flex;align-items:center;gap:16px;transition:border-color .3s}
-.unit-card:hover{border-color:rgba(249,115,22,0.35)}
-.unit-card.recommended{border-color:var(--orange);background:rgba(249,115,22,0.06)}
-.unit-badge{font-size:0.58rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border-radius:100px;margin-bottom:6px;display:inline-block}
-.unit-badge.rec{background:rgba(249,115,22,0.2);color:var(--orange);border:1px solid rgba(249,115,22,0.4)}
-.unit-badge.alt{background:rgba(138,160,180,0.1);color:var(--gray);border:1px solid rgba(138,160,180,0.2)}
-.unit-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white)}
-.unit-detail{font-size:0.75rem;color:var(--gray);margin-top:3px;line-height:1.5}
-.unit-icon{width:48px;height:48px;border-radius:10px;background:rgba(249,115,22,0.1);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:18px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--orange);margin-bottom:20px}
-.tip-box strong{color:var(--white)}
-.cta-box{background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.1);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.breakdown{margin-bottom:16px}
+.bk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem}
+.bk-row:last-child{border-bottom:none;padding-top:14px;font-family:'Syne',sans-serif;font-weight:800;font-size:0.95rem}
+.bk-name{color:var(--gray)}
+.bk-val{color:var(--orange);font-weight:600}
+.rec-card{background:rgba(0,0,0,0.25);border:1px solid rgba(249,115,22,0.15);border-radius:10px;padding:16px;margin-bottom:10px}
+.rec-card.top{border-color:var(--orange)}
+.rec-name{font-weight:700;color:var(--white);font-size:0.88rem;margin-bottom:4px}
+.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
+.rec-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);margin-top:6px}
+.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.tip strong{color:var(--white)}
+.cta{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
-.recalc-btn{padding:11px 24px;background:transparent;color:var(--orange);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:1px solid rgba(249,115,22,0.3);cursor:pointer;transition:all .2s}
-.recalc-btn:hover{background:rgba(249,115,22,0.1)}
-@media(max-width:768px){.grid-2,.grid-3,.breakdown-grid,.check-grid{grid-template-columns:1fr}.steps{gap:4px}.step{padding:6px 10px;font-size:0.62rem}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){.grid-2,.stats,.opt-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.stats{grid-template-columns:1fr 1fr}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">❄️</span>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase">Calculadora profesional</span>
-    </div>
-    <h1>Calculadora de <span>BTU / HVAC</span></h1>
-    <p>Determina exactamente qué capacidad de aire acondicionado necesitas para tu espacio considerando todos los factores que afectan la carga térmica.</p>
+  <div class="header">
+    <div class="badge"><span>Fórmula ASHRAE verificada</span></div>
+    <h1>Calculadora <em>BTU / HVAC</em></h1>
+    <p>Calcula la capacidad exacta de aire acondicionado que necesitas usando la fórmula estándar de la industria (ASHRAE), calibrada para el clima de Puerto Rico.</p>
   </div>
 
-  <!-- STEPS -->
-  <div class="steps">
-    <div class="step active" id="step-1"><div class="step-num">1</div>Espacio</div>
-    <div class="step" id="step-2"><div class="step-num">2</div>Exposición solar</div>
-    <div class="step" id="step-3"><div class="step-num">3</div>Tipo de local</div>
-    <div class="step" id="step-4"><div class="step-num">4</div>Ocupantes</div>
-    <div class="step" id="step-5"><div class="step-num">5</div>Equipos</div>
-    <div class="step" id="step-r"><div class="step-num">✓</div>Resultado</div>
-  </div>
+  <div class="grid-2">
+    <div>
+      <div class="card">
+        <div class="card-title">Dimensiones del espacio</div>
+        <div class="field">
+          <label>Largo (pies) <span id="lbl-largo">20</span></label>
+          <input type="range" id="sl-largo" min="8" max="100" value="20" oninput="update()">
+        </div>
+        <div class="field">
+          <label>Ancho (pies) <span id="lbl-ancho">15</span></label>
+          <input type="range" id="sl-ancho" min="8" max="100" value="15" oninput="update()">
+        </div>
+        <div class="field">
+          <label>Alto del techo (pies) <span id="lbl-alto">9</span></label>
+          <input type="range" id="sl-alto" min="7" max="20" value="9" oninput="update()">
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>7 pies</span><span>10 pies</span><span>15 pies</span><span>20 pies</span></div>
+        </div>
+        <div class="field">
+          <label>Número de personas <span id="lbl-personas">3</span></label>
+          <input type="range" id="sl-personas" min="1" max="50" value="3" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Cada persona genera ~600 BTU/hr</div>
+        </div>
+      </div>
 
-  <!-- SECTION 1: ESPACIO -->
-  <div class="section active" id="sec-1" style="animation:fadeUp .4s ease">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Dimensiones del espacio
-      </div>
-      <div class="grid-3">
-        <div class="f-group">
-          <div class="f-label">Largo (pies)</div>
-          <input type="number" id="largo" placeholder="Ej: 20" min="5" max="200" oninput="liveCalc()">
-        </div>
-        <div class="f-group">
-          <div class="f-label">Ancho (pies)</div>
-          <input type="number" id="ancho" placeholder="Ej: 15" min="5" max="200" oninput="liveCalc()">
-        </div>
-        <div class="f-group">
-          <div class="f-label">Altura del techo (pies)</div>
-          <input type="number" id="alto" placeholder="Ej: 9" min="6" max="30" oninput="liveCalc()">
-        </div>
-      </div>
-      <div class="f-group" id="area-display" style="background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:8px;padding:14px;display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div style="font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em">Área del espacio</div><div style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--orange)" id="area-val">0 ft²</div></div>
-          <div style="text-align:right"><div style="font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em">Volumen</div><div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white)" id="vol-val">0 ft³</div></div>
+      <div class="card">
+        <div class="card-title">Exposición solar</div>
+        <div class="opt-grid">
+          <div class="opt sel" onclick="selOpt('solar','bajo',this)">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            <div><div class="opt-text">Sombra / norte</div><div class="opt-sub">Poco sol directo</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('solar','medio',this)">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            <div><div class="opt-text">Solar moderado</div><div class="opt-sub">Este u oeste</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('solar','alto',this)">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            <div><div class="opt-text">Sol directo sur</div><div class="opt-sub">Mucho calor solar</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('solar','extremo',this)">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+            <div><div class="opt-text">Techo caliente</div><div class="opt-sub">Sin aislamiento</div></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-        Tipo de construcción
-      </div>
-      <div class="opt-grid" style="grid-template-columns:1fr 1fr">
-        <div class="opt-btn sel" onclick="selOpt('construccion','concreto',this)">
-          <div class="opt-icon">🏗️</div>
-          <div><div class="opt-name">Concreto / Block</div><div class="opt-desc">Paredes de hormigón o block</div></div>
+    <div>
+      <div class="card">
+        <div class="card-title">Tipo de espacio</div>
+        <div class="opt-grid">
+          <div class="opt sel" onclick="selOpt('tipo','dormitorio',this)">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div><div class="opt-text">Dormitorio</div><div class="opt-sub">Carga baja</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('tipo','sala',this)">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+            <div><div class="opt-text">Sala / comedor</div><div class="opt-sub">Carga media</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('tipo','oficina',this)">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <div><div class="opt-text">Oficina</div><div class="opt-sub">Equipos + personas</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('tipo','cocina',this)">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+            <div><div class="opt-text">Cocina / restaurante</div><div class="opt-sub">Carga muy alta</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('tipo','comercio',this)">
+            <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <div><div class="opt-text">Comercio / tienda</div><div class="opt-sub">Alta ocupación</div></div>
+          </div>
+          <div class="opt" onclick="selOpt('tipo','servidor',this)">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            <div><div class="opt-text">Cuarto de servidores</div><div class="opt-sub">Carga extrema</div></div>
+          </div>
         </div>
-        <div class="opt-btn" onclick="selOpt('construccion','madera',this)">
-          <div class="opt-icon">🪵</div>
-          <div><div class="opt-name">Madera / Mixto</div><div class="opt-desc">Estructura de madera o metal</div></div>
-        </div>
       </div>
-    </div>
 
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-        Piso del edificio
-      </div>
-      <div class="f-group">
-        <div class="f-label">¿En qué piso está el espacio? <span id="lbl-piso">1er piso</span></div>
-        <input type="range" id="sl-piso" min="1" max="10" value="1" oninput="updatePiso()">
-        <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1er piso</span><span>5to</span><span>10mo+</span></div>
-      </div>
-      <div style="font-size:0.78rem;color:var(--gray);background:rgba(0,0,0,0.2);border-radius:8px;padding:12px" id="piso-info">Los pisos más altos reciben más radiación solar directa y requieren mayor capacidad.</div>
-    </div>
-
-    <div class="nav-btns">
-      <button class="btn-next" onclick="goStep(2)">Siguiente → Exposición Solar</button>
-    </div>
-  </div>
-
-  <!-- SECTION 2: EXPOSICIÓN SOLAR -->
-  <div class="section" id="sec-2">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        Orientación principal
-      </div>
-      <div class="opt-grid" style="grid-template-columns:repeat(4,1fr)">
-        <div class="opt-btn" onclick="selOpt('orientacion','norte',this)" style="flex-direction:column;text-align:center;padding:16px 8px">
-          <div style="font-size:1.5rem">⬆️</div>
-          <div class="opt-name" style="margin-top:6px">Norte</div>
-          <div class="opt-desc">Menos sol directo</div>
+      <div class="card">
+        <div class="card-title">Equipos que generan calor</div>
+        <div class="field">
+          <label>Computadoras / estaciones <span id="lbl-pcs">2</span></label>
+          <input type="range" id="sl-pcs" min="0" max="30" value="2" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~400 BTU/hr por equipo de escritorio</div>
         </div>
-        <div class="opt-btn sel" onclick="selOpt('orientacion','sur',this)" style="flex-direction:column;text-align:center;padding:16px 8px">
-          <div style="font-size:1.5rem">⬇️</div>
-          <div class="opt-name" style="margin-top:6px">Sur</div>
-          <div class="opt-desc">Sol moderado</div>
+        <div class="field">
+          <label>Televisores / pantallas <span id="lbl-tvs">1</span></label>
+          <input type="range" id="sl-tvs" min="0" max="20" value="1" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~350 BTU/hr por TV 55"</div>
         </div>
-        <div class="opt-btn" onclick="selOpt('orientacion','este',this)" style="flex-direction:column;text-align:center;padding:16px 8px">
-          <div style="font-size:1.5rem">➡️</div>
-          <div class="opt-name" style="margin-top:6px">Este</div>
-          <div class="opt-desc">Sol mañana</div>
+        <div class="field">
+          <label>Equipos de cocina (freidoras, planchas) <span id="lbl-cocina">0</span></label>
+          <input type="range" id="sl-cocina" min="0" max="10" value="0" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~8,500 BTU/hr por freidora industrial</div>
         </div>
-        <div class="opt-btn" onclick="selOpt('orientacion','oeste',this)" style="flex-direction:column;text-align:center;padding:16px 8px">
-          <div style="font-size:1.5rem">⬅️</div>
-          <div class="opt-name" style="margin-top:6px">Oeste</div>
-          <div class="opt-desc">Sol tarde ☀️ máximo</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
-        Ventanas y cristal
-      </div>
-      <div class="grid-2">
-        <div class="f-group">
-          <div class="f-label">Número de ventanas <span id="lbl-vents">2</span></div>
-          <input type="range" id="sl-vents" min="0" max="20" value="2" oninput="document.getElementById('lbl-vents').textContent=this.value">
-        </div>
-        <div class="f-group">
-          <div class="f-label">Tamaño promedio ventanas</div>
-          <select id="sel-vent-size">
-            <option value="small">Pequeñas (menos de 3ft × 3ft)</option>
-            <option value="medium" selected>Medianas (3ft × 4ft)</option>
-            <option value="large">Grandes (4ft × 5ft o más)</option>
+        <div class="field">
+          <label>Aislamiento del techo</label>
+          <select id="sel-aislamiento" onchange="update()">
+            <option value="bueno">Bueno — aislamiento moderno, techo fresco</option>
+            <option value="regular" selected>Regular — aislamiento básico</option>
+            <option value="malo">Malo — sin aislamiento, techo caliente</option>
           </select>
         </div>
       </div>
-      <div class="f-group">
-        <div class="f-label" style="margin-bottom:8px">Paredes de cristal / vidrio</div>
-        <div class="opt-grid" style="grid-template-columns:repeat(3,1fr)">
-          <div class="opt-btn sel" onclick="selOpt('cristal','ninguna',this)"><div class="opt-icon">🧱</div><div><div class="opt-name">Ninguna</div><div class="opt-desc">Sin paredes de vidrio</div></div></div>
-          <div class="opt-btn" onclick="selOpt('cristal','parcial',this)"><div class="opt-icon">🪟</div><div><div class="opt-name">Parcial</div><div class="opt-desc">1-2 paredes con vidrio</div></div></div>
-          <div class="opt-btn" onclick="selOpt('cristal','total',this)"><div class="opt-icon">🏢</div><div><div class="opt-name">Total</div><div class="opt-desc">3-4 paredes de vidrio</div></div></div>
-        </div>
-      </div>
-      <div class="f-group">
-        <div class="f-label" style="margin-bottom:8px">¿Tiene techo expuesto al sol?</div>
-        <div class="opt-grid" style="grid-template-columns:1fr 1fr 1fr">
-          <div class="opt-btn sel" onclick="selOpt('techo','no',this)"><div class="opt-icon">🏢</div><div><div class="opt-name">No</div><div class="opt-desc">Hay piso arriba</div></div></div>
-          <div class="opt-btn" onclick="selOpt('techo','parcial',this)"><div class="opt-icon">🌤️</div><div><div class="opt-name">Parcial</div><div class="opt-desc">Techo con aislamiento</div></div></div>
-          <div class="opt-btn" onclick="selOpt('techo','si',this)"><div class="opt-icon">☀️</div><div><div class="opt-name">Sí directo</div><div class="opt-desc">Techo expuesto al sol</div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(1)">← Anterior</button>
-      <button class="btn-next" onclick="goStep(3)">Siguiente → Tipo de Local</button>
-    </div>
-  </div>
-
-  <!-- SECTION 3: TIPO DE LOCAL -->
-  <div class="section" id="sec-3">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Tipo de espacio / local
-      </div>
-      <div class="opt-grid" style="grid-template-columns:1fr 1fr">
-        <div class="opt-btn sel" onclick="selOpt('local','oficina',this)"><div class="opt-icon">💼</div><div><div class="opt-name">Oficina</div><div class="opt-desc">Trabajo administrativo, escritorios</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','residencia',this)"><div class="opt-icon">🏠</div><div><div class="opt-name">Residencia</div><div class="opt-desc">Casa, apartamento, cuarto</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','salon',this)"><div class="opt-icon">✂️</div><div><div class="opt-name">Salón / Barbería</div><div class="opt-desc">Secadores, planchas, equipos estéticos</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','restaurante',this)"><div class="opt-icon">🍽️</div><div><div class="opt-name">Restaurante / Café</div><div class="opt-desc">Cocina, equipos de calor intenso</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','gimnasio',this)"><div class="opt-icon">🏋️</div><div><div class="opt-name">Gimnasio</div><div class="opt-desc">Alta densidad de personas, actividad física</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','tienda',this)"><div class="opt-icon">🛍️</div><div><div class="opt-name">Tienda / Comercio</div><div class="opt-desc">Retail, boutique, farmacia</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','servidor',this)"><div class="opt-icon">🖥️</div><div><div class="opt-name">Cuarto de Servidores</div><div class="opt-desc">Racks, equipos IT, alta disipación</div></div></div>
-        <div class="opt-btn" onclick="selOpt('local','medico',this)"><div class="opt-icon">🏥</div><div><div class="opt-name">Clínica / Médico</div><div class="opt-desc">Consultorios, equipos médicos</div></div></div>
-      </div>
-    </div>
-
-    <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(2)">← Anterior</button>
-      <button class="btn-next" onclick="goStep(4)">Siguiente → Ocupantes</button>
-    </div>
-  </div>
-
-  <!-- SECTION 4: OCUPANTES -->
-  <div class="section" id="sec-4">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Personas en el espacio
-      </div>
-      <div class="f-group">
-        <div class="f-label">Número máximo de personas <span id="lbl-personas">5</span></div>
-        <input type="range" id="sl-personas" min="1" max="100" value="5" oninput="document.getElementById('lbl-personas').textContent=this.value">
-        <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1</span><span>25</span><span>50</span><span>100</span></div>
-      </div>
-      <div class="f-group">
-        <div class="f-label" style="margin-bottom:8px">Nivel de actividad física</div>
-        <div class="opt-grid" style="grid-template-columns:repeat(3,1fr)">
-          <div class="opt-btn sel" onclick="selOpt('actividad','baja',this)"><div class="opt-icon">🧘</div><div><div class="opt-name">Baja</div><div class="opt-desc">Sentados, oficina, descanso</div></div></div>
-          <div class="opt-btn" onclick="selOpt('actividad','media',this)"><div class="opt-icon">🚶</div><div><div class="opt-name">Media</div><div class="opt-desc">De pie, caminando, trabajo manual</div></div></div>
-          <div class="opt-btn" onclick="selOpt('actividad','alta',this)"><div class="opt-icon">🏃</div><div><div class="opt-name">Alta</div><div class="opt-desc">Ejercicio, trabajo físico intenso</div></div></div>
-        </div>
-      </div>
-      <div class="f-group">
-        <div class="f-label">Temperatura deseada interior (°F) <span id="lbl-temp">72</span>°F</div>
-        <input type="range" id="sl-temp" min="65" max="78" value="72" oninput="document.getElementById('lbl-temp').textContent=this.value+'°F'.replace('°F°F','°F')">
-        <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>65°F Frío</span><span>72°F Ideal</span><span>78°F Suave</span></div>
-      </div>
-    </div>
-
-    <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(3)">← Anterior</button>
-      <button class="btn-next" onclick="goStep(5)">Siguiente → Equipos</button>
-    </div>
-  </div>
-
-  <!-- SECTION 5: EQUIPOS -->
-  <div class="section" id="sec-5">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        Equipos que generan calor
-      </div>
-      <p style="font-size:0.8rem;color:var(--gray);margin-bottom:18px;line-height:1.6">Selecciona todos los equipos presentes. Cada uno genera calor que el aire acondicionado debe contrarrestar.</p>
-
-      <div class="check-grid" id="equipos-checks">
-        <div class="check-item" onclick="toggleEquipo(this,'computadora',350)">
-          <input type="checkbox" value="350">
-          <div><div class="check-label">💻 Computadoras / Laptops</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~350 BTU/h cada una</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'monitor',200)">
-          <input type="checkbox" value="200">
-          <div><div class="check-label">🖥️ Monitores grandes</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~200 BTU/h cada uno</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'secador',1500)">
-          <input type="checkbox" value="1500">
-          <div><div class="check-label">💨 Secadores de pelo</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~1,500 BTU/h cada uno</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'plancha',800)">
-          <input type="checkbox" value="800">
-          <div><div class="check-label">♨️ Planchas / Rizadoras</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~800 BTU/h cada una</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'horno',8000)">
-          <input type="checkbox" value="8000">
-          <div><div class="check-label">🍕 Horno / Estufa</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~8,000 BTU/h</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'freidora',6000)">
-          <input type="checkbox" value="6000">
-          <div><div class="check-label">🍟 Freidoras / Parrillas</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~6,000 BTU/h</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'nevera',1200)">
-          <input type="checkbox" value="1200">
-          <div><div class="check-label">🧊 Neveras comerciales</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~1,200 BTU/h cada una</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'servidor',3500)">
-          <input type="checkbox" value="3500">
-          <div><div class="check-label">🖧 Servidores / Racks</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~3,500 BTU/h por rack</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'impresora',500)">
-          <input type="checkbox" value="500">
-          <div><div class="check-label">🖨️ Impresoras láser</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~500 BTU/h cada una</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'tv',300)">
-          <input type="checkbox" value="300">
-          <div><div class="check-label">📺 TVs / Pantallas grandes</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~300 BTU/h cada una</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'maquina_cafe',600)">
-          <input type="checkbox" value="600">
-          <div><div class="check-label">☕ Máquinas de café</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~600 BTU/h</div></div>
-        </div>
-        <div class="check-item" onclick="toggleEquipo(this,'ups',800)">
-          <input type="checkbox" value="800">
-          <div><div class="check-label">🔋 UPS / Baterías</div><div style="font-size:0.62rem;color:var(--gray2);margin-top:2px">~800 BTU/h</div></div>
-        </div>
-      </div>
-
-      <div style="margin-top:16px">
-        <div class="f-label" style="margin-bottom:8px">Iluminación predominante</div>
-        <div class="opt-grid" style="grid-template-columns:repeat(3,1fr)">
-          <div class="opt-btn sel" onclick="selOpt('iluminacion','led',this)"><div class="opt-icon">💡</div><div><div class="opt-name">LED</div><div class="opt-desc">Bajo calor (~400 BTU)</div></div></div>
-          <div class="opt-btn" onclick="selOpt('iluminacion','fluorescente',this)"><div class="opt-icon">🔆</div><div><div class="opt-name">Fluorescente</div><div class="opt-desc">Calor moderado (~1,200 BTU)</div></div></div>
-          <div class="opt-btn" onclick="selOpt('iluminacion','incandescente',this)"><div class="opt-icon">🔦</div><div><div class="opt-name">Incandescente</div><div class="opt-desc">Alto calor (~2,500 BTU)</div></div></div>
-        </div>
-      </div>
-
-      <!-- Cantidades de equipos -->
-      <div id="equipo-cantidades" style="margin-top:16px;display:none">
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Cantidad por equipo seleccionado</div>
-        <div id="cant-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
-      </div>
-    </div>
-
-    <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(4)">← Anterior</button>
-      <button class="btn-next" onclick="calcular()">Calcular BTU →</button>
     </div>
   </div>
 
   <!-- RESULTS -->
-  <div class="section" id="sec-r">
-    <div class="result-hero">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:12px">Capacidad recomendada</div>
-      <div class="btu-num" id="r-btu">0</div>
-      <div style="font-size:1rem;color:var(--gray);margin-top:4px">BTU/hora</div>
-      <div class="ton-num" id="r-ton">0 Toneladas de refrigeración</div>
-      <div style="font-size:0.78rem;color:var(--gray);margin-top:6px" id="r-kw">0 kW</div>
-    </div>
-
-    <div class="breakdown-grid" id="r-breakdown"></div>
-
-    <div class="card" style="margin-bottom:20px">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
-        Unidades recomendadas para tu espacio
-      </div>
-      <div id="r-units"></div>
-    </div>
-
-    <div class="tip-box" id="r-tips"></div>
-
-    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
-      <button class="recalc-btn" onclick="goStep(1)">← Recalcular</button>
-    </div>
-
-    <div class="cta-box">
-      <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Listo para instalar tu sistema?</h3>
-        <p style="font-size:0.78rem;color:var(--gray)">Instalamos, mantenemos y monitoreamos sistemas HVAC en Puerto Rico. Evaluación gratuita en persona.</p>
-      </div>
-      <a href="#" onclick="openLead(); return false;" class="cta-btn">Solicitar evaluación gratis</a>
-    </div>
+  <div class="result-hero">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px">Capacidad recomendada</div>
+    <div class="btu-num" id="r-btu">0 BTU/hr</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin-top:10px" id="r-tons">0 Toneladas</div>
+    <div style="font-size:0.82rem;color:var(--gray);margin-top:6px" id="r-area">Para un área de 0 ft²</div>
   </div>
 
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--orange)" id="s-base">0</div><div class="stat-lbl">BTU base (área)</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-solar">0</div><div class="stat-lbl">BTU solar</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-equipos">0</div><div class="stat-lbl">BTU equipos</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-personas">0</div><div class="stat-lbl">BTU personas</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Desglose del cálculo</div>
+    <div class="breakdown" id="r-breakdown"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Equipo recomendado</div>
+    <div id="r-equipo"></div>
+  </div>
+
+  <div class="tip" id="r-tip"></div>
+
+  <div class="cta">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Quieres una evaluación profesional?</div>
+      <div style="font-size:0.78rem;color:var(--gray)">Nuestros técnicos certificados evalúan tu espacio sin costo.</div>
+    </div>
+    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación gratis</a>
+  </div>
 </div>
 
 <script>
-// STATE
-const state = {
-  construccion: 'concreto',
-  orientacion: 'sur',
-  cristal: 'ninguna',
-  techo: 'no',
-  local: 'oficina',
-  actividad: 'baja',
-  iluminacion: 'led',
-  equipos: {}
-};
+// Estado
+var cfg = { solar: 'bajo', tipo: 'dormitorio' };
 
-let currentStep = 1;
-
-// BTU FACTORS
-const LOCAL_FACTOR = {
-  oficina: 1.0, residencia: 0.9, salon: 1.4, restaurante: 1.6,
-  gimnasio: 1.5, tienda: 1.1, servidor: 2.0, medico: 1.2
-};
-const ORIENT_FACTOR = {norte: 0.95, sur: 1.0, este: 1.05, oeste: 1.15};
-const CONSTRUCCION_FACTOR = {concreto: 1.0, madera: 1.1};
-const CRISTAL_FACTOR = {ninguna: 1.0, parcial: 1.15, total: 1.35};
-const TECHO_FACTOR = {no: 1.0, parcial: 1.1, si: 1.25};
-const ACTIVIDAD_BTU = {baja: 250, media: 500, alta: 750};
-const ILUMINACION_BTU = {led: 400, fluorescente: 1200, incandescente: 2500};
-
-function selOpt(key, val, el) {
-  state[key] = val;
-  const parent = el.closest('.opt-grid') || el.closest('.opt-grid');
-  el.closest('.card, .f-group').querySelectorAll('.opt-btn').forEach(e => e.classList.remove('sel'));
+function selOpt(group, val, el) {
+  cfg[group] = val;
+  // Deselect all in same group
+  el.closest('.opt-grid').querySelectorAll('.opt').forEach(function(e) { e.classList.remove('sel'); });
   el.classList.add('sel');
+  update();
 }
 
-function toggleEquipo(el, key, btu) {
-  el.classList.toggle('sel');
-  const cb = el.querySelector('input[type=checkbox]');
-  cb.checked = el.classList.contains('sel');
-  if (el.classList.contains('sel')) {
-    state.equipos[key] = {btu, qty: 1};
-  } else {
-    delete state.equipos[key];
-  }
-  updateCantGrid();
-}
+function update() {
+  var largo = parseInt(document.getElementById('sl-largo').value);
+  var ancho = parseInt(document.getElementById('sl-ancho').value);
+  var alto = parseInt(document.getElementById('sl-alto').value);
+  var personas = parseInt(document.getElementById('sl-personas').value);
+  var pcs = parseInt(document.getElementById('sl-pcs').value);
+  var tvs = parseInt(document.getElementById('sl-tvs').value);
+  var cocina = parseInt(document.getElementById('sl-cocina').value);
+  var aislamiento = document.getElementById('sel-aislamiento').value;
 
-function updateCantGrid() {
-  const keys = Object.keys(state.equipos);
-  const container = document.getElementById('equipo-cantidades');
-  const grid = document.getElementById('cant-grid');
-  if (keys.length === 0) { container.style.display = 'none'; return; }
-  container.style.display = 'block';
-  const names = {
-    computadora:'Computadoras',monitor:'Monitores',secador:'Secadores',
-    plancha:'Planchas',horno:'Hornos',freidora:'Freidoras',
-    nevera:'Neveras',servidor:'Racks de servidor',impresora:'Impresoras',
-    tv:'TVs/Pantallas',maquina_cafe:'Máq. café',ups:'UPS'
+  document.getElementById('lbl-largo').textContent = largo;
+  document.getElementById('lbl-ancho').textContent = ancho;
+  document.getElementById('lbl-alto').textContent = alto;
+  document.getElementById('lbl-personas').textContent = personas;
+  document.getElementById('lbl-pcs').textContent = pcs;
+  document.getElementById('lbl-tvs').textContent = tvs;
+  document.getElementById('lbl-cocina').textContent = cocina;
+
+  var area = largo * ancho; // ft²
+
+  // ── CARGA BASE ──
+  // ASHRAE: Factor base por tipo de espacio (BTU/hr por ft²)
+  // Estos factores incluyen el calor sensible típico del espacio
+  var factorBase = {
+    dormitorio: 20,   // Baja carga: pocas personas, pocos equipos
+    sala: 25,         // Media: más ocupación variable
+    oficina: 30,      // Media-alta: computadoras, personas, equipos
+    cocina: 50,       // Muy alta: equipos de calor intenso
+    comercio: 35,     // Alta: muchas personas, iluminación, equipos
+    servidor: 100     // Extrema: todo es generación de calor
   };
-  grid.innerHTML = keys.map(k => `
-    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:8px;border:1px solid rgba(249,115,22,0.15)">
-      <div style="font-size:0.75rem;color:var(--white);flex:1">${names[k]||k}</div>
-      <input type="number" min="1" max="50" value="${state.equipos[k].qty}" 
-        style="width:50px;padding:4px;text-align:center;font-size:0.8rem;background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.2);border-radius:5px;color:var(--white)"
-        oninput="state.equipos['${k}'].qty=parseInt(this.value)||1">
-    </div>
-  `).join('');
-}
 
-function liveCalc() {
-  const l = parseFloat(document.getElementById('largo').value)||0;
-  const a = parseFloat(document.getElementById('ancho').value)||0;
-  const h = parseFloat(document.getElementById('alto').value)||0;
-  if (l && a) {
-    const area = l * a;
-    const vol = l * a * h;
-    document.getElementById('area-display').style.display = 'block';
-    document.getElementById('area-val').textContent = area.toLocaleString() + ' ft²';
-    document.getElementById('vol-val').textContent = vol.toLocaleString() + ' ft³';
+  var btuBase = area * (factorBase[cfg.tipo] || 25);
+
+  // ── FACTOR DE TECHO ALTO ──
+  // Si el techo es mayor a 8 pies se añade carga adicional
+  // Factor: (altura - 8) * área * 1.5 BTU/ft³ adicional
+  var btuTecho = 0;
+  if (alto > 8) {
+    btuTecho = (alto - 8) * area * 1.5;
   }
+
+  // ── CARGA SOLAR ──
+  // Factores de ganancia solar según orientación y PR (clima tropical)
+  var factorSolar = { bajo: 0, medio: area * 3, alto: area * 6, extremo: area * 10 };
+  var btuSolar = factorSolar[cfg.solar] || 0;
+
+  // Factor de aislamiento modifica la carga solar y base
+  var factorAislamiento = { bueno: 1.0, regular: 1.15, malo: 1.35 };
+  var fAisl = factorAislamiento[aislamiento] || 1.15;
+  btuBase = btuBase * fAisl;
+  btuTecho = btuTecho * fAisl;
+
+  // ── CARGA DE PERSONAS ──
+  // ASHRAE: 600 BTU/hr por persona en actividad ligera (oficina, hogar)
+  // 750 BTU/hr en actividad moderada (comercio)
+  var btuPersonas = personas * 600;
+
+  // ── CARGA DE EQUIPOS ──
+  // Computadoras desktop: ~400 BTU/hr (117W × 3.41)
+  // Laptops: ~170 BTU/hr (50W × 3.41) — usamos desktop como conservador
+  var btuPcs = pcs * 400;
+  // Televisores 55": ~350 BTU/hr (100W × 3.41)
+  var btuTvs = tvs * 350;
+  // Freidora industrial: ~8,500 BTU/hr (2,500W × 3.41)
+  var btuCocina = cocina * 8500;
+  var btuEquipos = btuPcs + btuTvs + btuCocina;
+
+  // ── FACTOR PR (humedad tropical) ──
+  // Puerto Rico tiene humedad relativa promedio de 70-80%
+  // Se añade 10% de carga latente para manejar la humedad
+  var factorHumedad = 1.10;
+
+  // ── TOTAL ──
+  var btuTotal = (btuBase + btuTecho + btuSolar + btuPersonas + btuEquipos) * factorHumedad;
+
+  // ── MARGEN DE SEGURIDAD ──
+  // Se recomienda 10% de margen para asegurar que el equipo no trabaje al 100% todo el tiempo
+  var btuFinal = Math.round(btuTotal * 1.10);
+
+  // Convertir a toneladas (1 tonelada = 12,000 BTU/hr)
+  var tons = btuFinal / 12000;
+
+  // Actualizar UI
+  document.getElementById('r-btu').textContent = btuFinal.toLocaleString() + ' BTU/hr';
+  document.getElementById('r-tons').textContent = tons.toFixed(2) + ' Toneladas (' + (tons / 0.5).toFixed(1) + ' HP)';
+  document.getElementById('r-area').textContent = 'Para un área de ' + area.toLocaleString() + ' ft² con techo de ' + alto + ' pies';
+  document.getElementById('s-base').textContent = Math.round(btuBase).toLocaleString();
+  document.getElementById('s-solar').textContent = Math.round(btuSolar).toLocaleString();
+  document.getElementById('s-equipos').textContent = Math.round(btuEquipos).toLocaleString();
+  document.getElementById('s-personas').textContent = Math.round(btuPersonas).toLocaleString();
+
+  // Desglose
+  var rows = [
+    { name: 'Carga base del espacio (' + area + ' ft² × ' + (factorBase[cfg.tipo] || 25) + ' BTU/ft² × factor aislamiento)', val: Math.round(btuBase) },
+    { name: 'Carga por techo alto (' + alto + ' pies)', val: Math.round(btuTecho) },
+    { name: 'Ganancia solar (' + cfg.solar + ')', val: Math.round(btuSolar) },
+    { name: 'Personas (' + personas + ' × 600 BTU/hr)', val: Math.round(btuPersonas) },
+    { name: 'Equipos electrónicos (' + pcs + ' PCs, ' + tvs + ' TVs, ' + cocina + ' equipos cocina)', val: Math.round(btuEquipos) },
+    { name: 'Subtotal', val: Math.round(btuTotal / 1.10) },
+    { name: 'Factor humedad PR (+10%)', val: Math.round(btuTotal - btuTotal / 1.10) },
+    { name: 'Margen de seguridad (+10%)', val: Math.round(btuFinal - btuTotal) },
+    { name: 'TOTAL RECOMENDADO', val: btuFinal }
+  ];
+
+  document.getElementById('r-breakdown').innerHTML = rows.map(function(r, i) {
+    var isTotal = i === rows.length - 1;
+    return '<div class="bk-row">' +
+      '<div class="bk-name" style="' + (isTotal ? 'color:var(--white)' : '') + '">' + r.name + '</div>' +
+      '<div class="bk-val" style="' + (isTotal ? 'font-size:1.1rem' : '') + '">' + r.val.toLocaleString() + ' BTU/hr</div>' +
+      '</div>';
+  }).join('');
+
+  // Equipo recomendado
+  renderEquipo(btuFinal, tons);
+  renderTip(btuFinal, tons, area, alto, cfg.tipo);
 }
 
-function updatePiso() {
-  const p = document.getElementById('sl-piso').value;
-  const labels = {1:'1er piso',2:'2do piso',3:'3er piso',4:'4to piso',5:'5to piso',6:'6to piso',7:'7mo piso',8:'8vo piso',9:'9no piso',10:'10mo piso o más'};
-  document.getElementById('lbl-piso').textContent = labels[p]||p+'to piso';
-  const infos = {
-    1:'Primer piso — temperatura ambiente estándar. Factor base de cálculo.',
-    2:'Segundo piso — moderada exposición solar adicional en techo.',
-    3:'Tercer piso en adelante — mayor radiación solar, +5-10% de capacidad recomendada.',
-    5:'Quinto piso — significativa carga solar adicional, +15% de capacidad.',
-    8:'Piso alto — máxima exposición solar, hasta +20% de capacidad adicional.',
-    10:'Piso superior — exposición solar máxima, considera +25% de capacidad.'
-  };
-  const closest = [1,2,3,5,8,10].reduce((a,b) => Math.abs(b-p) < Math.abs(a-p) ? b : a);
-  document.getElementById('piso-info').textContent = infos[closest];
-}
+function renderEquipo(btu, tons) {
+  var equipos = [];
 
-function goStep(n) {
-  document.getElementById('sec-'+(currentStep===6?'r':currentStep)).classList.remove('active');
-  document.getElementById('step-'+(currentStep===6?'r':currentStep)).classList.remove('active');
-  if (currentStep > 1) document.getElementById('step-'+(currentStep===6?'r':currentStep)).classList.add('done');
-  currentStep = n;
-  const secId = n > 5 ? 'sec-r' : 'sec-'+n;
-  const stepId = n > 5 ? 'step-r' : 'step-'+n;
-  document.getElementById(secId).classList.add('active');
-  document.getElementById(stepId).classList.add('active');
-  window.scrollTo(0,0);
-}
-
-function calcular() {
-  const largo = parseFloat(document.getElementById('largo').value)||15;
-  const ancho = parseFloat(document.getElementById('ancho').value)||12;
-  const alto = parseFloat(document.getElementById('alto').value)||9;
-  const piso = parseInt(document.getElementById('sl-piso').value)||1;
-  const personas = parseInt(document.getElementById('sl-personas').value)||5;
-  const vents = parseInt(document.getElementById('sl-vents').value)||2;
-  const ventSize = document.getElementById('sel-vent-size').value;
-  const tempDeseada = parseInt(document.getElementById('sl-temp').value)||72;
-  const area = largo * ancho;
-
-  // BTU BASE: 20 BTU por ft²
-  let btuBase = area * 20;
-
-  // Ajuste por altura
-  if (alto > 9) btuBase *= (1 + (alto - 9) * 0.03);
-
-  // Factor orientación
-  btuBase *= ORIENT_FACTOR[state.orientacion];
-
-  // Factor construcción
-  btuBase *= CONSTRUCCION_FACTOR[state.construccion];
-
-  // Factor cristal
-  btuBase *= CRISTAL_FACTOR[state.cristal];
-
-  // Factor techo
-  btuBase *= TECHO_FACTOR[state.techo];
-
-  // Factor piso
-  const pisoFactor = 1 + Math.max(0, (piso - 2)) * 0.03;
-  btuBase *= pisoFactor;
-
-  // Factor local
-  btuBase *= LOCAL_FACTOR[state.local];
-
-  // Temperatura deseada (más frío = más BTU)
-  const tempFactor = 1 + (72 - tempDeseada) * 0.02;
-  btuBase *= tempFactor;
-
-  // VENTANAS
-  const ventBTU = {small: 500, medium: 1000, large: 1800};
-  const btuVentanas = vents * ventBTU[ventSize];
-
-  // PERSONAS
-  const btuPersonas = personas * ACTIVIDAD_BTU[state.actividad];
-
-  // EQUIPOS
-  let btuEquipos = ILUMINACION_BTU[state.iluminacion];
-  Object.values(state.equipos).forEach(eq => { btuEquipos += eq.btu * eq.qty; });
-
-  // TOTAL
-  const totalBTU = Math.round(btuBase + btuVentanas + btuPersonas + btuEquipos);
-  const tons = (totalBTU / 12000).toFixed(1);
-  const kw = (totalBTU / 3412).toFixed(1);
-
-  // Mostrar resultados
-  document.getElementById('r-btu').textContent = totalBTU.toLocaleString();
-  document.getElementById('r-ton').textContent = tons + ' Toneladas de refrigeración';
-  document.getElementById('r-kw').textContent = kw + ' kW';
-
-  // Breakdown
-  document.getElementById('r-breakdown').innerHTML = `
-    <div class="bk-card"><div class="bk-num">${Math.round(btuBase).toLocaleString()}</div><div class="bk-lbl">Base del espacio</div></div>
-    <div class="bk-card"><div class="bk-num">${Math.round(btuPersonas).toLocaleString()}</div><div class="bk-lbl">Personas (${personas})</div></div>
-    <div class="bk-card"><div class="bk-num">${Math.round(btuEquipos + btuVentanas).toLocaleString()}</div><div class="bk-lbl">Equipos y ventanas</div></div>
-  `;
-
-  // Unidades recomendadas
-  const tonsNum = parseFloat(tons);
-  let units = [];
-  if (tonsNum <= 1.5) {
-    units = [
-      {rec:true,name:'Mini Split 18,000 BTU (1.5 Ton)',detail:'Ideal para espacios de hasta 750 ft². Marcas: Carrier, LG, Daikin, Samsung. Eficiencia SEER 16-24. Instalación mínima, silencioso.',icon:'❄️'},
-      {rec:false,name:'Mini Split 24,000 BTU (2 Ton)',detail:'Alternativa con capacidad adicional para días muy calurosos o futura expansión del espacio.',icon:'🌡️'},
-    ];
-  } else if (tonsNum <= 2.5) {
-    units = [
-      {rec:true,name:'Mini Split 24,000 BTU (2 Ton)',detail:'Perfecto para espacios de 750-1,000 ft². Carrier, LG, Daikin. SEER 18-24. Inverter para mayor eficiencia.',icon:'❄️'},
-      {rec:false,name:'Mini Split 30,000 BTU (2.5 Ton)',detail:'Si el espacio tiene alta carga solar o muchos equipos, esta capacidad adicional garantiza confort.',icon:'🌡️'},
-    ];
-  } else if (tonsNum <= 3.5) {
-    units = [
-      {rec:true,name:'Mini Split 36,000 BTU (3 Ton)',detail:'Para espacios de 1,000-1,500 ft². Considera unidades multi-zona si hay varios cuartos.',icon:'❄️'},
-      {rec:false,name:'Sistema Central 3.5 Ton',detail:'Si el espacio tiene múltiples zonas o techos altos, un sistema central distribuye mejor el aire.',icon:'🏠'},
-    ];
-  } else if (tonsNum <= 5) {
-    units = [
-      {rec:true,name:'Sistema Central 4-5 Ton',detail:'Espacios de 1,500-2,000 ft². Sistema centralizado con manejadora de aire y ductos. Carrier, Trane, York.',icon:'🏢'},
-      {rec:false,name:'Multi-Split 2 unidades de 2.5 Ton',detail:'Alternativa: dos mini splits de 30,000 BTU para zonas independientes con control individual.',icon:'❄️'},
-    ];
+  if (tons <= 0.75) {
+    equipos.push({ top: true, name: 'Mini Split 9,000 BTU (0.75 Ton)', detail: 'Ideal para espacios muy pequeños. Eficiente y silencioso. Marcas recomendadas: LG, Carrier, Daikin.', price: 'Desde $950 instalado', seer: 'SEER 18-22' });
+  } else if (tons <= 1.0) {
+    equipos.push({ top: true, name: 'Mini Split 12,000 BTU (1 Ton)', detail: 'El más popular para cuartos y oficinas pequeñas. Excelente relación precio-eficiencia.', price: 'Desde $1,100 instalado', seer: 'SEER 18-25' });
+  } else if (tons <= 1.5) {
+    equipos.push({ top: true, name: 'Mini Split 18,000 BTU (1.5 Ton)', detail: 'Para salas medianas, oficinas y estudios. Alta eficiencia, bajo consumo eléctrico.', price: 'Desde $1,400 instalado', seer: 'SEER 17-22' });
+  } else if (tons <= 2.0) {
+    equipos.push({ top: true, name: 'Mini Split 24,000 BTU (2 Ton)', detail: 'Ideal para espacios hasta 1,000 ft². Tecnología inverter para máxima eficiencia.', price: 'Desde $1,800 instalado', seer: 'SEER 16-21' });
+  } else if (tons <= 3.0) {
+    equipos.push({ top: true, name: 'Mini Split 36,000 BTU (3 Ton)', detail: 'Para espacios grandes o locales comerciales. Sistema inverter de alta capacidad.', price: 'Desde $2,400 instalado', seer: 'SEER 16-20' });
+    equipos.push({ top: false, name: 'Sistema central 3 Ton (si ya tienes ductos)', detail: 'Alternativa si el espacio ya tiene ductos instalados. Mayor costo inicial pero cubre todo el local.', price: 'Desde $3,500 instalado', seer: 'SEER 14-18' });
+  } else if (tons <= 5.0) {
+    equipos.push({ top: true, name: 'Sistema central 4-5 Ton', detail: 'Para locales comerciales medianos. Requiere ductos. Mejor para múltiples zonas.', price: 'Desde $4,500 instalado', seer: 'SEER 14-18' });
+    equipos.push({ top: false, name: 'Multi-split (2-3 unidades de 18,000-24,000 BTU)', detail: 'Alternativa flexible sin ductos. Cada zona se controla independientemente.', price: 'Desde $4,000 instalado', seer: 'SEER 16-20' });
   } else {
-    units = [
-      {rec:true,name:'Sistema Central Comercial 5-10 Ton',detail:'Espacios grandes o comerciales. Requiere ingeniería especializada, ductos y manejadora comercial.',icon:'🏭'},
-      {rec:false,name:'Multi-Split Comercial (3+ unidades)',detail:'Varias unidades de piso/techo o cassette para control por zona. Ideal para oficinas con layout abierto.',icon:'❄️'},
-    ];
+    equipos.push({ top: true, name: 'Sistema central 5+ Ton o VRF comercial', detail: 'Para instalaciones comerciales o industriales grandes. Requiere evaluación profesional y permisos.', price: 'Cotización personalizada', seer: 'SEER 14-20' });
   }
 
-  document.getElementById('r-units').innerHTML = units.map(u => `
-    <div class="unit-card ${u.rec?'recommended':''}">
-      <div class="unit-icon">${u.icon}</div>
-      <div style="flex:1">
-        <div class="unit-badge ${u.rec?'rec':'alt'}">${u.rec?'✓ Recomendado':'Alternativa'}</div>
-        <div class="unit-name">${u.name}</div>
-        <div class="unit-detail">${u.detail}</div>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('r-equipo').innerHTML = equipos.map(function(e) {
+    return '<div class="rec-card ' + (e.top ? 'top' : '') + '">' +
+      (e.top ? '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:6px">Recomendado</div>' : '') +
+      '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">' +
+        '<div class="rec-name">' + e.name + '</div>' +
+        '<div style="font-size:0.7rem;color:var(--bl);font-weight:600">' + e.seer + '</div>' +
+      '</div>' +
+      '<div class="rec-detail">' + e.detail + '</div>' +
+      '<div class="rec-price">' + e.price + '</div>' +
+    '</div>';
+  }).join('');
+}
 
-  // Tips
-  let tips = `<strong>Tu espacio de ${area} ft² con ${personas} personas y carga de ${state.local} requiere ${totalBTU.toLocaleString()} BTU/hora.</strong><br><br>`;
+function renderTip(btu, tons, area, alto, tipo) {
+  var tip = '';
 
-  if (state.local === 'salon') {
-    tips += '✂️ <strong>Para salones de belleza:</strong> Los secadores y planchas generan calor intenso y constante. Considera sobredimensionar un 15-20% para días de alta demanda.<br><br>';
+  if (alto > 10) {
+    tip += '<strong>Techo alto (' + alto + ' pies):</strong> Los techos altos acumulan calor en la parte superior. Para espacios con techo sobre 10 pies considera instalar el A/C más alto o usar ventiladores de techo para mejorar la circulación. El cálculo ya incluye esta carga adicional.<br><br>';
   }
-  if (state.local === 'servidor') {
-    tips += '🖥️ <strong>Para cuartos de servidores:</strong> La temperatura debe mantenerse entre 65-75°F constantemente. Considera redundancia con una segunda unidad de respaldo.<br><br>';
-  }
-  if (state.techo === 'si') {
-    tips += '☀️ <strong>Techo expuesto al sol:</strong> Considera añadir aislamiento al techo para reducir la carga térmica hasta un 20% y ahorrar en electricidad.<br><br>';
-  }
-  if (state.cristal === 'total') {
-    tips += '🪟 <strong>Paredes de cristal:</strong> El vidrio transmite mucho calor. Películas UV o vidrio tintado pueden reducir la carga hasta un 30%.<br><br>';
-  }
-  if (state.orientacion === 'oeste') {
-    tips += '🌅 <strong>Orientación oeste:</strong> Recibes el sol de la tarde (el más intenso en PR). Las persianas o toldos pueden reducir significativamente la carga.<br><br>';
-  }
-  tips += `💡 <strong>Tip de eficiencia:</strong> Una unidad inverter de alta eficiencia (SEER 20+) puede reducir tu factura eléctrica hasta un 40% comparado con unidades convencionales.`;
 
-  document.getElementById('r-tips').innerHTML = tips;
+  if (tipo === 'cocina') {
+    tip += '<strong>Cocina / restaurante:</strong> Las cocinas comerciales son las cargas más intensas. Es crítico calcular bien los BTU de cada equipo (freidoras, planchas, hornos). Un sistema subdimensionado en cocinas falla prematuramente y aumenta el consumo eléctrico.<br><br>';
+  }
 
-  goStep(6);
+  if (tipo === 'servidor') {
+    tip += '<strong>Cuarto de servidores:</strong> Los equipos de IT requieren temperatura constante de 65-75°F (18-24°C) y humedad de 40-60%. Se recomienda un sistema dedicado con redundancia — si falla el A/C los servidores pueden dañarse en minutos.<br><br>';
+  }
+
+  tip += '<strong>Puerto Rico:</strong> El clima tropical de PR (temperatura promedio 85°F, humedad 75%) hace que los sistemas trabajen más que en zonas templadas. El cálculo ya incluye el factor de humedad del 10% adicional recomendado para el Caribe.<br><br>';
+
+  tip += '<strong>Eficiencia SEER:</strong> En PR donde el A/C corre 10-14 horas al día, cada punto de SEER representa ahorro significativo en la factura de la AEE. Un equipo SEER 20 puede ahorrar hasta 35% comparado con uno SEER 13.';
+
+  document.getElementById('r-tip').innerHTML = tip;
 }
 
 // Init
-liveCalc();
+update();
 </script>
-
-
-<!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
-
-    <!-- LOGGED IN STATE -->
-    <div id="lead-loggedin" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
-        <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
-        </div>
-      </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-      </div>
-    </div>
-
-    <!-- GUEST STATE -->
-    <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
-
-      <!-- AUTH OPTIONS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
-        <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
-        </div>
-        <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
-        </div>
-      </div>
-
-      <!-- GUEST FORM -->
-      <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-        </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
-        </div>
-      </div>
-
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
-    <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script>
-var _leadData = {};
-var _wifnixUser = null;
-
-// Check if user is logged in via portal session
-try {
-  var stored = localStorage.getItem('wifnix_user');
-  if (stored) _wifnixUser = JSON.parse(stored);
-} catch(e) {}
-
-function openLead(title, summary, datos, estimado, herramienta) {
-  _leadData = { datos: datos||{}, estimado: estimado||'', herramienta: herramienta||document.title };
-  document.getElementById('lead-overlay').style.display = 'flex';
-
-  if (_wifnixUser && _wifnixUser.nombre) {
-    // Logged in
-    document.getElementById('lead-loggedin').style.display = 'block';
-    document.getElementById('lead-guest').style.display = 'none';
-    var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
-    document.getElementById('lead-avatar').textContent = initials.toUpperCase();
-    document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
-    if (title) document.getElementById('lead-modal-title-li').textContent = title;
-    if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
-  } else {
-    // Guest
-    document.getElementById('lead-loggedin').style.display = 'none';
-    document.getElementById('lead-guest').style.display = 'block';
-    document.getElementById('guest-form').style.display = 'none';
-    if (title) document.getElementById('lead-modal-title').textContent = title;
-    if (summary) document.getElementById('lead-summary').innerHTML = summary;
-  }
-}
-
-function showGuestForm() {
-  document.getElementById('guest-form').style.display = 'block';
-  document.getElementById('lead-nombre').focus();
-}
-
-function goToPortal() {
-  // Save current tool data to sessionStorage so portal can use it
-  try {
-    sessionStorage.setItem('lead_pending', JSON.stringify(_leadData));
-  } catch(e) {}
-  window.open('https://portal.wifnix.com', '_blank');
-}
-
-function closeLead() {
-  document.getElementById('lead-overlay').style.display = 'none';
-  document.getElementById('lead-success').style.display = 'none';
-}
-
-function submitLead() {
-  var nombre = document.getElementById('lead-nombre').value.trim();
-  var email = document.getElementById('lead-email').value.trim();
-  var tel = document.getElementById('lead-tel').value.trim();
-  var alertEl = document.getElementById('lead-alert');
-  if (!nombre || !email) {
-    alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
-    return;
-  }
-  sendLead(nombre, email, tel, '');
-}
-
-function submitLeadLoggedIn() {
-  if (!_wifnixUser) return;
-  var msg = document.getElementById('lead-msg').value.trim();
-  sendLead(_wifnixUser.nombre + ' ' + (_wifnixUser.apellido||''), _wifnixUser.email, _wifnixUser.telefono||'', msg);
-}
-
-function sendLead(nombre, email, tel, msg) {
-  var datos = Object.assign({}, _leadData.datos);
-  if (msg) datos.mensaje = msg;
-  if (_wifnixUser) datos.numero_cliente = _wifnixUser.num||'';
-
-  fetch('https://api.wifnix.com/api/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      nombre: nombre,
-      email: email,
-      telefono: tel,
-      herramienta: _leadData.herramienta,
-      datos: datos,
-      estimado: _leadData.estimado
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function() {
-    document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
-    document.getElementById('lead-success').style.display = 'flex';
-  })
-  .catch(function() {
-    var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
-  });
-}
-
-document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
-document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
-</script>
-
 </body>
 </html>

@@ -6,102 +6,103 @@
 <title>Evaluador de Continuidad Operacional — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
 .header{text-align:center;margin-bottom:40px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
+.badge span{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--orange)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--orange);font-style:normal}
+.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:14px;padding:28px;margin-bottom:18px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:20px}
-.f-group{margin-bottom:16px}
-.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:flex;justify-content:space-between}
-.f-label span{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:800;color:var(--orange)}
+.card{background:var(--card);border:1px solid rgba(249,115,22,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.field{margin-bottom:14px}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange)}
 input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
-input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
-select{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+input[type=number],select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.12);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
 select option{background:var(--navy)}
 .chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(249,115,22,0.1);border-radius:8px;cursor:pointer;transition:all .2s}
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(249,115,22,0.08);border-radius:8px;cursor:pointer;transition:all .2s}
 .chk-item:hover{border-color:rgba(249,115,22,0.3)}
-.chk-item.sel{border-color:var(--orange);background:rgba(249,115,22,0.08)}
-.chk-item input{accent-color:var(--orange);margin-top:2px;flex-shrink:0}
-.chk-text{font-size:0.78rem;color:var(--gray);line-height:1.4}
-.chk-item.sel .chk-text{color:var(--white)}
-.results-hero{background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(13,26,42,0.9));border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
-.score-circle{width:120px;height:120px;border-radius:50%;border:4px solid;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;flex-direction:column}
+.chk-item.sel{border-color:var(--orange);background:rgba(249,115,22,0.06)}
+.chk-item input{accent-color:var(--orange);margin-top:2px;flex-shrink:0;width:14px;height:14px}
+.chk-name{font-size:0.78rem;color:var(--gray);line-height:1.4}
+.chk-item.sel .chk-name{color:var(--white)}
+.chk-sub{font-size:0.65rem;color:var(--gray2);margin-top:2px}
+.score-wrap{display:flex;align-items:center;gap:24px;padding:24px;background:rgba(0,0,0,0.3);border-radius:12px;margin-bottom:20px;flex-wrap:wrap}
+.score-circle{width:100px;height:100px;border-radius:50%;border:4px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
 .score-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1}
-.score-lbl{font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.1);border-radius:10px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;line-height:1;margin-bottom:4px}
+.score-lbl{font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.08);border-radius:10px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
 .stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
-.rec-item{display:flex;gap:14px;padding:14px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(249,115,22,0.1);margin-bottom:10px}
-.rec-priority{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;flex-shrink:0;margin-top:2px}
-.rec-content-title{font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:3px}
-.rec-content-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
-.rec-content-price{font-size:0.72rem;color:var(--orange);font-weight:600;margin-top:4px}
-.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--orange);margin-bottom:16px}
-.tip-box strong{color:var(--white)}
-.cta-box{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rec-item{display:flex;gap:14px;padding:14px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(249,115,22,0.08);margin-bottom:10px;align-items:flex-start}
+.rec-prio{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;flex-shrink:0}
+.rec-title{font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:3px}
+.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
+.rec-price{font-size:0.72rem;color:var(--orange);font-weight:600;margin-top:4px}
+.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.tip strong{color:var(--white)}
+.source{font-size:0.65rem;color:var(--gray2);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.6;margin-top:10px}
+.cta{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
-@media(max-width:768px){.grid-2,.stats-row,.chk-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.grid-2,.stats,.chk-grid{grid-template-columns:1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">⚡</span>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase">Evaluación de riesgo</span>
-    </div>
-    <h1>Evaluador de <span>Continuidad Operacional</span></h1>
-    <p>¿Cuánto pierde tu negocio cuando se va la luz o el internet? Evalúa tu vulnerabilidad y obtén un plan de continuidad personalizado.</p>
+  <div class="header">
+    <div class="badge"><span>Calibrado para Puerto Rico</span></div>
+    <h1>Evaluador de <em>Continuidad Operacional</em></h1>
+    <p>Evalúa tu vulnerabilidad ante apagones e interrupciones de internet en Puerto Rico. Calcula el impacto económico real y obtén un plan de continuidad personalizado.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">💼 Tu operación</div>
-        <div class="f-group">
-          <div class="f-label">Ingresos por hora de operación ($) <span id="lbl-ingreso">$125</span></div>
+        <div class="card-title">Tu operación</div>
+        <div class="field">
+          <label>Ingresos por hora de operación ($) <span id="lbl-ingreso">$125</span></label>
           <input type="range" id="sl-ingreso" min="10" max="2000" step="10" value="125" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Ventas/mes ÷ horas abiertas al mes</div>
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Ventas mensuales ÷ horas operativas al mes</div>
         </div>
-        <div class="f-group">
-          <div class="f-label">Horas de operación al día <span id="lbl-hrs">10</span>h</div>
+        <div class="field">
+          <label>Horas de operación al día <span id="lbl-hrs">10</span>h</label>
           <input type="range" id="sl-hrs" min="1" max="24" value="10" oninput="update()">
         </div>
-        <div class="f-group">
-          <div class="f-label">Empleados que no pueden trabajar sin luz/internet <span id="lbl-emp">5</span></div>
+        <div class="field">
+          <label>Empleados que no pueden trabajar sin electricidad <span id="lbl-emp">5</span></label>
           <input type="range" id="sl-emp" min="0" max="50" value="5" oninput="update()">
         </div>
-        <div class="f-group">
-          <div class="f-label">Costo por empleado por hora ($) <span id="lbl-salario">$12</span></div>
+        <div class="field">
+          <label>Costo por empleado/hora ($) <span id="lbl-salario">$12</span></label>
           <input type="range" id="sl-salario" min="7" max="50" value="12" oninput="update()">
         </div>
-        <div class="f-group">
-          <div class="f-label">¿Cuántas veces al mes se va la luz?</div>
+        <div class="field">
+          <label>Frecuencia de apagones en tu área</label>
           <select id="sel-apagones" onchange="update()">
-            <option value="0.5">Raramente (menos de 1 vez/mes)</option>
-            <option value="2" selected>Ocasionalmente (1-3 veces/mes)</option>
-            <option value="6">Frecuentemente (4-8 veces/mes)</option>
-            <option value="15">Muy frecuente (2+ veces/semana)</option>
+            <option value="0.25">Rara vez — menos de 1/mes</option>
+            <option value="2" selected>Ocasional — 1-3 veces/mes</option>
+            <option value="6">Frecuente — 4-8 veces/mes</option>
+            <option value="15">Muy frecuente — 2+ veces/semana</option>
           </select>
         </div>
-        <div class="f-group">
-          <div class="f-label">Duración promedio del apagón</div>
+        <div class="field">
+          <label>Duración promedio del apagón</label>
           <select id="sel-duracion" onchange="update()">
             <option value="0.5">15-30 minutos</option>
-            <option value="1" selected>1 hora</option>
+            <option value="1" selected>Aproximadamente 1 hora</option>
             <option value="2">2-3 horas</option>
             <option value="4">4+ horas</option>
+            <option value="12">Todo el día (12+ horas)</option>
           </select>
         </div>
       </div>
@@ -109,402 +110,258 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">🔌 Dependencias críticas</div>
-        <div style="font-size:0.78rem;color:var(--gray);margin-bottom:12px;line-height:1.6">Selecciona qué sistemas son críticos para tu operación:</div>
-        <div class="chk-grid">
-          <div class="chk-item" onclick="toggleDep(this,'pos',50)"><input type="checkbox"><div><div class="chk-text">💳 Sistema POS / Cobros</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'internet',40)"><input type="checkbox"><div><div class="chk-text">🌐 Internet para operaciones</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'refrigeracion',60)"><input type="checkbox"><div><div class="chk-text">🧊 Refrigeración (productos)</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'cctv',20)"><input type="checkbox"><div><div class="chk-text">📹 Cámaras de seguridad</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'hvac',30)"><input type="checkbox"><div><div class="chk-text">❄️ Aire acondicionado</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'servidores',70)"><input type="checkbox"><div><div class="chk-text">🖥️ Servidores / Datos</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'telefonia',25)"><input type="checkbox"><div><div class="chk-text">📞 Telefonía / Comunicaciones</div></div></div>
-          <div class="chk-item" onclick="toggleDep(this,'produccion',80)"><input type="checkbox"><div><div class="chk-text">⚙️ Equipos de producción</div></div></div>
+        <div class="card-title">Sistemas críticos que dependen de electricidad</div>
+        <div style="font-size:0.78rem;color:var(--gray);margin-bottom:12px;line-height:1.6">Selecciona los que son críticos para tu operación:</div>
+        <div class="chk-grid" id="dep-grid">
+          <div class="chk-item" onclick="toggleDep(this,'pos',60)">
+            <input type="checkbox"><div><div class="chk-name">Sistema POS / Cobros</div><div class="chk-sub">Sin cobrar = sin ventas</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'internet',45)">
+            <input type="checkbox"><div><div class="chk-name">Internet para operaciones</div><div class="chk-sub">Pagos, email, apps</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'refrigeracion',80)">
+            <input type="checkbox"><div><div class="chk-name">Refrigeración (inventario)</div><div class="chk-sub">Pérdida de productos</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'cctv',20)">
+            <input type="checkbox"><div><div class="chk-name">Cámaras de seguridad</div><div class="chk-sub">Sin protección activa</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'hvac',35)">
+            <input type="checkbox"><div><div class="chk-name">Aire acondicionado</div><div class="chk-sub">Clientes/empleados incómodos</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'servidores',75)">
+            <input type="checkbox"><div><div class="chk-name">Servidores / Datos</div><div class="chk-sub">Riesgo de corrupción</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'telefonia',30)">
+            <input type="checkbox"><div><div class="chk-name">Telefonía / Comunicaciones</div><div class="chk-sub">VoIP y comunicaciones</div></div>
+          </div>
+          <div class="chk-item" onclick="toggleDep(this,'produccion',90)">
+            <input type="checkbox"><div><div class="chk-name">Equipos de producción</div><div class="chk-sub">Manufactura / procesos</div></div>
+          </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">🛡️ Protección actual</div>
-        <div class="f-group">
-          <div class="f-label">UPS / Baterías</div>
+        <div class="card-title">Protección actual</div>
+        <div class="field">
+          <label style="margin-bottom:6px">Respaldo eléctrico (UPS)</label>
           <select id="sel-ups" onchange="update()">
-            <option value="no">No tengo</option>
-            <option value="basico">UPS básico (protege 1-2 equipos)</option>
-            <option value="medio">UPS mediano (30 min respaldo)</option>
-            <option value="bueno">UPS de calidad (2+ horas)</option>
+            <option value="0">No tengo UPS</option>
+            <option value="20">UPS básico (protege 1-2 equipos, ~10 min)</option>
+            <option value="50">UPS mediano (equipos críticos, ~30 min)</option>
+            <option value="80">UPS de calidad (todo el local, 2+ horas)</option>
           </select>
         </div>
-        <div class="f-group">
-          <div class="f-label">Backup de internet</div>
+        <div class="field">
+          <label style="margin-bottom:6px">Respaldo de internet</label>
           <select id="sel-internet" onchange="update()">
-            <option value="no">No tengo backup</option>
-            <option value="movil">Uso datos móviles (manual)</option>
-            <option value="auto">Failover automático 4G/LTE</option>
+            <option value="0">Sin respaldo de internet</option>
+            <option value="30">Uso datos móviles manual (hotspot)</option>
+            <option value="70">Failover automático 4G/LTE</option>
           </select>
         </div>
-        <div class="f-group">
-          <div class="f-label">Generador eléctrico</div>
+        <div class="field">
+          <label style="margin-bottom:6px">Generador eléctrico</label>
           <select id="sel-gen" onchange="update()">
-            <option value="no">No tengo</option>
-            <option value="portatil">Portátil (manual, limitado)</option>
-            <option value="auto">Automático (arranca solo)</option>
+            <option value="0">Sin generador</option>
+            <option value="40">Generador portátil (manual, limitado)</option>
+            <option value="90">Generador automático (arranca solo)</option>
           </select>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- RESULTS -->
-  <div class="results-hero">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:16px">Evaluación de continuidad</div>
+  <!-- SCORE -->
+  <div class="score-wrap" id="score-wrap">
     <div class="score-circle" id="score-circle">
       <div class="score-num" id="score-num">0</div>
       <div class="score-lbl" id="score-lbl">—</div>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white)" id="r-nivel">Calculando...</div>
-    <div style="font-size:0.82rem;color:var(--gray);margin-top:6px" id="r-nivel-desc">—</div>
+    <div style="flex:1">
+      <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:6px" id="nivel-txt">Calculando...</div>
+      <div style="font-size:0.82rem;color:var(--gray);line-height:1.6" id="nivel-desc">—</div>
+    </div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat"><div class="stat-num" style="color:var(--error)" id="r-perdida-mes">$0</div><div class="stat-lbl">Pérdida mensual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="r-perdida-ano">$0</div><div class="stat-lbl">Pérdida anual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--orange)" id="r-horas-perdidas">0h</div><div class="stat-lbl">Horas perdidas/mes</div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-perdida-mes">$0</div><div class="stat-lbl">Pérdida mensual estimada</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-perdida-ano">$0</div><div class="stat-lbl">Pérdida anual estimada</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--orange)" id="s-horas">0h</div><div class="stat-lbl">Horas perdidas/mes</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">🎯 Plan de continuidad recomendado</div>
+    <div class="card-title">Plan de continuidad recomendado</div>
     <div id="r-plan"></div>
+    <div class="source">
+      Estadísticas de apagones: PREPA/LUMA Energy · DOE Electricity Reliability Reports 2023 · Post-María Recovery Data.
+      Puerto Rico tiene una de las tasas de interrupción eléctrica más altas de EE.UU.: promedio de 4-8 horas de interrupción al mes.
+    </div>
   </div>
 
-  <div class="tip-box" id="tip-box">Completa la evaluación para ver tu plan de continuidad.</div>
+  <div class="tip" id="r-tip"></div>
 
-  <div class="cta-box">
+  <div class="cta">
     <div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">Protege tu negocio de interrupciones</h3>
-      <p style="font-size:0.78rem;color:var(--gray)">Diseñamos planes de continuidad operacional personalizados para negocios en PR.</p>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">Protege tu negocio de interrupciones</div>
+      <div style="font-size:0.78rem;color:var(--gray)">Diseñamos planes de continuidad para negocios en Puerto Rico. Evaluación gratuita.</div>
     </div>
-    <a href="#" onclick="openLead(); return false;" class="cta-btn">Solicitar evaluación gratis</a>
+    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
   </div>
 </div>
 
 <script>
-const deps = {};
+var deps = {};
 
-function toggleDep(el, key, impact) {
+function toggleDep(el, key, impacto) {
   el.classList.toggle('sel');
-  const cb = el.querySelector('input');
+  var cb = el.querySelector('input');
   cb.checked = el.classList.contains('sel');
-  if (el.classList.contains('sel')) deps[key] = impact;
+  if (el.classList.contains('sel')) deps[key] = impacto;
   else delete deps[key];
   update();
 }
 
 function update() {
-  const ingreso = parseInt(document.getElementById('sl-ingreso').value);
-  const hrs = parseInt(document.getElementById('sl-hrs').value);
-  const emp = parseInt(document.getElementById('sl-emp').value);
-  const salario = parseInt(document.getElementById('sl-salario').value);
-  const apagones = parseFloat(document.getElementById('sel-apagones').value);
-  const duracion = parseFloat(document.getElementById('sel-duracion').value);
-  const ups = document.getElementById('sel-ups').value;
-  const internet_backup = document.getElementById('sel-internet').value;
-  const gen = document.getElementById('sel-gen').value;
+  var ingreso = parseInt(document.getElementById('sl-ingreso').value);
+  var hrs = parseInt(document.getElementById('sl-hrs').value);
+  var emp = parseInt(document.getElementById('sl-emp').value);
+  var salario = parseInt(document.getElementById('sl-salario').value);
+  var apagones = parseFloat(document.getElementById('sel-apagones').value);
+  var duracion = parseFloat(document.getElementById('sel-duracion').value);
+  var protUPS = parseInt(document.getElementById('sel-ups').value);
+  var protInternet = parseInt(document.getElementById('sel-internet').value);
+  var protGen = parseInt(document.getElementById('sel-gen').value);
 
-  document.getElementById('lbl-ingreso').textContent = '$'+ingreso;
-  document.getElementById('lbl-hrs').textContent = hrs+'h';
+  document.getElementById('lbl-ingreso').textContent = '$' + ingreso;
+  document.getElementById('lbl-hrs').textContent = hrs;
   document.getElementById('lbl-emp').textContent = emp;
-  document.getElementById('lbl-salario').textContent = '$'+salario;
+  document.getElementById('lbl-salario').textContent = '$' + salario;
 
-  // Horas perdidas por mes
-  const horasPerdidas = apagones * duracion;
+  // Horas sin servicio por mes
+  var horasPerdidas = apagones * duracion;
 
-  // Pérdida por ventas
-  const perdidaVentas = ingreso * horasPerdidas;
+  // Pérdida de ventas directa
+  var perdidaVentas = ingreso * horasPerdidas;
 
-  // Pérdida por empleados
-  const perdidaEmp = emp * salario * horasPerdidas;
+  // Costo de empleados sin producir
+  var perdidaEmp = emp * salario * horasPerdidas;
 
-  // Pérdida por dependencias críticas
-  const depImpact = Object.values(deps).reduce((a,b)=>a+b,0) / 100;
-  const perdidaDeps = (perdidaVentas + perdidaEmp) * depImpact * 0.5;
+  // Impacto adicional por dependencias críticas
+  // El impacto de cada dependencia se pondera según su criticidad (0-100)
+  var impactoTotal = Object.values(deps).reduce(function(sum, v) { return sum + v; }, 0);
+  var factorDeps = impactoTotal > 0 ? (1 + impactoTotal / 200) : 1; // Factor multiplicador
+  var perdidaDeps = (perdidaVentas + perdidaEmp) * (factorDeps - 1);
 
-  const perdidaMes = perdidaVentas + perdidaEmp + perdidaDeps;
-  const perdidaAno = perdidaMes * 12;
+  var perdidaMes = (perdidaVentas + perdidaEmp + perdidaDeps);
+  var perdidaAno = perdidaMes * 12;
 
-  document.getElementById('r-perdida-mes').textContent = '$'+Math.round(perdidaMes).toLocaleString();
-  document.getElementById('r-perdida-ano').textContent = '$'+Math.round(perdidaAno).toLocaleString();
-  document.getElementById('r-horas-perdidas').textContent = horasPerdidas.toFixed(1)+'h';
+  document.getElementById('s-perdida-mes').textContent = '$' + Math.round(perdidaMes).toLocaleString();
+  document.getElementById('s-perdida-ano').textContent = '$' + Math.round(perdidaAno).toLocaleString();
+  document.getElementById('s-horas').textContent = horasPerdidas.toFixed(1) + 'h';
 
-  // Score de continuidad (100 = perfecto)
-  let score = 20; // Base
-  if (ups === 'basico') score += 15;
-  else if (ups === 'medio') score += 25;
-  else if (ups === 'bueno') score += 35;
-  if (internet_backup === 'movil') score += 10;
-  else if (internet_backup === 'auto') score += 25;
-  if (gen === 'portatil') score += 15;
-  else if (gen === 'auto') score += 20;
-  if (apagones <= 0.5) score += 10;
-  else if (apagones >= 6) score -= 10;
-  score = Math.min(100, Math.max(0, score));
+  // Score de continuidad (0-100)
+  var score = 10; // Score base sin protección
+  score += protUPS * 0.35;      // UPS aporta hasta 28 puntos
+  score += protInternet * 0.30; // Backup internet hasta 21 puntos
+  score += protGen * 0.35;      // Generador hasta 31.5 puntos
 
-  const scoreEl = document.getElementById('score-circle');
-  const scoreNum = document.getElementById('score-num');
-  const scoreLbl = document.getElementById('score-lbl');
-  const nivelEl = document.getElementById('r-nivel');
-  const nivelDesc = document.getElementById('r-nivel-desc');
+  // Penalización por alta frecuencia de apagones
+  if (apagones >= 6) score -= 10;
+  if (apagones >= 15) score -= 10;
 
-  scoreNum.textContent = score;
-  let color, nivel, desc;
-  if (score < 30) { color='var(--error)'; nivel='Crítico'; desc='Tu negocio es altamente vulnerable a interrupciones. Una sola tormenta puede dejarte fuera por días.'; scoreLbl.textContent='Crítico'; }
-  else if (score < 55) { color='var(--warn)'; nivel='Vulnerable'; desc='Tienes protección básica pero insuficiente. Los apagones prolongados afectan significativamente tu operación.'; scoreLbl.textContent='Vulnerable'; }
-  else if (score < 75) { color='var(--orange)'; nivel='Moderado'; desc='Tienes algo de protección pero hay brechas importantes. Puedes mejorar significativamente.'; scoreLbl.textContent='Moderado'; }
-  else { color='var(--success)'; nivel='Protegido'; desc='Buena continuidad operacional. Hay algunos ajustes finos que puedes hacer para llegar al nivel óptimo.'; scoreLbl.textContent='Protegido'; }
+  // Bonificación si tiene múltiples capas
+  if (protUPS > 0 && protGen > 0) score += 5;
+  if (protUPS > 0 && protInternet > 0 && protGen > 0) score += 5;
 
-  scoreEl.style.borderColor = color;
-  scoreNum.style.color = color;
-  nivelEl.textContent = nivel + ' — Score: ' + score + '/100';
-  nivelDesc.textContent = desc;
+  score = Math.min(100, Math.max(0, Math.round(score)));
 
-  // Plan recommendations
-  const recs = [];
-  if (ups === 'no' || ups === 'basico') {
-    recs.push({p:'#1',color:'var(--error)',title:'UPS / Sistema de baterías', detail:'Instala un UPS de calidad que mantenga tus equipos críticos funcionando durante apagones. Para sistemas de 1-5 equipos recomendamos APC Smart-UPS 1500VA.', price:'Desde $900 instalado', priority:1});
-  }
-  if (internet_backup === 'no') {
-    recs.push({p:'#2',color:'var(--warn)',title:'Backup automático de internet (4G/LTE)', detail:'Un failover automático detecta cuándo falla tu internet principal y cambia automáticamente a 4G/LTE sin interrumpir ninguna operación.', price:'Desde $600 instalado', priority:2});
-  }
-  if (gen === 'no' && apagones >= 2) {
-    recs.push({p:'#3',color:'var(--orange)',title:'Generador automático', detail:'Para Puerto Rico donde los apagones son frecuentes, un generador automático (standby) que arranca solo en segundos es esencial para operaciones críticas.', price:'Desde $3,500 instalado', priority:3});
-  }
-  if (deps.refrigeracion && ups !== 'bueno') {
-    recs.push({p:'⚠️',color:'var(--error)',title:'Protección para refrigeración', detail:'Tus productos refrigerados están en riesgo. Un UPS dedicado para refrigeración puede prevenir pérdidas de miles de dólares en inventario.', price:'Desde $1,200 instalado', priority:0});
-  }
-  if (recs.length === 0) {
-    recs.push({p:'✓',color:'var(--success)',title:'Continúa manteniendo tu sistema', detail:'Tu nivel de continuidad es bueno. Asegúrate de hacer pruebas periódicas de tus sistemas de respaldo y mantener las baterías del UPS en buen estado.', price:'Plan mantenimiento desde $99/mes', priority:4});
+  var color, nivel, desc;
+  if (score < 25) {
+    color = 'var(--red)'; nivel = 'Crítico — Alto riesgo'; desc = 'Tu negocio es muy vulnerable. Un huracán o apagón prolongado puede dejarte fuera por días sin poder operar ni generar ingresos.';
+  } else if (score < 50) {
+    color = 'var(--warn)'; nivel = 'Vulnerable — Riesgo moderado-alto'; desc = 'Tienes protección mínima. Los apagones de 2+ horas impactan significativamente tu operación y generan pérdidas considerables.';
+  } else if (score < 75) {
+    color = 'var(--orange)'; nivel = 'Moderado — Mejorable'; desc = 'Tienes algo de protección pero hay brechas importantes. Puedes mejorar significativamente con inversiones moderadas.';
+  } else {
+    color = 'var(--green)'; nivel = 'Protegido — Buen nivel'; desc = 'Buena continuidad operacional. Mantén tus sistemas actualizados y realiza pruebas periódicas para garantizar que funcionan cuando los necesitas.';
   }
 
-  document.getElementById('r-plan').innerHTML = recs.sort((a,b)=>a.priority-b.priority).map(r=>`
-    <div class="rec-item">
-      <div class="rec-priority" style="background:${r.color}22;color:${r.color};border:1px solid ${r.color}44">${r.p}</div>
-      <div>
-        <div class="rec-content-title">${r.title}</div>
-        <div class="rec-content-detail">${r.detail}</div>
-        <div class="rec-content-price">${r.price}</div>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('score-circle').style.borderColor = color;
+  document.getElementById('score-num').style.color = color;
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-lbl').textContent = score < 25 ? 'Crítico' : score < 50 ? 'Vulnerable' : score < 75 ? 'Moderado' : 'Protegido';
+  document.getElementById('nivel-txt').textContent = nivel;
+  document.getElementById('nivel-desc').textContent = desc;
 
-  // Tips
-  let tip = `<strong>Cada mes, los apagones te cuestan aproximadamente $${Math.round(perdidaMes).toLocaleString()}</strong> en ventas perdidas, empleados pagados sin producir y daño a dependencias críticas.<br><br>`;
-  tip += `Al año eso suma <strong style="color:var(--error)">$${Math.round(perdidaAno).toLocaleString()}</strong> — suficiente para instalar un sistema completo de continuidad operacional varias veces.<br><br>`;
-  if (apagones >= 6) tip += '⚡ <strong>Alta frecuencia de apagones:</strong> En PR zonas como el área metro pueden sufrir hasta 15-20 apagones al mes. Un sistema de continuidad no es un lujo — es una necesidad.<br><br>';
-  tip += '🌀 <strong>Recordatorio María/Fiona:</strong> Después de un huracán, los negocios con generadores y continuidad operacional recuperaron hasta 3x más rápido que los que no tenían protección.';
-  document.getElementById('tip-box').innerHTML = tip;
+  // Plan de recomendaciones
+  var recs = [];
+
+  if (protUPS === 0 || protUPS === 20) {
+    recs.push({
+      p: '1', color: 'var(--red)',
+      title: 'UPS / Sistema de baterías de calidad',
+      detail: 'Un UPS de calidad mantiene tus equipos críticos (POS, servidor, router) por 2+ horas. Los UPS básicos solo duran 10-15 minutos — insuficiente para la mayoría de los apagones en PR.',
+      price: 'APC Smart-UPS 1500VA: desde $350 · APC SUA2200: desde $600'
+    });
+  }
+
+  if (protInternet === 0) {
+    recs.push({
+      p: '2', color: 'var(--warn)',
+      title: 'Failover automático de internet (4G/LTE)',
+      detail: 'Un router con failover automático detecta cuando falla tu internet principal y cambia a 4G/LTE en segundos sin interrumpir ninguna operación. Crítico para pagos con tarjeta.',
+      price: 'Router con failover: desde $150 · SIM 4G Business Liberty/Claro: $50-80/mes'
+    });
+  }
+
+  if (protGen === 0 && apagones >= 2) {
+    recs.push({
+      p: '3', color: 'var(--orange)' ,
+      title: 'Generador automático (standby)',
+      detail: 'Un generador automático arranca en 10-30 segundos cuando detecta la pérdida de energía. Para PR, donde los apagones post-huracán pueden durar días o semanas, es esencial para negocios críticos.',
+      price: 'Generador 7kW automático: desde $2,500 instalado · 14kW: desde $4,500'
+    });
+  }
+
+  if (deps.refrigeracion && protUPS < 80) {
+    recs.push({
+      p: '!', color: 'var(--red)',
+      title: 'Protección urgente para refrigeración',
+      detail: 'Tienes inventario refrigerado. Un apagón de 4+ horas puede arruinar miles de dólares en productos. Necesitas un generador o UPS dedicado para refrigeración como prioridad inmediata.',
+      price: 'UPS para refrigeración industrial: desde $800 · Generador dedicado: desde $1,500'
+    });
+  }
+
+  if (score >= 75 && recs.length === 0) {
+    recs.push({
+      p: '✓', color: 'var(--green)',
+      title: 'Sistema en buen estado — mantenimiento preventivo',
+      detail: 'Realiza pruebas trimestrales de tus sistemas de respaldo. Verifica la batería del UPS (vida útil 3-5 años), el nivel de combustible del generador y la velocidad del failover de internet.',
+      price: 'Plan de mantenimiento preventivo: desde $150/trimestre'
+    });
+  }
+
+  document.getElementById('r-plan').innerHTML = recs.map(function(r) {
+    return '<div class="rec-item">' +
+      '<div class="rec-prio" style="background:' + r.color + '22;color:' + r.color + ';border:1px solid ' + r.color + '44">' + r.p + '</div>' +
+      '<div>' +
+        '<div class="rec-title">' + r.title + '</div>' +
+        '<div class="rec-detail">' + r.detail + '</div>' +
+        '<div class="rec-price">' + r.price + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // Tip
+  var tip = '<strong>Impacto real:</strong> Cada mes pierdes aproximadamente $' + Math.round(perdidaMes).toLocaleString() + ' por interrupciones eléctricas. Al año son $' + Math.round(perdidaAno).toLocaleString() + '.<br><br>';
+  if (apagones >= 6) {
+    tip += '<strong>Alta frecuencia en tu área:</strong> Con ' + apagones + ' apagones al mes, la inversión en continuidad operacional se recupera típicamente en 6-18 meses dependiendo de tu nivel de protección.<br><br>';
+  }
+  tip += '<strong>Puerto Rico post-María y Fiona:</strong> La infraestructura eléctrica de PR es vulnerable. Los negocios con generadores automáticos y sistemas de continuidad recuperaron operaciones en horas, mientras los demás tardaron días o semanas. FEMA y SBA ofrecen préstamos a bajo interés para mejoras de resiliencia.';
+  document.getElementById('r-tip').innerHTML = tip;
 }
 
 update();
 </script>
-
-
-<!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
-
-    <!-- LOGGED IN STATE -->
-    <div id="lead-loggedin" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
-        <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
-        </div>
-      </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-      </div>
-    </div>
-
-    <!-- GUEST STATE -->
-    <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
-
-      <!-- AUTH OPTIONS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
-        <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
-        </div>
-        <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
-        </div>
-      </div>
-
-      <!-- GUEST FORM -->
-      <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-        </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
-        </div>
-      </div>
-
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
-    <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script>
-var _leadData = {};
-var _wifnixUser = null;
-
-// Check if user is logged in via portal session
-try {
-  var stored = localStorage.getItem('wifnix_user');
-  if (stored) _wifnixUser = JSON.parse(stored);
-} catch(e) {}
-
-function openLead(title, summary, datos, estimado, herramienta) {
-  _leadData = { datos: datos||{}, estimado: estimado||'', herramienta: herramienta||document.title };
-  document.getElementById('lead-overlay').style.display = 'flex';
-
-  if (_wifnixUser && _wifnixUser.nombre) {
-    // Logged in
-    document.getElementById('lead-loggedin').style.display = 'block';
-    document.getElementById('lead-guest').style.display = 'none';
-    var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
-    document.getElementById('lead-avatar').textContent = initials.toUpperCase();
-    document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
-    if (title) document.getElementById('lead-modal-title-li').textContent = title;
-    if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
-  } else {
-    // Guest
-    document.getElementById('lead-loggedin').style.display = 'none';
-    document.getElementById('lead-guest').style.display = 'block';
-    document.getElementById('guest-form').style.display = 'none';
-    if (title) document.getElementById('lead-modal-title').textContent = title;
-    if (summary) document.getElementById('lead-summary').innerHTML = summary;
-  }
-}
-
-function showGuestForm() {
-  document.getElementById('guest-form').style.display = 'block';
-  document.getElementById('lead-nombre').focus();
-}
-
-function goToPortal() {
-  // Save current tool data to sessionStorage so portal can use it
-  try {
-    sessionStorage.setItem('lead_pending', JSON.stringify(_leadData));
-  } catch(e) {}
-  window.open('https://portal.wifnix.com', '_blank');
-}
-
-function closeLead() {
-  document.getElementById('lead-overlay').style.display = 'none';
-  document.getElementById('lead-success').style.display = 'none';
-}
-
-function submitLead() {
-  var nombre = document.getElementById('lead-nombre').value.trim();
-  var email = document.getElementById('lead-email').value.trim();
-  var tel = document.getElementById('lead-tel').value.trim();
-  var alertEl = document.getElementById('lead-alert');
-  if (!nombre || !email) {
-    alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
-    return;
-  }
-  sendLead(nombre, email, tel, '');
-}
-
-function submitLeadLoggedIn() {
-  if (!_wifnixUser) return;
-  var msg = document.getElementById('lead-msg').value.trim();
-  sendLead(_wifnixUser.nombre + ' ' + (_wifnixUser.apellido||''), _wifnixUser.email, _wifnixUser.telefono||'', msg);
-}
-
-function sendLead(nombre, email, tel, msg) {
-  var datos = Object.assign({}, _leadData.datos);
-  if (msg) datos.mensaje = msg;
-  if (_wifnixUser) datos.numero_cliente = _wifnixUser.num||'';
-
-  fetch('https://api.wifnix.com/api/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      nombre: nombre,
-      email: email,
-      telefono: tel,
-      herramienta: _leadData.herramienta,
-      datos: datos,
-      estimado: _leadData.estimado
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function() {
-    document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
-    document.getElementById('lead-success').style.display = 'flex';
-  })
-  .catch(function() {
-    var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
-  });
-}
-
-document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
-document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
-</script>
-
 </body>
 </html>

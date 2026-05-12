@@ -3,137 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Red Empresarial — Wifnix</title>
+<title>Calculadora de Red — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
 .header{text-align:center;margin-bottom:40px}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
+.badge span{font-size:0.7rem;font-weight:700;color:var(--bl);letter-spacing:0.08em;text-transform:uppercase}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--blue-light)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--bl);font-style:normal}
+.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:28px;margin-bottom:18px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:20px;display:flex;align-items:center;gap:10px}
-.card-title svg{width:20px;height:20px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
-.device-row{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,0,0,0.2);border:1px solid rgba(11,143,204,0.08);border-radius:8px;margin-bottom:8px;transition:border-color .2s}
-.device-row:hover{border-color:rgba(11,143,204,0.2)}
-.device-icon{font-size:1.2rem;flex-shrink:0;width:32px;text-align:center}
+.card{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.device-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.device-row:last-child{border-bottom:none}
+.device-icon{width:32px;text-align:center;flex-shrink:0}
+.device-icon svg{width:18px;height:18px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round}
 .device-info{flex:1}
 .device-name{font-size:0.82rem;font-weight:600;color:var(--white)}
-.device-bw{font-size:0.68rem;color:var(--gray);margin-top:1px}
-.device-qty{display:flex;align-items:center;gap:8px}
-.qty-btn{width:26px;height:26px;border-radius:5px;background:rgba(11,143,204,0.15);border:1px solid rgba(11,143,204,0.25);color:var(--blue-light);font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.qty-btn:hover{background:rgba(11,143,204,0.3)}
+.device-bw{font-size:0.68rem;color:var(--gray2);margin-top:2px}
+.qty-ctrl{display:flex;align-items:center;gap:8px}
+.qty-btn{width:26px;height:26px;border-radius:5px;background:rgba(11,143,204,0.12);border:1px solid rgba(11,143,204,0.2);color:var(--bl);font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.qty-btn:hover{background:rgba(11,143,204,0.25)}
 .qty-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);min-width:24px;text-align:center}
-.f-group{margin-bottom:16px}
-.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px;display:flex;justify-content:space-between}
-.f-label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--blue-light)}
+.field{margin-bottom:14px}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--bl)}
 input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer}
-.results-hero{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
-.bw-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--blue-light);line-height:1}
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--navy)}
+.result-hero{background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.bw-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--bl);line-height:1}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
 .stat{background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
 .stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
-.rec-card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:18px;margin-bottom:10px}
-.rec-card.top{border-color:var(--blue-light)}
-.rec-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px}
-.rec-detail{font-size:0.78rem;color:var(--gray);line-height:1.6}
-.rec-price{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--success);margin-top:8px}
-.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--blue);margin-bottom:16px}
-.tip-box strong{color:var(--white)}
-.cta-box{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.equipo-card{background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:10px;padding:16px;margin-bottom:10px}
+.equipo-card.top{border-color:var(--blue)}
+.equipo-name{font-weight:700;color:var(--white);font-size:0.88rem;margin-bottom:4px}
+.equipo-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
+.equipo-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);margin-top:6px}
+.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.tip strong{color:var(--white)}
+.cta{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
-@media(max-width:768px){.grid-2,.stats-row{grid-template-columns:1fr}}
+.cta-btn:hover{background:var(--bl);transform:translateY(-2px)}
+@media(max-width:768px){.grid-2,.stats{grid-template-columns:1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">🌐</span>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">Red empresarial</span>
-    </div>
-    <h1>Calculadora de <span>Ancho de Banda</span></h1>
-    <p>Calcula el ancho de banda que necesita tu empresa según los dispositivos, usuarios y tipo de trabajo. Te recomendamos el equipo ideal.</p>
+  <div class="header">
+    <div class="badge"><span>Estándares IEEE 802.11 y TIA-942</span></div>
+    <h1>Calculadora de <em>Ancho de Banda</em></h1>
+    <p>Calcula el ancho de banda real que necesita tu empresa y el equipo de red recomendado, basado en estándares IEEE y el consumo real por tipo de dispositivo.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          Usuarios y dispositivos
+        <div class="card-title">Dispositivos en la red</div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Computadoras / Laptops</div>
+            <div class="device-bw">5-10 Mbps uso general · 25 Mbps en videoconferencia HD</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('pc',-1)">−</button>
+            <div class="qty-val" id="v-pc">5</div>
+            <button class="qty-btn" onclick="chg('pc',1)">+</button>
+          </div>
         </div>
-        <div id="devices-list">
-          <div class="device-row">
-            <div class="device-icon">💻</div>
-            <div class="device-info"><div class="device-name">Computadoras / Laptops</div><div class="device-bw">~5 Mbps por usuario</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('pc',-1)">−</button>
-              <div class="qty-val" id="v-pc">5</div>
-              <button class="qty-btn" onclick="chg('pc',1)">+</button>
-            </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Teléfonos / Tablets</div>
+            <div class="device-bw">2-5 Mbps uso general · 10 Mbps streaming</div>
           </div>
-          <div class="device-row">
-            <div class="device-icon">📱</div>
-            <div class="device-info"><div class="device-name">Teléfonos / Tablets</div><div class="device-bw">~3 Mbps por dispositivo</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('mobile',-1)">−</button>
-              <div class="qty-val" id="v-mobile">8</div>
-              <button class="qty-btn" onclick="chg('mobile',1)">+</button>
-            </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('mobile',-1)">−</button>
+            <div class="qty-val" id="v-mobile">8</div>
+            <button class="qty-btn" onclick="chg('mobile',1)">+</button>
           </div>
-          <div class="device-row">
-            <div class="device-icon">📹</div>
-            <div class="device-info"><div class="device-name">Cámaras IP (CCTV)</div><div class="device-bw">~4 Mbps por cámara 4K</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('cam',-1)">−</button>
-              <div class="qty-val" id="v-cam">0</div>
-              <button class="qty-btn" onclick="chg('cam',1)">+</button>
-            </div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Cámaras IP (CCTV)</div>
+            <div class="device-bw">1 Mbps (720p H.265) · 2 Mbps (1080p) · 8 Mbps (4K)</div>
           </div>
-          <div class="device-row">
-            <div class="device-icon">📞</div>
-            <div class="device-info"><div class="device-name">Teléfonos VoIP</div><div class="device-bw">~0.1 Mbps por línea</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('voip',-1)">−</button>
-              <div class="qty-val" id="v-voip">0</div>
-              <button class="qty-btn" onclick="chg('voip',1)">+</button>
-            </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('cam',-1)">−</button>
+            <div class="qty-val" id="v-cam">0</div>
+            <button class="qty-btn" onclick="chg('cam',1)">+</button>
           </div>
-          <div class="device-row">
-            <div class="device-icon">🖨️</div>
-            <div class="device-info"><div class="device-name">Impresoras en red</div><div class="device-bw">~0.5 Mbps por impresora</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('printer',-1)">−</button>
-              <div class="qty-val" id="v-printer">0</div>
-              <button class="qty-btn" onclick="chg('printer',1)">+</button>
-            </div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Teléfonos VoIP</div>
+            <div class="device-bw">100 Kbps por llamada (G.711) · 30 Kbps (G.729)</div>
           </div>
-          <div class="device-row">
-            <div class="device-icon">🖥️</div>
-            <div class="device-info"><div class="device-name">Servidores locales</div><div class="device-bw">~20 Mbps por servidor</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('server',-1)">−</button>
-              <div class="qty-val" id="v-server">0</div>
-              <button class="qty-btn" onclick="chg('server',1)">+</button>
-            </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('voip',-1)">−</button>
+            <div class="qty-val" id="v-voip">0</div>
+            <button class="qty-btn" onclick="chg('voip',1)">+</button>
           </div>
-          <div class="device-row">
-            <div class="device-icon">📺</div>
-            <div class="device-info"><div class="device-name">Smart TVs / Digital Signage</div><div class="device-bw">~10 Mbps en 4K streaming</div></div>
-            <div class="device-qty">
-              <button class="qty-btn" onclick="chg('tv',-1)">−</button>
-              <div class="qty-val" id="v-tv">0</div>
-              <button class="qty-btn" onclick="chg('tv',1)">+</button>
-            </div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Servidores locales</div>
+            <div class="device-bw">50-100 Mbps tráfico interno · 10-50 Mbps hacia internet</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('server',-1)">−</button>
+            <div class="qty-val" id="v-server">0</div>
+            <button class="qty-btn" onclick="chg('server',1)">+</button>
+          </div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Smart TVs / Digital Signage</div>
+            <div class="device-bw">5 Mbps (HD) · 25 Mbps (4K streaming)</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('tv',-1)">−</button>
+            <div class="qty-val" id="v-tv">0</div>
+            <button class="qty-btn" onclick="chg('tv',1)">+</button>
+          </div>
+        </div>
+
+        <div class="device-row">
+          <div class="device-icon"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
+          <div class="device-info">
+            <div class="device-name">Impresoras en red</div>
+            <div class="device-bw">1-2 Mbps durante impresión</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="chg('printer',-1)">−</button>
+            <div class="qty-val" id="v-printer">0</div>
+            <button class="qty-btn" onclick="chg('printer',1)">+</button>
           </div>
         </div>
       </div>
@@ -141,40 +165,35 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
     <div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
-          Tipo de uso
+        <div class="card-title">Tipo de uso</div>
+        <div class="field">
+          <label>Videoconferencias simultáneas <span id="lbl-vc">2</span></label>
+          <input type="range" id="sl-vc" min="0" max="20" value="2" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Zoom/Teams HD: 3 Mbps subida + 3 Mbps bajada por sesión</div>
         </div>
-        <div class="f-group">
-          <div class="f-label">% uso en videoconferencias <span id="lbl-video">30</span>%</div>
-          <input type="range" id="sl-video" min="0" max="100" value="30" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Zoom, Teams, Google Meet — ~3Mbps por sesión HD</div>
+        <div class="field">
+          <label>% uso de servicios en la nube <span id="lbl-cloud">40</span>%</label>
+          <input type="range" id="sl-cloud" min="0" max="100" value="40" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Google Workspace, Microsoft 365, Dropbox, AWS</div>
         </div>
-        <div class="f-group">
-          <div class="f-label">% uso en la nube <span id="lbl-cloud">50</span>%</div>
-          <input type="range" id="sl-cloud" min="0" max="100" value="50" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Google Drive, Dropbox, Office 365, AWS</div>
+        <div class="field">
+          <label>Factor de simultaneidad <span id="lbl-sim">70</span>%</label>
+          <input type="range" id="sl-sim" min="20" max="100" value="70" oninput="update()">
+          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">% de dispositivos usando la red al mismo tiempo en hora pico</div>
         </div>
-        <div class="f-group">
-          <div class="f-label">Pico de uso simultáneo <span id="lbl-peak">80</span>%</div>
-          <input type="range" id="sl-peak" min="20" max="100" value="80" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Porcentaje de dispositivos activos a la vez</div>
-        </div>
-        <div class="f-group">
-          <div class="f-label">Factor de crecimiento (12 meses) <span id="lbl-growth">20</span>%</div>
+        <div class="field">
+          <label>Proyección de crecimiento (12 meses) <span id="lbl-growth">20</span>%</label>
           <input type="range" id="sl-growth" min="0" max="100" value="20" oninput="update()">
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          Infraestructura actual
-        </div>
-        <div class="f-group">
-          <div class="f-label" style="margin-bottom:8px">Internet actual contratado</div>
+        <div class="card-title">Infraestructura actual</div>
+        <div class="field">
+          <label style="margin-bottom:8px">Internet contratado actualmente</label>
           <select id="sel-current" onchange="update()">
             <option value="0">No tengo / No sé</option>
+            <option value="50">50 Mbps</option>
             <option value="100">100 Mbps</option>
             <option value="200">200 Mbps</option>
             <option value="300">300 Mbps</option>
@@ -182,12 +201,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
             <option value="1000">1 Gbps</option>
           </select>
         </div>
-        <div class="f-group">
-          <div class="f-label" style="margin-bottom:8px">¿Tienes WiFi empresarial?</div>
+        <div class="field">
+          <label style="margin-bottom:8px">WiFi actual</label>
           <select id="sel-wifi" onchange="update()">
-            <option value="no">No / Router básico de hogar</option>
+            <option value="no">Sin WiFi / Router residencial</option>
             <option value="basico">Router empresarial básico</option>
-            <option value="profesional">APs profesionales (Ubiquiti, Cisco)</option>
+            <option value="profesional">APs profesionales (Ubiquiti, Cisco, Aruba)</option>
           </select>
         </div>
       </div>
@@ -195,326 +214,170 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
   </div>
 
   <!-- RESULTS -->
-  <div class="results-hero">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:10px">Ancho de banda recomendado</div>
+  <div class="result-hero">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bl);margin-bottom:10px">Ancho de banda recomendado</div>
     <div class="bw-num" id="r-bw">0 Mbps</div>
-    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-bw-sub">Con margen de crecimiento incluido</div>
+    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-bw-sub">Con margen de crecimiento</div>
   </div>
 
-  <div class="stats-row">
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="r-actual">0 Mbps</div><div class="stat-lbl">Uso actual estimado</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--blue-light)" id="r-pico">0 Mbps</div><div class="stat-lbl">Pico máximo</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--success)" id="r-crecimiento">0 Mbps</div><div class="stat-lbl">Con crecimiento 12 meses</div></div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-pico">0 Mbps</div><div class="stat-lbl">Pico estimado</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-actual">0 Mbps</div><div class="stat-lbl">Actual contratado</div></div>
+    <div class="stat"><div class="stat-num" id="s-estado" style="color:var(--green)">—</div><div class="stat-lbl">Estado</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">
-      <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
-      Equipo recomendado
-    </div>
-    <div id="r-equipment"></div>
+    <div class="card-title">Equipo de red recomendado</div>
+    <div id="r-equipo"></div>
   </div>
 
-  <div class="tip-box" id="tip-box">Agrega dispositivos para ver tu recomendación.</div>
+  <div class="tip" id="r-tip"></div>
 
-  <div class="cta-box">
+  <div class="cta">
     <div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</h3>
-      <p style="font-size:0.78rem;color:var(--gray)">Diseñamos, instalamos y gestionamos redes empresariales en Puerto Rico. Evaluación gratuita.</p>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</div>
+      <div style="font-size:0.78rem;color:var(--gray)">Diseñamos, instalamos y gestionamos redes en todo Puerto Rico.</div>
     </div>
-    <a href="#" onclick="openLead(); return false;" class="cta-btn">Agendar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
   </div>
 </div>
 
 <script>
-const QTY = {pc:5,mobile:8,cam:0,voip:0,printer:0,server:0,tv:0};
-const BW = {pc:5,mobile:3,cam:4,voip:0.1,printer:0.5,server:20,tv:10};
+// Consumo real por dispositivo en Mbps (valores conservadores en hora pico)
+var BW_DEVICE = {
+  pc: 8,        // Uso general: email, web, docs en la nube
+  mobile: 3,    // Apps, email, web básico
+  cam: 3,       // Promedio 1080p H.265 (2 Mbps) con overhead de red
+  voip: 0.1,    // G.711: 100 Kbps por llamada simultánea
+  server: 20,   // Tráfico hacia/desde internet
+  tv: 8,        // Streaming HD/4K
+  printer: 0.5  // Solo durante impresión
+};
 
-function chg(key,delta) {
-  QTY[key] = Math.max(0,QTY[key]+delta);
-  document.getElementById('v-'+key).textContent = QTY[key];
+var qty = { pc: 5, mobile: 8, cam: 0, voip: 0, server: 0, tv: 0, printer: 0 };
+
+function chg(key, delta) {
+  qty[key] = Math.max(0, qty[key] + delta);
+  document.getElementById('v-' + key).textContent = qty[key];
   update();
 }
 
 function update() {
-  const video = parseInt(document.getElementById('sl-video').value);
-  const cloud = parseInt(document.getElementById('sl-cloud').value);
-  const peak = parseInt(document.getElementById('sl-peak').value);
-  const growth = parseInt(document.getElementById('sl-growth').value);
-  const current = parseInt(document.getElementById('sel-current').value);
-  const wifi = document.getElementById('sel-wifi').value;
+  var vc = parseInt(document.getElementById('sl-vc').value);
+  var cloud = parseInt(document.getElementById('sl-cloud').value);
+  var sim = parseInt(document.getElementById('sl-sim').value);
+  var growth = parseInt(document.getElementById('sl-growth').value);
+  var current = parseInt(document.getElementById('sel-current').value);
+  var wifi = document.getElementById('sel-wifi').value;
 
-  document.getElementById('lbl-video').textContent = video;
+  document.getElementById('lbl-vc').textContent = vc;
   document.getElementById('lbl-cloud').textContent = cloud;
-  document.getElementById('lbl-peak').textContent = peak;
+  document.getElementById('lbl-sim').textContent = sim;
   document.getElementById('lbl-growth').textContent = growth;
 
-  // Base BW
-  let baseBW = Object.entries(QTY).reduce((sum,[key,qty])=>sum+(qty*BW[key]),0);
+  // Cálculo de ancho de banda base
+  var bwBase = 0;
+  Object.keys(qty).forEach(function(key) {
+    bwBase += qty[key] * BW_DEVICE[key];
+  });
 
-  // Video factor
-  const totalUsers = QTY.pc + QTY.mobile;
-  const videoExtra = totalUsers * (video/100) * 3;
-  baseBW += videoExtra;
+  // Videoconferencias simultáneas (6 Mbps por sesión HD: 3 bajada + 3 subida)
+  var bwVC = vc * 6;
 
-  // Peak usage
-  const peakBW = baseBW * (peak/100);
+  // Factor de uso en la nube (incrementa el tráfico de internet)
+  var bwCloud = (bwBase * cloud / 100) * 0.3; // 30% adicional por sincronización en la nube
 
-  // With growth
-  const withGrowth = peakBW * (1 + growth/100);
+  // Total base
+  var bwTotal = bwBase + bwVC + bwCloud;
 
-  // Recommended (add 30% buffer)
-  const recommended = Math.ceil(withGrowth * 1.3 / 100) * 100;
+  // Aplicar factor de simultaneidad (no todos usan al máximo al mismo tiempo)
+  var bwPico = bwTotal * (sim / 100);
 
-  document.getElementById('r-actual').textContent = Math.round(baseBW)+' Mbps';
-  document.getElementById('r-pico').textContent = Math.round(peakBW)+' Mbps';
-  document.getElementById('r-crecimiento').textContent = Math.round(withGrowth)+' Mbps';
-  document.getElementById('r-bw').textContent = recommended+' Mbps';
-  document.getElementById('r-bw-sub').textContent = `Incluye buffer 30% + ${growth}% crecimiento proyectado`;
+  // Margen técnico del 25% (overhead de protocolos TCP/IP, retransmisiones, etc.)
+  var bwConMargen = bwPico * 1.25;
 
-  // Equipment recommendations
-  const totalDevices = Object.values(QTY).reduce((a,b)=>a+b,0);
-  let equipment = [];
+  // Con proyección de crecimiento
+  var bwFinal = Math.ceil(bwConMargen * (1 + growth / 100));
 
-  if (recommended <= 200) {
-    equipment.push({name:'Router Empresarial + Switch 8p PoE',detail:'Ideal para redes de hasta 20 dispositivos. Incluye gestión de ancho de banda por usuario y red de invitados separada.',price:'Desde $450',top:true});
-  } else if (recommended <= 500) {
-    equipment.push({name:'Router Empresarial + Switch 24p PoE',detail:'Para redes medianas de 20-50 dispositivos. Con VLANs, QoS para priorizar VoIP y cámaras, y gestión centralizada.',price:'Desde $850',top:true});
+  // Redondear al siguiente plan disponible en PR (Liberty, Claro, AT&T)
+  var planes = [50, 100, 200, 300, 500, 600, 1000, 2000];
+  var planRecomendado = planes.find(function(p) { return p >= bwFinal; }) || bwFinal;
+
+  document.getElementById('r-bw').textContent = planRecomendado + ' Mbps';
+  document.getElementById('r-bw-sub').textContent = 'Mínimo requerido: ' + bwFinal + ' Mbps · Plan recomendado: ' + planRecomendado + ' Mbps';
+  document.getElementById('s-pico').textContent = Math.round(bwPico) + ' Mbps';
+  document.getElementById('s-actual').textContent = current > 0 ? current + ' Mbps' : 'No configurado';
+
+  var estado, estadoColor;
+  if (current === 0) { estado = 'Sin datos'; estadoColor = 'var(--gray)'; }
+  else if (current >= planRecomendado) { estado = 'Suficiente'; estadoColor = 'var(--green)'; }
+  else if (current >= bwPico) { estado = 'Ajustado'; estadoColor = 'var(--warn)'; }
+  else { estado = 'Insuficiente'; estadoColor = 'var(--red)'; }
+  document.getElementById('s-estado').textContent = estado;
+  document.getElementById('s-estado').style.color = estadoColor;
+
+  renderEquipo(planRecomendado, qty, wifi);
+  renderTip(bwPico, planRecomendado, qty, wifi, current);
+}
+
+function renderEquipo(bwNecesario, qty, wifi) {
+  var totalDevices = Object.values(qty).reduce(function(a, b) { return a + b; }, 0);
+  var equipos = [];
+
+  // Switch
+  if (totalDevices <= 8) {
+    equipos.push({ top: true, name: 'Switch PoE 8 puertos (1 Gbps)', detail: 'Ideal para redes pequeñas. Alimenta cámaras IP y teléfonos VoIP sin cableado eléctrico adicional. Recomendados: TP-Link TL-SG1008P, Netgear GS308EP.', price: 'Desde $85' });
+  } else if (totalDevices <= 24) {
+    equipos.push({ top: true, name: 'Switch PoE 24 puertos (1 Gbps)', detail: 'Para redes medianas. Con uplink de 1-10 Gbps hacia el router. Recomendados: TP-Link TL-SG1024DE, Cisco SG350-28P.', price: 'Desde $220' });
   } else {
-    equipment.push({name:'Sistema de red empresarial gestionado',detail:'Firewall dedicado + Switch core + Switches de distribución. Para más de 50 dispositivos con máxima seguridad y disponibilidad.',price:'Desde $2,500',top:true});
+    equipos.push({ top: true, name: 'Switch core 48 puertos + switches de distribución', detail: 'Para redes grandes. Arquitectura jerárquica con switch core de 10 Gbps y switches de acceso PoE por piso/área.', price: 'Desde $600' });
   }
 
-  const aps = Math.ceil(totalDevices / 30);
-  equipment.push({name:`${aps} Access Point${aps>1?'s':''} WiFi 6 (802.11ax)`,detail:`Cobertura WiFi profesional para ${totalDevices} dispositivos. WiFi 6 soporta más dispositivos simultáneos con menor latencia. Radio dual 2.4/5GHz.`,price:`Desde $${aps*350} instalado`,top:false});
-
-  if (current > 0 && current < recommended) {
-    equipment.push({name:'Upgrade de plan de internet',detail:`Tu plan actual (${current} Mbps) es insuficiente. Necesitas al menos ${recommended} Mbps. Considera Liberty, Claro o AT&T Fiber para mayor disponibilidad.`,price:'Contactar proveedor',top:false});
+  // Router/Firewall
+  if (bwNecesario <= 200) {
+    equipos.push({ top: false, name: 'Router empresarial (hasta 200 Mbps)', detail: 'Con QoS para priorizar VoIP y videoconferencias. VPN, VLAN y firewall integrados. Recomendados: MikroTik hEX, Ubiquiti EdgeRouter Lite.', price: 'Desde $75' });
+  } else if (bwNecesario <= 600) {
+    equipos.push({ top: false, name: 'Router/Firewall empresarial (hasta 1 Gbps)', detail: 'Con inspección profunda de paquetes, balanceo de carga, VPN y soporte multi-WAN. Recomendados: Ubiquiti UniFi Dream Machine, MikroTik CCR.', price: 'Desde $300' });
+  } else {
+    equipos.push({ top: false, name: 'Firewall dedicado + Router de borde', detail: 'Para conexiones de alta velocidad. Separación de funciones para máximo rendimiento. Recomendados: Fortinet FortiGate, Palo Alto.', price: 'Desde $800' });
   }
 
-  if (QTY.cam > 0) {
-    equipment.push({name:'VLAN dedicada para cámaras CCTV',detail:`Con ${QTY.cam} cámaras IP necesitas una red separada para no afectar el rendimiento de las otras operaciones. Incluido en configuración profesional.`,price:'Incluido en instalación',top:false});
+  // WiFi APs
+  if (wifi !== 'profesional') {
+    var aps = Math.max(1, Math.ceil(totalDevices / 25));
+    equipos.push({ top: false, name: 'Access Points WiFi 6 (' + aps + ' unidad' + (aps > 1 ? 'es' : '') + ' recomendada' + (aps > 1 ? 's' : '') + ')', detail: 'WiFi 6 (802.11ax) soporta hasta 50+ dispositivos por AP con menor latencia. Cada AP cubre ~2,000 ft². Recomendados: Ubiquiti UAP-6-LR, TP-Link EAP670.', price: 'Desde $' + (aps * 120) + ' instalado' });
   }
 
-  document.getElementById('r-equipment').innerHTML = equipment.map(e=>`
-    <div class="rec-card ${e.top?'top':''}">
-      ${e.top?'<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue-light);margin-bottom:6px">✓ Principal</div>':''}
-      <div class="rec-name">${e.name}</div>
-      <div class="rec-detail">${e.detail}</div>
-      <div class="rec-price">${e.price}</div>
-    </div>
-  `).join('');
+  if (qty.cam > 4) {
+    equipos.push({ top: false, name: 'VLAN dedicada para cámaras CCTV', detail: 'Con ' + qty.cam + ' cámaras IP es crítico segregar el tráfico en una VLAN separada. Evita que el video sature la red de trabajo y mejora la seguridad.', price: 'Incluido en configuración' });
+  }
 
-  // Tips
-  let tip = `<strong>Tu red necesita al menos ${recommended} Mbps</strong> para operar sin problemas con los ${totalDevices} dispositivos configurados.<br><br>`;
-  if (wifi === 'no') tip += '⚠️ <strong>Router de hogar detectado:</strong> Un router residencial no puede manejar correctamente múltiples dispositivos empresariales. Un AP profesional puede mejorar la experiencia hasta un 300%.<br><br>';
-  if (QTY.cam > 4) tip += '📹 <strong>Muchas cámaras CCTV:</strong> Con '+QTY.cam+' cámaras IP es crítico tener una VLAN separada para no degradar el rendimiento de la red de trabajo.<br><br>';
-  if (video > 50) tip += '📹 <strong>Alto uso de videoconferencias:</strong> Considera QoS (Quality of Service) para priorizar el tráfico de video y evitar cortes durante reuniones importantes.<br><br>';
-  tip += '💡 <strong>Consejo:</strong> Siempre contrata un 30-50% más de lo que calculas necesitar. El uso de internet en empresas crece ~25% cada año.';
-  document.getElementById('tip-box').innerHTML = tip;
+  document.getElementById('r-equipo').innerHTML = equipos.map(function(e) {
+    return '<div style="background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,' + (e.top ? '0.3' : '0.12') + ');border-radius:10px;padding:16px;margin-bottom:10px">' +
+      (e.top ? '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--bl);margin-bottom:6px">Principal</div>' : '') +
+      '<div style="font-weight:700;color:var(--white);font-size:0.88rem;margin-bottom:4px">' + e.name + '</div>' +
+      '<div style="font-size:0.75rem;color:var(--gray);line-height:1.5">' + e.detail + '</div>' +
+      '<div style="font-family:Syne,sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);margin-top:6px">' + e.price + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function renderTip(pico, recomendado, qty, wifi, current) {
+  var tip = '';
+  if (wifi === 'no') {
+    tip += '<strong>Router residencial detectado:</strong> Un router de hogar no puede manejar múltiples VLANs, QoS ni la carga de una red empresarial. Puede causar caídas, latencia alta en videoconferencias y problemas de seguridad.<br><br>';
+  }
+  if (current > 0 && current < pico) {
+    tip += '<strong>Internet insuficiente:</strong> Tu plan actual (' + current + ' Mbps) está por debajo de tu pico estimado (' + Math.round(pico) + ' Mbps). Esto causará lentitud en horas pico, especialmente en videoconferencias y carga de archivos en la nube.<br><br>';
+  }
+  if (qty.cam > 0) {
+    tip += '<strong>' + qty.cam + ' cámaras IP:</strong> Generan tráfico constante. Se recomienda una VLAN separada para que el video no afecte la productividad. Asegúrate de que tu switch tenga suficientes puertos PoE.<br><br>';
+  }
+  tip += '<strong>Proveedores en PR:</strong> Liberty Fiber (hasta 1 Gbps), Claro Puerto Rico, AT&T. Compara precios y disponibilidad en tu área. Considera contratar un plan de respaldo 4G/LTE para continuidad operacional.';
+  document.getElementById('r-tip').innerHTML = tip;
 }
 
 update();
 </script>
-
-
-<!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
-
-    <!-- LOGGED IN STATE -->
-    <div id="lead-loggedin" style="display:none">
-      <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
-        <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
-        </div>
-      </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
-      <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-      </div>
-    </div>
-
-    <!-- GUEST STATE -->
-    <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
-
-      <!-- AUTH OPTIONS -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
-        <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
-        </div>
-        <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
-        </div>
-      </div>
-
-      <!-- GUEST FORM -->
-      <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-          <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
-          </div>
-        </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
-        </div>
-      </div>
-
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
-    <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
-    </div>
-  </div>
-</div>
-
-<script>
-var _leadData = {};
-var _wifnixUser = null;
-
-// Check if user is logged in via portal session
-try {
-  var stored = localStorage.getItem('wifnix_user');
-  if (stored) _wifnixUser = JSON.parse(stored);
-} catch(e) {}
-
-function openLead(title, summary, datos, estimado, herramienta) {
-  _leadData = { datos: datos||{}, estimado: estimado||'', herramienta: herramienta||document.title };
-  document.getElementById('lead-overlay').style.display = 'flex';
-
-  if (_wifnixUser && _wifnixUser.nombre) {
-    // Logged in
-    document.getElementById('lead-loggedin').style.display = 'block';
-    document.getElementById('lead-guest').style.display = 'none';
-    var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
-    document.getElementById('lead-avatar').textContent = initials.toUpperCase();
-    document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
-    if (title) document.getElementById('lead-modal-title-li').textContent = title;
-    if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
-  } else {
-    // Guest
-    document.getElementById('lead-loggedin').style.display = 'none';
-    document.getElementById('lead-guest').style.display = 'block';
-    document.getElementById('guest-form').style.display = 'none';
-    if (title) document.getElementById('lead-modal-title').textContent = title;
-    if (summary) document.getElementById('lead-summary').innerHTML = summary;
-  }
-}
-
-function showGuestForm() {
-  document.getElementById('guest-form').style.display = 'block';
-  document.getElementById('lead-nombre').focus();
-}
-
-function goToPortal() {
-  // Save current tool data to sessionStorage so portal can use it
-  try {
-    sessionStorage.setItem('lead_pending', JSON.stringify(_leadData));
-  } catch(e) {}
-  window.open('https://portal.wifnix.com', '_blank');
-}
-
-function closeLead() {
-  document.getElementById('lead-overlay').style.display = 'none';
-  document.getElementById('lead-success').style.display = 'none';
-}
-
-function submitLead() {
-  var nombre = document.getElementById('lead-nombre').value.trim();
-  var email = document.getElementById('lead-email').value.trim();
-  var tel = document.getElementById('lead-tel').value.trim();
-  var alertEl = document.getElementById('lead-alert');
-  if (!nombre || !email) {
-    alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
-    return;
-  }
-  sendLead(nombre, email, tel, '');
-}
-
-function submitLeadLoggedIn() {
-  if (!_wifnixUser) return;
-  var msg = document.getElementById('lead-msg').value.trim();
-  sendLead(_wifnixUser.nombre + ' ' + (_wifnixUser.apellido||''), _wifnixUser.email, _wifnixUser.telefono||'', msg);
-}
-
-function sendLead(nombre, email, tel, msg) {
-  var datos = Object.assign({}, _leadData.datos);
-  if (msg) datos.mensaje = msg;
-  if (_wifnixUser) datos.numero_cliente = _wifnixUser.num||'';
-
-  fetch('https://api.wifnix.com/api/leads', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      nombre: nombre,
-      email: email,
-      telefono: tel,
-      herramienta: _leadData.herramienta,
-      datos: datos,
-      estimado: _leadData.estimado
-    })
-  })
-  .then(function(r) { return r.json(); })
-  .then(function() {
-    document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
-    document.getElementById('lead-success').style.display = 'flex';
-  })
-  .catch(function() {
-    var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
-  });
-}
-
-document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
-document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
-</script>
-
 </body>
 </html>
