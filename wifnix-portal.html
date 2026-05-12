@@ -326,9 +326,17 @@ var user = null;
 function showAuthTab(tab) {
   // Restore login tab in case it was replaced by 2FA screen
   var loginTab = document.getElementById('tab-login');
-  // Always restore login form
-  if (loginTab) {
-    loginTab.innerHTML = '<div class="f-field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com"></div><div class="f-field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div><button class="btn-primary" onclick="doLogin()">Iniciar sesión</button><p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">¿No tienes cuenta? <span style="color:var(--blue-light);cursor:pointer" onclick="showAuthTab('registro')">Créala gratis</span></p>';
+  // Only restore login form if it was replaced by 2FA screen
+  if (loginTab && !loginTab.querySelector('#login-email') && !loginTab.querySelector('#login-pass')) {
+    loginTab.innerHTML = [
+      '<div class="f-field"><label>Email</label>',
+      '<input type="email" id="login-email" placeholder="tu@email.com"></div>',
+      '<div class="f-field"><label>Contraseña</label>',
+      '<input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key===String.fromCharCode(13))doLogin()"></div>',
+      '<button class="btn-primary" onclick="doLogin()">Iniciar sesión</button>',
+      '<p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">',
+      '¿No tienes cuenta? <span style="color:var(--blue-light);cursor:pointer" onclick="showAuthTab('registro')">Créala gratis</span></p>'
+    ].join('');
   }
   ['login','registro','recuperar'].forEach(function(t){
     var el = document.getElementById('tab-'+t);
