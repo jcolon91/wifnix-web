@@ -174,9 +174,23 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
 
     <!-- RECUPERAR -->
     <div class="panel" id="panel-recuperar">
-      <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.</p>
-      <div class="field"><label>Email</label><input type="email" id="rec-email" placeholder="tu@email.com"></div>
-      <button class="btn" onclick="doRecuperar()">Enviar instrucciones</button>
+      <div id="rec-step1">
+        <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa tu email y te enviaremos un código para restablecer tu contraseña.</p>
+        <div class="field"><label>Email</label><input type="email" id="rec-email" placeholder="tu@email.com"></div>
+        <button class="btn" id="rec-btn1" onclick="doRecuperar()">Enviar código</button>
+      </div>
+      <div id="rec-step2" style="display:none">
+        <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa el código que enviamos a tu email y tu nueva contraseña.</p>
+        <div class="field"><label>Código de 6 dígitos</label>
+          <input type="text" id="rec-codigo" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
+        </div>
+        <div class="field"><label>Nueva contraseña</label><input type="password" id="rec-pass1" placeholder="Mínimo 8 caracteres"></div>
+        <div class="field"><label>Confirmar contraseña</label><input type="password" id="rec-pass2" placeholder="Repite la contraseña"></div>
+        <button class="btn" id="rec-btn2" onclick="doResetPass()">Cambiar contraseña</button>
+        <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:10px">
+          <span style="color:var(--bl);cursor:pointer" onclick="document.getElementById('rec-step1').style.display='block';document.getElementById('rec-step2').style.display='none'">Reenviar código</span>
+        </p>
+      </div>
     </div>
   </div>
 </div>
@@ -506,7 +520,58 @@ async function reenviarVerif() {
 async function doRecuperar() {
   var email = document.getElementById('rec-email').value.trim();
   if (!email) { showAlert('Ingresa tu email'); return; }
-  showAlert('Si existe una cuenta con ese email, recibirás instrucciones en breve.', 'ok');
+  var btn = document.getElementById('rec-btn1');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    var resp = await fetch(API + '/api/auth/recuperar-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    var data = await resp.json();
+    if (data.ok) {
+      showAlert('Código enviado a ' + email + '. Revisa tu bandeja de entrada.', 'ok');
+      document.getElementById('rec-step1').style.display = 'none';
+      document.getElementById('rec-step2').style.display = 'block';
+      setTimeout(function() { document.getElementById('rec-codigo').focus(); }, 100);
+    } else {
+      showAlert(data.error || 'Error enviando email');
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+  }
+  btn.disabled = false; btn.textContent = 'Enviar código';
+}
+
+async function doResetPass() {
+  var email = document.getElementById('rec-email').value.trim();
+  var codigo = document.getElementById('rec-codigo').value.trim();
+  var pass1 = document.getElementById('rec-pass1').value;
+  var pass2 = document.getElementById('rec-pass2').value;
+  if (!codigo || codigo.length !== 6) { showAlert('Ingresa el código de 6 dígitos'); return; }
+  if (!pass1 || !pass2) { showAlert('Ingresa tu nueva contraseña'); return; }
+  if (pass1 !== pass2) { showAlert('Las contraseñas no coinciden'); return; }
+  if (pass1.length < 8) { showAlert('Mínimo 8 caracteres'); return; }
+  var btn = document.getElementById('rec-btn2');
+  btn.disabled = true; btn.textContent = 'Cambiando...';
+  try {
+    var resp = await fetch(API + '/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, codigo: codigo, nueva_password: pass1 })
+    });
+    var data = await resp.json();
+    if (data.ok) {
+      showAlert('Contraseña actualizada. Ya puedes iniciar sesión.', 'ok');
+      setTimeout(function() { showTab('login'); }, 2500);
+    } else {
+      showAlert(data.error || 'Error al cambiar contraseña');
+      btn.disabled = false; btn.textContent = 'Cambiar contraseña';
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+    btn.disabled = false; btn.textContent = 'Cambiar contraseña';
+  }
 }
 
 // ── PORTAL ──
