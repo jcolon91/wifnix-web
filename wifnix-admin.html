@@ -545,6 +545,12 @@ async function crearUsuario(){
   }catch(e){al.className='alert err';al.textContent='Error de conexión';al.style.display='block';}
 }
 
+function pedirEliminar(btn){
+  var id=btn.getAttribute('data-uid');
+  var nombre=btn.getAttribute('data-unombre');
+  var email=btn.getAttribute('data-uemail');
+  pedirEliminarUsuario(id,nombre,email);
+}
 function pedirEliminarUsuario(id,nombre,email){
   uEliminarId=id;
   document.getElementById('del-u-nombre').textContent=nombre||'Usuario';
