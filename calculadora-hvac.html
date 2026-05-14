@@ -346,57 +346,47 @@ function update() {
 function renderEquipo(btu, tons) {
   var equipos = [];
 
-  if (tons <= 0.75) {
-    equipos.push({ top: true, name: 'Mini Split 9,000 BTU (0.75 Ton)', detail: 'Ideal para espacios muy pequeños. Eficiente y silencioso. Marcas recomendadas: LG, Carrier, Daikin.', price: 'Desde $950 instalado', seer: 'SEER 18-22' });
-  } else if (tons <= 1.0) {
-    equipos.push({ top: true, name: 'Mini Split 12,000 BTU (1 Ton)', detail: 'El más popular para cuartos y oficinas pequeñas. Excelente relación precio-eficiencia.', price: 'Desde $1,100 instalado', seer: 'SEER 18-25' });
-  } else if (tons <= 1.5) {
-    equipos.push({ top: true, name: 'Mini Split 18,000 BTU (1.5 Ton)', detail: 'Para salas medianas, oficinas y estudios. Alta eficiencia, bajo consumo eléctrico.', price: 'Desde $1,400 instalado', seer: 'SEER 17-22' });
-  } else if (tons <= 2.0) {
-    equipos.push({ top: true, name: 'Mini Split 24,000 BTU (2 Ton)', detail: 'Ideal para espacios hasta 1,000 ft². Tecnología inverter para máxima eficiencia.', price: 'Desde $1,800 instalado', seer: 'SEER 16-21' });
-  } else if (tons <= 3.0) {
-    equipos.push({ top: true, name: 'Mini Split 36,000 BTU (3 Ton)', detail: 'Para espacios grandes o locales comerciales. Sistema inverter de alta capacidad.', price: 'Desde $2,400 instalado', seer: 'SEER 16-20' });
-    equipos.push({ top: false, name: 'Sistema central 3 Ton (si ya tienes ductos)', detail: 'Alternativa si el espacio ya tiene ductos instalados. Mayor costo inicial pero cubre todo el local.', price: 'Desde $3,500 instalado', seer: 'SEER 14-18' });
-  } else if (tons <= 5.0) {
-    equipos.push({ top: true, name: 'Sistema central 4-5 Ton', detail: 'Para locales comerciales medianos. Requiere ductos. Mejor para múltiples zonas.', price: 'Desde $4,500 instalado', seer: 'SEER 14-18' });
-    equipos.push({ top: false, name: 'Multi-split (2-3 unidades de 18,000-24,000 BTU)', detail: 'Alternativa flexible sin ductos. Cada zona se controla independientemente.', price: 'Desde $4,000 instalado', seer: 'SEER 16-20' });
+  // Mercado real de PR:
+  // Residencial: 12,000 / 18,000 / 24,000 / 36,000 BTU (casos aislados 60,000)
+  // Comercial: hasta 60,000 BTU y sistemas centrales/VRF
+  // Siempre recomendar >= BTU calculado
+
+  if (btu <= 9000) {
+    // Calculado es muy poco pero el minimo disponible es 9,000
+    equipos.push({ top: true, name: 'Mini Split 9,000 BTU (3/4 Ton)', detail: 'Tu espacio requiere poco enfriamiento. El de 9,000 BTU cubre la carga calculada, aunque en PR es poco comun — la mayoria de instaladores prefieren el 12,000 BTU para que el equipo trabaje sin esfuerzo y dure mas.', price: 'Desde $850 instalado', seer: 'SEER 18-25', badge: 'Minimo requerido' });
+    equipos.push({ top: false, name: 'Recomendado: Mini Split 12,000 BTU (1 Ton)', detail: 'Aunque tu calculo da menos de 9,000 BTU, el 12,000 BTU es el mas comun en PR. Trabaja menos forzado, es mas silencioso, dura mas y mantiene mejor la temperatura en dias de calor extremo.', price: 'Desde $1,050 instalado', seer: 'SEER 18-25', badge: 'Mejor opcion' });
+  } else if (btu <= 12000) {
+    equipos.push({ top: true, name: 'Mini Split 12,000 BTU (1 Ton)', detail: 'El mas popular en PR para cuartos y oficinas pequenas. Cubre tu carga calculada con margen suficiente para trabajar sin esfuerzo.', price: 'Desde $1,050 instalado', seer: 'SEER 18-25', badge: 'Recomendado' });
+    equipos.push({ top: false, name: 'Opcion: 18,000 BTU si quieres mas margen', detail: 'Si el espacio tiene mucha entrada de sol o quieres que trabaje mas descansado, el 18,000 BTU da un margen extra de comodidad.', price: 'Desde $1,350 instalado', seer: 'SEER 17-23', badge: 'Con mas margen' });
+  } else if (btu <= 18000) {
+    equipos.push({ top: true, name: 'Mini Split 18,000 BTU (1.5 Ton)', detail: 'El tamano correcto para tu espacio. Muy popular en salas, comedores y oficinas medianas en PR.', price: 'Desde $1,350 instalado', seer: 'SEER 17-23', badge: 'Recomendado' });
+    equipos.push({ top: false, name: 'Opcion: 24,000 BTU para mayor confort', detail: 'Si el area tiene mucha actividad, equipos adicionales o exposicion solar alta, el 24,000 BTU trabaja mas descansado y mantiene la temperatura mas rapido.', price: 'Desde $1,750 instalado', seer: 'SEER 16-22', badge: 'Con mas margen' });
+  } else if (btu <= 24000) {
+    equipos.push({ top: true, name: 'Mini Split 24,000 BTU (2 Ton)', detail: 'El tamano ideal para tu espacio. Cubre la carga calculada con el margen adecuado para trabajar eficientemente en el clima de PR.', price: 'Desde $1,750 instalado', seer: 'SEER 16-22', badge: 'Recomendado' });
+    equipos.push({ top: false, name: 'Opcion: 36,000 BTU si tiene alta carga termica', detail: 'Para locales con muchos equipos, personas o exposicion solar directa, el 36,000 BTU garantiza confort incluso en los dias mas calurosos.', price: 'Desde $2,400 instalado', seer: 'SEER 16-21', badge: 'Alta carga' });
+  } else if (btu <= 36000) {
+    equipos.push({ top: true, name: 'Mini Split 36,000 BTU (3 Ton)', detail: 'El mayor disponible comunmente en PR para instalacion residencial y comercial pequena. Ideal para espacios grandes o con alta carga termica.', price: 'Desde $2,400 instalado', seer: 'SEER 16-21', badge: 'Recomendado' });
+    equipos.push({ top: false, name: 'Alternativa: 2 unidades de 18,000 BTU por zonas', detail: 'En vez de un solo equipo grande, dos unidades menores permiten controlar zonas independientes y son mas faciles de mantener.', price: 'Desde $2,700 instalado (2 unidades)', seer: 'SEER 17-23', badge: 'Por zonas' });
+  } else if (btu <= 60000) {
+    equipos.push({ top: true, name: 'Sistema multi-split o central (4-5 Ton)', detail: 'Tu carga supera lo que cubre un solo mini split de 36,000 BTU. Se recomienda un sistema central de 4-5 toneladas o multiples mini splits por zona. Requiere evaluacion profesional en sitio.', price: 'Desde $5,000 instalado — requiere evaluacion', seer: 'SEER 14-18', badge: 'Comercial' });
+    equipos.push({ top: false, name: 'Multi-split: 2-3 unidades de 24,000 BTU', detail: 'Sin ductos y con control por zona. Cada unidad cubre su area independientemente — mas eficiente que un sistema central en muchos casos.', price: 'Desde $4,500 instalado', seer: 'SEER 16-22', badge: 'Sin ductos' });
   } else {
-    equipos.push({ top: true, name: 'Sistema central 5+ Ton o VRF comercial', detail: 'Para instalaciones comerciales o industriales grandes. Requiere evaluación profesional y permisos.', price: 'Cotización personalizada', seer: 'SEER 14-20' });
+    equipos.push({ top: true, name: 'Sistema VRF o central 6+ Ton', detail: 'Instalacion comercial o industrial de gran escala. Requiere planos, ingenieria mecanica certificada y permisos de construccion en PR.', price: 'Cotizacion personalizada — contactar a Wifnix', seer: 'SEER 14-20', badge: 'Industrial' });
   }
 
   document.getElementById('r-equipo').innerHTML = equipos.map(function(e) {
-    return '<div class="rec-card ' + (e.top ? 'top' : '') + '">' +
-      (e.top ? '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);margin-bottom:6px">Recomendado</div>' : '') +
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">' +
-        '<div class="rec-name">' + e.name + '</div>' +
+    var borderColor = e.top ? 'rgba(249,115,22,0.4)' : 'rgba(249,115,22,0.12)';
+    var badgeColor = e.top ? 'var(--orange)' : 'var(--gray2)';
+    return '<div class="rec-card" style="border-color:' + borderColor + '">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">' +
+        '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + badgeColor + '">' + (e.badge || '') + '</div>' +
         '<div style="font-size:0.7rem;color:var(--bl);font-weight:600">' + e.seer + '</div>' +
       '</div>' +
+      '<div class="rec-name">' + e.name + '</div>' +
       '<div class="rec-detail">' + e.detail + '</div>' +
       '<div class="rec-price">' + e.price + '</div>' +
     '</div>';
   }).join('');
-}
-
-function renderTip(btu, tons, area, alto, tipo) {
-  var tip = '';
-
-  if (alto > 10) {
-    tip += '<strong>Techo alto (' + alto + ' pies):</strong> Los techos altos acumulan calor en la parte superior. Para espacios con techo sobre 10 pies considera instalar el A/C más alto o usar ventiladores de techo para mejorar la circulación. El cálculo ya incluye esta carga adicional.<br><br>';
-  }
-
-  if (tipo === 'cocina') {
-    tip += '<strong>Cocina / restaurante:</strong> Las cocinas comerciales son las cargas más intensas. Es crítico calcular bien los BTU de cada equipo (freidoras, planchas, hornos). Un sistema subdimensionado en cocinas falla prematuramente y aumenta el consumo eléctrico.<br><br>';
-  }
-
-  if (tipo === 'servidor') {
-    tip += '<strong>Cuarto de servidores:</strong> Los equipos de IT requieren temperatura constante de 65-75°F (18-24°C) y humedad de 40-60%. Se recomienda un sistema dedicado con redundancia — si falla el A/C los servidores pueden dañarse en minutos.<br><br>';
-  }
-
-  tip += '<strong>Puerto Rico:</strong> El clima tropical de PR (temperatura promedio 85°F, humedad 75%) hace que los sistemas trabajen más que en zonas templadas. El cálculo ya incluye el factor de humedad del 10% adicional recomendado para el Caribe.<br><br>';
-
-  tip += '<strong>Eficiencia SEER:</strong> En PR donde el A/C corre 10-14 horas al día, cada punto de SEER representa ahorro significativo en la factura de la AEE. Un equipo SEER 20 puede ahorrar hasta 35% comparado con uno SEER 13.';
-
-  document.getElementById('r-tip').innerHTML = tip;
 }
 
 // Init
