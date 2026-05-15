@@ -555,7 +555,8 @@ function renderUsuarios(data){
     data.map(function(u){
       var puedeEliminar=adminUser.rol==='super_admin'&&u.id!==adminUser.id;
       var nom=((u.nombre||'')+' '+(u.apellido||'')).trim();
-      return'<tr><td style="color:var(--white);font-weight:600">'+nom+'</td><td>'+u.email+'</td><td><span class="badge '+(roles[u.rol]||'bb')+'">'+u.rol+'</span></td><td><span class="badge '+(u.telefono_verificado?'bg':'bw')+'">'+(u.telefono_verificado?'✓':'—')+'</span></td><td><span class="badge '+(u.status==='activo'?'bg':'br')+'">'+u.status+'</span></td><td>'+new Date(u.creado_en).toLocaleDateString('es-PR')+'</td><td class="actions-cell">'+(puedeEliminar?'<button class="icon-btn ib-del" title="Eliminar usuario" data-uid="'+u.id+'" data-unombre="'+nom.replace(/"/g,'')+'" data-uemail="'+u.email+'" onclick="pedirEliminar(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>':'')+'</td></tr>';
+      var uEnc=encodeURIComponent(JSON.stringify(u));
+      return'<tr><td style="color:var(--white);font-weight:600">'+nom+'</td><td>'+u.email+'</td><td><span class="badge '+(roles[u.rol]||'bb')+'">'+u.rol+'</span></td><td><span class="badge '+(u.telefono_verificado?'bg':'bw')+'">'+(u.telefono_verificado?'✓':'—')+'</span></td><td><span class="badge '+(u.status==='activo'?'bg':'br')+'">'+u.status+'</span></td><td>'+new Date(u.creado_en).toLocaleDateString('es-PR')+'</td><td class="actions-cell"><button class="icon-btn ib-edit" title="Editar usuario" onclick="editarUsuario(''+uEnc+'')"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>'+(puedeEliminar?'<button class="icon-btn ib-del" title="Eliminar usuario" data-uid="'+u.id+'" data-unombre="'+nom.replace(/"/g,'')+'" data-uemail="'+u.email+'" onclick="pedirEliminar(this)"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>':'')+'</td></tr>';
     }).join('')+'</tbody></table>';
 }
 function filtrarU(rol,el){document.querySelectorAll('#sec-usuarios .fb').forEach(function(b){b.classList.remove('active');});el.classList.add('active');renderUsuarios(rol?allUsuarios.filter(function(u){return u.rol===rol;}):allUsuarios);}
@@ -569,6 +570,43 @@ async function crearUsuario(){
   var r=await api('/api/admin/usuarios',{method:'POST',body:JSON.stringify({nombre:nombre,apellido:document.getElementById('nu-apellido').value,email:email,password:pass,rol:document.getElementById('nu-rol').value,telefono:document.getElementById('nu-tel').value,empresa_nombre:document.getElementById('nu-empresa').value})});
   if(r.ok){cerrarModal('m-nuevo-usuario');loadUsuarios();}
   else{al.className='alert err';al.textContent=r.error||'Error';al.style.display='block';}
+}
+
+var editUsuarioId=null;
+function editarUsuario(enc){
+  var u=JSON.parse(decodeURIComponent(enc));
+  editUsuarioId=u.id;
+  document.getElementById('eu-nombre').value=u.nombre||'';
+  document.getElementById('eu-apellido').value=u.apellido||'';
+  document.getElementById('eu-email').textContent=u.email;
+  document.getElementById('eu-tel').value=u.telefono||'';
+  document.getElementById('eu-rol').value=u.rol||'cliente';
+  document.getElementById('eu-status').value=u.status||'activo';
+  document.getElementById('eu-empresa').value=u.empresa_nombre||'';
+  document.getElementById('eu-etipo').value=u.empresa_tipo||'';
+  document.getElementById('eu-ein').value=u.empresa_ein||'';
+  document.getElementById('eu-alert').style.display='none';
+  abrirModal('m-editar-usuario');
+}
+async function guardarUsuario(){
+  var al=document.getElementById('eu-alert');
+  var btn=document.querySelector('#m-editar-usuario .btn');
+  btn.disabled=true;btn.textContent='Guardando...';
+  try{
+    var r=await api('/api/admin/usuarios/'+editUsuarioId,{method:'PUT',body:JSON.stringify({
+      nombre:document.getElementById('eu-nombre').value.trim(),
+      apellido:document.getElementById('eu-apellido').value.trim(),
+      telefono:document.getElementById('eu-tel').value.trim(),
+      rol:document.getElementById('eu-rol').value,
+      status:document.getElementById('eu-status').value,
+      empresa_nombre:document.getElementById('eu-empresa').value.trim(),
+      empresa_tipo:document.getElementById('eu-etipo').value.trim(),
+      empresa_ein:document.getElementById('eu-ein').value.trim()
+    })});
+    if(r.ok){cerrarModal('m-editar-usuario');loadUsuarios();}
+    else{al.className='alert err';al.textContent=r.error||'Error';al.style.display='block';}
+  }catch(e){al.className='alert err';al.textContent='Error de conexión';al.style.display='block';}
+  btn.disabled=false;btn.textContent='Guardar cambios';
 }
 function pedirEliminar(btn){
   uEliminarId=btn.getAttribute('data-uid');
@@ -875,5 +913,51 @@ if(token){
     .catch(function(){localStorage.removeItem('wifnix_admin_token');});
 }
 </script>
+
+<!-- MODAL EDITAR USUARIO -->
+<div class="modal" id="m-editar-usuario">
+  <div class="mbox">
+    <div class="mtitle">Editar Usuario</div>
+    <div style="padding:8px 12px;background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.15);border-radius:7px;margin-bottom:14px;font-size:0.82rem;color:var(--gray)">Email: <strong style="color:var(--white)" id="eu-email">—</strong></div>
+    <div class="g2">
+      <div class="field"><label>Nombre</label><input type="text" id="eu-nombre" placeholder="Nombre"></div>
+      <div class="field"><label>Apellido</label><input type="text" id="eu-apellido" placeholder="Apellido"></div>
+    </div>
+    <div class="field"><label>Teléfono</label><input type="tel" id="eu-tel" placeholder="(787) 000-0000"></div>
+    <div class="g2">
+      <div class="field"><label>Rol</label>
+        <select id="eu-rol">
+          <option value="cliente">Cliente</option>
+          <option value="empresa">Empresa</option>
+          <option value="reseller">Reseller</option>
+          <option value="tecnico">Técnico</option>
+          <option value="admin">Admin</option>
+          <option value="contabilidad">Contabilidad</option>
+          <option value="inventario">Inventario</option>
+          <option value="auditor">Auditor</option>
+        </select>
+      </div>
+      <div class="field"><label>Estado</label>
+        <select id="eu-status">
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+          <option value="suspendido">Suspendido</option>
+        </select>
+      </div>
+    </div>
+    <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:14px 0 10px">Información empresarial</div>
+    <div class="field"><label>Nombre de empresa</label><input type="text" id="eu-empresa" placeholder="Mi Empresa LLC"></div>
+    <div class="g2">
+      <div class="field"><label>Tipo de empresa</label><input type="text" id="eu-etipo" placeholder="Restaurante, oficina..."></div>
+      <div class="field"><label>EIN / Número patronal</label><input type="text" id="eu-ein" placeholder="00-0000000"></div>
+    </div>
+    <div id="eu-alert" class="alert"></div>
+    <div class="mfoot">
+      <button class="btn" onclick="guardarUsuario()" style="flex:1">Guardar cambios</button>
+      <button class="btn-ghost" onclick="cerrarModal('m-editar-usuario')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
