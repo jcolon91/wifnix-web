@@ -233,7 +233,7 @@ tr.selected td{background:rgba(11,143,204,0.05)}
       <div class="filter-bar">
         <button class="fb active" onclick="filtrarT('',this)">Todos</button>
         <button class="fb" onclick="filtrarT('abierto',this)">Abiertos</button>
-        <button class="fb" onclick="filtrarT('en_progreso',this)">En progreso</button>
+        <button class="fb" onclick="filtrarT('en_proceso',this)">En proceso</button>
         <button class="fb" onclick="filtrarT('resuelto',this)">Resueltos</button>
         <button class="fb" onclick="filtrarT('alta',this)">Alta prioridad</button>
       </div>
@@ -243,7 +243,7 @@ tr.selected td{background:rgba(11,143,204,0.05)}
         <select id="bulk-status" style="background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.2);border-radius:6px;padding:5px 10px;color:var(--white);font-size:0.78rem;outline:none">
           <option value="">Cambiar estado...</option>
           <option value="abierto">Abierto</option>
-          <option value="en_progreso">En progreso</option>
+          <option value="en_proceso">En proceso</option>
           <option value="resuelto">Resuelto</option>
           <option value="cerrado">Cerrado</option>
         </select>
@@ -317,7 +317,7 @@ tr.selected td{background:rgba(11,143,204,0.05)}
     <div class="mtitle">Gestionar Ticket <span id="m-tk-num" style="color:var(--gray)"></span></div>
     <div class="g2">
       <div class="field"><label>Estado</label>
-        <select id="m-tk-status"><option value="abierto">Abierto</option><option value="en_progreso">En progreso</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select>
+        <select id="m-tk-status"><option value="abierto">Abierto</option><option value="en_proceso">En proceso</option><option value="resuelto">Resuelto</option><option value="cerrado">Cerrado</option></select>
       </div>
       <div class="field"><label>Prioridad</label>
         <select id="m-tk-prio"><option value="baja">Baja</option><option value="media">Media</option><option value="alta">Alta</option></select>
@@ -622,7 +622,7 @@ function renderTickets(data){
   selectedTks.clear();
   document.getElementById('bulk-bar').classList.remove('visible');
   if(!data||!data.length){document.getElementById('lista-tickets').innerHTML='<div class="empty">Sin tickets</div>';return;}
-  var sc={abierto:'bb',en_progreso:'bw',resuelto:'bg',cerrado:'br'};
+  var sc={abierto:'bb',en_proceso:'bw',resuelto:'bg',cerrado:'br'};
   var pc={alta:'br',media:'bw',baja:'bg'};
   document.getElementById('lista-tickets').innerHTML=
     '<table><thead><tr>'+
