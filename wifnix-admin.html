@@ -1290,7 +1290,9 @@ function renderResellersTabla() {
   });
 }
 
+var currentSolicitud = null;
 function abrirModalReseller(s) {
+  currentSolicitud = s;
   var html = '<div class="modal" style="display:flex"><div class="mbox lg">' +
     '<div class="mtitle">Revisar Solicitud Reseller</div>' +
     '<div style="background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.15);border-radius:8px;padding:14px;margin-bottom:16px">' +
@@ -1305,14 +1307,14 @@ function abrirModalReseller(s) {
     '</div>' +
     '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray2);margin:8px 0 4px">Experiencia previa</div>' +
     '<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:6px;padding:10px;color:var(--white);font-size:0.82rem;line-height:1.5;margin-bottom:14px">' + (s.experiencia || 'Sin información') + '</div>' +
-    (s.documento_registro ? '<div style="margin-bottom:10px"><a href="' + s.documento_registro + '" target="_blank" class="fb fb-blue" style="display:inline-block;text-decoration:none">📄 Ver registro de comerciante</a></div>' : '') +
-    (s.documento_identificacion ? '<div style="margin-bottom:10px"><a href="' + s.documento_identificacion + '" target="_blank" class="fb fb-blue" style="display:inline-block;text-decoration:none">🪪 Ver identificación</a></div>' : '') +
+    (s.documento_registro ? '<div style="margin-bottom:10px"><button class="fb fb-blue" onclick="verDocumento(\'registro\')">📄 Ver registro de comerciante</button></div>' : '') +
+    (s.documento_identificacion ? '<div style="margin-bottom:10px"><button class="fb fb-blue" onclick="verDocumento(\'identificacion\')">🪪 Ver identificación</button></div>' : '') +
     (s.notas_solicitante ? '<div style="background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:6px;padding:10px;font-size:0.78rem;color:var(--gray);margin-bottom:14px"><strong style="color:var(--warn)">Nota del solicitante:</strong><br>' + s.notas_solicitante + '</div>' : '') +
     '<div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;margin-top:16px">' +
     '<div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Decisión</div>' +
     '<div class="field"><label>Notas internas (visibles solo para admin)</label><textarea id="r-notas" placeholder="Notas sobre la decisión..."></textarea></div>' +
-    '<div class="field"><label>Si rechazas — razón (se envía al cliente)</label><textarea id="r-razon" placeholder="Razón del rechazo..."></textarea></div>' +
-    '<div class="field"><label>Si pides info — qué necesitas</label><textarea id="r-info" placeholder="Por favor envíanos..."></textarea></div>' +
+    '<div class="field"><label style="display:flex;justify-content:space-between;align-items:center"><span>Si rechazas — razón (se envía al cliente)</span><button id="r-mejorar" onclick="mejorarRazon()" type="button" style="background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.25);border-radius:5px;padding:3px 9px;font-size:0.65rem;cursor:pointer;font-weight:600">✨ Mejorar con IA</button></label><textarea id="r-razon" placeholder="Razón del rechazo..."></textarea></div>' +
+    '<div class="field"><label style="display:flex;justify-content:space-between;align-items:center"><span>Si pides info — qué necesitas</span><button id="r-mejorar2" onclick="mejorarInfo()" type="button" style="background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.25);border-radius:5px;padding:3px 9px;font-size:0.65rem;cursor:pointer;font-weight:600">✨ Mejorar con IA</button></label><textarea id="r-info" placeholder="Por favor envíanos..."></textarea></div>' +
     '</div>' +
     '<div id="r-alert" class="alert"></div>' +
     '<div class="mfoot" style="flex-wrap:wrap">' +
@@ -1346,6 +1348,76 @@ async function decidirReseller(id, accion) {
   });
   if (r.ok) { cerrarModales(); renderResellers(); }
   else { showAlert(alert, r.error || 'Error'); }
+}
+
+function verDocumento(tipo) {
+  if (!currentSolicitud) return;
+  var data = tipo === 'registro' ? currentSolicitud.documento_registro : currentSolicitud.documento_identificacion;
+  if (!data) { alert('No hay documento'); return; }
+  try {
+    var match = data.match(/^data:([^;]+);base64,(.+)$/);
+    if (!match) { alert('Formato de documento inválido'); return; }
+    var mimeType = match[1];
+    var b64 = match[2];
+    var byteCharacters = atob(b64);
+    var byteArrays = [];
+    for (var offset = 0; offset < byteCharacters.length; offset += 512) {
+      var slice = byteCharacters.slice(offset, offset + 512);
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) byteNumbers[i] = slice.charCodeAt(i);
+      byteArrays.push(new Uint8Array(byteNumbers));
+    }
+    var blob = new Blob(byteArrays, {type: mimeType});
+    var blobUrl = URL.createObjectURL(blob);
+    var ext = mimeType.includes('pdf') ? 'pdf' : mimeType.includes('png') ? 'png' : mimeType.includes('jpeg') ? 'jpg' : 'bin';
+    var fileName = tipo + '-' + (currentSolicitud.email || 'doc').split('@')[0] + '.' + ext;
+    var a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = fileName;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(blobUrl); }, 60000);
+  } catch(e) {
+    console.error('Error mostrando documento:', e);
+    alert('Error: ' + e.message);
+  }
+}
+
+async function mejorarInfo() {
+  var txt = document.getElementById('r-info').value.trim();
+  if (!txt) { alert('Escribe primero qué información necesitas'); return; }
+  var btn = document.getElementById('r-mejorar2');
+  btn.disabled = true; btn.textContent = 'Mejorando...';
+  try {
+    var r = await api('/api/admin/ai-mejorar-texto', {
+      method: 'POST',
+      body: JSON.stringify({texto: txt, contexto: 'Solicitud de información adicional para procesar aplicación de reseller. Reescribe en tono profesional, claro y amable. Lista claramente qué necesitamos. Máximo 4 oraciones.'})
+    });
+    if (r.texto) document.getElementById('r-info').value = r.texto;
+    else alert(r.error || 'Error');
+  } catch(e) { alert('Error de conexión'); }
+  btn.disabled = false; btn.textContent = '✨ Mejorar con IA';
+}
+
+async function mejorarRazon() {
+  var txt = document.getElementById('r-razon').value.trim();
+  if (!txt) { alert('Escribe primero la razón en bruto'); return; }
+  var btn = document.getElementById('r-mejorar');
+  btn.disabled = true; btn.textContent = 'Mejorando...';
+  try {
+    var r = await api('/api/admin/ai-mejorar-texto', {
+      method: 'POST',
+      body: JSON.stringify({texto: txt, contexto: 'Razón de rechazo a solicitud de reseller. Reescribe en tono profesional, empático y constructivo, manteniendo el mensaje claro. Máximo 3 oraciones.'})
+    });
+    if (r.texto) {
+      document.getElementById('r-razon').value = r.texto;
+    } else {
+      alert(r.error || 'Error mejorando texto');
+    }
+  } catch(e) { alert('Error de conexión'); }
+  btn.disabled = false; btn.textContent = '✨ Mejorar con IA';
 }
 
 async function renderAuditoria() {
