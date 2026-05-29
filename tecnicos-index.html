@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0B8FCC">
+<title>Wifnix Técnicos</title>
+<link rel="icon" type="image/png" sizes="32x32" href="https://wifnix.com/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="https://wifnix.com/assets/apple-touch-icon.png">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  :root {
+    --blue:#0B8FCC; --blue-d:#0876a8; --ink:#0F1F2E; --gray:#5B7184; --gray2:#94A8B8;
+    --line:#E3EAF0; --bg:#F4F7FA; --card:#FFFFFF; --green:#00B377; --warn:#E89611; --red:#E5484D;
+  }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; overscroll-behavior:none; }
+  .hidden { display:none !important; }
+  button { font-family:inherit; cursor:pointer; border:none; }
+  input, textarea { font-family:inherit; }
+
+  /* LOGIN */
+  #login { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; background:linear-gradient(160deg,#0B8FCC 0%,#075c84 100%); }
+  #login .logo { width:140px; margin-bottom:8px; }
+  #login h1 { color:#fff; font-size:1.1rem; font-weight:700; margin-bottom:4px; letter-spacing:0.5px; }
+  #login p { color:rgba(255,255,255,0.7); font-size:0.85rem; margin-bottom:28px; }
+  .login-card { background:#fff; border-radius:18px; padding:26px 22px; width:100%; max-width:380px; box-shadow:0 20px 50px rgba(0,0,0,0.25); }
+  .field { margin-bottom:16px; }
+  .field label { display:block; font-size:0.74rem; font-weight:700; color:var(--gray); margin-bottom:7px; text-transform:uppercase; letter-spacing:0.04em; }
+  .field input { width:100%; padding:14px; border:1.5px solid var(--line); border-radius:11px; font-size:1rem; color:var(--ink); transition:border .15s; }
+  .field input:focus { outline:none; border-color:var(--blue); }
+  .btn-primary { width:100%; padding:15px; background:var(--blue); color:#fff; border-radius:11px; font-size:1rem; font-weight:700; transition:background .15s; }
+  .btn-primary:active { background:var(--blue-d); }
+  .btn-primary:disabled { opacity:0.6; }
+  #login-err { color:#fff; background:rgba(229,72,77,0.9); padding:10px 14px; border-radius:9px; font-size:0.84rem; margin-bottom:14px; text-align:center; }
+
+  /* APP SHELL */
+  #app { min-height:100vh; padding-bottom:20px; }
+  .topbar { background:var(--blue); color:#fff; padding:16px 18px calc(16px + env(safe-area-inset-top)); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(11,143,204,0.25); }
+  .topbar .tb-title { font-size:1.05rem; font-weight:800; }
+  .topbar .tb-sub { font-size:0.72rem; opacity:0.8; margin-top:1px; }
+  .tb-logout { background:rgba(255,255,255,0.18); color:#fff; padding:8px 12px; border-radius:9px; font-size:0.74rem; font-weight:700; }
+
+  .wrap { padding:16px; max-width:560px; margin:0 auto; }
+
+  /* RESUMEN CARDS */
+  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px; }
+  .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 10px; text-align:center; }
+  .stat .num { font-size:1.6rem; font-weight:800; color:var(--blue); line-height:1; }
+  .stat .lbl { font-size:0.66rem; color:var(--gray); margin-top:5px; text-transform:uppercase; letter-spacing:0.03em; font-weight:600; }
+
+  .section-title { font-size:0.78rem; font-weight:800; color:var(--gray); text-transform:uppercase; letter-spacing:0.05em; margin:18px 4px 10px; }
+
+  /* DATE NAV */
+  .datenav { display:flex; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin-bottom:14px; }
+  .datenav button { width:36px; height:36px; border-radius:9px; background:var(--bg); color:var(--ink); font-size:1.1rem; font-weight:700; }
+  .datenav .dn-label { font-size:0.9rem; font-weight:700; color:var(--ink); text-transform:capitalize; }
+
+  /* JOB CARD */
+  .job { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:0; margin-bottom:12px; overflow:hidden; box-shadow:0 1px 3px rgba(15,31,46,0.04); }
+  .job-strip { height:5px; }
+  .job-body { padding:15px; }
+  .job-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; }
+  .job-time { font-size:0.78rem; font-weight:800; color:var(--ink); background:var(--bg); padding:5px 10px; border-radius:8px; }
+  .job-status { font-size:0.66rem; font-weight:800; padding:4px 9px; border-radius:7px; text-transform:uppercase; letter-spacing:0.03em; }
+  .job-serv { font-size:1rem; font-weight:800; color:var(--ink); margin-bottom:4px; }
+  .job-client { font-size:0.86rem; color:var(--gray); display:flex; align-items:center; gap:6px; }
+  .job-addr { font-size:0.8rem; color:var(--gray2); margin-top:6px; display:flex; align-items:flex-start; gap:6px; }
+  .job-units { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+  .unit-chip { font-size:0.7rem; background:rgba(11,143,204,0.08); color:var(--blue); padding:3px 9px; border-radius:20px; font-weight:700; }
+
+  /* DETAIL */
+  #detail { position:fixed; inset:0; background:var(--bg); z-index:100; overflow-y:auto; transform:translateX(100%); transition:transform .25s ease; }
+  #detail.open { transform:translateX(0); }
+  .det-back { background:rgba(255,255,255,0.18); color:#fff; padding:8px 14px; border-radius:9px; font-size:0.8rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; }
+  .det-card { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:16px; margin-bottom:14px; }
+  .det-row { display:flex; align-items:flex-start; gap:11px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .det-row:last-child { border-bottom:none; }
+  .det-ico { width:34px; height:34px; border-radius:9px; background:rgba(11,143,204,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem; }
+  .det-k { font-size:0.7rem; color:var(--gray2); text-transform:uppercase; letter-spacing:0.03em; font-weight:700; }
+  .det-v { font-size:0.9rem; color:var(--ink); font-weight:600; margin-top:2px; word-break:break-word; }
+  .det-v a { color:var(--blue); text-decoration:none; }
+
+  .flow-btn { width:100%; padding:17px; border-radius:13px; font-size:1.02rem; font-weight:800; margin-bottom:11px; display:flex; align-items:center; justify-content:center; gap:9px; transition:transform .1s; }
+  .flow-btn:active { transform:scale(0.98); }
+  .flow-btn.viaje { background:var(--blue); color:#fff; }
+  .flow-btn.llegue { background:var(--warn); color:#fff; }
+  .flow-btn.completar { background:var(--green); color:#fff; }
+  .flow-btn.done { background:#E8F5EE; color:var(--green); }
+  .flow-btn:disabled { opacity:0.45; }
+
+  .timeline { display:flex; justify-content:space-between; margin:6px 0 18px; position:relative; }
+  .timeline::before { content:''; position:absolute; top:13px; left:8%; right:8%; height:2px; background:var(--line); z-index:0; }
+  .tl-step { display:flex; flex-direction:column; align-items:center; gap:6px; z-index:1; flex:1; }
+  .tl-dot { width:28px; height:28px; border-radius:50%; background:var(--card); border:2px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:0.8rem; color:var(--gray2); }
+  .tl-dot.active { background:var(--green); border-color:var(--green); color:#fff; }
+  .tl-lbl { font-size:0.62rem; color:var(--gray); font-weight:700; text-align:center; }
+  .tl-time { font-size:0.6rem; color:var(--gray2); }
+
+  .photo-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+  .photo-slot { border:2px dashed var(--line); border-radius:12px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--gray2); font-size:0.78rem; font-weight:700; position:relative; overflow:hidden; background:var(--bg); }
+  .photo-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .photo-slot .ph-badge { position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.6); color:#fff; font-size:0.62rem; padding:2px 7px; border-radius:6px; font-weight:700; }
+  .photo-add { font-size:1.6rem; }
+
+  textarea.notas { width:100%; min-height:80px; border:1.5px solid var(--line); border-radius:11px; padding:12px; font-size:0.92rem; resize:vertical; color:var(--ink); }
+  textarea.notas:focus { outline:none; border-color:var(--blue); }
+
+  /* FIRMA */
+  #firma-modal { position:fixed; inset:0; background:rgba(15,31,46,0.6); z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
+  #firma-modal.open { display:flex; }
+  .firma-box { background:#fff; border-radius:16px; padding:18px; width:100%; max-width:440px; }
+  .firma-box h3 { font-size:1rem; font-weight:800; margin-bottom:4px; }
+  .firma-box p { font-size:0.8rem; color:var(--gray); margin-bottom:12px; }
+  #firma-canvas { width:100%; height:180px; border:2px solid var(--line); border-radius:12px; touch-action:none; background:#fff; }
+  .firma-actions { display:flex; gap:10px; margin-top:12px; }
+  .firma-actions button { flex:1; padding:13px; border-radius:11px; font-weight:700; font-size:0.9rem; }
+  .btn-ghost { background:var(--bg); color:var(--ink); }
+
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:13px 22px; border-radius:12px; font-size:0.88rem; font-weight:600; z-index:500; opacity:0; transition:opacity .2s; box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+  .toast.show { opacity:1; }
+
+  .empty { text-align:center; padding:50px 20px; color:var(--gray2); }
+  .empty svg { width:54px; height:54px; stroke:var(--gray2); fill:none; stroke-width:1.3; margin-bottom:12px; }
+  .empty p { font-size:0.92rem; }
+
+  .loading { text-align:center; padding:40px; color:var(--gray); font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <img src="https://wifnix.com/assets/logo-wifnix.png" class="logo" alt="Wifnix" onerror="this.style.display='none'">
+  <h1>PORTAL DE TÉCNICOS</h1>
+  <p>Field Service · Wifnix LLC</p>
+  <div class="login-card">
+    <div id="login-err" class="hidden"></div>
+    <div class="field">
+      <label>Número de empleado</label>
+      <input type="text" id="l-num" placeholder="T-00000" autocapitalize="characters" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn-primary" id="l-btn" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <div class="topbar">
+    <div>
+      <div class="tb-title" id="tb-name">—</div>
+      <div class="tb-sub" id="tb-num">—</div>
+    </div>
+    <button class="tb-logout" onclick="logout()">Salir</button>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="num" id="st-hoy">—</div><div class="lbl">Hoy</div></div>
+      <div class="stat"><div class="num" id="st-comp">—</div><div class="lbl">Completados</div></div>
+      <div class="stat"><div class="num" id="st-prox">—</div><div class="lbl">Próximos</div></div>
+    </div>
+
+    <div class="datenav">
+      <button onclick="cambiarDia(-1)">‹</button>
+      <span class="dn-label" id="dn-label">Hoy</span>
+      <button onclick="cambiarDia(1)">›</button>
+    </div>
+
+    <div class="section-title">Trabajos del día</div>
+    <div id="jobs"><div class="loading">Cargando...</div></div>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div id="detail">
+  <div class="topbar">
+    <button class="det-back" onclick="cerrarDetalle()">‹ Volver</button>
+    <div class="tb-title" id="det-num" style="font-size:0.92rem">—</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="wrap" id="det-content"></div>
+</div>
+
+<!-- FIRMA MODAL -->
+<div id="firma-modal">
+  <div class="firma-box">
+    <h3>Firma del cliente</h3>
+    <p>Pídele al cliente que firme con el dedo para confirmar el servicio.</p>
+    <canvas id="firma-canvas"></canvas>
+    <div class="firma-actions">
+      <button class="btn-ghost" onclick="limpiarFirma()">Limpiar</button>
+      <button class="btn-primary" style="padding:13px" onclick="guardarFirma()">Confirmar firma</button>
+    </div>
+    <button class="btn-ghost" style="width:100%;margin-top:8px;padding:11px" onclick="cerrarFirma()">Cancelar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API = 'https://api.wifnix.com';
+var TOKEN = localStorage.getItem('wifnix_tecnico_token');
+var TECNICO = null;
+try { TECNICO = JSON.parse(localStorage.getItem('wifnix_tecnico') || 'null'); } catch(e) {}
+var fechaActual = new Date();
+var jobsCache = [];
+var jobActual = null;
+
+// ---- API helper ----
+async function tapi(path, opts) {
+  var o = opts || {};
+  o.headers = Object.assign({ 'Content-Type':'application/json' }, o.headers || {});
+  if (TOKEN) o.headers['Authorization'] = 'Bearer ' + TOKEN;
+  if (o.body && typeof o.body === 'object') o.body = JSON.stringify(o.body);
+  var r = await fetch(API + path, o);
+  if (r.status === 401) { logout(); return null; }
+  try { return await r.json(); } catch(e) { return null; }
+}
+
+function toast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2200);
+}
+
+// ---- LOGIN ----
+async function doLogin() {
+  var num = document.getElementById('l-num').value.trim();
+  var pass = document.getElementById('l-pass').value;
+  var err = document.getElementById('login-err');
+  var btn = document.getElementById('l-btn');
+  err.classList.add('hidden');
+  if (!num || !pass) { err.textContent = 'Ingresa tu número y contraseña'; err.classList.remove('hidden'); return; }
+  btn.disabled = true; btn.textContent = 'Entrando...';
+  try {
+    var r = await fetch(API + '/api/tecnico/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ numero_empleado:num, password:pass })
+    });
+    var d = await r.json();
+    if (d.ok) {
+      TOKEN = d.token; TECNICO = d.tecnico;
+      localStorage.setItem('wifnix_tecnico_token', TOKEN);
+      localStorage.setItem('wifnix_tecnico', JSON.stringify(TECNICO));
+      iniciarApp();
+    } else {
+      err.textContent = d.error || 'Error al entrar'; err.classList.remove('hidden');
+      btn.disabled = false; btn.textContent = 'Entrar';
+    }
+  } catch(e) {
+    err.textContent = 'Error de conexión'; err.classList.remove('hidden');
+    btn.disabled = false; btn.textContent = 'Entrar';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('wifnix_tecnico_token');
+  localStorage.removeItem('wifnix_tecnico');
+  TOKEN = null; TECNICO = null;
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('login').classList.remove('hidden');
+  var btn = document.getElementById('l-btn');
+  btn.disabled = false; btn.textContent = 'Entrar';
+  document.getElementById('l-pass').value = '';
+}
+
+function iniciarApp() {
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  document.getElementById('tb-name').textContent = TECNICO.nombre;
+  document.getElementById('tb-num').textContent = '#' + TECNICO.numero_empleado;
+  cargarResumen();
+  cargarTrabajos();
+}
+
+// ---- RESUMEN ----
+async function cargarResumen() {
+  var d = await tapi('/api/tecnico/resumen');
+  if (!d) return;
+  document.getElementById('st-hoy').textContent = d.hoy || 0;
+  document.getElementById('st-comp').textContent = d.completados_hoy || 0;
+  document.getElementById('st-prox').textContent = d.proximos || 0;
+}
+
+// ---- COLORES POR SERVICIO ----
+var COLOR_SERV = {
+  'Mantenimiento de aire acondicionado':'#0B8FCC',
+  'Limpieza de cámaras CCTV':'#8B5CF6',
+  'Revisión de redes/WiFi':'#00B377',
+  'Mantenimiento de servidores':'#E89611',
+  'Inspección de cableado':'#06B6D4',
+  'Otro servicio':'#5B7184'
+};
+function colorServ(t){ return COLOR_SERV[t] || '#5B7184'; }
+
+var STATUS_INFO = {
+  solicitada:{l:'Solicitada',c:'#E89611',bg:'#FDF3E3'},
+  aprobada:{l:'Aprobada',c:'#0B8FCC',bg:'#E7F3FA'},
+  confirmada:{l:'Confirmada',c:'#00B377',bg:'#E5F6EF'},
+  reprogramada:{l:'Reprogramada',c:'#0B8FCC',bg:'#E7F3FA'},
+  en_proceso:{l:'En proceso',c:'#8B5CF6',bg:'#F0EBFB'},
+  completada:{l:'Completada',c:'#00B377',bg:'#E5F6EF'},
+  no_show:{l:'No asistió',c:'#5B7184',bg:'#EEF2F5'}
+};
+function statusInfo(s){ return STATUS_INFO[s] || STATUS_INFO.confirmada; }
+
+// ---- DÍA ----
+function fechaISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function cambiarDia(delta){ fechaActual.setDate(fechaActual.getDate()+delta); actualizarLabelDia(); cargarTrabajos(); }
+function actualizarLabelDia(){
+  var hoy = new Date(); hoy.setHours(0,0,0,0);
+  var f = new Date(fechaActual); f.setHours(0,0,0,0);
+  var diff = Math.round((f-hoy)/86400000);
+  var lbl;
+  if (diff === 0) lbl = 'Hoy';
+  else if (diff === 1) lbl = 'Mañana';
+  else if (diff === -1) lbl = 'Ayer';
+  else lbl = fechaActual.toLocaleDateString('es-PR',{weekday:'long',day:'numeric',month:'short'});
+  document.getElementById('dn-label').textContent = lbl;
+}
+
+// ---- TRABAJOS ----
+async function cargarTrabajos() {
+  var cont = document.getElementById('jobs');
+  cont.innerHTML = '<div class="loading">Cargando...</div>';
+  var d = await tapi('/api/tecnico/trabajos?fecha=' + fechaISO(fechaActual));
+  if (!d) { cont.innerHTML = '<div class="loading">Error al cargar</div>'; return; }
+  jobsCache = d;
+  if (!d.length) {
+    cont.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>No tienes trabajos este día</p></div>';
+    return;
+  }
+  cont.innerHTML = d.map(function(j){
+    var col = colorServ(j.tipo_servicio);
+    var si = statusInfo(j.status);
+    var cliente = ((j.cliente_nombre||'')+' '+(j.cliente_apellido||'')).trim();
+    var units = (j.unidades && j.unidades.length) ? '<div class="job-units">' + j.unidades.map(function(u){ return '<span class="unit-chip">'+u.cantidad+' '+u.tipo_unidad+'</span>'; }).join('') + '</div>' : '';
+    return '<div class="job" onclick="abrirDetalle(\''+j.id+'\')">' +
+      '<div class="job-strip" style="background:'+col+'"></div>' +
+      '<div class="job-body">' +
+        '<div class="job-top">' +
+          '<span class="job-time">'+ (j.slot||'') +'</span>' +
+          '<span class="job-status" style="color:'+si.c+';background:'+si.bg+'">'+si.l+'</span>' +
+        '</div>' +
+        '<div class="job-serv">'+j.tipo_servicio+'</div>' +
+        '<div class="job-client">👤 '+(cliente||'Cliente')+'</div>' +
+        (j.direccion ? '<div class="job-addr">📍 '+j.direccion+(j.municipio?', '+j.municipio:'')+'</div>' : '') +
+        units +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// ---- DETALLE ----
+function abrirDetalle(id) {
+  jobActual = jobsCache.find(function(j){ return j.id === id; });
+  if (!jobActual) return;
+  renderDetalle();
+  document.getElementById('detail').classList.add('open');
+}
+function cerrarDetalle() {
+  document.getElementById('detail').classList.remove('open');
+  cargarTrabajos(); cargarResumen();
+}
+
+function fmtHora(ts){ if(!ts) return ''; return new Date(ts).toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'}); }
+
+function renderDetalle() {
+  var j = jobActual;
+  document.getElementById('det-num').textContent = 'CIT-' + String(j.numero).padStart(4,'0');
+  var col = colorServ(j.tipo_servicio);
+  var cliente = ((j.cliente_nombre||'')+' '+(j.cliente_apellido||'')).trim();
+  var tel = j.cliente_telefono || j.telefono || '';
+  var maps = (j.latitud && j.longitud) ? 'https://maps.google.com/?q='+j.latitud+','+j.longitud : (j.direccion ? 'https://maps.google.com/?q='+encodeURIComponent(j.direccion+' '+(j.municipio||'')) : null);
+
+  // Timeline
+  var pasos = [
+    { k:'Asignado', done:true, t:'' },
+    { k:'En viaje', done:!!j.hora_inicio_viaje, t:fmtHora(j.hora_inicio_viaje) },
+    { k:'En sitio', done:!!j.hora_llegada, t:fmtHora(j.hora_llegada) },
+    { k:'Completado', done:!!j.hora_fin, t:fmtHora(j.hora_fin) }
+  ];
+  var tl = '<div class="timeline">' + pasos.map(function(p){
+    return '<div class="tl-step"><div class="tl-dot '+(p.done?'active':'')+'">'+(p.done?'✓':'')+'</div><div class="tl-lbl">'+p.k+'</div><div class="tl-time">'+(p.t||'')+'</div></div>';
+  }).join('') + '</div>';
+
+  var units = (j.unidades && j.unidades.length) ? j.unidades.map(function(u){ return '<span class="unit-chip">'+u.cantidad+' '+u.tipo_unidad+'</span>'; }).join(' ') : '—';
+
+  var html = tl +
+    '<div class="det-card" style="border-left:4px solid '+col+'">' +
+      '<div class="job-serv" style="font-size:1.1rem">'+j.tipo_servicio+'</div>' +
+      '<div style="font-size:0.8rem;color:var(--gray);margin-top:4px">'+ (j.slot||'') +' · '+ new Date(j.fecha+'T12:00:00').toLocaleDateString('es-PR',{weekday:'long',day:'numeric',month:'long'}) +'</div>' +
+    '</div>' +
+
+    '<div class="det-card">' +
+      '<div class="det-row"><div class="det-ico">👤</div><div><div class="det-k">Cliente</div><div class="det-v">'+(cliente||'—')+'</div></div></div>' +
+      (tel ? '<div class="det-row"><div class="det-ico">📞</div><div><div class="det-k">Teléfono</div><div class="det-v"><a href="tel:'+tel+'">'+tel+'</a></div></div></div>' : '') +
+      (j.direccion ? '<div class="det-row"><div class="det-ico">📍</div><div><div class="det-k">Dirección</div><div class="det-v">'+j.direccion+(j.municipio?', '+j.municipio:'')+(maps?' · <a href="'+maps+'" target="_blank">Navegar</a>':'')+'</div></div></div>' : '') +
+      '<div class="det-row"><div class="det-ico">❄️</div><div><div class="det-k">Unidades / Detalle</div><div class="det-v">'+units+'</div></div></div>' +
+      (j.notas_cliente ? '<div class="det-row"><div class="det-ico">📝</div><div><div class="det-k">Notas del cliente</div><div class="det-v" style="font-weight:500;font-style:italic">"'+j.notas_cliente+'"</div></div></div>' : '') +
+    '</div>';
+
+  // Flujo de botones segun estado
+  if (!j.hora_fin) {
+    html += '<div class="det-card">';
+    if (!j.hora_inicio_viaje) {
+      html += '<button class="flow-btn viaje" onclick="accionFlujo(\'iniciar-viaje\')">🚗 Iniciar viaje</button>';
+    } else if (!j.hora_llegada) {
+      html += '<button class="flow-btn done" disabled>✓ En viaje desde '+fmtHora(j.hora_inicio_viaje)+'</button>';
+      html += '<button class="flow-btn llegue" onclick="accionFlujo(\'llegue\')">📍 Marcar llegada</button>';
+    } else {
+      html += '<button class="flow-btn done" disabled>✓ Llegada '+fmtHora(j.hora_llegada)+'</button>';
+      // Fotos + notas + completar
+      html += '<div class="section-title" style="margin:14px 4px 8px">Fotos del trabajo</div>';
+      html += '<div class="photo-grid" id="photo-grid"></div>';
+      html += '<div class="section-title" style="margin:16px 4px 8px">Notas del técnico</div>';
+      html += '<textarea class="notas" id="notas-tec" placeholder="Describe el trabajo realizado, observaciones, recomendaciones...">'+(j.notas_tecnico||'')+'</textarea>';
+      html += '<button class="flow-btn completar" style="margin-top:12px" onclick="abrirFirma()">✓ Completar trabajo</button>';
+    }
+    html += '</div>';
+  } else {
+    html += '<div class="det-card"><button class="flow-btn done" disabled>✓ Trabajo completado a las '+fmtHora(j.hora_fin)+'</button>';
+    if (j.hora_llegada && j.hora_fin) {
+      var mins = Math.round((new Date(j.hora_fin) - new Date(j.hora_llegada))/60000);
+      html += '<div style="text-align:center;font-size:0.82rem;color:var(--gray);margin-top:6px">Tiempo de servicio: '+mins+' min</div>';
+    }
+    html += '</div>';
+  }
+
+  document.getElementById('det-content').innerHTML = html;
+
+  // Si esta en fase de fotos, cargarlas
+  if (j.hora_llegada && !j.hora_fin) cargarFotos();
+}
+
+async function accionFlujo(accion) {
+  var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/'+accion, { method:'POST' });
+  if (r && r.ok) {
+    if (accion === 'iniciar-viaje') { jobActual.hora_inicio_viaje = new Date().toISOString(); toast('Viaje iniciado'); }
+    if (accion === 'llegue') { jobActual.hora_llegada = new Date().toISOString(); toast('Llegada registrada'); }
+    renderDetalle();
+  } else { toast('Error: '+((r&&r.error)||'intenta de nuevo')); }
+}
+
+// ---- FOTOS ----
+var fotosCache = { antes:[], despues:[] };
+async function cargarFotos() {
+  var grid = document.getElementById('photo-grid');
+  if (!grid) return;
+  var fotos = await tapi('/api/citas/'+jobActual.id+'/fotos') || [];
+  fotosCache = { antes:[], despues:[] };
+  fotos.forEach(function(f){ if(fotosCache[f.tipo]) fotosCache[f.tipo].push(f); });
+  function slot(tipo, label) {
+    var existe = fotosCache[tipo][0];
+    if (existe) {
+      return '<div class="photo-slot"><span class="ph-badge">'+label+'</span><img src="'+existe.url+'"></div>';
+    }
+    return '<label class="photo-slot"><span class="ph-badge">'+label+'</span><span class="photo-add">+</span><span>Tomar foto</span><input type="file" accept="image/*" capture="environment" style="display:none" onchange="subirFoto(this,\''+tipo+'\')"></label>';
+  }
+  grid.innerHTML = slot('antes','ANTES') + slot('despues','DESPUÉS');
+}
+
+function subirFoto(input, tipo) {
+  var file = input.files[0];
+  if (!file) return;
+  toast('Subiendo foto...');
+  var reader = new FileReader();
+  reader.onload = async function(e) {
+    // Comprimir antes de subir
+    var img = new Image();
+    img.onload = async function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 1200;
+      var scale = Math.min(1, maxW / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      var b64 = canvas.toDataURL('image/jpeg', 0.7);
+      var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/foto', { method:'POST', body:{ tipo:tipo, imagen:b64 } });
+      if (r && r.ok) { toast('Foto guardada'); cargarFotos(); }
+      else { toast('Error al subir foto'); }
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ---- FIRMA ----
+var firmaCanvas, firmaCtx, firmando = false;
+function abrirFirma() {
+  document.getElementById('firma-modal').classList.add('open');
+  setTimeout(initFirma, 100);
+}
+function initFirma() {
+  firmaCanvas = document.getElementById('firma-canvas');
+  var rect = firmaCanvas.getBoundingClientRect();
+  firmaCanvas.width = rect.width;
+  firmaCanvas.height = rect.height;
+  firmaCtx = firmaCanvas.getContext('2d');
+  firmaCtx.strokeStyle = '#0F1F2E';
+  firmaCtx.lineWidth = 2.5;
+  firmaCtx.lineCap = 'round';
+  firmaCtx.lineJoin = 'round';
+
+  function pos(e) {
+    var r = firmaCanvas.getBoundingClientRect();
+    var t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  }
+  function start(e){ e.preventDefault(); firmando = true; var p = pos(e); firmaCtx.beginPath(); firmaCtx.moveTo(p.x,p.y); }
+  function move(e){ if(!firmando) return; e.preventDefault(); var p = pos(e); firmaCtx.lineTo(p.x,p.y); firmaCtx.stroke(); }
+  function end(){ firmando = false; }
+
+  firmaCanvas.ontouchstart = start; firmaCanvas.ontouchmove = move; firmaCanvas.ontouchend = end;
+  firmaCanvas.onmousedown = start; firmaCanvas.onmousemove = move; firmaCanvas.onmouseup = end;
+}
+function limpiarFirma(){ if(firmaCtx) firmaCtx.clearRect(0,0,firmaCanvas.width,firmaCanvas.height); }
+function cerrarFirma(){ document.getElementById('firma-modal').classList.remove('open'); }
+
+async function guardarFirma() {
+  var firma = firmaCanvas.toDataURL('image/png');
+  var notas = document.getElementById('notas-tec') ? document.getElementById('notas-tec').value.trim() : '';
+  var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/completar', { method:'POST', body:{ notas_tecnico:notas, firma_cliente:firma } });
+  if (r && r.ok) {
+    cerrarFirma();
+    toast('¡Trabajo completado!');
+    jobActual.hora_fin = new Date().toISOString();
+    jobActual.notas_tecnico = notas;
+    jobActual.status = 'completada';
+    renderDetalle();
+  } else { toast('Error al completar'); }
+}
+
+// ---- INIT ----
+if (TOKEN && TECNICO) { iniciarApp(); }
+actualizarLabelDia();
+document.getElementById('l-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+</script>
+</body>
+</html>
