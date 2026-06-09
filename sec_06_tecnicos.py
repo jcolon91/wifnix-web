@@ -17,12 +17,13 @@ HELPERS = (
     "function esc(s){return String(s).replace(/[&<>\"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',\"'\":'&#39;'}[c];});}\n"
     "function escRow(o){if(!o||typeof o!=='object')return o;var r={};for(var k in o){r[k]=(typeof o[k]==='string')?esc(o[k]):o[k];}return r;}\n"
 )
-HELPER_ANCHOR = "var TOKEN = localStorage.getItem('wifnix_tecnico_token');"
+HELPER_ANCHOR = "var TOKEN = storeGet('wifnix_tecnico_token');"
 
 # escRow al tope de cada constructor
 ESCROW = [
     ("d.map(function(j){", "j", "\n    "),       # lista de trabajos
     ("var j = jobActual;", "j", "\n  "),          # renderDetalle (detalle completo)
+    ("msgs.map(function(m){", "m", "\n    "),     # chat interno del trabajo
 ]
 
 # envoltura de los chips de unidades (aparece 2 veces: lista y detalle)
