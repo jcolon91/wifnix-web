@@ -27,7 +27,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --black:#06090F;
@@ -969,6 +969,353 @@ select:focus-visible,textarea:focus-visible{
   html{scroll-behavior:auto}
   .reveal,.reveal-l,.reveal-r{opacity:1 !important;transform:none !important}
   #neural{display:none}
+}
+</style>
+
+<style>
+/* ════════════════════════════════════════════════════════════
+   REDISEÑO — capa editorial
+
+   TODO por CSS: no se cambia ni una palabra del HTML, así que
+   el texto indexado y las palabras clave quedan exactamente
+   donde estaban. Lo que cambia es la CONSTRUCCIÓN visual:
+
+     · fuera el "eyebrow" con rayita (delata plantilla)
+     · fuera las píldoras de palabras clave  → línea de texto
+     · fuera las rejillas de métricas en caja → línea de datos
+     · fuera los iconos en cuadrito redondeado
+     · menos cajas, más aire, reglas finas y números en mono
+
+   Los contenedores con estilo EN LÍNEA se sobrescriben con
+   :has(), que es la única forma de ganarles sin tocar el HTML.
+   ════════════════════════════════════════════════════════════ */
+
+:root{
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;
+  --hair:rgba(150,185,225,.11);
+  --hair2:rgba(150,185,225,.2);
+  --tinta:#070C16;
+  --panel:#0D1727;
+  --panel2:#132133;
+}
+
+/* ── FONDO: azul-tinta con luz ambiente, no negro plano ── */
+body{background:var(--tinta)}
+.section.dark{background:#090F1C}
+.section.darker{background:#0A1220}
+
+/* ── RÓTULO DE SECCIÓN ──
+   El guion de color antes de un texto en mayúsculas es EL tic
+   que delata una plantilla. Se cambia por una regla fina que
+   llena el resto de la línea. */
+.eyebrow{
+  gap:14px !important;
+  font-family:var(--mono) !important;
+  font-size:.65rem !important;font-weight:500 !important;
+  letter-spacing:.2em !important;
+  color:#7E93AB !important;margin-bottom:18px !important;
+}
+.eyebrow::before{display:none !important}
+.eyebrow:not([style*="center"])::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--hair2),transparent);
+}
+
+/* ── TIPOGRAFÍA ── */
+.section-title{
+  font-size:clamp(1.75rem,3vw,2.5rem) !important;
+  letter-spacing:-.03em !important;line-height:1.08 !important;
+  margin-bottom:16px !important;
+}
+.section-desc{
+  font-size:1rem !important;line-height:1.75 !important;
+  max-width:60ch !important;margin-bottom:48px !important;
+}
+.section{padding:88px 0}
+@media(max-width:768px){ .section{padding:56px 0} }
+
+/* ── PALABRAS CLAVE: de píldoras a línea de texto ──
+   El texto es el mismo, letra por letra. Solo deja de ser una
+   nube de etiquetas y pasa a leerse como una frase. */
+.svc-includes,
+div:has(> .svc-tag){
+  display:block !important;
+  line-height:2 !important;
+  margin-bottom:26px !important;
+}
+.svc-tag{
+  display:inline !important;
+  background:none !important;border:0 !important;
+  padding:0 !important;border-radius:0 !important;
+  font-size:.86rem !important;font-weight:400 !important;
+  letter-spacing:0 !important;text-transform:none !important;
+  color:var(--gray) !important;
+}
+.svc-tag:not(:last-child)::after{
+  content:'·';margin:0 .6em;
+  color:rgba(41,182,246,.55);font-weight:700;
+}
+
+/* ── MÉTRICAS: de rejilla de cajas a línea de datos ──
+   Mismos números, mismas etiquetas; una sola línea en mono en
+   vez de cuatro tarjetas con borde. */
+div:has(> .db-stat){
+  display:flex !important;flex-wrap:wrap !important;
+  gap:10px 26px !important;
+  grid-template-columns:none !important;
+}
+.db-status-grid{display:flex !important;flex-wrap:wrap !important;gap:10px 26px !important}
+.db-stat{
+  display:inline-flex !important;align-items:baseline;gap:8px;
+  background:none !important;border:0 !important;
+  padding:0 !important;border-radius:0 !important;
+}
+.db-stat-num{
+  font-family:var(--mono) !important;
+  font-size:1.05rem !important;font-weight:700 !important;
+  letter-spacing:-.02em !important;
+}
+.db-stat-lbl{
+  font-size:.76rem !important;text-transform:none !important;
+  letter-spacing:.01em !important;margin-top:0 !important;
+  color:#7E93AB !important;
+}
+
+/* La caja que envolvía las métricas en Servicios: se aligera. */
+div:has(> div > .db-stat){
+  background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
+  border:1px solid var(--hair) !important;
+  border-radius:18px !important;
+}
+
+/* ── MÉTRICAS DEL HOME: sin tarjeta, sin barra animada ── */
+.metrics-grid,
+div:has(> .metric-card){
+  display:flex !important;flex-wrap:wrap !important;
+  gap:14px 44px !important;background:none !important;
+  border-top:1px solid var(--hair);padding-top:26px !important;
+}
+.metric-card{
+  background:none !important;padding:0 !important;
+  display:flex;align-items:baseline;gap:10px;
+}
+.metric-card:hover{background:none !important}
+.metric-card::before{display:none !important}
+.metric-num{
+  font-family:var(--mono) !important;
+  font-size:1.5rem !important;font-weight:700 !important;
+  letter-spacing:-.03em !important;margin-bottom:0 !important;
+}
+.metric-lbl{
+  font-size:.82rem !important;text-transform:none !important;
+  letter-spacing:0 !important;color:#7E93AB !important;
+}
+
+/* ── TARJETAS DE SERVICIO ── */
+.services-grid{gap:1px !important;background:var(--hair) !important}
+.svc-card{
+  background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
+  padding:38px 34px !important;
+}
+.svc-card:hover{background:linear-gradient(180deg,#17273D,#101B2C) !important}
+/* El icono en cuadrito redondeado es otro tic: se queda el trazo solo. */
+.svc-icon{
+  width:auto !important;height:auto !important;
+  background:none !important;border:0 !important;
+  border-radius:0 !important;margin-bottom:18px !important;
+  justify-content:flex-start !important;transform:none !important;
+}
+.svc-card:hover .svc-icon{background:none !important;border:0 !important;transform:none !important}
+.svc-icon svg{width:26px !important;height:26px !important;stroke-width:1.4 !important}
+.svc-num{
+  font-family:var(--mono) !important;font-size:1rem !important;
+  font-weight:500 !important;color:#7E93AB !important;
+  top:34px !important;right:34px !important;letter-spacing:.12em !important;
+}
+.svc-card:hover .svc-num{color:var(--blue-light) !important}
+.svc-card h3{font-size:1.3rem !important;letter-spacing:-.02em !important;margin-bottom:12px !important}
+.svc-card p{font-size:.92rem !important;line-height:1.75 !important}
+
+/* ── BOTONES: 14px, sin el barrido de brillo ── */
+.btn-primary,.btn-outline,.nav-cta,.warranty-btn,.social-btn{
+  border-radius:14px !important;
+  text-transform:none !important;letter-spacing:.005em !important;
+  font-size:.9rem !important;padding:14px 26px !important;
+}
+.btn-primary::after,.nav-cta::after{display:none !important}
+.btn-primary{
+  background:linear-gradient(180deg,#12A2E2,#0B8FCC 62%,#0A7DB2) !important;
+  box-shadow:0 10px 26px -12px rgba(11,143,204,.85), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.nav-cta{font-size:.8rem !important;padding:10px 18px !important}
+
+/* ── LISTAS DE PLANES: regla fina en vez de viñeta ── */
+.plan-features{gap:0 !important}
+.plan-feat{
+  font-size:.9rem !important;padding:11px 0;
+  border-bottom:1px solid var(--hair);align-items:center !important;
+}
+.plan-feat:last-child{border-bottom:0}
+.plan-feat svg{stroke:var(--blue-light) !important;opacity:.9}
+
+/* ── HURACÁN: fuera las cajitas ── */
+.hf-item{
+  background:none !important;border:0 !important;
+  border-bottom:1px solid var(--hair) !important;
+  border-radius:0 !important;padding:12px 0 !important;
+  font-size:.88rem !important;
+}
+.hf-item:hover{border-color:var(--hair2) !important}
+
+/* ── MUNICIPIOS: rejilla de celdas → línea corrida ── */
+.areas-grid{
+  display:block !important;background:none !important;
+  margin-top:26px !important;line-height:2.1 !important;
+  border-top:1px solid var(--hair);padding-top:22px;
+}
+.area-item{
+  display:inline !important;background:none !important;
+  padding:0 !important;text-align:left !important;
+  font-size:.95rem !important;font-weight:400 !important;
+}
+.area-item:not(:last-child)::after{
+  content:'·';margin:0 .6em;color:rgba(41,182,246,.5);font-weight:700;
+}
+.area-item:hover{background:none !important}
+
+/* ── SUPERFICIES GENERALES ── */
+.metric-card,.case-card,.review-card,.plan-card,.hurricane-card,
+.store-item,.web-card,.ai-card{border-radius:18px}
+.client-logo-wrap{border-radius:12px !important}
+
+/* ── ACENTO ── */
+.footer-tagline{font-style:normal !important;font-family:var(--mono) !important;letter-spacing:.06em}
+.footer-copy{font-family:var(--mono) !important;font-size:.7rem !important}
+
+/* ════════════════════════════════════════════════════════════
+   RESTO DE PANTALLAS
+   Casos · Planes · Tienda · Contacto · Web · IA
+   ════════════════════════════════════════════════════════════ */
+
+/* ── SUPERFICIE ÚNICA para todas las tarjetas ──
+   Antes: fondo plano + borde azul + radios de 10/12px distintos
+   en cada página. Ahora: una sola superficie con filo de luz
+   arriba, que es lo que le da cuerpo en vez de parecer un
+   rectángulo pintado. */
+.case-card,.plan-card,.review-card,
+[style*="background:var(--card)"]{
+  background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
+  border:1px solid var(--hair) !important;
+  border-radius:18px !important;
+  padding:32px !important;
+  position:relative;
+}
+.case-card::after,.plan-card::after,.review-card::after{
+  content:'';position:absolute;left:20px;right:20px;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(180,215,255,.3),transparent);
+}
+.case-card:hover,.plan-card:hover,.review-card:hover{
+  border-color:var(--hair2) !important;transform:none !important;
+}
+[style*="border-radius:10px"],[style*="border-radius:12px"]{border-radius:18px !important}
+
+/* ── CASOS: fuera la rayita del rótulo ── */
+.case-type{
+  font-family:var(--mono) !important;
+  font-size:.64rem !important;font-weight:500 !important;
+  letter-spacing:.18em !important;color:#7E93AB !important;
+  margin-bottom:20px !important;
+}
+.case-type::before{display:none !important}
+.case-result{
+  background:none !important;
+  border-left:0 !important;border-top:1px solid var(--hair) !important;
+  border-radius:0 !important;padding:14px 0 0 !important;
+  margin-top:4px;font-size:.85rem !important;
+}
+.case-result strong{
+  font-family:var(--mono) !important;font-size:.62rem !important;
+  letter-spacing:.16em !important;margin-bottom:6px !important;
+}
+
+/* ── PLANES ── */
+.plan-name{
+  font-family:var(--mono) !important;font-size:.64rem !important;
+  font-weight:500 !important;letter-spacing:.2em !important;
+  color:#7E93AB !important;margin-bottom:12px !important;
+}
+.plan-title{font-size:1.35rem !important;letter-spacing:-.02em !important}
+
+/* ── CONTACTO ── */
+.c-icon{
+  width:auto !important;height:auto !important;
+  background:none !important;border:0 !important;
+  border-radius:0 !important;transform:none !important;
+}
+.contact-item:hover .c-icon{background:none !important;border:0 !important;transform:none !important}
+.c-icon svg{width:22px !important;height:22px !important}
+.c-label{
+  font-family:var(--mono) !important;font-size:.6rem !important;
+  font-weight:500 !important;letter-spacing:.18em !important;
+  color:#7E93AB !important;
+}
+.c-value{font-size:.95rem !important;font-weight:400 !important}
+.form-field input,.form-field select,.form-field textarea{
+  border-radius:12px !important;padding:14px 16px !important;
+  border-color:var(--hair2) !important;font-size:.95rem !important;
+}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+  box-shadow:0 0 0 4px rgba(11,143,204,.16);
+}
+.form-field label{
+  font-family:var(--mono) !important;font-size:.6rem !important;
+  letter-spacing:.18em !important;color:#7E93AB !important;
+}
+.form-success,.form-error{border-radius:14px !important}
+
+/* ── TIENDA ── */
+.store-cat-btn{border-radius:12px !important;font-size:.88rem !important}
+.store-subcat-btn{
+  border-radius:0 !important;font-size:.84rem !important;
+  border-left:1px solid var(--hair) !important;padding:10px 16px !important;
+}
+
+/* ── WEB e IA: las listas con viñeta en círculo ──
+   El círculo de fondo es la misma construcción de viñeta que
+   sobra en el resto del sitio. Se queda el visto, se va la
+   pastilla, y cada fila se separa con una regla fina. */
+div[style*="width:20px"][style*="border-radius:50%"]{
+  background:none !important;width:auto !important;height:auto !important;
+}
+div[style*="align-items:flex-start"]:has(> div[style*="border-radius:50%"]){
+  border-bottom:1px solid var(--hair);padding-bottom:12px;
+}
+div[style*="flex-direction:column"]:has(div[style*="border-radius:50%"]){gap:0 !important}
+
+/* Punto verde de "activo" en las tarjetas de IA: se deja, es
+   estado real, no adorno. Solo se calma el rótulo. */
+div[style*="text-transform:uppercase"][style*="#00E5A0"]{
+  font-family:var(--mono) !important;font-weight:500 !important;
+  letter-spacing:.16em !important;font-size:.6rem !important;
+}
+
+/* ── BLOQUE DE CIERRE ── */
+.cta-final{padding:110px 0 !important}
+.cta-final h2{font-size:clamp(1.8rem,3.4vw,2.7rem) !important;letter-spacing:-.03em !important}
+
+/* ── RESEÑAS ── */
+.star{color:var(--accent) !important}
+.r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:#7E93AB !important}
+
+@media(max-width:768px){
+  div:has(> .db-stat),.db-status-grid{gap:8px 18px !important}
+  .metrics-grid,div:has(> .metric-card){gap:12px 26px !important}
+  .svc-card{padding:26px 22px !important}
+  .svc-num{top:24px !important;right:24px !important}
+  .case-card,.plan-card,.review-card,
+  [style*="background:var(--card)"]{padding:22px !important}
+  .cta-final{padding:64px 0 !important}
 }
 </style>
 
