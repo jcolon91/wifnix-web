@@ -1316,7 +1316,38 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
   .case-card,.plan-card,.review-card,
   [style*="background:var(--card)"]{padding:22px !important}
   .cta-final{padding:64px 0 !important}
+  .faq-item{padding:20px 22px !important}
+  .faq-q p{font-size:.95rem !important}
 }
+
+/* ── PREGUNTAS FRECUENTES ──
+   La misma superficie que el resto de tarjetas, pero apiladas
+   como una lista: el separador es la línea, no el hueco. */
+.faq-list{gap:0 !important;margin-top:8px !important}
+.faq-item{
+  background:transparent !important;
+  border:0 !important;border-top:1px solid var(--hair) !important;
+  border-radius:0 !important;
+  padding:26px 4px !important;
+  transition:background .2s !important;
+}
+.faq-list .faq-item:last-child{border-bottom:1px solid var(--hair) !important}
+.faq-item:hover{background:rgba(150,185,225,.03) !important}
+.faq-item:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:6px}
+.faq-q p{
+  font-family:var(--display,'Syne',sans-serif);
+  font-size:1.02rem !important;font-weight:600 !important;
+  letter-spacing:-.01em;line-height:1.35;
+}
+.faq-arrow{width:16px !important;height:16px !important;stroke:#7E93AB !important;opacity:.8}
+.faq-item[aria-expanded="true"] .faq-arrow{stroke:var(--blue) !important;opacity:1}
+.faq-a{
+  font-size:.92rem !important;line-height:1.8 !important;
+  max-width:70ch;margin-top:16px !important;color:#8BA0B4 !important;
+}
+.faq-a strong{color:#DCE6F2;font-weight:600}
+.faq-a a{color:#29B6F6;text-decoration:none;border-bottom:1px solid rgba(41,182,246,.35)}
+.faq-a a:hover{border-bottom-color:#29B6F6}
 </style>
 
 <noscript><style>
@@ -1327,6 +1358,79 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
 #cur,#cur-ring{display:none !important}
 body{cursor:auto !important}
 </style></noscript>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "¿Cuánto cuesta un sistema de cámaras de seguridad para mi negocio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Depende de cuántas cámaras necesitas, del tipo de local y de si hay cableado. Empezamos con una evaluación gratuita del sitio y de ahí sale una propuesta con todo desglosado."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Trabajan en toda la isla o solo en el área metro?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Servimos todo Puerto Rico, de San Juan a Mayagüez y de Arecibo a Ponce. Para instalaciones fuera del área metro coordinamos la visita con tiempo; el servicio y la garantía son exactamente los mismos."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Qué pasa con mi sistema cuando se va la luz?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Diseñamos continuidad operacional: respaldo energético con UPS para que cámaras, red y grabación no se caigan durante un apagón, y monitoreo preventivo para avisarte antes de que falle algo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Puedo ver las cámaras desde el celular?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí. Todos nuestros sistemas de CCTV incluyen monitoreo remoto desde el celular o la computadora, con grabación segura y acceso por usuario."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Se quedan con el mantenimiento o solo instalan y se van?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nos quedamos. Tenemos planes mensuales con mantenimiento preventivo, monitoreo continuo y soporte prioritario."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Si algo falla, ¿cuánto tardan en responder?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Con plan de soporte, la respuesta a incidencias críticas es en menos de 2 horas, y el monitoreo corre 24/7."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿Los equipos tienen garantía? ¿Cómo reclamo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sí, y la reclamación se hace desde el portal de cliente: abres el caso, subes la evidencia y le damos seguimiento nosotros. La cobertura depende del fabricante y del equipo, y se entrega por escrito en la propuesta."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "¿La evaluación tiene costo o compromiso?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Es gratuita y sin compromiso. Visitamos el sitio, entendemos qué necesitas y te enviamos una propuesta. Contestamos en menos de 24 horas."
+      }
+    }
+  ]
+}
+</script>
 
 </head>
 <body>
@@ -1645,6 +1749,118 @@ body{cursor:auto !important}
           <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
       </a>
+    </div>
+  </section>
+
+  <!-- ── PREGUNTAS FRECUENTES ──────────────────────────────── -->
+  <section class="section" id="faq">
+    <div class="si">
+      <div class="eyebrow reveal es">Preguntas frecuentes</div>
+      <div class="eyebrow reveal en" style="display:none">Frequently asked questions</div>
+      <h2 class="section-title reveal es">Lo que nos preguntan antes de contratar.</h2>
+      <h2 class="section-title reveal en" style="display:none">What clients ask before hiring us.</h2>
+      <p class="section-desc reveal es">Si tu duda no está aquí, escríbenos y te contestamos igual de claro.</p>
+      <p class="section-desc reveal en" style="display:none">If your question isn't here, write to us and we'll answer just as clearly.</p>
+
+      <div class="faq-list">
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Cuánto cuesta un sistema de cámaras de seguridad para mi negocio?</p>
+            <p class="en" style="display:none">How much does a security camera system cost for my business?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Depende de cuántas cámaras necesitas, del tipo de local y de si hay cableado. No damos un precio de catálogo porque un almacén y una oficina no se resuelven igual. Empezamos con una <strong>evaluación gratuita</strong> del sitio y de ahí sale una propuesta con todo desglosado. También puedes usar la <a href="calculadora-cctv.html">calculadora de CCTV</a> para tener una idea antes de hablar con nosotros.</span>
+            <span class="en" style="display:none">It depends on how many cameras you need, the type of space and whether cabling exists. We don't quote from a catalog because a warehouse and an office aren't solved the same way. We start with a <strong>free site evaluation</strong> and from there you get an itemized proposal. You can also use the <a href="calculadora-cctv.html">CCTV calculator</a> for a ballpark before talking to us.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Trabajan en toda la isla o solo en el área metro?</p>
+            <p class="en" style="display:none">Do you work island-wide or only in the metro area?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Servimos <strong>todo Puerto Rico</strong>, de San Juan a Mayagüez y de Arecibo a Ponce. Para instalaciones fuera del área metro coordinamos la visita con tiempo; el servicio y la garantía son exactamente los mismos.</span>
+            <span class="en" style="display:none">We serve <strong>all of Puerto Rico</strong>, from San Juan to Mayagüez and from Arecibo to Ponce. For installations outside the metro area we schedule the visit in advance; service and warranty are exactly the same.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Qué pasa con mi sistema cuando se va la luz?</p>
+            <p class="en" style="display:none">What happens to my system during a blackout?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Esa es justo la pregunta que hay que hacerse en Puerto Rico. Diseñamos <strong>continuidad operacional</strong>: respaldo energético con UPS para que cámaras, red y grabación no se caigan durante un apagón, y monitoreo preventivo para avisarte antes de que falle algo. Un sistema que se apaga con la luz no está protegiendo nada.</span>
+            <span class="en" style="display:none">That's exactly the question to ask in Puerto Rico. We design <strong>operational continuity</strong>: UPS backup power so cameras, network and recording stay up during an outage, plus preventive monitoring to warn you before something fails. A system that dies with the power isn't protecting anything.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Puedo ver las cámaras desde el celular?</p>
+            <p class="en" style="display:none">Can I view the cameras from my phone?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Sí. Todos nuestros sistemas de CCTV incluyen <strong>monitoreo remoto</strong> desde el celular o la computadora, con grabación segura y acceso por usuario. Te dejamos la app configurada y te enseñamos a usarla el día de la instalación.</span>
+            <span class="en" style="display:none">Yes. All our CCTV systems include <strong>remote monitoring</strong> from your phone or computer, with secure recording and per-user access. We set up the app and walk you through it on installation day.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Se quedan con el mantenimiento o solo instalan y se van?</p>
+            <p class="en" style="display:none">Do you handle maintenance or just install and leave?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Nos quedamos. Tenemos <strong>planes mensuales</strong> con mantenimiento preventivo, monitoreo continuo y soporte prioritario. La instalación es el principio, no el final: los sistemas que fallan casi siempre son los que nadie revisó en dos años.</span>
+            <span class="en" style="display:none">We stay. We offer <strong>monthly plans</strong> with preventive maintenance, continuous monitoring and priority support. Installation is the beginning, not the end: the systems that fail are almost always the ones nobody checked in two years.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">Si algo falla, ¿cuánto tardan en responder?</p>
+            <p class="en" style="display:none">If something fails, how long until you respond?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Con plan de soporte, la respuesta a incidencias críticas es <strong>en menos de 2 horas</strong>, y el monitoreo corre 24/7. Muchas veces detectamos el problema y te llamamos antes de que tú lo notes, que es de lo que se trata el mantenimiento preventivo.</span>
+            <span class="en" style="display:none">With a support plan, critical incidents get a response <strong>in under 2 hours</strong>, and monitoring runs 24/7. Often we catch the problem and call you before you notice it — that's the whole point of preventive maintenance.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿Los equipos tienen garantía? ¿Cómo reclamo?</p>
+            <p class="en" style="display:none">Do the products have a warranty? How do I claim it?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Sí, y la reclamación se hace sin complicaciones desde tu <a href="https://portal.wifnix.com">portal de cliente</a>: abres el caso, subes la evidencia y le damos seguimiento nosotros. La cobertura depende del fabricante y del equipo; te la dejamos por escrito en la propuesta antes de que compres nada.</span>
+            <span class="en" style="display:none">Yes, and claims are handled without hassle from your <a href="https://portal.wifnix.com">client portal</a>: open the case, upload the evidence and we follow up. Coverage depends on the manufacturer and the equipment; we put it in writing in the proposal before you buy anything.</span>
+          </div>
+        </div>
+
+        <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
+          <div class="faq-q">
+            <p class="es">¿La evaluación tiene costo o compromiso?</p>
+            <p class="en" style="display:none">Is the evaluation free? Any commitment?</p>
+            <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="faq-a">
+            <span class="es">Es <strong>gratuita y sin compromiso</strong>. Vamos, miramos el sitio, entendemos qué necesitas de verdad y te mandamos una propuesta. Si no te convence, no pasa nada. Contestamos en menos de 24 horas.</span>
+            <span class="en" style="display:none">It's <strong>free and with no commitment</strong>. We visit, look at the site, figure out what you actually need and send a proposal. If it doesn't convince you, no problem. We reply in under 24 hours.</span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -2594,8 +2810,8 @@ function toggleFaq(el){
   const open=a.style.display==='block';
   document.querySelectorAll('.faq-a').forEach(x=>x.style.display='none');
   document.querySelectorAll('.faq-arrow').forEach(x=>x.style.transform='rotate(0deg)');
-  document.querySelectorAll('.faq-item').forEach(x=>x.style.borderColor='rgba(11,143,204,0.08)');
-  if(!open){a.style.display='block';arrow.style.transform='rotate(180deg)';el.style.borderColor='rgba(11,143,204,0.35)'}
+  document.querySelectorAll('.faq-item').forEach(x=>{x.style.borderColor='';x.setAttribute('aria-expanded','false')});
+  if(!open){a.style.display='block';arrow.style.transform='rotate(180deg)';el.style.borderColor='rgba(41,182,246,0.4)';el.setAttribute('aria-expanded','true')}
 }
 </script>
 
