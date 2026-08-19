@@ -127,32 +127,16 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 }
 
 .hero-inner{
-  max-width:1200px;margin:0 auto;padding:0 48px;
-  width:100%;display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:80px;align-items:center;
+  max-width:1040px;margin:0 auto;padding:0 48px;
+  width:100%;
 }
 
 .hero-left{position:relative;z-index:2}
 
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(11,143,204,0.1);
-  border:1px solid rgba(11,143,204,0.3);
-  color:var(--blue-light);
-  padding:5px 14px;border-radius:100px;
-  font-size:0.68rem;font-weight:700;
-  letter-spacing:0.12em;text-transform:uppercase;
-  margin-bottom:24px;
-  animation:fadeUp .7s ease both;
-}
-
-.pdot{width:5px;height:5px;background:var(--blue-light);border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(2);opacity:0.4}}
 
 .hero h1{
   font-family:'Syne',sans-serif;
-  font-size:clamp(1.9rem,3.2vw,2.8rem);
+  font-size:clamp(2.1rem,4.4vw,3.4rem);
   font-weight:800;
   line-height:1.05;
   letter-spacing:-0.02em;
@@ -165,7 +149,7 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .hero-sub{
   font-size:1rem;color:var(--gray);
   line-height:1.75;font-weight:300;
-  max-width:520px;margin-bottom:16px;
+  max-width:64ch;margin-bottom:16px;
   animation:fadeUp .7s ease .2s both;
 }
 
@@ -212,74 +196,12 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 }
 .btn-outline:hover{border-color:var(--blue-light);background:rgba(11,143,204,0.08);transform:translateY(-2px)}
 
-.hero-trust{
-  display:flex;gap:24px;margin-top:28px;
+.hero-linea{
+  margin-top:30px;padding-top:22px;
+  border-top:1px solid rgba(150,185,225,.12);
+  font-size:0.8rem;color:var(--gray2);font-weight:400;
   animation:fadeUp .7s ease .4s both;
-  flex-wrap:wrap;
 }
-
-.trust-item{
-  display:flex;align-items:center;gap:7px;
-  font-size:0.75rem;color:var(--gray);font-weight:400;
-}
-.trust-dot{width:5px;height:5px;background:var(--success);border-radius:50%;flex-shrink:0}
-
-/* Hero right — floating dashboard */
-.hero-right{
-  position:relative;
-  animation:fadeLeft .8s ease .3s both;
-}
-
-.hero-dashboard{
-  background:rgba(13,26,42,0.9);
-  border:1px solid rgba(11,143,204,0.2);
-  border-radius:12px;
-  padding:24px;
-  backdrop-filter:blur(20px);
-  position:relative;
-  overflow:hidden;
-}
-
-.hero-dashboard::before{
-  content:'';position:absolute;
-  top:-50%;right:-50%;
-  width:200%;height:200%;
-  background:radial-gradient(circle at center,rgba(11,143,204,0.06) 0%,transparent 60%);
-  pointer-events:none;
-}
-
-.db-header{
-  display:flex;align-items:center;gap:8px;
-  margin-bottom:20px;padding-bottom:16px;
-  border-bottom:1px solid rgba(11,143,204,0.1);
-}
-.db-dots{display:flex;gap:5px}
-.db-dot{width:9px;height:9px;border-radius:50%}
-.db-title{font-size:0.72rem;color:var(--gray);font-weight:500;margin-left:8px;letter-spacing:0.06em;text-transform:uppercase}
-
-.db-status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-
-.db-stat{
-  background:rgba(0,0,0,0.3);
-  border:1px solid rgba(11,143,204,0.1);
-  border-radius:8px;padding:14px;
-  transition:border-color .3s;
-}
-.db-stat:hover{border-color:rgba(11,143,204,0.35)}
-.db-stat-num{font-family:'Syne',sans-serif;font-size:1.8rem;color:var(--blue-light);font-weight:800;letter-spacing:0.02em;line-height:1}
-.db-stat-lbl{font-size:0.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em;margin-top:3px}
-
-.db-alerts{display:flex;flex-direction:column;gap:8px}
-.db-alert{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 14px;
-  border-radius:6px;
-  font-size:0.78rem;font-weight:500;
-}
-.db-alert.ok{background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);color:var(--success)}
-.db-alert.warn{background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);color:var(--accent)}
-.db-alert.info{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light)}
-.db-alert svg{width:14px;height:14px;flex-shrink:0}
 
 /* ── SECTIONS ── */
 .section{padding:96px 0;position:relative;z-index:2}
@@ -311,9 +233,11 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 
 /* ── AUTHORITY ── */
 .authority-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:60px;align-items:center;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:64px;align-items:start;
 }
+.authority-head .section-title{margin-bottom:0}
+.authority-text p:first-child{margin-top:6px}
 
 .authority-text p{
   font-size:0.95rem;color:var(--gray);
@@ -325,30 +249,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   display:block;margin-top:16px;
   font-size:1rem;
 }
-
-.authority-metrics{
-  display:grid;grid-template-columns:1fr 1fr;gap:2px;
-  background:rgba(11,143,204,0.06);
-}
-
-.metric-card{
-  background:var(--black2);padding:32px 28px;
-  position:relative;overflow:hidden;
-  transition:background .3s;
-}
-.metric-card:hover{background:rgba(11,143,204,0.05)}
-.metric-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;
-  height:2px;background:linear-gradient(90deg,var(--blue),var(--blue-light));
-  transform:scaleX(0);transform-origin:left;transition:transform .4s;
-}
-.metric-card:hover::before{transform:scaleX(1)}
-.metric-num{
-  font-family:'Syne',sans-serif;font-size:2.8rem;
-  font-weight:800;color:var(--blue-light);
-  letter-spacing:-0.02em;line-height:1;margin-bottom:6px;
-}
-.metric-lbl{font-size:0.78rem;color:var(--gray);font-weight:400;text-transform:uppercase;letter-spacing:0.06em}
 
 /* ── SERVICES ── */
 .services-grid{
@@ -402,17 +302,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 
 .svc-card p{font-size:0.875rem;color:var(--gray);line-height:1.7;font-weight:300;margin-bottom:20px}
 
-.svc-includes{
-  display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;
-}
-.svc-tag{
-  background:rgba(11,143,204,0.07);
-  border:1px solid rgba(11,143,204,0.15);
-  color:var(--blue-light);
-  font-size:0.65rem;font-weight:600;
-  letter-spacing:0.06em;text-transform:uppercase;
-  padding:3px 10px;border-radius:100px;
-}
 
 .svc-cta{
   display:inline-flex;align-items:center;gap:8px;
@@ -446,17 +335,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   gap:72px;align-items:center;position:relative;
 }
 
-.hurricane-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,193,7,0.1);
-  border:1px solid rgba(255,193,7,0.3);
-  color:var(--accent);
-  padding:5px 14px;border-radius:100px;
-  font-size:0.68rem;font-weight:700;
-  letter-spacing:0.12em;text-transform:uppercase;
-  margin-bottom:20px;
-}
-
 .hurricane h2{
   font-family:'Syne',sans-serif;
   font-size:clamp(1.6rem,2.5vw,2.2rem);
@@ -479,7 +357,18 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   transition:border-color .3s;
 }
 .hf-item:hover{border-color:rgba(11,143,204,0.3)}
-.hf-icon{width:7px;height:7px;background:var(--success);border-radius:50%;flex-shrink:0}
+
+.pagos-linea{
+  display:flex;gap:0;justify-content:center;flex-wrap:wrap;
+  margin-top:18px;font-size:0.75rem;color:var(--gray2);
+}
+.pagos-linea span:not(:last-child)::after{content:'·';margin:0 .7em;opacity:.5}
+
+/* ── SERVICIOS, VISTA DE DETALLE ── */
+.svc-detalle{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:64px;align-items:start;margin-top:24px;
+}
 
 /* ── CASES ── */
 .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
@@ -539,13 +428,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .plan-card.featured{
   border-color:rgba(11,143,204,0.4);
   background:linear-gradient(160deg,rgba(11,143,204,0.08) 0%,var(--card) 100%);
-}
-
-.plan-badge{
-  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-  background:var(--blue);color:var(--white);
-  font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
-  padding:4px 16px;border-radius:100px;white-space:nowrap;
 }
 
 .plan-name{
@@ -684,20 +566,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .form-success{display:none;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:8px;padding:18px;text-align:center;color:var(--success)}
 .form-error{display:none;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.25);border-radius:8px;padding:14px;text-align:center;color:#FF5050;font-size:0.85rem}
 
-/* ── WARRANTY BANNER ── */
-.warranty-bar{
-  display:flex;align-items:center;gap:16px;
-  padding:18px 24px;
-  background:rgba(255,193,7,0.06);
-  border:1px solid rgba(255,193,7,0.2);
-  border-radius:8px;margin-top:20px;
-  flex-wrap:wrap;
-}
-.warranty-bar svg{width:24px;height:24px;stroke:var(--accent);fill:none;stroke-width:1.5;stroke-linecap:round;flex-shrink:0}
-.warranty-text p:first-child{font-size:0.8rem;font-weight:700;color:var(--accent);letter-spacing:0.04em;text-transform:uppercase}
-.warranty-text p:last-child{font-size:0.75rem;color:var(--gray);margin-top:2px}
-.warranty-btn{margin-left:auto;padding:8px 18px;background:var(--accent);color:#000;font-weight:700;font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase;border-radius:4px;border:none;cursor:none;transition:transform .2s,box-shadow .3s;flex-shrink:0}
-.warranty-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,193,7,0.3)}
 
 
 /* ── TIENDA ── */
@@ -835,8 +703,8 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
 @media(max-width:900px){
   nav{padding:0 20px}
   .nav-links{display:none}
-  .hero-inner{grid-template-columns:1fr;gap:40px;padding:0 20px}
-  .hero-right{display:none}
+  .hero-inner{padding:0 20px}
+  .svc-detalle{grid-template-columns:1fr;gap:24px}
   .si{padding:0 20px}
   .authority-grid{grid-template-columns:1fr}
   .services-grid{grid-template-columns:1fr}
@@ -1034,83 +902,6 @@ body{background:var(--tinta)}
 .section{padding:88px 0}
 @media(max-width:768px){ .section{padding:56px 0} }
 
-/* ── PALABRAS CLAVE: de píldoras a línea de texto ──
-   El texto es el mismo, letra por letra. Solo deja de ser una
-   nube de etiquetas y pasa a leerse como una frase. */
-.svc-includes,
-div:has(> .svc-tag){
-  display:block !important;
-  line-height:2 !important;
-  margin-bottom:26px !important;
-}
-.svc-tag{
-  display:inline !important;
-  background:none !important;border:0 !important;
-  padding:0 !important;border-radius:0 !important;
-  font-size:.86rem !important;font-weight:400 !important;
-  letter-spacing:0 !important;text-transform:none !important;
-  color:var(--gray) !important;
-}
-.svc-tag:not(:last-child)::after{
-  content:'·';margin:0 .6em;
-  color:rgba(41,182,246,.55);font-weight:700;
-}
-
-/* ── MÉTRICAS: de rejilla de cajas a línea de datos ──
-   Mismos números, mismas etiquetas; una sola línea en mono en
-   vez de cuatro tarjetas con borde. */
-div:has(> .db-stat){
-  display:flex !important;flex-wrap:wrap !important;
-  gap:10px 26px !important;
-  grid-template-columns:none !important;
-}
-.db-status-grid{display:flex !important;flex-wrap:wrap !important;gap:10px 26px !important}
-.db-stat{
-  display:inline-flex !important;align-items:baseline;gap:8px;
-  background:none !important;border:0 !important;
-  padding:0 !important;border-radius:0 !important;
-}
-.db-stat-num{
-  font-family:var(--mono) !important;
-  font-size:1.05rem !important;font-weight:700 !important;
-  letter-spacing:-.02em !important;
-}
-.db-stat-lbl{
-  font-size:.76rem !important;text-transform:none !important;
-  letter-spacing:.01em !important;margin-top:0 !important;
-  color:#7E93AB !important;
-}
-
-/* La caja que envolvía las métricas en Servicios: se aligera. */
-div:has(> div > .db-stat){
-  background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
-  border:1px solid var(--hair) !important;
-  border-radius:18px !important;
-}
-
-/* ── MÉTRICAS DEL HOME: sin tarjeta, sin barra animada ── */
-.metrics-grid,
-div:has(> .metric-card){
-  display:flex !important;flex-wrap:wrap !important;
-  gap:14px 44px !important;background:none !important;
-  border-top:1px solid var(--hair);padding-top:26px !important;
-}
-.metric-card{
-  background:none !important;padding:0 !important;
-  display:flex;align-items:baseline;gap:10px;
-}
-.metric-card:hover{background:none !important}
-.metric-card::before{display:none !important}
-.metric-num{
-  font-family:var(--mono) !important;
-  font-size:1.5rem !important;font-weight:700 !important;
-  letter-spacing:-.03em !important;margin-bottom:0 !important;
-}
-.metric-lbl{
-  font-size:.82rem !important;text-transform:none !important;
-  letter-spacing:0 !important;color:#7E93AB !important;
-}
-
 /* ── TARJETAS DE SERVICIO ── */
 .services-grid{gap:1px !important;background:var(--hair) !important}
 .svc-card{
@@ -1137,7 +928,7 @@ div:has(> .metric-card){
 .svc-card p{font-size:.92rem !important;line-height:1.75 !important}
 
 /* ── BOTONES: 14px, sin el barrido de brillo ── */
-.btn-primary,.btn-outline,.nav-cta,.warranty-btn,.social-btn{
+.btn-primary,.btn-outline,.nav-cta,.social-btn{
   border-radius:14px !important;
   text-transform:none !important;letter-spacing:.005em !important;
   font-size:.9rem !important;padding:14px 26px !important;
@@ -1185,7 +976,7 @@ div:has(> .metric-card){
 .area-item:hover{background:none !important}
 
 /* ── SUPERFICIES GENERALES ── */
-.metric-card,.case-card,.review-card,.plan-card,.hurricane-card,
+.case-card,.review-card,.plan-card,.hurricane-card,
 .store-item,.web-card,.ai-card{border-radius:18px}
 .client-logo-wrap{border-radius:12px !important}
 
@@ -1309,13 +1100,21 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
 .r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:#7E93AB !important}
 
 @media(max-width:768px){
-  div:has(> .db-stat),.db-status-grid{gap:8px 18px !important}
-  .metrics-grid,div:has(> .metric-card){gap:12px 26px !important}
   .svc-card{padding:26px 22px !important}
   .svc-num{top:24px !important;right:24px !important}
   .case-card,.plan-card,.review-card,
   [style*="background:var(--card)"]{padding:22px !important}
   .cta-final{padding:64px 0 !important}
+}
+
+/* ── EL INTERRUPTOR DE IDIOMA MANDA ──
+   setLang() esconde poniendo style="display:none" en línea. Varias
+   reglas de esta capa usan display con !important y se lo comían: el
+   texto en inglés seguía visible en español. Esta regla va la última
+   a propósito. */
+[style*="display:none"],[style*="display: none"]{display:none !important}
+
+@media(max-width:768px){
   .faq-item{padding:20px 22px !important}
   .faq-q p{font-size:.95rem !important}
 }
@@ -1487,7 +1286,8 @@ body{cursor:auto !important}
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="hero-badge"><div class="pdot"></div><span class="es">Puerto Rico · Infraestructura Empresarial</span><span class="en" style="display:none">Puerto Rico · Enterprise Infrastructure</span></div>
+        <div class="eyebrow es">Puerto Rico · Infraestructura Empresarial</div>
+        <div class="eyebrow en" style="display:none">Puerto Rico · Enterprise Infrastructure</div>
         <h1>
           <span class="es">Protegemos, conectamos y mantenemos <span class="accent">operando</span> tu empresa.</span>
           <span class="en" style="display:none">We protect, connect and keep your business <span class="accent">running</span>.</span>
@@ -1506,39 +1306,10 @@ body{cursor:auto !important}
           <button class="btn-outline es" onclick="window.location.href='https://portal.wifnix.com'">Cotización en 24 horas</button>
           <button class="btn-outline en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Quote in 24 hours</button>
         </div>
-        <div class="hero-trust">
-          <div class="trust-item"><div class="trust-dot"></div><span class="es">Respuesta rápida</span><span class="en" style="display:none">Fast response</span></div>
-          <div class="trust-item"><div class="trust-dot"></div><span class="es">Atención comercial</span><span class="en" style="display:none">Business support</span></div>
-          <div class="trust-item"><div class="trust-dot"></div><span class="es">Soluciones escalables</span><span class="en" style="display:none">Scalable solutions</span></div>
-        </div>
+        <p class="hero-linea es">Respuesta rápida, atención comercial y soluciones escalables.</p>
+        <p class="hero-linea en" style="display:none">Fast response, business support and scalable solutions.</p>
       </div>
 
-      <!-- Dashboard visual -->
-      <div class="hero-right">
-        <div class="hero-dashboard">
-          <div class="db-header">
-            <div class="db-dots">
-              <div class="db-dot" style="background:#FF5F57"></div>
-              <div class="db-dot" style="background:#FEBC2E"></div>
-              <div class="db-dot" style="background:#28C840"></div>
-            </div>
-            <span class="db-title es">Wifnix · Dashboard</span>
-            <span class="db-title en" style="display:none">Wifnix · Dashboard</span>
-          </div>
-          <div class="db-status-grid">
-            <div class="db-stat"><div class="db-stat-num">24/7</div><div class="db-stat-lbl es">Monitoreo activo</div><div class="db-stat-lbl en" style="display:none">Active monitoring</div></div>
-            <div class="db-stat"><div class="db-stat-num">99%</div><div class="db-stat-lbl es">Uptime garantizado</div><div class="db-stat-lbl en" style="display:none">Guaranteed uptime</div></div>
-            <div class="db-stat"><div class="db-stat-num">&lt;2h</div><div class="db-stat-lbl es">Tiempo respuesta</div><div class="db-stat-lbl en" style="display:none">Response time</div></div>
-            <div class="db-stat"><div class="db-stat-num">15+</div><div class="db-stat-lbl es">Años experiencia</div><div class="db-stat-lbl en" style="display:none">Years experience</div></div>
-          </div>
-          <div class="db-alerts">
-            <div class="db-alert ok"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" fill="none"/><polyline points="22 4 12 14.01 9 11.01" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span class="es">Todos los sistemas operativos</span><span class="en" style="display:none">All systems operational</span></div>
-            <div class="db-alert info"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span class="es">CCTV · 16 cámaras activas</span><span class="en" style="display:none">CCTV · 16 cameras active</span></div>
-            <div class="db-alert ok"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span class="es">Red empresarial · Estable</span><span class="en" style="display:none">Enterprise network · Stable</span></div>
-            <div class="db-alert warn"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg><span class="es">HVAC · Mantenimiento programado</span><span class="en" style="display:none">HVAC · Maintenance scheduled</span></div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -1546,27 +1317,23 @@ body{cursor:auto !important}
   <section class="section dark">
     <div class="si">
       <div class="authority-grid">
-        <div class="authority-text reveal-l">
+        <div class="authority-head reveal-l">
           <div class="eyebrow es">Nuestra filosofía</div>
           <div class="eyebrow en" style="display:none">Our philosophy</div>
           <h2 class="section-title es">Las empresas necesitan resultados, no promesas.</h2>
           <h2 class="section-title en" style="display:none">Businesses need results, not promises.</h2>
+        </div>
+        <div class="authority-text reveal-r">
           <p class="es">Cada sistema que instalamos tiene un objetivo claro: proteger operaciones, reducir pérdidas y garantizar estabilidad.</p>
           <p class="en" style="display:none">Every system we install has a clear objective: protect operations, reduce losses and guarantee stability.</p>
-          <p class="es">Trabajamos con soluciones diseñadas para empresas que entienden que la tecnología no es un gasto, sino una inversión crítica.</p>
-          <p class="en" style="display:none">We work with solutions designed for businesses that understand technology is not an expense, but a critical investment.</p>
+          <p class="es">Trabajamos con soluciones diseñadas para empresas que entienden que la tecnología no es un gasto, sino una inversión crítica. Esa es la experiencia que traemos a cada instalación en Puerto Rico.</p>
+          <p class="en" style="display:none">We work with solutions designed for businesses that understand technology is not an expense, but a critical investment. That is the experience we bring to every installation in Puerto Rico.</p>
           <strong class="es">Aquí no improvisamos. Diseñamos infraestructura que sostiene negocios.</strong>
           <strong class="en" style="display:none">We don't improvise here. We design infrastructure that sustains businesses.</strong>
           <div style="margin-top:28px">
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Hablar con un Especialista</button>
             <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button>
           </div>
-        </div>
-        <div class="authority-metrics reveal-r">
-          <div class="metric-card"><div class="metric-num">500+</div><div class="metric-lbl es">Clientes atendidos</div><div class="metric-lbl en" style="display:none">Clients served</div></div>
-          <div class="metric-card"><div class="metric-num">15+</div><div class="metric-lbl es">Años en el mercado</div><div class="metric-lbl en" style="display:none">Years in the market</div></div>
-          <div class="metric-card"><div class="metric-num">24/7</div><div class="metric-lbl es">Soporte continuo</div><div class="metric-lbl en" style="display:none">Continuous support</div></div>
-          <div class="metric-card"><div class="metric-num">PR</div><div class="metric-lbl es">Toda la isla</div><div class="metric-lbl en" style="display:none">Island-wide</div></div>
         </div>
       </div>
     </div>
@@ -1606,9 +1373,8 @@ body{cursor:auto !important}
           <div class="svc-num">01</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg></div>
           <h3 class="es">Seguridad Empresarial</h3><h3 class="en" style="display:none">Enterprise Security</h3>
-          <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas.</p>
-          <p class="en" style="display:none">Protect your business with systems designed for real control, constant monitoring and loss prevention.</p>
-          <div class="svc-includes"><span class="svc-tag">CCTV</span><span class="svc-tag">Acceso</span><span class="svc-tag">Alarmas</span><span class="svc-tag">Monitoreo 24/7</span></div>
+          <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas. Incluye CCTV, control de acceso, alarmas y monitoreo 24/7.</p>
+          <p class="en" style="display:none">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
           <button class="svc-cta es">Solicitar Evaluación <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
           <button class="svc-cta en" style="display:none">Request Evaluation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -1616,9 +1382,8 @@ body{cursor:auto !important}
           <div class="svc-num">02</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div>
           <h3 class="es">Redes Empresariales</h3><h3 class="en" style="display:none">Enterprise Networks</h3>
-          <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones.</p>
-          <p class="en" style="display:none">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions.</p>
-          <div class="svc-includes"><span class="svc-tag">WiFi</span><span class="svc-tag">Cableado</span><span class="svc-tag">Failover</span><span class="svc-tag">Redundancia</span></div>
+          <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones, con WiFi, cableado, failover y redundancia.</p>
+          <p class="en" style="display:none">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
           <button class="svc-cta es">Evaluar Mi Red <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
           <button class="svc-cta en" style="display:none">Evaluate My Network <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -1626,9 +1391,8 @@ body{cursor:auto !important}
           <div class="svc-num">03</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
           <h3 class="es">Continuidad Operacional</h3><h3 class="en" style="display:none">Operational Continuity</h3>
-          <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso.</p>
-          <p class="en" style="display:none">When power, internet or monitoring fails, business stops. We prevent that.</p>
-          <div class="svc-includes"><span class="svc-tag">UPS</span><span class="svc-tag">Respaldo</span><span class="svc-tag">Monitoreo</span><span class="svc-tag">Soporte</span></div>
+          <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso con UPS, respaldo energético, monitoreo preventivo y soporte prioritario.</p>
+          <p class="en" style="display:none">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
           <button class="svc-cta es">Diagnóstico Preventivo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
           <button class="svc-cta en" style="display:none">Preventive Diagnosis <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -1636,9 +1400,8 @@ body{cursor:auto !important}
           <div class="svc-num">04</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1010 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg></div>
           <h3 class="es">HVAC Comercial</h3><h3 class="en" style="display:none">Commercial HVAC</h3>
-          <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad.</p>
-          <p class="en" style="display:none">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity.</p>
-          <div class="svc-includes"><span class="svc-tag">VRF</span><span class="svc-tag">Rooftop</span><span class="svc-tag">Mantenimiento</span><span class="svc-tag">Eficiencia</span></div>
+          <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad, con equipos VRF y rooftop, mantenimiento y eficiencia energética.</p>
+          <p class="en" style="display:none">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
           <button class="svc-cta es">Evaluar Sistema HVAC <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
           <button class="svc-cta en" style="display:none">Evaluate HVAC System <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
@@ -1650,7 +1413,8 @@ body{cursor:auto !important}
   <section class="hurricane">
     <div class="hurricane-inner">
       <div class="reveal-l">
-        <div class="hurricane-badge"> <span class="es">Protección Crítica</span><span class="en" style="display:none">Critical Protection</span></div>
+        <div class="eyebrow es">Protección Crítica</div>
+        <div class="eyebrow en" style="display:none">Critical Protection</div>
         <h2 class="es">Hurricane & Blackout Business Protection</h2>
         <h2 class="en" style="display:none">Hurricane & Blackout Business Protection</h2>
         <p class="es">La mayoría de los negocios descubren sus vulnerabilidades cuando ya es demasiado tarde. Protege tu empresa antes de que una interrupción se convierta en una pérdida.</p>
@@ -1660,12 +1424,12 @@ body{cursor:auto !important}
       </div>
       <div class="reveal-r">
         <div class="hurricane-features">
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Cámaras activas 24/7</span><span class="en" style="display:none">24/7 active cameras</span></div>
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Internet redundante</span><span class="en" style="display:none">Redundant internet</span></div>
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Acceso remoto</span><span class="en" style="display:none">Remote access</span></div>
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Respaldo energético</span><span class="en" style="display:none">Energy backup</span></div>
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Monitoreo remoto</span><span class="en" style="display:none">Remote monitoring</span></div>
-          <div class="hf-item"><div class="hf-icon"></div><span class="es">Continuidad operativa</span><span class="en" style="display:none">Operational continuity</span></div>
+          <div class="hf-item"><span class="es">Cámaras activas 24/7</span><span class="en" style="display:none">24/7 active cameras</span></div>
+          <div class="hf-item"><span class="es">Internet redundante</span><span class="en" style="display:none">Redundant internet</span></div>
+          <div class="hf-item"><span class="es">Acceso remoto</span><span class="en" style="display:none">Remote access</span></div>
+          <div class="hf-item"><span class="es">Respaldo energético</span><span class="en" style="display:none">Energy backup</span></div>
+          <div class="hf-item"><span class="es">Monitoreo remoto</span><span class="en" style="display:none">Remote monitoring</span></div>
+          <div class="hf-item"><span class="es">Continuidad operativa</span><span class="en" style="display:none">Operational continuity</span></div>
         </div>
       </div>
     </div>
@@ -1904,31 +1668,18 @@ body{cursor:auto !important}
       <div style="margin-bottom:60px">
         <div class="eyebrow reveal es">01 · Seguridad Empresarial</div>
         <div class="eyebrow reveal en" style="display:none">01 · Enterprise Security</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:24px">
+        <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Protege tu negocio con sistemas diseñados para control real.</h3>
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">Protect your business with systems designed for real control.</h3>
+          </div>
+          <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Monitoreo constante y prevención de pérdidas con tecnología de última generación.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Constant monitoring and loss prevention with latest generation technology.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-              <span class="svc-tag">CCTV Profesional</span><span class="svc-tag">Monitoreo Remoto</span><span class="svc-tag">Control de Acceso</span><span class="svc-tag">Alarmas</span><span class="svc-tag">Grabación Segura</span><span class="svc-tag">Protección Perimetral</span>
-            </div>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Cubre CCTV profesional en resolución 4K, monitoreo remoto, control de acceso, alarmas, grabación segura y protección perimetral, con visión nocturna de hasta 30 metros y cámaras IP67 para intemperie.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Covers professional CCTV in 4K resolution, remote monitoring, access control, alarms, secure recording and perimeter protection, with night vision up to 30 meters and IP67 cameras for outdoor use.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Evaluación de Seguridad</button>
             <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Security Evaluation</button>
-            <div class="warranty-bar">
-              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <div class="warranty-text"><p class="es">¿Producto con garantía?</p><p class="en" style="display:none">Warranty claim?</p><p class="es">Reclamación sin complicaciones</p><p class="en" style="display:none">Hassle-free claim</p></div>
-              <button class="warranty-btn es" onclick="claimWarranty()">Reclamar Garantía</button>
-              <button class="warranty-btn en" style="display:none" onclick="claimWarranty()">Claim Warranty</button>
-            </div>
-          </div>
-          <div class="reveal-r" style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:32px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="db-stat"><div class="db-stat-num">4K</div><div class="db-stat-lbl es">Resolución</div></div>
-              <div class="db-stat"><div class="db-stat-num">24/7</div><div class="db-stat-lbl es">Grabación</div></div>
-              <div class="db-stat"><div class="db-stat-num">30m</div><div class="db-stat-lbl es">Visión nocturna</div></div>
-              <div class="db-stat"><div class="db-stat-num">IP67</div><div class="db-stat-lbl es">Resistencia</div></div>
-            </div>
           </div>
         </div>
       </div>
@@ -1937,31 +1688,18 @@ body{cursor:auto !important}
       <div style="margin-bottom:60px;padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">02 · Redes Empresariales</div>
         <div class="eyebrow reveal en" style="display:none">02 · Enterprise Networks</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:24px">
+        <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Una red inestable cuesta dinero.</h3>
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">An unstable network costs money.</h3>
+          </div>
+          <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">We design robust infrastructure to keep operations active without interruptions.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-              <span class="svc-tag">Redes Cableadas</span><span class="svc-tag">WiFi Empresarial</span><span class="svc-tag">Switches PoE</span><span class="svc-tag">Failover</span><span class="svc-tag">Redundancia</span><span class="svc-tag">Optimización</span>
-            </div>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye redes cableadas, WiFi empresarial, switches PoE, failover y redundancia, con velocidad de hasta 10G por enlace, VPN para acceso seguro y optimización continua para sostener el uptime de tu operación.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes wired networks, enterprise WiFi, PoE switches, failover and redundancy, with link speeds up to 10G, VPN for secure access and continuous optimization to sustain your operation’s uptime.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Evaluar Mi Infraestructura</button>
             <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Evaluate My Infrastructure</button>
-            <div class="warranty-bar">
-              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <div class="warranty-text"><p class="es">¿Producto con garantía?</p><p class="en" style="display:none">Warranty claim?</p><p class="es">Reclamación sin complicaciones</p><p class="en" style="display:none">Hassle-free claim</p></div>
-              <button class="warranty-btn es" onclick="claimWarranty()">Reclamar Garantía</button>
-              <button class="warranty-btn en" style="display:none" onclick="claimWarranty()">Claim Warranty</button>
-            </div>
-          </div>
-          <div class="reveal-r" style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:32px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="db-stat"><div class="db-stat-num">99%</div><div class="db-stat-lbl es">Uptime</div></div>
-              <div class="db-stat"><div class="db-stat-num">10G</div><div class="db-stat-lbl es">Velocidad</div></div>
-              <div class="db-stat"><div class="db-stat-num">&lt;2h</div><div class="db-stat-lbl es">Respuesta</div></div>
-              <div class="db-stat"><div class="db-stat-num">VPN</div><div class="db-stat-lbl es">Seguridad</div></div>
-            </div>
           </div>
         </div>
       </div>
@@ -1970,25 +1708,18 @@ body{cursor:auto !important}
       <div style="margin-bottom:60px;padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">03 · Continuidad Operacional</div>
         <div class="eyebrow reveal en" style="display:none">03 · Operational Continuity</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:24px">
+        <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Cuando falla la energía, el negocio no puede detenerse.</h3>
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">When power fails, business cannot stop.</h3>
+          </div>
+          <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Sistemas de respaldo energético, monitoreo preventivo y soporte prioritario para garantizar continuidad.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Energy backup systems, preventive monitoring and priority support to guarantee continuity.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-              <span class="svc-tag">UPS</span><span class="svc-tag">Respaldo Energético</span><span class="svc-tag">Monitoreo Preventivo</span><span class="svc-tag">Soporte Prioritario</span>
-            </div>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye UPS y respaldo energético, monitoreo preventivo y soporte prioritario, para que las cámaras, la red y la grabación no se caigan cuando se va la luz.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes UPS and energy backup, preventive monitoring and priority support, so cameras, network and recording stay up when the power goes out.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Diagnóstico</button>
             <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Diagnosis</button>
-          </div>
-          <div class="reveal-r" style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:32px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="db-stat"><div class="db-stat-num">0</div><div class="db-stat-lbl es">Tiempo de caída</div></div>
-              <div class="db-stat"><div class="db-stat-num">UPS</div><div class="db-stat-lbl es">Respaldo</div></div>
-              <div class="db-stat"><div class="db-stat-num">24/7</div><div class="db-stat-lbl es">Monitoreo</div></div>
-              <div class="db-stat"><div class="db-stat-num">PRO</div><div class="db-stat-lbl es">Soporte</div></div>
-            </div>
           </div>
         </div>
       </div>
@@ -1997,31 +1728,18 @@ body{cursor:auto !important}
       <div style="padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">04 · HVAC Comercial</div>
         <div class="eyebrow reveal en" style="display:none">04 · Commercial HVAC</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;margin-top:24px">
+        <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">El confort no es lujo. Es operación.</h3>
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">Comfort is not a luxury. It's operations.</h3>
+          </div>
+          <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Sistemas HVAC confiables protegen productividad, clientes y continuidad operacional.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Reliable HVAC systems protect productivity, clients and operational continuity.</p>
-            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
-              <span class="svc-tag">Mantenimiento Preventivo</span><span class="svc-tag">VRF</span><span class="svc-tag">Rooftop Units</span><span class="svc-tag">Diagnóstico</span><span class="svc-tag">Eficiencia Energética</span>
-            </div>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye mantenimiento preventivo, sistemas VRF y rooftop units, diagnóstico y eficiencia energética que se nota en el ahorro de la factura, con técnicos certificados EPA.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes preventive maintenance, VRF systems and rooftop units, diagnostics and energy efficiency that shows up as savings on the bill, with EPA-certified technicians.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Evaluar Sistema HVAC</button>
             <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Evaluate HVAC System</button>
-            <div class="warranty-bar">
-              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <div class="warranty-text"><p class="es">¿Sistema con garantía?</p><p class="en" style="display:none">System warranty claim?</p><p class="es">Reclamación sin complicaciones</p><p class="en" style="display:none">Hassle-free claim</p></div>
-              <button class="warranty-btn es" onclick="claimWarranty()">Reclamar Garantía</button>
-              <button class="warranty-btn en" style="display:none" onclick="claimWarranty()">Claim Warranty</button>
-            </div>
-          </div>
-          <div class="reveal-r" style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:32px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div class="db-stat"><div class="db-stat-num">EPA</div><div class="db-stat-lbl es">Certificados</div></div>
-              <div class="db-stat"><div class="db-stat-num">30%</div><div class="db-stat-lbl es">Ahorro energía</div></div>
-              <div class="db-stat"><div class="db-stat-num">2h</div><div class="db-stat-lbl es">Respuesta</div></div>
-              <div class="db-stat"><div class="db-stat-num">5yr</div><div class="db-stat-lbl es">Garantía</div></div>
-            </div>
           </div>
         </div>
       </div>
@@ -2091,8 +1809,6 @@ body{cursor:auto !important}
           <button class="btn-outline" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en" style="display:none">Request Proposal</span></button>
         </div>
         <div class="plan-card featured reveal">
-          <div class="plan-badge es">Más Popular</div>
-          <div class="plan-badge en" style="display:none">Most Popular</div>
           <div class="plan-name">Business</div>
           <div class="plan-title es">Protección Completa</div>
           <div class="plan-title en" style="display:none">Complete Protection</div>
@@ -2237,19 +1953,10 @@ body{cursor:auto !important}
         <p style="color:var(--blue-light);font-weight:700;font-size:0.95rem;display:none" class="en">Store under construction</p>
         <p class="es">Estamos estructurando el catálogo. Próximamente podrás comprar directamente aquí con Stripe, PayPal y ATH Móvil.</p>
         <p class="en" style="display:none">We are structuring the catalog. Soon you will be able to purchase directly here with Stripe, PayPal and ATH Móvil.</p>
-        <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap">
-          <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--gray);background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.08)">
-            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--blue-light);fill:none;stroke-width:2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-            Stripe
-          </div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--gray);background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.08)">
-            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--blue-light);fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            PayPal
-          </div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--gray);background:rgba(255,255,255,0.04);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,0.08)">
-            <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:var(--blue-light);fill:none;stroke-width:2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-            ATH Móvil
-          </div>
+        <div class="pagos-linea">
+          <span>Stripe</span>
+          <span>PayPal</span>
+          <span>ATH Móvil</span>
         </div>
       </div>
 
@@ -2361,30 +2068,23 @@ body{cursor:auto !important}
       <p class="section-desc reveal es">Sitios web modernos, rápidos y que convierten visitantes en clientes. Tu presencia digital construida para crecer.</p>
       <p class="section-desc reveal en" style="display:none">Modern, fast websites that convert visitors into clients. Your digital presence built to grow.</p>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start">
+      <div style="max-width:68ch">
         <div class="reveal-l">
           <div class="eyebrow es">Lo que incluye</div>
           <div class="eyebrow en" style="display:none">What's included</div>
-          <div style="display:flex;flex-direction:column;gap:12px;margin-top:20px">
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">Diseño responsive y moderno</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Responsive modern design</span></div>
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">Optimización SEO incluida</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SEO optimization included</span></div>
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">E-commerce y tiendas en línea</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">E-commerce and online stores</span></div>
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">Bilingüe ES/EN</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Bilingual ES/EN</span></div>
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">Hosting y dominio incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Hosting and domain included</span></div>
-            <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:20px;height:20px;background:rgba(0,229,160,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" style="width:11px;height:11px;stroke:#00E5A0;fill:none;stroke-width:2.5;stroke-linecap:round"><path d="M20 6L9 17l-5-5"/></svg></div><span style="font-size:0.85rem;color:var(--gray)" class="es">SSL y seguridad incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SSL and security included</span></div>
+          <div style="margin-top:16px">
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Diseño responsive y moderno</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Responsive modern design</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Optimización SEO incluida</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SEO optimization included</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">E-commerce y tiendas en línea</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">E-commerce and online stores</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Bilingüe ES/EN</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Bilingual ES/EN</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Hosting y dominio incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Hosting and domain included</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">SSL y seguridad incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SSL and security included</span></div>
           </div>
+          <p style="font-size:0.85rem;color:var(--gray2);line-height:1.75;font-weight:300;margin-top:22px" class="es">Cada proyecto se entrega optimizado para PageSpeed, con SSL y HTTPS seguro, bilingüe en español e inglés, en un promedio de 30 días.</p>
+          <p style="font-size:0.85rem;color:var(--gray2);line-height:1.75;font-weight:300;margin-top:22px;display:none" class="en">Every project ships optimized for PageSpeed, with secure SSL and HTTPS, bilingual in Spanish and English, in an average of 30 days.</p>
           <div style="margin-top:28px">
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Iniciar Proyecto</button>
             <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none">Start Project</button>
-          </div>
-        </div>
-        <div class="reveal-r" style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:32px">
-          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:20px">Entregables</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:8px;padding:16px"><div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--blue-light);line-height:1">100</div><div style="font-size:0.7rem;color:var(--gray);font-weight:300;margin-top:2px">PageSpeed Score</div></div>
-            <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:8px;padding:16px"><div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--blue-light);line-height:1">SSL</div><div style="font-size:0.7rem;color:var(--gray);font-weight:300;margin-top:2px">HTTPS Seguro</div></div>
-            <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:8px;padding:16px"><div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--blue-light);line-height:1">30d</div><div style="font-size:0.7rem;color:var(--gray);font-weight:300;margin-top:2px">Entrega promedio</div></div>
-            <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(11,143,204,0.1);border-radius:8px;padding:16px"><div style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--blue-light);line-height:1">ES/EN</div><div style="font-size:0.7rem;color:var(--gray);font-weight:300;margin-top:2px">Bilingüe</div></div>
           </div>
         </div>
       </div>
@@ -2405,61 +2105,58 @@ body{cursor:auto !important}
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:48px">
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#00E5A0"></div><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Emails</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Email Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Lee, clasifica y responde emails automáticamente con tu estilo personal.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Reads, classifies and responds to emails automatically in your style.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Gmail</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Titan</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Outlook</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Gmail · Titan · Outlook</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#00E5A0"></div><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente Social Media</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Social Media Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Crea y publica contenido viral en Instagram, Facebook y YouTube automáticamente.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Creates and publishes viral content on Instagram, Facebook and YouTube automatically.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Instagram</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">YouTube</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Instagram · YouTube</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#00E5A0"></div><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Facturación</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Billing Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Genera facturas, hace seguimiento de pagos y gestiona tu contabilidad.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Generates invoices, tracks payments and manages your accounting.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">QuickBooks</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Stripe</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">QuickBooks · Stripe</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#00E5A0"></div><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Ventas</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Sales Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Identifica prospectos, hace seguimiento y cierra oportunidades de venta.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Identifies prospects, follows up and closes sales opportunities.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">HubSpot</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">WhatsApp</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">HubSpot · WhatsApp</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#00E5A0"></div><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Agenda</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Calendar Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Gestiona tu calendario, agenda citas y envía recordatorios automáticamente.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Manages your calendar, schedules appointments and sends reminders.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Google Calendar</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Telegram</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Google Calendar · Telegram</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(255,193,7,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FFC107;margin-bottom:18px;display:flex;align-items:center;gap:6px"><div style="width:6px;height:6px;border-radius:50%;background:#FFC107"></div><span class="es">Próximamente</span><span class="en" style="display:none">Coming Soon</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FFC107;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Próximamente</span><span class="en" style="display:none">Coming Soon</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Análisis</h3>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Analytics Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Analiza métricas y genera reportes con recomendaciones inteligentes.</p>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Analyzes metrics and generates smart reports with recommendations.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:5px"><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Analytics</span><span style="background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);color:var(--blue-light);font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:3px 10px;border-radius:100px">Meta Ads</span></div>
+          <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Analytics · Meta Ads</div>
         </div>
       </div>
 
       <div style="background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:10px;overflow:hidden">
-        <div style="padding:12px 20px;background:rgba(11,143,204,0.05);border-bottom:1px solid rgba(11,143,204,0.1);display:flex;align-items:center;gap:7px">
-          <div style="width:10px;height:10px;border-radius:50%;background:#FF5F57"></div>
-          <div style="width:10px;height:10px;border-radius:50%;background:#FEBC2E"></div>
-          <div style="width:10px;height:10px;border-radius:50%;background:#28C840"></div>
-          <span style="font-size:0.7rem;color:var(--gray);margin-left:8px;font-weight:500">wifnix-ai · workspace · running</span>
+        <div style="padding:14px 20px;border-bottom:1px solid rgba(150,185,225,.12);display:flex;align-items:center;gap:7px">
+          <span style="font-family:var(--mono);font-size:0.66rem;color:var(--gray2);letter-spacing:.14em;text-transform:uppercase">wifnix-ai · workspace</span>
         </div>
         <div style="padding:28px 32px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:2;display:grid;grid-template-columns:1fr 1fr;gap:0 40px">
           <div>
@@ -2548,7 +2245,7 @@ const ring = document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('button,a,.svc-card,.plan-card,.case-card,.review-card,.metric-card,.faq-item').forEach(el=>{
+document.querySelectorAll('button,a,.svc-card,.plan-card,.case-card,.review-card,.faq-item').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('h');ring.classList.add('h')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('h');ring.classList.remove('h')});
 });
@@ -2793,15 +2490,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// WARRANTY
-function claimWarranty(){
-  showPage('contacto');
-  setTimeout(()=>{
-    const sel=document.getElementById('f-servicio');
-    if(sel)sel.value='Reclamación de Garantía';
-    document.querySelector('.contact-form').scrollIntoView({behavior:'smooth',block:'center'});
-  },400);
-}
 
 // FAQ
 function toggleFaq(el){
