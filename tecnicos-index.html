@@ -42,13 +42,15 @@
 
   .wrap { padding:16px; max-width:560px; margin:0 auto; }
 
-  /* RESUMEN CARDS */
-  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:18px; }
-  .stat { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 10px; text-align:center; }
-  .stat .num { font-size:1.6rem; font-weight:800; color:var(--blue); line-height:1; }
-  .stat .lbl { font-size:0.66rem; color:var(--gray); margin-top:5px; text-transform:uppercase; letter-spacing:0.03em; font-weight:600; }
+  /* RESUMEN */
+  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .stat { padding:14px 0; }
+  .stat + .stat { border-left:1px solid var(--line); padding-left:14px; }
+  .stat .num { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.4rem; font-weight:500; color:var(--ink); line-height:1; }
+  .stat .lbl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); margin-top:8px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
 
-  .section-title { font-size:0.78rem; font-weight:800; color:var(--gray); text-transform:uppercase; letter-spacing:0.05em; margin:18px 4px 10px; }
+  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--gray); text-transform:uppercase; letter-spacing:0.2em; margin:22px 0 10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
 
   /* DATE NAV */
   .datenav { display:flex; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin-bottom:14px; }
@@ -60,23 +62,21 @@
   .job-strip { height:5px; }
   .job-body { padding:15px; }
   .job-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; }
-  .job-time { font-size:0.78rem; font-weight:800; color:var(--ink); background:var(--bg); padding:5px 10px; border-radius:8px; }
-  .job-status { font-size:0.66rem; font-weight:800; padding:4px 9px; border-radius:7px; text-transform:uppercase; letter-spacing:0.03em; }
+  .job-time { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.76rem; font-weight:600; color:var(--ink); letter-spacing:0.04em; }
+  .job-status { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.62rem; font-weight:500; text-transform:uppercase; letter-spacing:0.14em; white-space:nowrap; }
   .job-serv { font-size:1rem; font-weight:800; color:var(--ink); margin-bottom:4px; }
-  .job-client { font-size:0.86rem; color:var(--gray); display:flex; align-items:center; gap:6px; }
-  .job-addr { font-size:0.8rem; color:var(--gray2); margin-top:6px; display:flex; align-items:flex-start; gap:6px; }
-  .job-units { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
-  .unit-chip { font-size:0.7rem; background:rgba(11,143,204,0.08); color:var(--blue); padding:3px 9px; border-radius:20px; font-weight:700; }
+  .job-client { font-size:0.86rem; color:var(--gray); }
+  .job-addr { font-size:0.8rem; color:var(--gray2); margin-top:6px; }
+  .job-units { margin-top:9px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.68rem; color:var(--gray); letter-spacing:0.03em; }
 
   /* DETAIL */
   #detail { position:fixed; inset:0; background:var(--bg); z-index:100; overflow-y:auto; transform:translateX(100%); transition:transform .25s ease; }
   #detail.open { transform:translateX(0); }
   .det-back { background:rgba(255,255,255,0.18); color:#fff; padding:8px 14px; border-radius:9px; font-size:0.8rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; }
   .det-card { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:16px; margin-bottom:14px; }
-  .det-row { display:flex; align-items:flex-start; gap:11px; padding:9px 0; border-bottom:1px solid var(--line); }
+  .det-row { padding:11px 0; border-bottom:1px solid var(--line); }
   .det-row:last-child { border-bottom:none; }
-  .det-ico { width:34px; height:34px; border-radius:9px; background:rgba(11,143,204,0.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1rem; }
-  .det-k { font-size:0.7rem; color:var(--gray2); text-transform:uppercase; letter-spacing:0.03em; font-weight:700; }
+  .det-k { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.62rem; color:var(--gray2); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
   .det-v { font-size:0.9rem; color:var(--ink); font-weight:600; margin-top:2px; word-break:break-word; }
   .det-v a { color:var(--blue); text-decoration:none; }
 
@@ -99,7 +99,8 @@
   .photo-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
   .photo-slot { border:2px dashed var(--line); border-radius:12px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--gray2); font-size:0.78rem; font-weight:700; position:relative; overflow:hidden; background:var(--bg); }
   .photo-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
-  .photo-slot .ph-badge { position:absolute; top:6px; left:6px; background:rgba(0,0,0,0.6); color:#fff; font-size:0.62rem; padding:2px 7px; border-radius:6px; font-weight:700; }
+  .photo-cell { display:flex; flex-direction:column; }
+  .ph-label { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; margin-bottom:6px; }
   .photo-add { font-size:1.6rem; }
 
   textarea.notas { width:100%; min-height:80px; border:1.5px solid var(--line); border-radius:11px; padding:12px; font-size:0.92rem; resize:vertical; color:var(--ink); }
@@ -297,13 +298,13 @@ var COLOR_SERV = {
 function colorServ(t){ return COLOR_SERV[t] || '#5B7184'; }
 
 var STATUS_INFO = {
-  solicitada:{l:'Solicitada',c:'#E89611',bg:'#FDF3E3'},
-  aprobada:{l:'Aprobada',c:'#0B8FCC',bg:'#E7F3FA'},
-  confirmada:{l:'Confirmada',c:'#00B377',bg:'#E5F6EF'},
-  reprogramada:{l:'Reprogramada',c:'#0B8FCC',bg:'#E7F3FA'},
-  en_proceso:{l:'En proceso',c:'#8B5CF6',bg:'#F0EBFB'},
-  completada:{l:'Completada',c:'#00B377',bg:'#E5F6EF'},
-  no_show:{l:'No asistió',c:'#5B7184',bg:'#EEF2F5'}
+  solicitada:{l:'Solicitada',c:'#E89611'},
+  aprobada:{l:'Aprobada',c:'#0B8FCC'},
+  confirmada:{l:'Confirmada',c:'#00B377'},
+  reprogramada:{l:'Reprogramada',c:'#0B8FCC'},
+  en_proceso:{l:'En proceso',c:'#8B5CF6'},
+  completada:{l:'Completada',c:'#00B377'},
+  no_show:{l:'No asistió',c:'#5B7184'}
 };
 function statusInfo(s){ return STATUS_INFO[s] || STATUS_INFO.confirmada; }
 
@@ -337,17 +338,17 @@ async function cargarTrabajos() {
     var col = colorServ(j.tipo_servicio);
     var si = statusInfo(j.status);
     var cliente = ((j.cliente_nombre||'')+' '+(j.cliente_apellido||'')).trim();
-    var units = (j.unidades && j.unidades.length) ? '<div class="job-units">' + j.unidades.map(function(u){ return '<span class="unit-chip">'+u.cantidad+' '+u.tipo_unidad+'</span>'; }).join('') + '</div>' : '';
+    var units = (j.unidades && j.unidades.length) ? '<div class="job-units">' + j.unidades.map(function(u){ return u.cantidad+' '+u.tipo_unidad; }).join(' · ') + '</div>' : '';
     return '<div class="job" onclick="abrirDetalle(\''+j.id+'\')">' +
       '<div class="job-strip" style="background:'+col+'"></div>' +
       '<div class="job-body">' +
         '<div class="job-top">' +
           '<span class="job-time">'+ (j.slot||'') +'</span>' +
-          '<span class="job-status" style="color:'+si.c+';background:'+si.bg+'">'+si.l+'</span>' +
+          '<span class="job-status" style="color:'+si.c+'">'+si.l+'</span>' +
         '</div>' +
         '<div class="job-serv">'+j.tipo_servicio+'</div>' +
-        '<div class="job-client">👤 '+(cliente||'Cliente')+'</div>' +
-        (j.direccion ? '<div class="job-addr">📍 '+j.direccion+(j.municipio?', '+j.municipio:'')+'</div>' : '') +
+        '<div class="job-client">'+(cliente||'Cliente')+'</div>' +
+        (j.direccion ? '<div class="job-addr">'+j.direccion+(j.municipio?', '+j.municipio:'')+'</div>' : '') +
         units +
       '</div>' +
     '</div>';
@@ -387,7 +388,7 @@ function renderDetalle() {
     return '<div class="tl-step"><div class="tl-dot '+(p.done?'active':'')+'">'+(p.done?'✓':'')+'</div><div class="tl-lbl">'+p.k+'</div><div class="tl-time">'+(p.t||'')+'</div></div>';
   }).join('') + '</div>';
 
-  var units = (j.unidades && j.unidades.length) ? j.unidades.map(function(u){ return '<span class="unit-chip">'+u.cantidad+' '+u.tipo_unidad+'</span>'; }).join(' ') : '—';
+  var units = (j.unidades && j.unidades.length) ? j.unidades.map(function(u){ return u.cantidad+' '+u.tipo_unidad; }).join(' · ') : '—';
 
   var html = tl +
     '<div class="det-card" style="border-left:4px solid '+col+'">' +
@@ -396,11 +397,11 @@ function renderDetalle() {
     '</div>' +
 
     '<div class="det-card">' +
-      '<div class="det-row"><div class="det-ico">👤</div><div><div class="det-k">Cliente</div><div class="det-v">'+(cliente||'—')+'</div></div></div>' +
-      (tel ? '<div class="det-row"><div class="det-ico">📞</div><div><div class="det-k">Teléfono</div><div class="det-v"><a href="tel:'+tel+'">'+tel+'</a></div></div></div>' : '') +
-      (j.direccion ? '<div class="det-row"><div class="det-ico">📍</div><div><div class="det-k">Dirección</div><div class="det-v">'+j.direccion+(j.municipio?', '+j.municipio:'')+(maps?' · <a href="'+maps+'" target="_blank">Navegar</a>':'')+'</div></div></div>' : '') +
-      '<div class="det-row"><div class="det-ico">❄️</div><div><div class="det-k">Unidades / Detalle</div><div class="det-v">'+units+'</div></div></div>' +
-      (j.notas_cliente ? '<div class="det-row"><div class="det-ico">📝</div><div><div class="det-k">Notas del cliente</div><div class="det-v" style="font-weight:500;font-style:italic">"'+j.notas_cliente+'"</div></div></div>' : '') +
+      '<div class="det-row"><div class="det-k">Cliente</div><div class="det-v">'+(cliente||'—')+'</div></div>' +
+      (tel ? '<div class="det-row"><div class="det-k">Teléfono</div><div class="det-v"><a href="tel:'+tel+'">'+tel+'</a></div></div>' : '') +
+      (j.direccion ? '<div class="det-row"><div class="det-k">Dirección</div><div class="det-v">'+j.direccion+(j.municipio?', '+j.municipio:'')+(maps?' · <a href="'+maps+'" target="_blank">Navegar</a>':'')+'</div></div>' : '') +
+      '<div class="det-row"><div class="det-k">Unidades / Detalle</div><div class="det-v">'+units+'</div></div>' +
+      (j.notas_cliente ? '<div class="det-row"><div class="det-k">Notas del cliente</div><div class="det-v" style="font-weight:500;font-style:italic">"'+j.notas_cliente+'"</div></div>' : '') +
     '</div>';
 
   // Flujo de botones segun estado
@@ -414,9 +415,9 @@ function renderDetalle() {
     } else {
       html += '<button class="flow-btn done" disabled>✓ Llegada '+fmtHora(j.hora_llegada)+'</button>';
       // Fotos + notas + completar
-      html += '<div class="section-title" style="margin:14px 4px 8px">Fotos del trabajo</div>';
+      html += '<div class="section-title" style="margin:16px 0 8px">Fotos del trabajo</div>';
       html += '<div class="photo-grid" id="photo-grid"></div>';
-      html += '<div class="section-title" style="margin:16px 4px 8px">Notas del técnico</div>';
+      html += '<div class="section-title" style="margin:18px 0 8px">Notas del técnico</div>';
       html += '<textarea class="notas" id="notas-tec" placeholder="Describe el trabajo realizado, observaciones, recomendaciones...">'+(j.notas_tecnico||'')+'</textarea>';
       html += '<button class="flow-btn completar" style="margin-top:12px" onclick="abrirFirma()">✓ Completar trabajo</button>';
     }
@@ -456,9 +457,9 @@ async function cargarFotos() {
   function slot(tipo, label) {
     var existe = fotosCache[tipo][0];
     if (existe) {
-      return '<div class="photo-slot"><span class="ph-badge">'+label+'</span><img src="'+existe.url+'"></div>';
+      return '<div class="photo-cell"><div class="ph-label">'+label+'</div><div class="photo-slot"><img src="'+existe.url+'"></div></div>';
     }
-    return '<label class="photo-slot"><span class="ph-badge">'+label+'</span><span class="photo-add">+</span><span>Tomar foto</span><input type="file" accept="image/*" capture="environment" style="display:none" onchange="subirFoto(this,\''+tipo+'\')"></label>';
+    return '<div class="photo-cell"><div class="ph-label">'+label+'</div><label class="photo-slot"><span class="photo-add">+</span><span>Tomar foto</span><input type="file" accept="image/*" capture="environment" style="display:none" onchange="subirFoto(this,\''+tipo+'\')"></label></div>';
   }
   grid.innerHTML = slot('antes','ANTES') + slot('despues','DESPUÉS');
 }

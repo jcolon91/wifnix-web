@@ -23,33 +23,33 @@ input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3p
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--warn);cursor:pointer}
 select,input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(255,193,7,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
 select option{background:var(--navy)}
-.section-total{background:linear-gradient(135deg,rgba(255,193,7,0.12),rgba(13,26,42,0.9));border:1px solid rgba(255,193,7,0.3);border-radius:16px;padding:28px;margin-bottom:20px}
-.total-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--warn);text-align:center;line-height:1}
-.breakdown{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.bk{background:rgba(0,0,0,0.3);border:1px solid rgba(255,193,7,0.1);border-radius:10px;padding:14px;text-align:center}
-.bk-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.bk-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:16px}
+.seclabel::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.section-total{padding:0;margin-bottom:32px}
+.total-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--warn);line-height:1}
+.dl{border-top:1px solid rgba(255,255,255,0.08);margin-bottom:32px}
+.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.dl-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em}
+.dl-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.95rem;font-weight:600;white-space:nowrap}
 .pkg-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .pkg-item:last-child{border-bottom:none}
 .pkg-name{font-size:0.85rem;color:var(--white);font-weight:600}
 .pkg-detail{font-size:0.72rem;color:var(--gray);margin-top:2px}
 .pkg-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--success);white-space:nowrap}
-.tip-box{background:rgba(0,0,0,0.3);border-radius:10px;padding:16px;font-size:0.8rem;color:var(--gray);line-height:1.8;border-left:3px solid var(--warn);margin-bottom:16px}
+.tip-box{border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;font-size:0.82rem;color:var(--gray);line-height:1.9;margin-bottom:28px}
 .tip-box strong{color:var(--white)}
-.cta-box{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-box{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .cta-btn{padding:11px 24px;background:var(--warn);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,193,7,0.3)}
-@media(max-width:768px){.grid-2,.breakdown{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
   <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,193,7,0.1);border:1px solid rgba(255,193,7,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">🍽️</span>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--warn);letter-spacing:0.08em;text-transform:uppercase">Especial restaurantes</span>
-    </div>
+    <div class="eyebrow">Especial para restaurantes en Puerto Rico</div>
     <h1>Calculadora <span>Todo en Uno</span> para Restaurantes</h1>
     <p>Dimensiona CCTV, red, HVAC y continuidad operacional en una sola herramienta diseñada específicamente para el sector de alimentos y bebidas en Puerto Rico.</p>
   </div>
@@ -57,7 +57,7 @@ select option{background:var(--navy)}
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">🏗️ Tu restaurante</div>
+        <div class="card-title">Tu restaurante</div>
         <div class="f-group">
           <div class="f-label">Área del local (ft²) <span id="lbl-area">800</span></div>
           <input type="range" id="sl-area" min="200" max="5000" step="100" value="800" oninput="update()">
@@ -87,7 +87,7 @@ select option{background:var(--navy)}
       </div>
 
       <div class="card">
-        <div class="card-title">🍳 Cocina y equipos</div>
+        <div class="card-title">Cocina y equipos</div>
         <div class="f-group">
           <div class="f-label">Número de estaciones de cocina <span id="lbl-cocinas">2</span></div>
           <input type="range" id="sl-cocinas" min="1" max="10" value="2" oninput="update()">
@@ -112,15 +112,15 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">📹 CCTV recomendado</div>
+        <div class="card-title">CCTV recomendado</div>
         <div id="cctv-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
       </div>
       <div class="card">
-        <div class="card-title">❄️ HVAC recomendado</div>
+        <div class="card-title">HVAC recomendado</div>
         <div id="hvac-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
       </div>
       <div class="card">
-        <div class="card-title">🌐 Red y continuidad</div>
+        <div class="card-title">Red y continuidad operacional</div>
         <div id="red-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
       </div>
     </div>
@@ -128,20 +128,20 @@ select option{background:var(--navy)}
 
   <!-- TOTAL -->
   <div class="section-total">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--warn);text-align:center;margin-bottom:10px">Inversión total estimada</div>
+    <div class="seclabel">Inversión total estimada</div>
     <div class="total-num" id="r-total">$0</div>
-    <div style="font-size:0.82rem;color:var(--gray);text-align:center;margin-top:6px">Incluye equipos, instalación, configuración e IVU</div>
+    <div style="font-size:0.82rem;color:var(--gray);margin-top:10px">Incluye equipos, instalación, configuración e IVU</div>
   </div>
 
-  <div class="breakdown">
-    <div class="bk"><div class="bk-num" style="color:var(--blue-light)" id="b-cctv">$0</div><div class="bk-lbl">CCTV</div></div>
-    <div class="bk"><div class="bk-num" style="color:var(--orange)" id="b-hvac">$0</div><div class="bk-lbl">HVAC</div></div>
-    <div class="bk"><div class="bk-num" style="color:var(--blue)" id="b-red">$0</div><div class="bk-lbl">Red / Datos</div></div>
-    <div class="bk"><div class="bk-num" style="color:var(--success)" id="b-cont">$0</div><div class="bk-lbl">Continuidad</div></div>
+  <div class="dl">
+    <div class="dl-row"><div class="dl-lbl">CCTV — cámaras y NVR</div><div class="dl-val" style="color:var(--blue-light)" id="b-cctv">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl">HVAC — enfriamiento del local</div><div class="dl-val" style="color:var(--orange)" id="b-hvac">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl">Red y datos</div><div class="dl-val" style="color:var(--blue)" id="b-red">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl">Continuidad operacional y UPS</div><div class="dl-val" style="color:var(--success)" id="b-cont">$0</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">📋 Desglose del paquete</div>
+    <div class="card-title">Desglose del paquete</div>
     <div id="r-items"></div>
     <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06)">
       <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">Subtotal</span><span style="font-weight:700;color:var(--white)" id="r-sub">$0</span></div>
@@ -213,27 +213,20 @@ function update() {
 
   // Update CCTV rec
   document.getElementById('cctv-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:8px">${totalCams} cámaras recomendadas</div>
-    • ${camarasInteriores} cámaras en salón (1 por ${Math.round(area/camarasInteriores)} ft²)<br>
-    • ${camarasExterio} cámaras exterior / entrada<br>
-    • ${camarasCocina} cámaras en cocina y caja<br>
+    <div style="color:var(--white);font-weight:600;margin-bottom:6px">${totalCams} cámaras de CCTV recomendadas</div>
+    ${camarasInteriores} cámaras cubren el salón (una por cada ${Math.round(area/camarasInteriores)} ft²), ${camarasExterio} el exterior y la entrada, y ${camarasCocina} la cocina y el área de caja.
     <div style="margin-top:8px;color:var(--blue-light);font-weight:600">Estimado: $${costoCCTV.toLocaleString()}</div>
   `;
 
   document.getElementById('hvac-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:8px">${Math.round(tons)} toneladas necesarias</div>
-    • Carga base del salón (${area} ft²)<br>
-    • ${cocinas} estaciones de cocina + ${freidoras} freidoras<br>
-    • ${Math.round(mesas * 2.5 + emp)} personas en ocupación máxima<br>
+    <div style="color:var(--white);font-weight:600;margin-bottom:6px">${Math.round(tons)} toneladas de HVAC necesarias</div>
+    Incluye la carga base del salón (${area} ft²), ${cocinas} estaciones de cocina con ${freidoras} freidoras y ${Math.round(mesas * 2.5 + emp)} personas en ocupación máxima.
     <div style="margin-top:8px;color:var(--orange);font-weight:600">Estimado: $${costoHVAC.toLocaleString()}</div>
   `;
 
   document.getElementById('red-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:8px">Red + Continuidad</div>
-    • ${aps} Access Points WiFi empresarial<br>
-    • ${pos === 'si' ? 'POS + impresoras de cocina en red' : 'Red básica empresarial'}<br>
-    • UPS para POS y equipos críticos<br>
-    • Protección para ${neveras} neveras/congeladores<br>
+    <div style="color:var(--white);font-weight:600;margin-bottom:6px">Red empresarial y continuidad operacional</div>
+    ${aps} Access Points de WiFi empresarial, ${pos === 'si' ? 'POS e impresoras de cocina en red' : 'red básica empresarial'}, UPS para el POS y los equipos críticos, y protección para ${neveras} neveras y congeladores.
     <div style="margin-top:8px;color:var(--success);font-weight:600">Red: $${costoRed.toLocaleString()} | Continuidad: $${costoCont.toLocaleString()}</div>
   `;
 
@@ -262,10 +255,10 @@ function update() {
   // ROI tip
   const perdidaApagon = (ventas / 30 / 10) * 2 * 4;
   let tip = `<strong>Para tu restaurante de ${mesas} mesas:</strong> Un apagón de 2 horas puede costarte hasta $${Math.round(perdidaApagon).toLocaleString()} en ventas perdidas y alimentos dañados.<br><br>`;
-  if (neveras >= 3) tip += '🧊 <strong>Protección de refrigeración:</strong> Con '+neveras+' neveras/congeladores, el costo de un apagón de 4+ horas puede superar los $5,000 en inventario arruinado. El UPS es crítico.<br><br>';
-  if (tipo === 'bar') tip += '🍺 <strong>Bar/Lounge:</strong> Las cámaras en el área del bar son especialmente importantes para resolver disputas y prevenir robo interno en el manejo de efectivo.<br><br>';
-  if (freidoras > 0) tip += '🍟 <strong>Freidoras industriales:</strong> Generan una carga de calor significativa que debe compensarse con mayor capacidad de HVAC. No subestimes esta carga térmica.<br><br>';
-  tip += `💡 <strong>Recomendación Wifnix:</strong> Para restaurantes siempre incluimos cámaras en la caja registradora, cocina y todas las entradas. El ${Math.round((costoCCTV/subtotal)*100)}% del presupuesto va a seguridad visual — inversión que se recupera con la primera disputa evitada.`;
+  if (neveras >= 3) tip += '<strong>Protección de refrigeración:</strong> Con '+neveras+' neveras/congeladores, el costo de un apagón de 4+ horas puede superar los $5,000 en inventario arruinado. El UPS es crítico.<br><br>';
+  if (tipo === 'bar') tip += '<strong>Bar/Lounge:</strong> Las cámaras en el área del bar son especialmente importantes para resolver disputas y prevenir robo interno en el manejo de efectivo.<br><br>';
+  if (freidoras > 0) tip += '<strong>Freidoras industriales:</strong> Generan una carga de calor significativa que debe compensarse con mayor capacidad de HVAC. No subestimes esta carga térmica.<br><br>';
+  tip += `<strong>Recomendación Wifnix:</strong> Para restaurantes siempre incluimos cámaras en la caja registradora, cocina y todas las entradas. El ${Math.round((costoCCTV/subtotal)*100)}% del presupuesto va a seguridad visual — inversión que se recupera con la primera disputa evitada.`;
   document.getElementById('tip-box').innerHTML = tip;
 }
 

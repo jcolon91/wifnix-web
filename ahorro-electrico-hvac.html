@@ -11,8 +11,7 @@
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
 .header{text-align:center;margin-bottom:40px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
-.badge span{font-size:0.7rem;font-weight:700;color:var(--green);letter-spacing:0.08em;text-transform:uppercase}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
 .header h1 em{color:var(--green);font-style:normal}
 .header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
@@ -33,34 +32,36 @@ select option{background:var(--navy)}
 .seer-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gray);transition:color .2s}
 .seer-btn.sel .seer-val{color:var(--green)}
 .seer-label{font-size:0.6rem;color:var(--gray2);margin-top:3px}
-.result-hero{background:linear-gradient(135deg,rgba(0,229,160,0.1),rgba(13,26,42,0.9));border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
-.saving-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--green);line-height:1}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.08);border-radius:10px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:16px}
+.seclabel::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.result-hero{padding:0;margin-bottom:32px}
+.saving-num{font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;color:var(--green);line-height:1}
+.dl{border-top:1px solid rgba(255,255,255,0.08);margin-bottom:32px}
+.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.dl-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em}
+.dl-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.95rem;font-weight:600;white-space:nowrap}
 .bar-wrap{margin-bottom:16px}
 .bar-label{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:6px}
-.bar-track{height:28px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
-.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-size:0.72rem;font-weight:700;color:white;transition:width .6s}
-.proj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.proj-item{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.08);border-radius:8px;padding:12px;text-align:center}
-.proj-year{font-size:0.6rem;color:var(--gray);text-transform:uppercase;margin-bottom:4px}
-.proj-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
-.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.bar-track{height:26px;background:rgba(255,255,255,0.04);overflow:hidden}
+.bar-fill{height:100%;display:flex;align-items:center;padding:0 12px;font-size:0.72rem;font-weight:600;color:white;transition:width .6s}
+.proj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0 22px}
+.proj-item{border-top:1px solid rgba(255,255,255,0.08);padding:12px 0}
+.proj-year{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:5px}
+.proj-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.92rem;font-weight:600}
+.tip{border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;font-size:0.82rem;color:var(--gray);line-height:1.9;margin-bottom:28px}
 .tip strong{color:var(--white)}
 .source{font-size:0.65rem;color:var(--gray2);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.6;margin-top:10px}
-.cta{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .cta-btn{padding:11px 24px;background:var(--green);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
-@media(max-width:768px){.grid-2,.stats,.seer-grid,.proj-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.grid-2,.seer-grid,.proj-grid{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
   <div class="header">
-    <div class="badge"><span>Fórmula DOE · Tarifa AEE actualizada</span></div>
+    <div class="eyebrow">Fórmula DOE · Tarifa AEE actualizada</div>
     <h1>Calculadora de <em>Ahorro Eléctrico HVAC</em></h1>
     <p>Calcula exactamente cuánto ahorras al cambiar tu A/C por uno de alta eficiencia usando la fórmula del Departamento de Energía de EE.UU. y la tarifa real de la AEE en Puerto Rico.</p>
   </div>
@@ -136,9 +137,9 @@ select option{background:var(--navy)}
             <option value="800">$800 — Combinación IRA + programa local</option>
           </select>
         </div>
-        <div style="background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center">
-          <div style="font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Inversión neta</div>
-          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--white)" id="r-inversion">$0</div>
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline;gap:16px">
+          <div style="font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em">Inversión neta</div>
+          <div style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.25rem;font-weight:600;color:var(--white)" id="r-inversion">$0</div>
         </div>
       </div>
     </div>
@@ -146,16 +147,16 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px">Ahorro anual en factura eléctrica</div>
+    <div class="seclabel">Ahorro anual en la factura eléctrica</div>
     <div class="saving-num" id="r-ahorro-anual">$0</div>
-    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-payback-txt">—</div>
+    <div style="font-size:0.88rem;color:var(--gray);margin-top:10px" id="r-payback-txt">—</div>
   </div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-costo-act">$0/año</div><div class="stat-lbl">Gasto actual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--green)" id="s-costo-new">$0/año</div><div class="stat-lbl">Gasto nuevo</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-ahorro-mes">$0/mes</div><div class="stat-lbl">Ahorro mensual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-reduccion">0%</div><div class="stat-lbl">Reducción consumo</div></div>
+  <div class="dl">
+    <div class="dl-row"><div class="dl-lbl">Gasto actual del sistema HVAC</div><div class="dl-val" style="color:var(--red)" id="s-costo-act">$0/año</div></div>
+    <div class="dl-row"><div class="dl-lbl">Gasto con el equipo nuevo</div><div class="dl-val" style="color:var(--green)" id="s-costo-new">$0/año</div></div>
+    <div class="dl-row"><div class="dl-lbl">Ahorro mensual</div><div class="dl-val" style="color:var(--warn)" id="s-ahorro-mes">$0/mes</div></div>
+    <div class="dl-row"><div class="dl-lbl">Reducción de consumo eléctrico</div><div class="dl-val" style="color:var(--bl)" id="s-reduccion">0%</div></div>
   </div>
 
   <div class="card">

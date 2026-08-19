@@ -12,6 +12,7 @@
 <style>
 :root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
 :root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
@@ -25,13 +26,12 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 .layout{display:grid;grid-template-columns:1fr 380px;gap:30px;max-width:1200px;margin:0 auto;padding:30px 20px}
 @media(max-width:900px){.layout{grid-template-columns:1fr}}
 
-.steps-nav{display:flex;gap:0;margin-bottom:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px}
-.step-tab{flex:1;padding:12px;text-align:center;border-radius:8px;font-weight:700;font-size:0.82rem;color:var(--gray);background:transparent;border:none;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
-.step-tab.active{background:var(--blue);color:white}
+.steps-nav{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border)}
+.step-tab{flex:1;padding:14px 12px;text-align:center;font-weight:700;font-size:0.82rem;color:var(--gray);background:transparent;border:none;border-bottom:2px solid transparent;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.step-tab.active{color:var(--bl);border-bottom-color:var(--bl)}
 .step-tab.done{color:var(--green)}
-.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800}
-.step-tab.active .step-num{background:rgba(255,255,255,0.25)}
-.step-tab.done .step-num{background:rgba(0,229,160,0.2)}
+.step-num{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;color:var(--gray2)}
+.step-tab.active .step-num,.step-tab.done .step-num{color:currentColor}
 
 .step-content{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;display:none}
 .step-content.active{display:block}

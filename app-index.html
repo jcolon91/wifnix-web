@@ -11,7 +11,7 @@
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   :root {
     --bg:#06090F; --bg2:#0B121C; --card:#0F1825; --card2:#131F30;
-    --bl:#0B8FCC; --bl-l:#29B6F6; --green:#00E5A0; --warn:#FFC107; --red:#FF5555; --purple:#8B5CF6;
+    --bl:#0B8FCC; --bl-l:#29B6F6; --red:#FF5555;
     --white:#F0F4F8; --gray:#8BA0B4; --gray2:#5A6B7C; --line:rgba(255,255,255,0.06);
   }
   body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--white); -webkit-font-smoothing:antialiased; overscroll-behavior-y:none; }
@@ -53,32 +53,32 @@
   .nav-btn svg { width:23px; height:23px; stroke:currentColor; fill:none; stroke-width:1.8; }
   .nav-btn span { font-size:0.62rem; font-weight:600; }
   .nav-btn.active { color:var(--bl-l); }
-  .nav-badge { position:absolute; top:0; right:50%; transform:translateX(16px); background:var(--red); color:#fff; font-size:0.55rem; font-weight:800; min-width:16px; height:16px; border-radius:8px; display:flex; align-items:center; justify-content:center; padding:0 4px; }
 
   /* CARDS */
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-bottom:14px; }
-  .hero { background:linear-gradient(135deg, rgba(11,143,204,0.18), rgba(11,143,204,0.04)); border:1px solid rgba(11,143,204,0.2); border-radius:18px; padding:22px; margin-bottom:18px; }
+  .hero { padding:2px 0 18px; margin-bottom:6px; border-bottom:1px solid var(--line); }
   .hero h2 { font-size:1.35rem; font-weight:800; margin-bottom:5px; }
   .hero p { font-size:0.85rem; color:var(--gray); }
 
-  .section-title { font-size:0.78rem; font-weight:800; color:var(--gray); text-transform:uppercase; letter-spacing:0.05em; margin:22px 4px 12px; }
+  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--gray); text-transform:uppercase; letter-spacing:0.2em; margin:26px 0 12px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
 
   .quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .quick { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:18px; display:flex; flex-direction:column; gap:10px; cursor:pointer; transition:transform .12s, border-color .15s; text-align:left; }
   .quick:active { transform:scale(0.97); }
-  .quick .q-ico { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; }
+  .quick .q-ico { display:flex; align-items:center; justify-content:center; width:26px; height:26px; }
   .quick .q-ico svg { width:22px; height:22px; stroke-width:1.8; fill:none; }
   .quick .q-title { font-size:0.95rem; font-weight:800; color:var(--white); }
   .quick .q-sub { font-size:0.74rem; color:var(--gray); }
 
-  .stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:8px; }
-  .stat-box { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 10px; text-align:center; }
-  .stat-box .sn { font-size:1.5rem; font-weight:800; line-height:1; }
-  .stat-box .sl { font-size:0.64rem; color:var(--gray); margin-top:6px; text-transform:uppercase; letter-spacing:0.03em; font-weight:600; }
+  .stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:8px; }
+  .stat-box { padding:15px 0; }
+  .stat-box + .stat-box { border-left:1px solid var(--line); padding-left:16px; }
+  .stat-box .sn { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.35rem; font-weight:500; line-height:1; color:var(--white); }
+  .stat-box .sl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); margin-top:9px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
 
-  .item { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px; margin-bottom:11px; }
   .item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
-  .badge { display:inline-block; padding:3px 10px; border-radius:6px; font-size:0.68rem; font-weight:700; }
+  .status { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.64rem; font-weight:500; text-transform:uppercase; letter-spacing:0.14em; white-space:nowrap; }
 
   .empty { text-align:center; padding:44px 20px; color:var(--gray2); }
   .empty svg { width:50px; height:50px; stroke:var(--gray2); fill:none; stroke-width:1.2; margin-bottom:12px; }
@@ -130,28 +130,28 @@
 
       <div class="quick-grid">
         <button class="quick" onclick="switchTab('servicios'); subTab('citas')">
-          <div class="q-ico" style="background:rgba(11,143,204,0.15)"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
           <div><div class="q-title">Agendar</div><div class="q-sub">Mantenimiento</div></div>
         </button>
         <button class="quick" onclick="switchTab('tienda')">
-          <div class="q-ico" style="background:rgba(0,229,160,0.15)"><svg viewBox="0 0 24 24" style="stroke:var(--green)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
           <div><div class="q-title">Tienda</div><div class="q-sub">Equipos y más</div></div>
         </button>
         <button class="quick" onclick="switchTab('servicios'); subTab('garantias')">
-          <div class="q-ico" style="background:rgba(139,92,246,0.15)"><svg viewBox="0 0 24 24" style="stroke:var(--purple)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
           <div><div class="q-title">Garantías</div><div class="q-sub">Mis equipos</div></div>
         </button>
         <button class="quick" onclick="switchTab('servicios'); subTab('tickets')">
-          <div class="q-ico" style="background:rgba(255,193,7,0.15)"><svg viewBox="0 0 24 24" style="stroke:var(--warn)"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
           <div><div class="q-title">Ayuda</div><div class="q-sub">Soporte</div></div>
         </button>
       </div>
 
       <div class="section-title">Resumen</div>
       <div class="stat-row">
-        <div class="stat-box"><div class="sn" style="color:var(--bl-l)" id="st-ordenes">—</div><div class="sl">Órdenes</div></div>
-        <div class="stat-box"><div class="sn" style="color:var(--green)" id="st-citas">—</div><div class="sl">Servicios</div></div>
-        <div class="stat-box"><div class="sn" style="color:var(--purple)" id="st-garantias">—</div><div class="sl">Garantías</div></div>
+        <div class="stat-box"><div class="sn" id="st-ordenes">—</div><div class="sl">Órdenes</div></div>
+        <div class="stat-box"><div class="sn" id="st-citas">—</div><div class="sl">Servicios</div></div>
+        <div class="stat-box"><div class="sn" id="st-garantias">—</div><div class="sl">Garantías</div></div>
       </div>
 
       <div id="proximo-servicio"></div>
@@ -322,8 +322,8 @@ async function cargarInicio() {
       cont.innerHTML = '<div class="section-title">Próximo servicio</div>' +
         '<div class="card" onclick="switchTab(\'servicios\')" style="cursor:pointer;border-color:rgba(11,143,204,0.25)">' +
           '<div class="item-top"><div><div style="font-weight:800;font-size:1rem">' + c.tipo_servicio + '</div>' +
-          '<div style="font-size:0.8rem;color:var(--gray);margin-top:3px">📅 ' + fecha + ' · ' + (c.slot||'') + '</div></div>' +
-          '<span class="badge" style="background:' + est.color + '22;color:' + est.color + '">' + est.label + '</span></div>' +
+          '<div style="font-size:0.8rem;color:var(--gray);margin-top:3px">' + fecha + ' · ' + (c.slot||'') + '</div></div>' +
+          '<span class="status" style="color:' + est.color + '">' + est.label + '</span></div>' +
         '</div>';
     } else {
       cont.innerHTML = '<div class="section-title">Próximo servicio</div>' +

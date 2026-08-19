@@ -6,19 +6,19 @@
 <title>Evaluador de Continuidad Operacional — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
 .header{text-align:center;margin-bottom:40px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
-.badge span{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase}
+.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
 .header h1 em{color:var(--orange);font-style:normal}
 .header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{background:var(--card);border:1px solid rgba(249,115,22,0.1);border-radius:4px;padding:26px;margin-bottom:16px}
+.card-title{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-bottom:20px}
+.card-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
 .field{margin-bottom:14px}
 .field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
 .field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange)}
@@ -27,42 +27,43 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 input[type=number],select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.12);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
 select option{background:var(--navy)}
 .chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(249,115,22,0.08);border-radius:8px;cursor:pointer;transition:all .2s}
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(249,115,22,0.08);border-radius:4px;cursor:pointer;transition:all .2s}
 .chk-item:hover{border-color:rgba(249,115,22,0.3)}
 .chk-item.sel{border-color:var(--orange);background:rgba(249,115,22,0.06)}
 .chk-item input{accent-color:var(--orange);margin-top:2px;flex-shrink:0;width:14px;height:14px}
 .chk-name{font-size:0.78rem;color:var(--gray);line-height:1.4}
 .chk-item.sel .chk-name{color:var(--white)}
 .chk-sub{font-size:0.65rem;color:var(--gray2);margin-top:2px}
-.score-wrap{display:flex;align-items:center;gap:24px;padding:24px;background:rgba(0,0,0,0.3);border-radius:12px;margin-bottom:20px;flex-wrap:wrap}
-.score-circle{width:100px;height:100px;border-radius:50%;border:4px solid;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
-.score-num{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1}
-.score-lbl{font-size:0.58rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-top:2px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.08);border-radius:10px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
-.rec-item{display:flex;gap:14px;padding:14px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(249,115,22,0.08);margin-bottom:10px;align-items:flex-start}
-.rec-prio{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;flex-shrink:0}
-.rec-title{font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:3px}
-.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
-.rec-price{font-size:0.72rem;color:var(--orange);font-weight:600;margin-top:4px}
-.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
+.score-wrap{display:flex;align-items:center;gap:26px;padding:26px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:4px;flex-wrap:wrap}
+.score-circle{display:flex;flex-direction:column;justify-content:center;flex-shrink:0;min-width:88px;padding-right:26px;border-right:1px solid rgba(255,255,255,0.12)}
+.score-num{font-family:var(--mono);font-size:2.2rem;font-weight:600;line-height:1}
+.score-lbl{font-family:var(--mono);font-size:0.58rem;font-weight:500;color:var(--gray);text-transform:uppercase;letter-spacing:0.16em;margin-top:8px}
+.datalist{margin-bottom:26px}
+.dataline{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.data-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em}
+.data-val{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--white)}
+.rec-item{padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.rec-item:last-child{border-bottom:none;padding-bottom:0}
+.rec-tag{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:8px}
+.rec-title{font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.7}
+.rec-price{font-family:var(--mono);font-size:0.72rem;color:var(--orange);margin-top:7px}
+.tip{border-top:1px solid rgba(255,255,255,0.08);padding:18px 0 0;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:22px}
 .tip strong{color:var(--white)}
 .source{font-size:0.65rem;color:var(--gray2);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.6;margin-top:10px}
-.cta{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta{border-top:1px solid rgba(255,255,255,0.08);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
-@media(max-width:768px){.grid-2,.stats,.chk-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.grid-2,.chk-grid{grid-template-columns:1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
   <div class="header">
-    <div class="badge"><span>Calibrado para Puerto Rico</span></div>
+    <div class="eyebrow">Continuidad operacional · Calibrado para Puerto Rico</div>
     <h1>Evaluador de <em>Continuidad Operacional</em></h1>
-    <p>Evalúa tu vulnerabilidad ante apagones e interrupciones de internet en Puerto Rico. Calcula el impacto económico real y obtén un plan de continuidad personalizado.</p>
+    <p>Evalúa tu vulnerabilidad ante apagones e interrupciones de internet en Puerto Rico. Calcula el impacto económico real y obtén un plan de continuidad personalizado con UPS, respaldo de internet y generador ajustado a tu negocio.</p>
   </div>
 
   <div class="grid-2">
@@ -183,10 +184,10 @@ select option{background:var(--navy)}
     </div>
   </div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-perdida-mes">$0</div><div class="stat-lbl">Pérdida mensual estimada</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-perdida-ano">$0</div><div class="stat-lbl">Pérdida anual estimada</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--orange)" id="s-horas">0h</div><div class="stat-lbl">Horas perdidas/mes</div></div>
+  <div class="datalist">
+    <div class="dataline"><div class="data-lbl">Pérdida mensual estimada</div><div class="data-val" id="s-perdida-mes">$0</div></div>
+    <div class="dataline"><div class="data-lbl">Pérdida anual estimada</div><div class="data-val" id="s-perdida-ano">$0</div></div>
+    <div class="dataline"><div class="data-lbl">Horas perdidas al mes</div><div class="data-val" id="s-horas">0h</div></div>
   </div>
 
   <div class="card">
@@ -298,7 +299,7 @@ function update() {
 
   if (protUPS === 0 || protUPS === 20) {
     recs.push({
-      p: '1', color: 'var(--red)',
+      p: 'Prioridad 1', color: 'var(--red)',
       title: 'UPS / Sistema de baterías de calidad',
       detail: 'Un UPS de calidad mantiene tus equipos críticos (POS, servidor, router) por 2+ horas. Los UPS básicos solo duran 10-15 minutos — insuficiente para la mayoría de los apagones en PR.',
       price: 'APC Smart-UPS 1500VA: desde $350 · APC SUA2200: desde $600'
@@ -307,7 +308,7 @@ function update() {
 
   if (protInternet === 0) {
     recs.push({
-      p: '2', color: 'var(--warn)',
+      p: 'Prioridad 2', color: 'var(--warn)',
       title: 'Failover automático de internet (4G/LTE)',
       detail: 'Un router con failover automático detecta cuando falla tu internet principal y cambia a 4G/LTE en segundos sin interrumpir ninguna operación. Crítico para pagos con tarjeta.',
       price: 'Router con failover: desde $150 · SIM 4G Business Liberty/Claro: $50-80/mes'
@@ -316,7 +317,7 @@ function update() {
 
   if (protGen === 0 && apagones >= 2) {
     recs.push({
-      p: '3', color: 'var(--orange)' ,
+      p: 'Prioridad 3', color: 'var(--orange)',
       title: 'Generador automático (standby)',
       detail: 'Un generador automático arranca en 10-30 segundos cuando detecta la pérdida de energía. Para PR, donde los apagones post-huracán pueden durar días o semanas, es esencial para negocios críticos.',
       price: 'Generador 7kW automático: desde $2,500 instalado · 14kW: desde $4,500'
@@ -325,7 +326,7 @@ function update() {
 
   if (deps.refrigeracion && protUPS < 80) {
     recs.push({
-      p: '!', color: 'var(--red)',
+      p: 'Urgente', color: 'var(--red)',
       title: 'Protección urgente para refrigeración',
       detail: 'Tienes inventario refrigerado. Un apagón de 4+ horas puede arruinar miles de dólares en productos. Necesitas un generador o UPS dedicado para refrigeración como prioridad inmediata.',
       price: 'UPS para refrigeración industrial: desde $800 · Generador dedicado: desde $1,500'
@@ -334,7 +335,7 @@ function update() {
 
   if (score >= 75 && recs.length === 0) {
     recs.push({
-      p: '✓', color: 'var(--green)',
+      p: 'Preventivo', color: 'var(--green)',
       title: 'Sistema en buen estado — mantenimiento preventivo',
       detail: 'Realiza pruebas trimestrales de tus sistemas de respaldo. Verifica la batería del UPS (vida útil 3-5 años), el nivel de combustible del generador y la velocidad del failover de internet.',
       price: 'Plan de mantenimiento preventivo: desde $150/trimestre'
@@ -343,12 +344,10 @@ function update() {
 
   document.getElementById('r-plan').innerHTML = recs.map(function(r) {
     return '<div class="rec-item">' +
-      '<div class="rec-prio" style="background:' + r.color + '22;color:' + r.color + ';border:1px solid ' + r.color + '44">' + r.p + '</div>' +
-      '<div>' +
-        '<div class="rec-title">' + r.title + '</div>' +
-        '<div class="rec-detail">' + r.detail + '</div>' +
-        '<div class="rec-price">' + r.price + '</div>' +
-      '</div>' +
+      '<div class="rec-tag" style="color:' + r.color + '">' + r.p + '</div>' +
+      '<div class="rec-title">' + r.title + '</div>' +
+      '<div class="rec-detail">' + r.detail + '</div>' +
+      '<div class="rec-price">' + r.price + '</div>' +
     '</div>';
   }).join('');
 

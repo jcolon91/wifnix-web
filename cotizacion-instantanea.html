@@ -6,78 +6,80 @@
 <title>Cotización Instantánea — Wifnix</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--warn:#FFC107;--error:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
 .header h1 span{color:var(--blue-light)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
-.progress{background:rgba(255,255,255,0.06);border-radius:100px;height:6px;margin-bottom:32px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-light));border-radius:100px;transition:width .4s}
-.step-label{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray2);margin-bottom:8px}
+.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.eyebrow{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray2);margin-bottom:14px}
+.fieldlabel{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+.fieldlabel.mt{margin-top:16px}
+.progress{background:rgba(255,255,255,0.08);height:2px;margin-bottom:32px;overflow:hidden}
+.progress-fill{height:100%;background:var(--blue);transition:width .4s}
+.step-label{display:flex;justify-content:space-between;font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
 .section{display:none}.section.active{display:block;animation:fadeUp .4s ease}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:28px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{border-top:1px solid rgba(255,255,255,0.10);padding:24px 0 4px;margin-bottom:12px}
+.card-title{display:flex;align-items:center;gap:14px;font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-bottom:18px}
+.card-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.10)}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.svc-card{border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);text-align:center}
-.svc-card:hover{border-color:rgba(11,143,204,0.4)}
-.svc-card.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.svc-icon{font-size:2rem;margin-bottom:10px}
-.svc-name{font-size:0.82rem;font-weight:700;color:var(--gray);transition:color .2s}
+.svc-card{border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:16px 14px;cursor:pointer;transition:border-color .2s;background:transparent;text-align:center}
+.svc-card:hover{border-color:rgba(11,143,204,0.45)}
+.svc-card.sel{border-color:var(--blue);background:rgba(11,143,204,0.07)}
+.svc-name{font-size:0.85rem;font-weight:600;color:var(--gray);transition:color .2s}
 .svc-card.sel .svc-name{color:var(--white)}
 .svc-desc{font-size:0.65rem;color:var(--gray2);margin-top:4px;line-height:1.4}
 .svc-price{font-size:0.72rem;color:var(--blue-light);font-weight:600;margin-top:8px}
 .opt-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.opt-btn{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px}
-.opt-btn:hover{border-color:rgba(11,143,204,0.35)}
-.opt-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.opt-btn-icon{font-size:1.3rem;flex-shrink:0}
+.opt-btn{border:1px solid rgba(255,255,255,0.08);border-radius:2px;padding:13px 14px;cursor:pointer;transition:border-color .2s;background:transparent}
+.opt-btn:hover{border-color:rgba(11,143,204,0.45)}
+.opt-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.07)}
 .opt-btn-name{font-size:0.8rem;font-weight:600;color:var(--gray);transition:color .2s}
 .opt-btn.sel .opt-btn-name{color:var(--white)}
 .opt-btn-detail{font-size:0.65rem;color:var(--gray2);margin-top:2px}
-.qty-row{display:flex;align-items:center;gap:12px;padding:14px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(11,143,204,0.1);margin-bottom:10px}
+.qty-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:4px}
 .qty-label{flex:1;font-size:0.82rem;color:var(--white);font-weight:600}
 .qty-sub{font-size:0.68rem;color:var(--gray);margin-top:2px}
 .qty-ctrl{display:flex;align-items:center;gap:10px}
-.qty-btn{width:30px;height:30px;border-radius:6px;background:rgba(11,143,204,0.15);border:1px solid rgba(11,143,204,0.3);color:var(--blue-light);font-size:1.1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.qty-btn{width:30px;height:30px;border-radius:2px;background:transparent;border:1px solid rgba(11,143,204,0.35);color:var(--blue-light);font-size:1.1rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:rgba(11,143,204,0.3)}
-.qty-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);min-width:28px;text-align:center}
+.qty-num{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;font-weight:600;color:var(--white);min-width:28px;text-align:center}
 .f-field{margin-bottom:14px}
-.f-field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:6px}
-.f-field input,.f-field select{background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color .2s}
+.f-field label{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:6px}
+.f-field input,.f-field select{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.12);border-radius:2px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color .2s}
 .f-field input:focus,.f-field select:focus{border-color:var(--blue)}
 .f-field input::placeholder{color:var(--gray2)}
 .f-field select option{background:var(--navy)}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .nav-btns{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
-.btn-next{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
-.btn-next:hover{background:var(--blue-light);transform:translateY(-1px)}
-.btn-prev{padding:12px 24px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .2s}
+.btn-next{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--blue-light)}
+.btn-prev{padding:12px 24px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:2px;border:1px solid rgba(255,255,255,0.12);cursor:pointer;transition:border-color .2s,color .2s}
 .btn-prev:hover{border-color:var(--gray);color:var(--white)}
 /* RESULTS */
-.quote-header{background:linear-gradient(135deg,rgba(11,143,204,0.15),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:28px;margin-bottom:20px;text-align:center}
-.quote-total{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--blue-light)}
-.quote-range{font-size:0.85rem;color:var(--gray);margin-top:4px}
+.quote-header{border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);padding:26px 0;margin-bottom:8px}
+.quote-total{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:2.6rem;font-weight:600;letter-spacing:-0.02em;color:var(--blue-light);line-height:1.1}
+.quote-range{font-size:0.8rem;color:var(--gray);margin-top:8px}
 .line-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
 .line-item:last-child{border-bottom:none}
 .line-name{font-size:0.85rem;color:var(--white);font-weight:600}
 .line-detail{font-size:0.72rem;color:var(--gray);margin-top:2px}
-.line-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--success)}
-.badge-pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
-.badge-pill.blue{background:rgba(11,143,204,0.15);color:var(--blue-light);border:1px solid rgba(11,143,204,0.3)}
-.extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.extra-item{display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,0,0,0.2);border:1px solid rgba(11,143,204,0.1);border-radius:8px;cursor:pointer;transition:all .2s}
-.extra-item:hover{border-color:rgba(11,143,204,0.3)}
-.extra-item.sel{border-color:var(--blue);background:rgba(11,143,204,0.08)}
+.line-price{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.9rem;font-weight:600;color:var(--white)}
+.q-tags{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gray);margin-top:12px;line-height:1.8}
+.extras-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;row-gap:0;margin-top:4px}
+.extra-item{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.06);cursor:pointer;transition:border-color .2s}
+.extra-item:hover{border-bottom-color:rgba(11,143,204,0.35)}
+.extra-item.sel{border-bottom-color:var(--blue)}
 .extra-item input{accent-color:var(--blue);width:14px;height:14px;flex-shrink:0}
 .extra-name{font-size:0.78rem;color:var(--gray);line-height:1.4}
 .extra-item.sel .extra-name{color:var(--white)}
 .extra-price{font-size:0.7rem;color:var(--blue-light);font-weight:600;margin-top:2px}
-.cta-box{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
-.cta-btn{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
+.cta-box{border-top:1px solid rgba(255,255,255,0.10);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+.cta-btn{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--blue-light)}
+.sechint{font-size:0.78rem;color:var(--gray);line-height:1.6;margin:-6px 0 16px}
 .disclaimer{font-size:0.7rem;color:var(--gray2);text-align:center;margin-top:16px;line-height:1.6}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){.services-grid{grid-template-columns:1fr 1fr}.opt-row,.grid-2,.extras-grid{grid-template-columns:1fr}}
@@ -86,11 +88,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 <body>
 <div class="page">
   <div class="header">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">⚡ Estimado en tiempo real</span>
-    </div>
+    <div class="eyebrow">Wifnix LLC · Puerto Rico</div>
     <h1>Cotización <span>Instantánea</span></h1>
-    <p>Configura tu sistema Wifnix y obtén un estimado de precio en segundos. Sin compromiso — nuestro equipo te contactará con la cotización formal.</p>
+    <p>Configura tu sistema de CCTV, redes, HVAC, control de acceso o continuidad operacional y obtén un estimado de precio en tiempo real, en segundos. Sin compromiso — nuestro equipo te contactará con la cotización formal.</p>
   </div>
 
   <div class="step-label">
@@ -102,40 +102,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <!-- STEP 1: SERVICIOS -->
   <div class="section active" id="sec-1">
     <div class="card">
-      <div class="card-title">¿Qué servicios necesitas? <span style="font-size:0.72rem;color:var(--gray);font-weight:400">(selecciona todos los que apliquen)</span></div>
+      <div class="card-title">Qué servicios necesitas</div>
+      <p class="sechint">Selecciona todos los que apliquen. Puedes combinar cámaras CCTV, HVAC, redes, control de acceso, continuidad operacional y desarrollo web en una misma cotización.</p>
       <div class="services-grid">
         <div class="svc-card" onclick="toggleSvc('cctv',this)">
-          <div class="svc-icon">📹</div>
           <div class="svc-name">CCTV</div>
           <div class="svc-desc">Cámaras de seguridad IP o análogas</div>
           <div class="svc-price">Desde $800</div>
         </div>
         <div class="svc-card" onclick="toggleSvc('hvac',this)">
-          <div class="svc-icon">❄️</div>
           <div class="svc-name">HVAC</div>
           <div class="svc-desc">Aire acondicionado e instalación</div>
           <div class="svc-price">Desde $1,200</div>
         </div>
         <div class="svc-card" onclick="toggleSvc('redes',this)">
-          <div class="svc-icon">🌐</div>
           <div class="svc-name">Redes</div>
           <div class="svc-desc">WiFi empresarial, switches, cableado</div>
           <div class="svc-price">Desde $600</div>
         </div>
         <div class="svc-card" onclick="toggleSvc('acceso',this)">
-          <div class="svc-icon">🔐</div>
           <div class="svc-name">Control de Acceso</div>
           <div class="svc-desc">Tarjetas, biométrico, intercomunicadores</div>
           <div class="svc-price">Desde $500</div>
         </div>
         <div class="svc-card" onclick="toggleSvc('continuidad',this)">
-          <div class="svc-icon">⚡</div>
           <div class="svc-name">Continuidad Operacional</div>
           <div class="svc-desc">UPS, backup internet, generadores</div>
           <div class="svc-price">Desde $900</div>
         </div>
         <div class="svc-card" onclick="toggleSvc('web',this)">
-          <div class="svc-icon">💻</div>
           <div class="svc-name">Diseño Web / IA</div>
           <div class="svc-desc">Sitios web, apps y soluciones con IA</div>
           <div class="svc-price">Desde $1,500</div>
@@ -151,7 +146,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <div class="section" id="sec-2">
     <div id="config-cctv" style="display:none">
       <div class="card">
-        <div class="card-title">📹 Configuración CCTV</div>
+        <div class="card-title">Configuración CCTV</div>
         <div class="qty-row">
           <div><div class="qty-label">Número de cámaras</div><div class="qty-sub">Exteriores e interiores</div></div>
           <div class="qty-ctrl">
@@ -160,27 +155,27 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
             <button class="qty-btn" onclick="changeQty('cams',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de cámaras</div>
+        <div class="fieldlabel">Tipo de cámaras</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('camType','ip',this)"><div class="opt-btn-icon">📡</div><div><div class="opt-btn-name">IP / Digital</div><div class="opt-btn-detail">HD a 4K, PoE, mejor calidad</div></div></div>
-          <div class="opt-btn" onclick="selConfig('camType','analogica',this)"><div class="opt-btn-icon">📷</div><div><div class="opt-btn-name">Análoga HD</div><div class="opt-btn-detail">Económica, buena calidad</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('camType','ip',this)"><div><div class="opt-btn-name">IP / Digital</div><div class="opt-btn-detail">HD a 4K, PoE, mejor calidad</div></div></div>
+          <div class="opt-btn" onclick="selConfig('camType','analogica',this)"><div><div class="opt-btn-name">Análoga HD</div><div class="opt-btn-detail">Económica, buena calidad</div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Resolución</div>
+        <div class="fieldlabel mt">Resolución</div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('camRes','hd',this)"><div class="opt-btn-icon">📺</div><div><div class="opt-btn-name">Full HD 1080p</div><div class="opt-btn-detail">Estándar para la mayoría</div></div></div>
-          <div class="opt-btn sel" onclick="selConfig('camRes','4k',this)"><div class="opt-btn-icon">🔍</div><div><div class="opt-btn-name">4K Ultra HD</div><div class="opt-btn-detail">Máximo detalle, identificación facial</div></div></div>
+          <div class="opt-btn" onclick="selConfig('camRes','hd',this)"><div><div class="opt-btn-name">Full HD 1080p</div><div class="opt-btn-detail">Estándar para la mayoría</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('camRes','4k',this)"><div><div class="opt-btn-name">4K Ultra HD</div><div class="opt-btn-detail">Máximo detalle, identificación facial</div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Almacenamiento</div>
+        <div class="fieldlabel mt">Almacenamiento</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('storage','nvr',this)"><div class="opt-btn-icon">💾</div><div><div class="opt-btn-name">NVR/DVR local</div><div class="opt-btn-detail">Grabación en sitio</div></div></div>
-          <div class="opt-btn" onclick="selConfig('storage','nube',this)"><div class="opt-btn-icon">☁️</div><div><div class="opt-btn-name">Nube + Local</div><div class="opt-btn-detail">Respaldo remoto incluido</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('storage','nvr',this)"><div><div class="opt-btn-name">NVR/DVR local</div><div class="opt-btn-detail">Grabación en sitio</div></div></div>
+          <div class="opt-btn" onclick="selConfig('storage','nube',this)"><div><div class="opt-btn-name">Nube + Local</div><div class="opt-btn-detail">Respaldo remoto incluido</div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-hvac" style="display:none">
       <div class="card">
-        <div class="card-title">❄️ Configuración HVAC</div>
+        <div class="card-title">Configuración HVAC</div>
         <div class="qty-row">
           <div><div class="qty-label">Número de unidades</div><div class="qty-sub">Mini splits o unidades centrales</div></div>
           <div class="qty-ctrl">
@@ -189,26 +184,26 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
             <button class="qty-btn" onclick="changeQty('hvac',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de sistema</div>
+        <div class="fieldlabel">Tipo de sistema</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('hvacType','minisplit',this)"><div class="opt-btn-icon">🌬️</div><div><div class="opt-btn-name">Mini Split</div><div class="opt-btn-detail">Hasta 36,000 BTU por unidad</div></div></div>
-          <div class="opt-btn" onclick="selConfig('hvacType','central',this)"><div class="opt-btn-icon">🏢</div><div><div class="opt-btn-name">Sistema Central</div><div class="opt-btn-detail">Para espacios grandes con ductos</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('hvacType','minisplit',this)"><div><div class="opt-btn-name">Mini Split</div><div class="opt-btn-detail">Hasta 36,000 BTU por unidad</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacType','central',this)"><div><div class="opt-btn-name">Sistema Central</div><div class="opt-btn-detail">Para espacios grandes con ductos</div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Capacidad por unidad</div>
+        <div class="fieldlabel mt">Capacidad por unidad</div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('hvacBtu','18k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">18,000 BTU (1.5 Ton)</div><div class="opt-btn-detail">Hasta 750 ft²</div></div></div>
-          <div class="opt-btn sel" onclick="selConfig('hvacBtu','24k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">24,000 BTU (2 Ton)</div><div class="opt-btn-detail">Hasta 1,000 ft²</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','18k',this)"><div><div class="opt-btn-name">18,000 BTU (1.5 Ton)</div><div class="opt-btn-detail">Hasta 750 ft²</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('hvacBtu','24k',this)"><div><div class="opt-btn-name">24,000 BTU (2 Ton)</div><div class="opt-btn-detail">Hasta 1,000 ft²</div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('hvacBtu','36k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">36,000 BTU (3 Ton)</div><div class="opt-btn-detail">Hasta 1,500 ft²</div></div></div>
-          <div class="opt-btn" onclick="selConfig('hvacBtu','60k',this)"><div class="opt-btn-icon">🏭</div><div><div class="opt-btn-name">60,000+ BTU (5+ Ton)</div><div class="opt-btn-detail">Comercial / industrial</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','36k',this)"><div><div class="opt-btn-name">36,000 BTU (3 Ton)</div><div class="opt-btn-detail">Hasta 1,500 ft²</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','60k',this)"><div><div class="opt-btn-name">60,000+ BTU (5+ Ton)</div><div class="opt-btn-detail">Comercial / industrial</div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-redes" style="display:none">
       <div class="card">
-        <div class="card-title">🌐 Configuración de Redes</div>
+        <div class="card-title">Configuración de redes</div>
         <div class="qty-row">
           <div><div class="qty-label">Número de puntos de red</div><div class="qty-sub">Conexiones cableadas</div></div>
           <div class="qty-ctrl">
@@ -225,17 +220,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
             <button class="qty-btn" onclick="changeQty('aps',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de cableado</div>
+        <div class="fieldlabel">Tipo de cableado</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('cable','cat6',this)"><div class="opt-btn-icon">🔌</div><div><div class="opt-btn-name">Cat6 (1 Gbps)</div><div class="opt-btn-detail">Estándar empresarial</div></div></div>
-          <div class="opt-btn" onclick="selConfig('cable','cat6a',this)"><div class="opt-btn-icon">⚡</div><div><div class="opt-btn-name">Cat6A (10 Gbps)</div><div class="opt-btn-detail">Para servidores y alta demanda</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('cable','cat6',this)"><div><div class="opt-btn-name">Cat6 (1 Gbps)</div><div class="opt-btn-detail">Estándar empresarial</div></div></div>
+          <div class="opt-btn" onclick="selConfig('cable','cat6a',this)"><div><div class="opt-btn-name">Cat6A (10 Gbps)</div><div class="opt-btn-detail">Para servidores y alta demanda</div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-acceso" style="display:none">
       <div class="card">
-        <div class="card-title">🔐 Control de Acceso</div>
+        <div class="card-title">Control de acceso</div>
         <div class="qty-row">
           <div><div class="qty-label">Número de puertas / accesos</div><div class="qty-sub">Entradas a controlar</div></div>
           <div class="qty-ctrl">
@@ -244,40 +239,40 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
             <button class="qty-btn" onclick="changeQty('puertas',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de acceso</div>
+        <div class="fieldlabel">Tipo de acceso</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('accesoType','tarjeta',this)"><div class="opt-btn-icon">💳</div><div><div class="opt-btn-name">Tarjeta RFID</div><div class="opt-btn-detail">Tarjetas y llaveros</div></div></div>
-          <div class="opt-btn" onclick="selConfig('accesoType','biometrico',this)"><div class="opt-btn-icon">👆</div><div><div class="opt-btn-name">Biométrico</div><div class="opt-btn-detail">Huella o reconocimiento facial</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('accesoType','tarjeta',this)"><div><div class="opt-btn-name">Tarjeta RFID</div><div class="opt-btn-detail">Tarjetas y llaveros</div></div></div>
+          <div class="opt-btn" onclick="selConfig('accesoType','biometrico',this)"><div><div class="opt-btn-name">Biométrico</div><div class="opt-btn-detail">Huella o reconocimiento facial</div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-continuidad" style="display:none">
       <div class="card">
-        <div class="card-title">⚡ Continuidad Operacional</div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de solución</div>
+        <div class="card-title">Continuidad operacional</div>
+        <div class="fieldlabel">Tipo de solución</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('contType','ups',this)"><div class="opt-btn-icon">🔋</div><div><div class="opt-btn-name">UPS / Baterías</div><div class="opt-btn-detail">Respaldo eléctrico automático</div></div></div>
-          <div class="opt-btn" onclick="selConfig('contType','backup_internet',this)"><div class="opt-btn-icon">📡</div><div><div class="opt-btn-name">Backup de Internet</div><div class="opt-btn-detail">4G/LTE cuando falla el principal</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('contType','ups',this)"><div><div class="opt-btn-name">UPS / Baterías</div><div class="opt-btn-detail">Respaldo eléctrico automático</div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','backup_internet',this)"><div><div class="opt-btn-name">Backup de Internet</div><div class="opt-btn-detail">4G/LTE cuando falla el principal</div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('contType','ambos',this)"><div class="opt-btn-icon">🛡️</div><div><div class="opt-btn-name">Paquete completo</div><div class="opt-btn-detail">UPS + Backup internet + Monitoreo</div></div></div>
-          <div class="opt-btn" onclick="selConfig('contType','generador',this)"><div class="opt-btn-icon">⚙️</div><div><div class="opt-btn-name">Generador + UPS</div><div class="opt-btn-detail">Continuidad total 24/7</div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','ambos',this)"><div><div class="opt-btn-name">Paquete completo</div><div class="opt-btn-detail">UPS + Backup internet + Monitoreo</div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','generador',this)"><div><div class="opt-btn-name">Generador + UPS</div><div class="opt-btn-detail">Continuidad total 24/7</div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-web" style="display:none">
       <div class="card">
-        <div class="card-title">💻 Diseño Web / IA</div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de proyecto</div>
+        <div class="card-title">Diseño web e IA</div>
+        <div class="fieldlabel">Tipo de proyecto</div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('webType','landing',this)"><div class="opt-btn-icon">🌐</div><div><div class="opt-btn-name">Landing Page</div><div class="opt-btn-detail">Página de presentación profesional</div></div></div>
-          <div class="opt-btn" onclick="selConfig('webType','ecommerce',this)"><div class="opt-btn-icon">🛍️</div><div><div class="opt-btn-name">E-commerce</div><div class="opt-btn-detail">Tienda online con pagos</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('webType','landing',this)"><div><div class="opt-btn-name">Landing Page</div><div class="opt-btn-detail">Página de presentación profesional</div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','ecommerce',this)"><div><div class="opt-btn-name">E-commerce</div><div class="opt-btn-detail">Tienda online con pagos</div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('webType','sistema',this)"><div class="opt-btn-icon">⚙️</div><div><div class="opt-btn-name">Sistema / App</div><div class="opt-btn-detail">Portal, CRM, sistema a medida</div></div></div>
-          <div class="opt-btn" onclick="selConfig('webType','ia',this)"><div class="opt-btn-icon">🤖</div><div><div class="opt-btn-name">Solución con IA</div><div class="opt-btn-detail">Chatbot, automatización, agentes</div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','sistema',this)"><div><div class="opt-btn-name">Sistema / App</div><div class="opt-btn-detail">Portal, CRM, sistema a medida</div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','ia',this)"><div><div class="opt-btn-name">Solución con IA</div><div class="opt-btn-detail">Chatbot, automatización, agentes</div></div></div>
         </div>
       </div>
     </div>
@@ -341,19 +336,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <!-- STEP 4: RESULTADO -->
   <div class="section" id="sec-4">
     <div class="quote-header">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:10px">Estimado para <span id="q-nombre">tu proyecto</span></div>
+      <div class="fieldlabel">Estimado para <span id="q-nombre">tu proyecto</span></div>
       <div class="quote-total" id="q-total">$0</div>
       <div class="quote-range" id="q-range">Estimado aproximado — la cotización formal puede variar</div>
-      <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="q-tags"></div>
+      <div class="q-tags" id="q-tags"></div>
     </div>
 
     <div class="card">
       <div class="card-title">Desglose de servicios</div>
       <div id="q-lines"></div>
       <div style="border-top:1px solid rgba(11,143,204,0.15);margin-top:12px;padding-top:14px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">Subtotal</span><span style="font-weight:700;color:var(--white)" id="q-subtotal">$0</span></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">IVU Puerto Rico (10.5%)</span><span style="color:var(--gray)" id="q-ivu">$0</span></div>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white)">Total estimado</span><span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--success)" id="q-grand">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">Subtotal</span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.85rem;color:var(--white)" id="q-subtotal">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">IVU Puerto Rico (10.5%)</span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.85rem;color:var(--gray)" id="q-ivu">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white)">Total estimado</span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:1.1rem;font-weight:600;color:var(--blue-light)" id="q-grand">$0</span></div>
       </div>
     </div>
 
@@ -364,7 +359,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <button class="cta-btn" onclick="openLead('Solicitar cotización formal', '<strong>Herramienta:</strong> Cotización Instantánea<br><strong>Total estimado:</strong> ' + (document.getElementById('q-grand') ? document.getElementById('q-grand').textContent : '—'), {}, document.getElementById('q-grand') ? document.getElementById('q-grand').textContent : '', 'Cotización Instantánea')">Solicitar cotización formal</button>
-        <button onclick="goStep(1)" style="padding:10px;background:transparent;color:var(--gray);font-size:0.75rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer">Recalcular</button>
+        <button onclick="goStep(1)" style="padding:10px;background:transparent;color:var(--gray);font-size:0.75rem;border:1px solid rgba(255,255,255,0.12);border-radius:2px;cursor:pointer">Recalcular</button>
       </div>
     </div>
 
@@ -530,10 +525,9 @@ function renderQuote() {
     </div>
   `).join('') || '<p style="color:var(--gray2);font-size:0.82rem;padding:16px 0">No se seleccionaron servicios.</p>';
 
-  document.getElementById('q-tags').innerHTML = Object.keys(state.svcs).map(s => {
-    const names = {cctv:'CCTV',hvac:'HVAC',redes:'Redes',acceso:'Acceso',continuidad:'Continuidad',web:'Web/IA'};
-    return `<span class="badge-pill blue">${names[s]||s}</span>`;
-  }).join('');
+  const svcNames = {cctv:'CCTV',hvac:'HVAC',redes:'Redes',acceso:'Control de acceso',continuidad:'Continuidad operacional',web:'Web e IA'};
+  const svcList = Object.keys(state.svcs).map(k => svcNames[k]||k);
+  document.getElementById('q-tags').textContent = svcList.length ? 'Incluye: ' + svcList.join(' · ') : '';
 }
 
 function enviarCotizacion() {

@@ -11,6 +11,7 @@
 <style>
 :root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
 :root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 .hero h1,.cat-title,.product-price,.cart-header h2,.tab-content h2,.precio-grande{font-family:'Plus Jakarta Sans',sans-serif}
@@ -33,7 +34,7 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(11,143,204,0.3)}
 .btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
 .cart-btn{position:relative;background:rgba(11,143,204,0.1);color:var(--bl);border:1px solid rgba(11,143,204,0.25);padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;gap:6px;font-family:inherit}
-.cart-count{background:var(--red);color:white;border-radius:12px;padding:1px 7px;font-size:0.65rem;font-weight:800;min-width:18px;text-align:center}
+.cart-count{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.04em;color:var(--bl)}
 
 /* BREADCRUMB */
 .breadcrumb{padding:14px 20px;max-width:1300px;margin:0 auto;font-size:0.78rem;color:var(--gray)}
@@ -56,7 +57,7 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 
 /* INFO */
 .info{display:flex;flex-direction:column}
-.brand-tag{display:inline-block;font-size:0.7rem;color:var(--bl);font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
+.brand-tag{display:inline-block;font-family:var(--mono);font-size:0.66rem;color:var(--bl);font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px}
 .product-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.65rem;font-weight:800;line-height:1.25;margin-bottom:12px}
 .meta-row{display:flex;gap:18px;font-size:0.8rem;color:var(--gray);margin-bottom:18px;flex-wrap:wrap}
 .meta-row strong{color:var(--white);font-weight:600}
@@ -69,21 +70,17 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 .precio-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
 .precio-grande{font-size:2.1rem;font-weight:800;color:var(--green);margin-bottom:4px;line-height:1}
 .precio-old{font-size:0.95rem;color:var(--gray2);text-decoration:line-through;margin-bottom:6px}
-.precio-suggested{font-size:0.8rem;color:var(--gray);font-weight:500;background:rgba(11,143,204,0.06);padding:6px 12px;border-radius:6px;display:inline-block;margin-top:6px}
+.precio-suggested{display:block;font-size:0.8rem;color:var(--gray);font-weight:500;margin-top:8px}
 .precio-ivu{font-size:0.75rem;color:var(--gray);margin-top:6px}
-.precio-locked{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:10px;padding:18px;text-align:center}
-.precio-locked-text{font-size:1.05rem;font-weight:700;color:var(--bl);margin-bottom:4px}
-.precio-locked-sub{font-size:0.78rem;color:var(--gray);margin-bottom:14px}
+.precio-locked{padding:2px 0}
+.precio-locked-text{font-family:var(--mono);font-size:0.74rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bl);margin-bottom:8px}
+.precio-locked-sub{font-size:0.85rem;color:var(--gray);line-height:1.55;margin-bottom:16px}
 .login-cta-btn{display:inline-block;padding:10px 22px;background:var(--bl);color:#06090F;text-decoration:none;border-radius:8px;font-weight:800;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em}
 
-/* STOCK BADGE */
-.stock-badge{display:flex;align-items:center;gap:8px;font-size:0.85rem;font-weight:600;margin-bottom:18px}
-.stock-dot{width:10px;height:10px;border-radius:50%}
-.stock-in .stock-dot{background:var(--green);box-shadow:0 0 8px rgba(0,229,160,0.5)}
+/* DISPONIBILIDAD */
+.stock-badge{font-family:var(--mono);font-size:0.74rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:18px}
 .stock-in{color:var(--green)}
-.stock-low .stock-dot{background:var(--warn)}
 .stock-low{color:var(--warn)}
-.stock-out .stock-dot{background:var(--red)}
 .stock-out{color:var(--red)}
 
 /* QUANTITY + ADD */
@@ -171,11 +168,11 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 .reviews-section{max-width:1300px;margin:0 auto;padding:20px 20px 60px}
 .reviews-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border)}
 .reviews-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800}
-.reviews-summary{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:24px;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:24px}
+.reviews-summary{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:0 0 24px;border-bottom:1px solid var(--border);margin-bottom:24px}
 @media(max-width:700px){.reviews-summary{grid-template-columns:1fr;gap:18px}}
 .rating-big{text-align:center;border-right:1px solid var(--border);padding-right:30px}
 @media(max-width:700px){.rating-big{border-right:none;border-bottom:1px solid var(--border);padding:0 0 18px}}
-.rating-num-big{font-family:'Plus Jakarta Sans',sans-serif;font-size:3.2rem;font-weight:800;color:var(--white);line-height:1;margin-bottom:6px}
+.rating-num-big{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--white);line-height:1;margin-bottom:6px}
 .rating-stars-big{color:#FFC107;font-size:1.2rem;letter-spacing:3px;margin-bottom:8px}
 .rating-total{font-size:0.82rem;color:var(--gray)}
 .rating-bars{display:flex;flex-direction:column;gap:8px}
@@ -190,7 +187,7 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 .write-review-btn:disabled{opacity:0.5;cursor:not-allowed}
 
 .review-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.filter-btn{padding:7px 14px;background:transparent;border:1px solid var(--border);color:var(--gray);font-family:inherit;font-size:0.76rem;font-weight:600;cursor:pointer;border-radius:20px;transition:all .15s}
+.filter-btn{padding:7px 14px;background:transparent;border:1px solid var(--border);color:var(--gray);font-family:inherit;font-size:0.76rem;font-weight:600;cursor:pointer;border-radius:6px;transition:all .15s}
 .filter-btn:hover{color:var(--white);border-color:rgba(11,143,204,0.4)}
 .filter-btn.active{background:rgba(11,143,204,0.12);border-color:var(--bl);color:var(--bl)}
 
@@ -410,18 +407,7 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
   </div>
 </div>
 
-<div class="cart-overlay" id="cart-overlay-dummy" style="display:none"></div>
-
 <div class="cart-drawer" id="cart-drawer">
-  <div class="cart-header"><h2>Mi Carrito</h2><button class="cart-close" onclick="cerrarCarrito()">×</button></div>
-  <div id="cart-items"><p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p></div>
-  <div class="cart-totals" id="cart-totals" style="display:none">
-    <div class="cart-row"><span>Subtotal</span><span id="t-sub">$0.00</span></div>
-    <div class="cart-row"><span>IVU (11.5%)</span><span id="t-ivu">$0.00</span></div>
-    <div class="cart-row total"><span>Total</span><span id="t-tot">$0.00</span></div>
-    <button class="checkout-btn" onclick="alert('Checkout próximamente')">Proceder al pago</button>
-  </div>
-</div>
   <div class="cart-header"><h2>Mi Carrito</h2><button class="cart-close" onclick="cerrarCarrito()">×</button></div>
   <div id="cart-items"><p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p></div>
   <div class="cart-totals" id="cart-totals" style="display:none">
@@ -538,7 +524,7 @@ function renderProducto() {
   } else {
     document.getElementById('precio-content').innerHTML = 
       '<div class="precio-locked">' +
-        '<div class="precio-locked-text">🔒 Inicia sesión para ver precios</div>' +
+        '<div class="precio-locked-text">Inicia sesión para ver precios</div>' +
         '<div class="precio-locked-sub">Precios exclusivos para clientes registrados, empresas y resellers</div>' +
         '<a href="https://portal.wifnix.com" class="login-cta-btn">Iniciar sesión</a>' +
       '</div>';
@@ -550,15 +536,15 @@ function renderProducto() {
   var stockBadge = document.getElementById('stock-badge');
   if (producto.stock === 0) {
     stockBadge.className = 'stock-badge stock-out';
-    stockBadge.innerHTML = '<div class="stock-dot"></div><span>Sin stock — Notifícame cuando esté disponible</span>';
+    stockBadge.innerHTML = '<span>Sin stock — Notifícame cuando esté disponible</span>';
     document.getElementById('add-cart').disabled = true;
     document.getElementById('add-cart').textContent = 'Sin stock';
   } else if (producto.stock < 5) {
     stockBadge.className = 'stock-badge stock-low';
-    stockBadge.innerHTML = '<div class="stock-dot"></div><span>Solo ' + producto.stock + ' disponibles</span>';
+    stockBadge.innerHTML = '<span>Solo ' + producto.stock + ' disponibles</span>';
   } else {
     stockBadge.className = 'stock-badge stock-in';
-    stockBadge.innerHTML = '<div class="stock-dot"></div><span>En stock (' + producto.stock + ' disponibles)</span>';
+    stockBadge.innerHTML = '<span>En stock (' + producto.stock + ' disponibles)</span>';
   }
   
   // TABS
