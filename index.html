@@ -6,7 +6,7 @@
 <title>Wifnix — Tú tienes tecnología, nosotros soluciones.</title>
 <meta name="description" content="Soluciones profesionales en CCTV, redes empresariales, HVAC y continuidad operacional para empresas en Puerto Rico.">
 <link rel="canonical" href="https://wifnix.com/">
-<meta name="theme-color" content="#06090F">
+<meta name="theme-color" content="var(--fondo)">
 
 <!-- Icono -->
 <link rel="icon" type="image/png" href="/assets/logo-wifnix.png">
@@ -25,24 +25,19 @@
 <meta name="twitter:description" content="CCTV, redes empresariales, HVAC y continuidad operacional para empresas en Puerto Rico.">
 <meta name="twitter:image" content="https://wifnix.com/assets/logo-wifnix.png">
 
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{
-  --black:#06090F;
-  --black2:#0A0E17;
-  --navy:#0D1526;
-  --blue:#0B8FCC;
-  --blue-light:#29B6F6;
-  --blue-glow:#00BFFF;
-  --white:#F0F4F8;
-  --gray:#8BA0B4;
-  --gray2:#3D5166;
-  --accent:#FFC107;
-  --success:#00E5A0;
-  --card:#0D1A2A;
-}
 
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -65,7 +60,6 @@ body{
 #cur-ring.h{width:52px;height:52px;border-color:rgba(0,191,255,0.8)}
 
 /* NEURAL BG */
-#neural{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.5}
 
 /* NAV */
 nav{
@@ -110,9 +104,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .nav-cta:hover::after{transform:translateX(100%)}
 .nav-cta:hover{background:var(--blue-light);transform:translateY(-2px);box-shadow:0 12px 30px rgba(11,143,204,0.4)}
 
-.lang-btns{display:flex;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;margin-right:8px}
-.lang-btn{padding:5px 11px;font-size:0.7rem;font-weight:700;color:var(--gray);cursor:none;border:none;background:transparent;transition:all .2s;letter-spacing:0.06em}
-.lang-btn.active{background:var(--blue);color:var(--white)}
 
 /* PAGES */
 .page{display:none;position:relative;z-index:2;padding-top:70px}
@@ -175,7 +166,7 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   font-family:'Syne',sans-serif;
   font-weight:700;font-size:0.82rem;
   letter-spacing:0.06em;text-transform:uppercase;
-  border-radius:4px;border:none;cursor:none;
+  border-radius:14px;border:none;cursor:none;
   transition:background .2s,transform .2s,box-shadow .3s;
   position:relative;overflow:hidden;
   display:inline-block;
@@ -190,7 +181,7 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   font-family:'Syne',sans-serif;
   font-weight:700;font-size:0.82rem;
   letter-spacing:0.06em;text-transform:uppercase;
-  border-radius:4px;border:1px solid rgba(255,255,255,0.18);cursor:none;
+  border-radius:14px;border:1px solid rgba(255,255,255,0.18);cursor:none;
   transition:border-color .2s,background .2s,transform .2s;
   display:inline-block;
 }
@@ -467,10 +458,10 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .review-card:hover{border-color:rgba(11,143,204,0.3);transform:translateY(-3px)}
 
 .review-stars{display:flex;gap:3px;margin-bottom:14px}
-.star svg{width:13px;height:13px;fill:#FFC107;stroke:none}
+.star svg{width:13px;height:13px;fill:var(--ambar);stroke:none}
 .review-text{font-size:0.875rem;color:var(--gray);line-height:1.7;font-weight:300;margin-bottom:18px;font-style:italic}
 .review-author{display:flex;align-items:center;gap:10px}
-.r-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:0.82rem;border:1px solid rgba(11,143,204,0.3)}
+.r-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B6FA0,#0A2E4A);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.82rem;border:1px solid rgba(11,143,204,0.3)}
 .r-name{font-weight:700;font-size:0.82rem;color:var(--white)}
 .r-role{font-size:0.7rem;color:var(--gray);font-weight:300}
 .review-quote{position:absolute;top:20px;right:20px;opacity:0.04}
@@ -564,7 +555,7 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .form-field select option{background:var(--black2)}
 
 .form-success{display:none;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.25);border-radius:8px;padding:18px;text-align:center;color:var(--success)}
-.form-error{display:none;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.25);border-radius:8px;padding:14px;text-align:center;color:#FF5050;font-size:0.85rem}
+.form-error{display:none;background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.25);border-radius:8px;padding:14px;text-align:center;color:var(--rojo);font-size:0.85rem}
 
 
 
@@ -689,12 +680,11 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
 }
 
 /* ── REVEAL ── */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
-.reveal.in{opacity:1;transform:translateY(0)}
-.reveal-l{opacity:0;transform:translateX(-24px);transition:opacity .6s ease,transform .6s ease}
-.reveal-l.in{opacity:1;transform:translateX(0)}
-.reveal-r{opacity:0;transform:translateX(24px);transition:opacity .6s ease,transform .6s ease}
-.reveal-r.in{opacity:1;transform:translateX(0)}
+.reveal,.reveal-l,.reveal-r{
+  opacity:0;transform:translateY(7px);
+  transition:opacity .5s var(--curva),transform .5s var(--curva);
+}
+.reveal.in,.reveal-l.in,.reveal-r.in{opacity:1;transform:none}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeLeft{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
@@ -721,7 +711,7 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
 
 <style>
 /* MOBILE NAV */
-.ham-line{display:block;width:24px;height:2px;background:#F0F4F8;border-radius:2px;transition:all .3s}
+.ham-line{display:block;width:24px;height:2px;background:var(--tinta);border-radius:2px;transition:all .3s}
 #hamburger.open .ham-line:nth-child(1){transform:translateY(7px) rotate(45deg)}
 #hamburger.open .ham-line:nth-child(2){opacity:0}
 #hamburger.open .ham-line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -735,8 +725,8 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
   }
   .nav-links.open{display:flex !important}
   .nav-links li{list-style:none}
-  .nav-links li a{display:block;padding:12px 16px;font-size:0.9rem;color:#8BA0B4;border-radius:8px;transition:all .2s;cursor:pointer}
-  .nav-links li a:hover,.nav-links li a.active{background:rgba(11,143,204,0.1);color:#F0F4F8}
+  .nav-links li a{display:block;padding:12px 16px;font-size:0.9rem;color:var(--texto);border-radius:8px;transition:all .2s;cursor:pointer}
+  .nav-links li a:hover,.nav-links li a.active{background:rgba(11,143,204,0.1);color:var(--tinta)}
   .nav-links li:last-child{border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;padding-top:8px}
 }
 </style>
@@ -776,7 +766,7 @@ html:not(.cur-on) select{cursor:auto !important}
   #main-nav a[href="https://portal.wifnix.com"] span{display:none !important}
   .nav-cta-movil{display:list-item !important}
   .nav-cta-movil a{
-    background:var(--blue);color:#fff !important;
+    background:var(--blue);color:var(--tinta) !important;
     justify-content:center;font-weight:700;margin-top:4px;
   }
 
@@ -799,7 +789,7 @@ select:focus-visible,textarea:focus-visible{
 /* ── SALTAR AL CONTENIDO ── */
 .skip{
   position:absolute;left:-9999px;top:0;z-index:2000;
-  background:var(--blue);color:#fff;padding:12px 20px;
+  background:var(--blue);color:var(--tinta);padding:12px 20px;
   border-radius:0 0 8px 0;font-weight:700;text-decoration:none;
 }
 .skip:focus{left:0}
@@ -816,7 +806,7 @@ select:focus-visible,textarea:focus-visible{
 }
 .rifas-card:hover{border-color:rgba(41,182,246,0.55);background:linear-gradient(135deg,rgba(11,143,204,0.2),rgba(11,143,204,0.05) 65%)}
 .rifas-ir{
-  display:flex;align-items:center;gap:10px;color:#29B6F6;
+  display:flex;align-items:center;gap:10px;color:var(--azul);
   font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem;white-space:nowrap;
 }
 @media(max-width:768px){
@@ -836,7 +826,6 @@ select:focus-visible,textarea:focus-visible{
   }
   html{scroll-behavior:auto}
   .reveal,.reveal-l,.reveal-r{opacity:1 !important;transform:none !important}
-  #neural{display:none}
 }
 </style>
 
@@ -858,19 +847,11 @@ select:focus-visible,textarea:focus-visible{
    :has(), que es la única forma de ganarles sin tocar el HTML.
    ════════════════════════════════════════════════════════════ */
 
-:root{
-  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;
-  --hair:rgba(150,185,225,.11);
-  --hair2:rgba(150,185,225,.2);
-  --tinta:#070C16;
-  --panel:#0D1727;
-  --panel2:#132133;
-}
 
 /* ── FONDO: azul-tinta con luz ambiente, no negro plano ── */
-body{background:var(--tinta)}
-.section.dark{background:#090F1C}
-.section.darker{background:#0A1220}
+body{background:var(--fondo)}
+.section.dark{background:var(--fondo2)}
+.section.darker{background:var(--fondo)}
 
 /* ── RÓTULO DE SECCIÓN ──
    El guion de color antes de un texto en mayúsculas es EL tic
@@ -881,7 +862,7 @@ body{background:var(--tinta)}
   font-family:var(--mono) !important;
   font-size:.65rem !important;font-weight:500 !important;
   letter-spacing:.2em !important;
-  color:#7E93AB !important;margin-bottom:18px !important;
+  color:var(--apagado) !important;margin-bottom:18px !important;
 }
 .eyebrow::before{display:none !important}
 .eyebrow:not([style*="center"])::after{
@@ -920,7 +901,7 @@ body{background:var(--tinta)}
 .svc-icon svg{width:26px !important;height:26px !important;stroke-width:1.4 !important}
 .svc-num{
   font-family:var(--mono) !important;font-size:1rem !important;
-  font-weight:500 !important;color:#7E93AB !important;
+  font-weight:500 !important;color:var(--apagado) !important;
   top:34px !important;right:34px !important;letter-spacing:.12em !important;
 }
 .svc-card:hover .svc-num{color:var(--blue-light) !important}
@@ -935,7 +916,7 @@ body{background:var(--tinta)}
 }
 .btn-primary::after,.nav-cta::after{display:none !important}
 .btn-primary{
-  background:linear-gradient(180deg,#12A2E2,#0B8FCC 62%,#0A7DB2) !important;
+  background:linear-gradient(180deg,#12A2E2,var(--azul-fuerte) 62%,#0A7DB2) !important;
   box-shadow:0 10px 26px -12px rgba(11,143,204,.85), inset 0 1px 0 rgba(255,255,255,.22);
 }
 .btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px)}
@@ -1015,7 +996,7 @@ body{background:var(--tinta)}
 .case-type{
   font-family:var(--mono) !important;
   font-size:.64rem !important;font-weight:500 !important;
-  letter-spacing:.18em !important;color:#7E93AB !important;
+  letter-spacing:.18em !important;color:var(--apagado) !important;
   margin-bottom:20px !important;
 }
 .case-type::before{display:none !important}
@@ -1034,7 +1015,7 @@ body{background:var(--tinta)}
 .plan-name{
   font-family:var(--mono) !important;font-size:.64rem !important;
   font-weight:500 !important;letter-spacing:.2em !important;
-  color:#7E93AB !important;margin-bottom:12px !important;
+  color:var(--apagado) !important;margin-bottom:12px !important;
 }
 .plan-title{font-size:1.35rem !important;letter-spacing:-.02em !important}
 
@@ -1049,7 +1030,7 @@ body{background:var(--tinta)}
 .c-label{
   font-family:var(--mono) !important;font-size:.6rem !important;
   font-weight:500 !important;letter-spacing:.18em !important;
-  color:#7E93AB !important;
+  color:var(--apagado) !important;
 }
 .c-value{font-size:.95rem !important;font-weight:400 !important}
 .form-field input,.form-field select,.form-field textarea{
@@ -1061,7 +1042,7 @@ body{background:var(--tinta)}
 }
 .form-field label{
   font-family:var(--mono) !important;font-size:.6rem !important;
-  letter-spacing:.18em !important;color:#7E93AB !important;
+  letter-spacing:.18em !important;color:var(--apagado) !important;
 }
 .form-success,.form-error{border-radius:14px !important}
 
@@ -1086,7 +1067,7 @@ div[style*="flex-direction:column"]:has(div[style*="border-radius:50%"]){gap:0 !
 
 /* Punto verde de "activo" en las tarjetas de IA: se deja, es
    estado real, no adorno. Solo se calma el rótulo. */
-div[style*="text-transform:uppercase"][style*="#00E5A0"]{
+div[style*="text-transform:uppercase"][style*="var(--verde)"]{
   font-family:var(--mono) !important;font-weight:500 !important;
   letter-spacing:.16em !important;font-size:.6rem !important;
 }
@@ -1097,7 +1078,7 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
 
 /* ── RESEÑAS ── */
 .star{color:var(--accent) !important}
-.r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:#7E93AB !important}
+.r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:var(--apagado) !important}
 
 @media(max-width:768px){
   .svc-card{padding:26px 22px !important}
@@ -1107,12 +1088,6 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
   .cta-final{padding:64px 0 !important}
 }
 
-/* ── EL INTERRUPTOR DE IDIOMA MANDA ──
-   setLang() esconde poniendo style="display:none" en línea. Varias
-   reglas de esta capa usan display con !important y se lo comían: el
-   texto en inglés seguía visible en español. Esta regla va la última
-   a propósito. */
-[style*="display:none"],[style*="display: none"]{display:none !important}
 
 @media(max-width:768px){
   .faq-item{padding:20px 22px !important}
@@ -1138,15 +1113,15 @@ div[style*="text-transform:uppercase"][style*="#00E5A0"]{
   font-size:1.02rem !important;font-weight:600 !important;
   letter-spacing:-.01em;line-height:1.35;
 }
-.faq-arrow{width:16px !important;height:16px !important;stroke:#7E93AB !important;opacity:.8}
+.faq-arrow{width:16px !important;height:16px !important;stroke:var(--apagado) !important;opacity:.8}
 .faq-item[aria-expanded="true"] .faq-arrow{stroke:var(--blue) !important;opacity:1}
 .faq-a{
   font-size:.92rem !important;line-height:1.8 !important;
-  max-width:70ch;margin-top:16px !important;color:#8BA0B4 !important;
+  max-width:70ch;margin-top:16px !important;color:var(--texto) !important;
 }
-.faq-a strong{color:#DCE6F2;font-weight:600}
-.faq-a a{color:#29B6F6;text-decoration:none;border-bottom:1px solid rgba(41,182,246,.35)}
-.faq-a a:hover{border-bottom-color:#29B6F6}
+.faq-a strong{color:var(--tinta);font-weight:600}
+.faq-a a{color:var(--azul);text-decoration:none;border-bottom:1px solid rgba(41,182,246,.35)}
+.faq-a a:hover{border-bottom-color:var(--azul)}
 </style>
 
 <noscript><style>
@@ -1238,7 +1213,6 @@ body{cursor:auto !important}
 
 <div id="cur"></div>
 <div id="cur-ring"></div>
-<canvas id="neural"></canvas>
 
 <!-- NAV -->
 <nav id="main-nav">
@@ -1251,29 +1225,26 @@ body{cursor:auto !important}
     <span class="ham-line"></span>
   </button>
   <ul class="nav-links" id="nav-links">
-    <li><a onclick="showPage('home')" class="es active">Inicio</a><a onclick="showPage('home')" class="en" style="display:none">Home</a></li>
-    <li><a onclick="showPage('servicios')" class="es">Servicios</a><a onclick="showPage('servicios')" class="en" style="display:none">Services</a></li>
-    <li><a onclick="showPage('casos')" class="es">Casos Reales</a><a onclick="showPage('casos')" class="en" style="display:none">Case Studies</a></li>
-    <li><a onclick="showPage('planes')" class="es">Planes</a><a onclick="showPage('planes')" class="en" style="display:none">Plans</a></li>
-    <li><a onclick="showPage('web')" class="es">Web</a><a onclick="showPage('web')" class="en" style="display:none">Web</a></li>
-    <li><a onclick="showPage('ai')" class="es">IA</a><a onclick="showPage('ai')" class="en" style="display:none">AI</a></li>
-    <li><a onclick="showPage('tienda')" class="es">Tienda</a><a onclick="showPage('tienda')" class="en" style="display:none">Store</a></li>
-<li><a href="herramientas.html" class="es">Herramientas</a><a href="herramientas.html" class="en" style="display:none">Tools</a></li>
-    <li><a href="https://rifas.wifnix.com" class="es">Rifas</a><a href="https://rifas.wifnix.com" class="en" style="display:none">Raffles</a></li>
-    <li><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Contacto</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en" style="display:none">Contact</a></li>
-    <li class="nav-cta-movil"><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Evaluación Gratuita</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en" style="display:none">Free Evaluation</a></li>
+    <li><a onclick="showPage('home')" class="es active">Inicio</a><a onclick="showPage('home')" class="en">Home</a></li>
+    <li><a onclick="showPage('servicios')" class="es">Servicios</a><a onclick="showPage('servicios')" class="en">Services</a></li>
+    <li><a onclick="showPage('casos')" class="es">Casos Reales</a><a onclick="showPage('casos')" class="en">Case Studies</a></li>
+    <li><a onclick="showPage('planes')" class="es">Planes</a><a onclick="showPage('planes')" class="en">Plans</a></li>
+    <li><a onclick="showPage('web')" class="es">Web</a><a onclick="showPage('web')" class="en">Web</a></li>
+    <li><a onclick="showPage('ai')" class="es">IA</a><a onclick="showPage('ai')" class="en">AI</a></li>
+    <li><a onclick="showPage('tienda')" class="es">Tienda</a><a onclick="showPage('tienda')" class="en">Store</a></li>
+<li><a href="herramientas.html" class="es">Herramientas</a><a href="herramientas.html" class="en">Tools</a></li>
+    <li><a href="https://rifas.wifnix.com" class="es">Rifas</a><a href="https://rifas.wifnix.com" class="en">Raffles</a></li>
+    <li><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Contacto</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en">Contact</a></li>
+    <li class="nav-cta-movil"><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Evaluación Gratuita</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en">Free Evaluation</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:10px">
-    <div class="lang-btns">
-      <button class="lang-btn active" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-    </div>
+    <span data-wx-switches></span>
     <a href="https://portal.wifnix.com" style="padding:9px 16px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);color:var(--blue-light);font-size:0.75rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;border-radius:4px;text-decoration:none;display:flex;align-items:center;gap:7px;transition:all .2s;cursor:none" onmouseover="this.style.background='rgba(11,143,204,0.2)'" onmouseout="this.style.background='rgba(11,143,204,0.1)'">
       <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span class="es">Mi Portal</span><span class="en" style="display:none">My Portal</span>
+      <span class="es">Mi Portal</span><span class="en">My Portal</span>
     </a>
     <button class="nav-cta es" onclick="window.location.href='https://portal.wifnix.com'">Evaluación Gratuita</button>
-    <button class="nav-cta en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Free Evaluation</button>
+    <button class="nav-cta en" onclick="window.location.href='https://portal.wifnix.com'">Free Evaluation</button>
   </div>
 </nav>
 
@@ -1287,27 +1258,27 @@ body{cursor:auto !important}
     <div class="hero-inner">
       <div class="hero-left">
         <div class="eyebrow es">Puerto Rico · Infraestructura Empresarial</div>
-        <div class="eyebrow en" style="display:none">Puerto Rico · Enterprise Infrastructure</div>
+        <div class="eyebrow en">Puerto Rico · Enterprise Infrastructure</div>
         <h1>
           <span class="es">Protegemos, conectamos y mantenemos <span class="accent">operando</span> tu empresa.</span>
-          <span class="en" style="display:none">We protect, connect and keep your business <span class="accent">running</span>.</span>
+          <span class="en">We protect, connect and keep your business <span class="accent">running</span>.</span>
         </h1>
         <p class="hero-sub es">Soluciones profesionales en CCTV, redes empresariales, control de acceso, continuidad operacional y soporte tecnológico para negocios que no pueden permitirse fallar.</p>
-        <p class="hero-sub en" style="display:none">Professional solutions in CCTV, enterprise networks, access control, operational continuity and tech support for businesses that cannot afford to fail.</p>
+        <p class="hero-sub en">Professional solutions in CCTV, enterprise networks, access control, operational continuity and tech support for businesses that cannot afford to fail.</p>
         <div class="hero-reinforce">
           <span class="es">En Wifnix ayudamos a empresas en Puerto Rico a reducir riesgos operativos, proteger sus instalaciones y garantizar que su infraestructura funcione cuando más importa.</span>
-          <span class="en" style="display:none">At Wifnix we help businesses in Puerto Rico reduce operational risks, protect their facilities and ensure their infrastructure works when it matters most.</span>
+          <span class="en">At Wifnix we help businesses in Puerto Rico reduce operational risks, protect their facilities and ensure their infrastructure works when it matters most.</span>
           <strong class="es">No vendemos instalaciones. Creamos continuidad operacional.</strong>
-          <strong class="en" style="display:none">We don't sell installations. We create operational continuity.</strong>
+          <strong class="en">We don't sell installations. We create operational continuity.</strong>
         </div>
         <div class="hero-btns">
           <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Evaluación Gratuita</button>
-          <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Free Evaluation</button>
+          <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Free Evaluation</button>
           <button class="btn-outline es" onclick="window.location.href='https://portal.wifnix.com'">Cotización en 24 horas</button>
-          <button class="btn-outline en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Quote in 24 hours</button>
+          <button class="btn-outline en" onclick="window.location.href='https://portal.wifnix.com'">Quote in 24 hours</button>
         </div>
         <p class="hero-linea es">Respuesta rápida, atención comercial y soluciones escalables.</p>
-        <p class="hero-linea en" style="display:none">Fast response, business support and scalable solutions.</p>
+        <p class="hero-linea en">Fast response, business support and scalable solutions.</p>
       </div>
 
     </div>
@@ -1319,20 +1290,20 @@ body{cursor:auto !important}
       <div class="authority-grid">
         <div class="authority-head reveal-l">
           <div class="eyebrow es">Nuestra filosofía</div>
-          <div class="eyebrow en" style="display:none">Our philosophy</div>
+          <div class="eyebrow en">Our philosophy</div>
           <h2 class="section-title es">Las empresas necesitan resultados, no promesas.</h2>
-          <h2 class="section-title en" style="display:none">Businesses need results, not promises.</h2>
+          <h2 class="section-title en">Businesses need results, not promises.</h2>
         </div>
         <div class="authority-text reveal-r">
           <p class="es">Cada sistema que instalamos tiene un objetivo claro: proteger operaciones, reducir pérdidas y garantizar estabilidad.</p>
-          <p class="en" style="display:none">Every system we install has a clear objective: protect operations, reduce losses and guarantee stability.</p>
+          <p class="en">Every system we install has a clear objective: protect operations, reduce losses and guarantee stability.</p>
           <p class="es">Trabajamos con soluciones diseñadas para empresas que entienden que la tecnología no es un gasto, sino una inversión crítica. Esa es la experiencia que traemos a cada instalación en Puerto Rico.</p>
-          <p class="en" style="display:none">We work with solutions designed for businesses that understand technology is not an expense, but a critical investment. That is the experience we bring to every installation in Puerto Rico.</p>
+          <p class="en">We work with solutions designed for businesses that understand technology is not an expense, but a critical investment. That is the experience we bring to every installation in Puerto Rico.</p>
           <strong class="es">Aquí no improvisamos. Diseñamos infraestructura que sostiene negocios.</strong>
-          <strong class="en" style="display:none">We don't improvise here. We design infrastructure that sustains businesses.</strong>
+          <strong class="en">We don't improvise here. We design infrastructure that sustains businesses.</strong>
           <div style="margin-top:28px">
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Hablar con un Especialista</button>
-            <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button>
           </div>
         </div>
       </div>
@@ -1343,7 +1314,7 @@ body{cursor:auto !important}
   <section class="section darker" style="padding:56px 0">
     <div class="si">
       <div class="eyebrow reveal es" style="justify-content:center;margin-bottom:32px">Clientes que confían en nosotros</div>
-      <div class="eyebrow reveal en" style="display:none;justify-content:center;margin-bottom:32px">Businesses that trust Wifnix</div>
+      <div class="eyebrow reveal en" style="justify-content:center;margin-bottom:32px">Businesses that trust Wifnix</div>
       <div id="clients-strip" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px;padding:8px 0">
         <div class="client-logo-wrap reveal" title="Transdev"><img src="/assets/cliente-transdev.png" loading="lazy" decoding="async" width="180" height="72" alt="Transdev" style="width:180px;height:72px;display:block;border-radius:8px;"></div>
         <div class="client-logo-wrap reveal" title="Facciola"><img src="/assets/cliente-facciola.png" loading="lazy" decoding="async" width="180" height="72" alt="Facciola" style="width:180px;height:72px;display:block;border-radius:8px;"></div>
@@ -1361,49 +1332,49 @@ body{cursor:auto !important}
   <section class="section">
     <div class="si">
       <div class="eyebrow reveal es">Servicios</div>
-      <div class="eyebrow reveal en" style="display:none">Services</div>
+      <div class="eyebrow reveal en">Services</div>
       <h2 class="section-title reveal es">Infraestructura crítica para empresas que no pueden detenerse.</h2>
-      <h2 class="section-title reveal en" style="display:none">Critical infrastructure for businesses that cannot stop.</h2>
+      <h2 class="section-title reveal en">Critical infrastructure for businesses that cannot stop.</h2>
       <p class="section-desc reveal es">Integramos seguridad, conectividad y continuidad operacional en una sola estrategia.</p>
-      <p class="section-desc reveal en" style="display:none">We integrate security, connectivity and operational continuity in a single strategy.</p>
+      <p class="section-desc reveal en">We integrate security, connectivity and operational continuity in a single strategy.</p>
     </div>
     <div style="max-width:1200px;margin:0 auto;padding:0 48px">
       <div class="services-grid">
         <div class="svc-card reveal" onclick="showPage('servicios')">
           <div class="svc-num">01</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg></div>
-          <h3 class="es">Seguridad Empresarial</h3><h3 class="en" style="display:none">Enterprise Security</h3>
+          <h3 class="es">Seguridad Empresarial</h3><h3 class="en">Enterprise Security</h3>
           <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas. Incluye CCTV, control de acceso, alarmas y monitoreo 24/7.</p>
-          <p class="en" style="display:none">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
+          <p class="en">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
           <button class="svc-cta es">Solicitar Evaluación <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en" style="display:none">Request Evaluation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <button class="svc-cta en">Request Evaluation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
         <div class="svc-card reveal" onclick="showPage('servicios')">
           <div class="svc-num">02</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div>
-          <h3 class="es">Redes Empresariales</h3><h3 class="en" style="display:none">Enterprise Networks</h3>
+          <h3 class="es">Redes Empresariales</h3><h3 class="en">Enterprise Networks</h3>
           <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones, con WiFi, cableado, failover y redundancia.</p>
-          <p class="en" style="display:none">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
+          <p class="en">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
           <button class="svc-cta es">Evaluar Mi Red <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en" style="display:none">Evaluate My Network <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <button class="svc-cta en">Evaluate My Network <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
         <div class="svc-card reveal" onclick="showPage('servicios')">
           <div class="svc-num">03</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-          <h3 class="es">Continuidad Operacional</h3><h3 class="en" style="display:none">Operational Continuity</h3>
+          <h3 class="es">Continuidad Operacional</h3><h3 class="en">Operational Continuity</h3>
           <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso con UPS, respaldo energético, monitoreo preventivo y soporte prioritario.</p>
-          <p class="en" style="display:none">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
+          <p class="en">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
           <button class="svc-cta es">Diagnóstico Preventivo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en" style="display:none">Preventive Diagnosis <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <button class="svc-cta en">Preventive Diagnosis <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
         <div class="svc-card reveal" onclick="showPage('servicios')">
           <div class="svc-num">04</div>
           <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1010 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg></div>
-          <h3 class="es">HVAC Comercial</h3><h3 class="en" style="display:none">Commercial HVAC</h3>
+          <h3 class="es">HVAC Comercial</h3><h3 class="en">Commercial HVAC</h3>
           <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad, con equipos VRF y rooftop, mantenimiento y eficiencia energética.</p>
-          <p class="en" style="display:none">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
+          <p class="en">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
           <button class="svc-cta es">Evaluar Sistema HVAC <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en" style="display:none">Evaluate HVAC System <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <button class="svc-cta en">Evaluate HVAC System <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
         </div>
       </div>
     </div>
@@ -1414,22 +1385,22 @@ body{cursor:auto !important}
     <div class="hurricane-inner">
       <div class="reveal-l">
         <div class="eyebrow es">Protección Crítica</div>
-        <div class="eyebrow en" style="display:none">Critical Protection</div>
+        <div class="eyebrow en">Critical Protection</div>
         <h2 class="es">Hurricane & Blackout Business Protection</h2>
-        <h2 class="en" style="display:none">Hurricane & Blackout Business Protection</h2>
+        <h2 class="en">Hurricane & Blackout Business Protection</h2>
         <p class="es">La mayoría de los negocios descubren sus vulnerabilidades cuando ya es demasiado tarde. Protege tu empresa antes de que una interrupción se convierta en una pérdida.</p>
-        <p class="en" style="display:none">Most businesses discover their vulnerabilities when it's already too late. Protect your business before an interruption becomes a loss.</p>
+        <p class="en">Most businesses discover their vulnerabilities when it's already too late. Protect your business before an interruption becomes a loss.</p>
         <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Agenda tu Evaluación Preventiva</button>
-        <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Schedule Preventive Evaluation</button>
+        <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Schedule Preventive Evaluation</button>
       </div>
       <div class="reveal-r">
         <div class="hurricane-features">
-          <div class="hf-item"><span class="es">Cámaras activas 24/7</span><span class="en" style="display:none">24/7 active cameras</span></div>
-          <div class="hf-item"><span class="es">Internet redundante</span><span class="en" style="display:none">Redundant internet</span></div>
-          <div class="hf-item"><span class="es">Acceso remoto</span><span class="en" style="display:none">Remote access</span></div>
-          <div class="hf-item"><span class="es">Respaldo energético</span><span class="en" style="display:none">Energy backup</span></div>
-          <div class="hf-item"><span class="es">Monitoreo remoto</span><span class="en" style="display:none">Remote monitoring</span></div>
-          <div class="hf-item"><span class="es">Continuidad operativa</span><span class="en" style="display:none">Operational continuity</span></div>
+          <div class="hf-item"><span class="es">Cámaras activas 24/7</span><span class="en">24/7 active cameras</span></div>
+          <div class="hf-item"><span class="es">Internet redundante</span><span class="en">Redundant internet</span></div>
+          <div class="hf-item"><span class="es">Acceso remoto</span><span class="en">Remote access</span></div>
+          <div class="hf-item"><span class="es">Respaldo energético</span><span class="en">Energy backup</span></div>
+          <div class="hf-item"><span class="es">Monitoreo remoto</span><span class="en">Remote monitoring</span></div>
+          <div class="hf-item"><span class="es">Continuidad operativa</span><span class="en">Operational continuity</span></div>
         </div>
       </div>
     </div>
@@ -1439,27 +1410,27 @@ body{cursor:auto !important}
   <section class="section darker">
     <div class="si">
       <div class="eyebrow reveal es">Testimonios</div>
-      <div class="eyebrow reveal en" style="display:none">Reviews</div>
+      <div class="eyebrow reveal en">Reviews</div>
       <h2 class="section-title reveal es">Lo que dicen nuestros clientes</h2>
-      <h2 class="section-title reveal en" style="display:none">What our clients say</h2>
+      <h2 class="section-title reveal en">What our clients say</h2>
       <div class="reviews-grid">
         <div class="review-card reveal">
           <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
           <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
           <p class="review-text">"Wifnix instaló nuestro sistema de cámaras y el resultado fue excelente. Ahora tenemos control real de nuestro negocio desde cualquier lugar."</p>
-          <div class="review-author"><div class="r-avatar">CR</div><div><div class="r-name">Carlos Rivera</div><div class="r-role es">Dueño de Restaurante, Bayamón</div><div class="r-role en" style="display:none">Restaurant Owner, Bayamón</div></div></div>
+          <div class="review-author"><div class="r-avatar">CR</div><div><div class="r-name">Carlos Rivera</div><div class="r-role es">Dueño de Restaurante, Bayamón</div><div class="r-role en">Restaurant Owner, Bayamón</div></div></div>
         </div>
         <div class="review-card reveal">
           <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
           <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
           <p class="review-text">"Teníamos caídas de internet constantes que nos costaban dinero. Wifnix diseñó una solución de failover y no hemos tenido interrupciones desde entonces."</p>
-          <div class="review-author"><div class="r-avatar" style="background:linear-gradient(135deg,#0066AA,#003366)">MM</div><div><div class="r-name">María Martínez</div><div class="r-role es">Gerente Corporativa, San Juan</div><div class="r-role en" style="display:none">Corporate Manager, San Juan</div></div></div>
+          <div class="review-author"><div class="r-avatar">MM</div><div><div class="r-name">María Martínez</div><div class="r-role es">Gerente Corporativa, San Juan</div><div class="r-role en">Corporate Manager, San Juan</div></div></div>
         </div>
         <div class="review-card reveal">
           <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
           <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
           <p class="review-text">"El soporte de Wifnix es incomparable. Respondieron en menos de 2 horas ante un problema crítico en nuestra clínica. Eso es lo que esperamos de un socio tecnológico."</p>
-          <div class="review-author"><div class="r-avatar" style="background:linear-gradient(135deg,#004488,#002244)">JS</div><div><div class="r-name">Dr. José Santiago</div><div class="r-role es">Director, Clínica Médica</div><div class="r-role en" style="display:none">Director, Medical Clinic</div></div></div>
+          <div class="review-author"><div class="r-avatar">JS</div><div><div class="r-name">Dr. José Santiago</div><div class="r-role es">Director, Clínica Médica</div><div class="r-role en">Director, Medical Clinic</div></div></div>
         </div>
       </div>
     </div>
@@ -1469,15 +1440,15 @@ body{cursor:auto !important}
   <section class="section dark">
     <div class="si">
       <div class="eyebrow reveal es">Cobertura</div>
-      <div class="eyebrow reveal en" style="display:none">Coverage</div>
+      <div class="eyebrow reveal en">Coverage</div>
       <h2 class="section-title reveal es">Servimos todo Puerto Rico</h2>
-      <h2 class="section-title reveal en" style="display:none">We serve all of Puerto Rico</h2>
+      <h2 class="section-title reveal en">We serve all of Puerto Rico</h2>
       <div class="areas-grid">
         <div class="area-item">San Juan</div><div class="area-item">Bayamón</div>
         <div class="area-item">Carolina</div><div class="area-item">Guaynabo</div>
         <div class="area-item">Caguas</div><div class="area-item">Ponce</div>
         <div class="area-item">Arecibo</div><div class="area-item es">+ Toda la isla</div>
-        <div class="area-item en" style="display:none">+ Island-wide</div>
+        <div class="area-item en">+ Island-wide</div>
       </div>
     </div>
   </section>
@@ -1487,21 +1458,21 @@ body{cursor:auto !important}
     <div class="rifas-wrap">
       <a class="rifas-card" href="https://rifas.wifnix.com">
         <div>
-          <div style="font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#29B6F6;margin-bottom:10px">
+          <div style="font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--azul);margin-bottom:10px">
             rifas.wifnix.com
           </div>
-          <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#F0F4F8;margin-bottom:8px;line-height:1.2" class="es">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tinta);margin-bottom:8px;line-height:1.2" class="es">
             Ediciones de arte digital numeradas
           </h3>
-          <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#F0F4F8;margin-bottom:8px;line-height:1.2;display:none" class="en">
+          <h3 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tinta);margin-bottom:8px;line-height:1.2" class="en">
             Numbered digital art editions
           </h3>
-          <p style="color:#8BA0B4;font-size:0.94rem;max-width:56ch;line-height:1.6" class="es">
+          <p style="color:var(--texto);font-size:0.94rem;max-width:56ch;line-height:1.6" class="es">
             Cada arte lleva un número único del tiraje y se entrega al instante
             por correo. Incluye beneficio promocional conforme a las reglas
             oficiales. No es necesario comprar para participar.
           </p>
-          <p style="color:#8BA0B4;font-size:0.94rem;max-width:56ch;line-height:1.6;display:none" class="en">
+          <p style="color:var(--texto);font-size:0.94rem;max-width:56ch;line-height:1.6" class="en">
             Each artwork carries a unique number from the edition and is
             delivered instantly by email. Includes a promotional benefit under
             the official rules. No purchase necessary to participate.
@@ -1509,7 +1480,7 @@ body{cursor:auto !important}
         </div>
         <div class="rifas-ir">
           <span class="es">Ver edición activa</span>
-          <span class="en" style="display:none">View active edition</span>
+          <span class="en">View active edition</span>
           <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
       </a>
@@ -1520,107 +1491,107 @@ body{cursor:auto !important}
   <section class="section" id="faq">
     <div class="si">
       <div class="eyebrow reveal es">Preguntas frecuentes</div>
-      <div class="eyebrow reveal en" style="display:none">Frequently asked questions</div>
+      <div class="eyebrow reveal en">Frequently asked questions</div>
       <h2 class="section-title reveal es">Lo que nos preguntan antes de contratar.</h2>
-      <h2 class="section-title reveal en" style="display:none">What clients ask before hiring us.</h2>
+      <h2 class="section-title reveal en">What clients ask before hiring us.</h2>
       <p class="section-desc reveal es">Si tu duda no está aquí, escríbenos y te contestamos igual de claro.</p>
-      <p class="section-desc reveal en" style="display:none">If your question isn't here, write to us and we'll answer just as clearly.</p>
+      <p class="section-desc reveal en">If your question isn't here, write to us and we'll answer just as clearly.</p>
 
       <div class="faq-list">
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Cuánto cuesta un sistema de cámaras de seguridad para mi negocio?</p>
-            <p class="en" style="display:none">How much does a security camera system cost for my business?</p>
+            <p class="en">How much does a security camera system cost for my business?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Depende de cuántas cámaras necesitas, del tipo de local y de si hay cableado. No damos un precio de catálogo porque un almacén y una oficina no se resuelven igual. Empezamos con una <strong>evaluación gratuita</strong> del sitio y de ahí sale una propuesta con todo desglosado. También puedes usar la <a href="calculadora-cctv.html">calculadora de CCTV</a> para tener una idea antes de hablar con nosotros.</span>
-            <span class="en" style="display:none">It depends on how many cameras you need, the type of space and whether cabling exists. We don't quote from a catalog because a warehouse and an office aren't solved the same way. We start with a <strong>free site evaluation</strong> and from there you get an itemized proposal. You can also use the <a href="calculadora-cctv.html">CCTV calculator</a> for a ballpark before talking to us.</span>
+            <span class="en">It depends on how many cameras you need, the type of space and whether cabling exists. We don't quote from a catalog because a warehouse and an office aren't solved the same way. We start with a <strong>free site evaluation</strong> and from there you get an itemized proposal. You can also use the <a href="calculadora-cctv.html">CCTV calculator</a> for a ballpark before talking to us.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Trabajan en toda la isla o solo en el área metro?</p>
-            <p class="en" style="display:none">Do you work island-wide or only in the metro area?</p>
+            <p class="en">Do you work island-wide or only in the metro area?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Servimos <strong>todo Puerto Rico</strong>, de San Juan a Mayagüez y de Arecibo a Ponce. Para instalaciones fuera del área metro coordinamos la visita con tiempo; el servicio y la garantía son exactamente los mismos.</span>
-            <span class="en" style="display:none">We serve <strong>all of Puerto Rico</strong>, from San Juan to Mayagüez and from Arecibo to Ponce. For installations outside the metro area we schedule the visit in advance; service and warranty are exactly the same.</span>
+            <span class="en">We serve <strong>all of Puerto Rico</strong>, from San Juan to Mayagüez and from Arecibo to Ponce. For installations outside the metro area we schedule the visit in advance; service and warranty are exactly the same.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Qué pasa con mi sistema cuando se va la luz?</p>
-            <p class="en" style="display:none">What happens to my system during a blackout?</p>
+            <p class="en">What happens to my system during a blackout?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Esa es justo la pregunta que hay que hacerse en Puerto Rico. Diseñamos <strong>continuidad operacional</strong>: respaldo energético con UPS para que cámaras, red y grabación no se caigan durante un apagón, y monitoreo preventivo para avisarte antes de que falle algo. Un sistema que se apaga con la luz no está protegiendo nada.</span>
-            <span class="en" style="display:none">That's exactly the question to ask in Puerto Rico. We design <strong>operational continuity</strong>: UPS backup power so cameras, network and recording stay up during an outage, plus preventive monitoring to warn you before something fails. A system that dies with the power isn't protecting anything.</span>
+            <span class="en">That's exactly the question to ask in Puerto Rico. We design <strong>operational continuity</strong>: UPS backup power so cameras, network and recording stay up during an outage, plus preventive monitoring to warn you before something fails. A system that dies with the power isn't protecting anything.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Puedo ver las cámaras desde el celular?</p>
-            <p class="en" style="display:none">Can I view the cameras from my phone?</p>
+            <p class="en">Can I view the cameras from my phone?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Sí. Todos nuestros sistemas de CCTV incluyen <strong>monitoreo remoto</strong> desde el celular o la computadora, con grabación segura y acceso por usuario. Te dejamos la app configurada y te enseñamos a usarla el día de la instalación.</span>
-            <span class="en" style="display:none">Yes. All our CCTV systems include <strong>remote monitoring</strong> from your phone or computer, with secure recording and per-user access. We set up the app and walk you through it on installation day.</span>
+            <span class="en">Yes. All our CCTV systems include <strong>remote monitoring</strong> from your phone or computer, with secure recording and per-user access. We set up the app and walk you through it on installation day.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Se quedan con el mantenimiento o solo instalan y se van?</p>
-            <p class="en" style="display:none">Do you handle maintenance or just install and leave?</p>
+            <p class="en">Do you handle maintenance or just install and leave?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Nos quedamos. Tenemos <strong>planes mensuales</strong> con mantenimiento preventivo, monitoreo continuo y soporte prioritario. La instalación es el principio, no el final: los sistemas que fallan casi siempre son los que nadie revisó en dos años.</span>
-            <span class="en" style="display:none">We stay. We offer <strong>monthly plans</strong> with preventive maintenance, continuous monitoring and priority support. Installation is the beginning, not the end: the systems that fail are almost always the ones nobody checked in two years.</span>
+            <span class="en">We stay. We offer <strong>monthly plans</strong> with preventive maintenance, continuous monitoring and priority support. Installation is the beginning, not the end: the systems that fail are almost always the ones nobody checked in two years.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">Si algo falla, ¿cuánto tardan en responder?</p>
-            <p class="en" style="display:none">If something fails, how long until you respond?</p>
+            <p class="en">If something fails, how long until you respond?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Con plan de soporte, la respuesta a incidencias críticas es <strong>en menos de 2 horas</strong>, y el monitoreo corre 24/7. Muchas veces detectamos el problema y te llamamos antes de que tú lo notes, que es de lo que se trata el mantenimiento preventivo.</span>
-            <span class="en" style="display:none">With a support plan, critical incidents get a response <strong>in under 2 hours</strong>, and monitoring runs 24/7. Often we catch the problem and call you before you notice it — that's the whole point of preventive maintenance.</span>
+            <span class="en">With a support plan, critical incidents get a response <strong>in under 2 hours</strong>, and monitoring runs 24/7. Often we catch the problem and call you before you notice it — that's the whole point of preventive maintenance.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿Los equipos tienen garantía? ¿Cómo reclamo?</p>
-            <p class="en" style="display:none">Do the products have a warranty? How do I claim it?</p>
+            <p class="en">Do the products have a warranty? How do I claim it?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Sí, y la reclamación se hace sin complicaciones desde tu <a href="https://portal.wifnix.com">portal de cliente</a>: abres el caso, subes la evidencia y le damos seguimiento nosotros. La cobertura depende del fabricante y del equipo; te la dejamos por escrito en la propuesta antes de que compres nada.</span>
-            <span class="en" style="display:none">Yes, and claims are handled without hassle from your <a href="https://portal.wifnix.com">client portal</a>: open the case, upload the evidence and we follow up. Coverage depends on the manufacturer and the equipment; we put it in writing in the proposal before you buy anything.</span>
+            <span class="en">Yes, and claims are handled without hassle from your <a href="https://portal.wifnix.com">client portal</a>: open the case, upload the evidence and we follow up. Coverage depends on the manufacturer and the equipment; we put it in writing in the proposal before you buy anything.</span>
           </div>
         </div>
 
         <div class="faq-item reveal" role="button" tabindex="0" aria-expanded="false" onclick="toggleFaq(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this)}">
           <div class="faq-q">
             <p class="es">¿La evaluación tiene costo o compromiso?</p>
-            <p class="en" style="display:none">Is the evaluation free? Any commitment?</p>
+            <p class="en">Is the evaluation free? Any commitment?</p>
             <svg class="faq-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <div class="faq-a">
             <span class="es">Es <strong>gratuita y sin compromiso</strong>. Vamos, miramos el sitio, entendemos qué necesitas de verdad y te mandamos una propuesta. Si no te convence, no pasa nada. Contestamos en menos de 24 horas.</span>
-            <span class="en" style="display:none">It's <strong>free and with no commitment</strong>. We visit, look at the site, figure out what you actually need and send a proposal. If it doesn't convince you, no problem. We reply in under 24 hours.</span>
+            <span class="en">It's <strong>free and with no commitment</strong>. We visit, look at the site, figure out what you actually need and send a proposal. If it doesn't convince you, no problem. We reply in under 24 hours.</span>
           </div>
         </div>
 
@@ -1632,22 +1603,22 @@ body{cursor:auto !important}
   <section class="cta-final">
     <div class="cta-final-inner">
       <div class="eyebrow reveal es" style="justify-content:center">Actúa ahora</div>
-      <div class="eyebrow reveal en" style="display:none;justify-content:center">Act now</div>
+      <div class="eyebrow reveal en" style="justify-content:center">Act now</div>
       <h2 class="reveal es">Si tu negocio depende de tecnología, no puedes improvisar.</h2>
-      <h2 class="reveal en" style="display:none">If your business depends on technology, you can't improvise.</h2>
+      <h2 class="reveal en">If your business depends on technology, you can't improvise.</h2>
       <div class="cta-final-items reveal">
         <div class="cta-final-item es">Cada falla cuesta dinero.</div>
-        <div class="cta-final-item en" style="display:none">Every failure costs money.</div>
+        <div class="cta-final-item en">Every failure costs money.</div>
         <div class="cta-final-item es">Cada interrupción afecta operaciones.</div>
-        <div class="cta-final-item en" style="display:none">Every interruption affects operations.</div>
+        <div class="cta-final-item en">Every interruption affects operations.</div>
         <div class="cta-final-item es">Cada retraso genera pérdidas.</div>
-        <div class="cta-final-item en" style="display:none">Every delay generates losses.</div>
+        <div class="cta-final-item en">Every delay generates losses.</div>
       </div>
       <div class="cta-final-btns reveal">
         <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Hablar con un Especialista</button>
-        <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button>
+        <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button>
         <button class="btn-outline es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Cotización</button>
-        <button class="btn-outline en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Quote</button>
+        <button class="btn-outline en" onclick="window.location.href='https://portal.wifnix.com'">Request Quote</button>
       </div>
     </div>
   </section>
@@ -1658,28 +1629,28 @@ body{cursor:auto !important}
 <div class="page" id="page-servicios">
   <section class="section" style="padding-top:80px">
     <div class="si">
-      <div class="eyebrow reveal es">Servicios</div><div class="eyebrow reveal en" style="display:none">Services</div>
+      <div class="eyebrow reveal es">Servicios</div><div class="eyebrow reveal en">Services</div>
       <h2 class="section-title reveal es">Infraestructura crítica para empresas que no pueden detenerse.</h2>
-      <h2 class="section-title reveal en" style="display:none">Critical infrastructure for businesses that cannot stop.</h2>
+      <h2 class="section-title reveal en">Critical infrastructure for businesses that cannot stop.</h2>
       <p class="section-desc reveal es">Integramos seguridad, conectividad y continuidad operacional en una sola estrategia.</p>
-      <p class="section-desc reveal en" style="display:none">We integrate security, connectivity and operational continuity in a single strategy.</p>
+      <p class="section-desc reveal en">We integrate security, connectivity and operational continuity in a single strategy.</p>
 
       <!-- CCTV -->
       <div style="margin-bottom:60px">
         <div class="eyebrow reveal es">01 · Seguridad Empresarial</div>
-        <div class="eyebrow reveal en" style="display:none">01 · Enterprise Security</div>
+        <div class="eyebrow reveal en">01 · Enterprise Security</div>
         <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Protege tu negocio con sistemas diseñados para control real.</h3>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">Protect your business with systems designed for real control.</h3>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="en">Protect your business with systems designed for real control.</h3>
           </div>
           <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Monitoreo constante y prevención de pérdidas con tecnología de última generación.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Constant monitoring and loss prevention with latest generation technology.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Constant monitoring and loss prevention with latest generation technology.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Cubre CCTV profesional en resolución 4K, monitoreo remoto, control de acceso, alarmas, grabación segura y protección perimetral, con visión nocturna de hasta 30 metros y cámaras IP67 para intemperie.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Covers professional CCTV in 4K resolution, remote monitoring, access control, alarms, secure recording and perimeter protection, with night vision up to 30 meters and IP67 cameras for outdoor use.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Covers professional CCTV in 4K resolution, remote monitoring, access control, alarms, secure recording and perimeter protection, with night vision up to 30 meters and IP67 cameras for outdoor use.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Evaluación de Seguridad</button>
-            <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Security Evaluation</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Security Evaluation</button>
           </div>
         </div>
       </div>
@@ -1687,19 +1658,19 @@ body{cursor:auto !important}
       <!-- REDES -->
       <div style="margin-bottom:60px;padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">02 · Redes Empresariales</div>
-        <div class="eyebrow reveal en" style="display:none">02 · Enterprise Networks</div>
+        <div class="eyebrow reveal en">02 · Enterprise Networks</div>
         <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Una red inestable cuesta dinero.</h3>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">An unstable network costs money.</h3>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="en">An unstable network costs money.</h3>
           </div>
           <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">We design robust infrastructure to keep operations active without interruptions.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">We design robust infrastructure to keep operations active without interruptions.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye redes cableadas, WiFi empresarial, switches PoE, failover y redundancia, con velocidad de hasta 10G por enlace, VPN para acceso seguro y optimización continua para sostener el uptime de tu operación.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes wired networks, enterprise WiFi, PoE switches, failover and redundancy, with link speeds up to 10G, VPN for secure access and continuous optimization to sustain your operation’s uptime.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Includes wired networks, enterprise WiFi, PoE switches, failover and redundancy, with link speeds up to 10G, VPN for secure access and continuous optimization to sustain your operation’s uptime.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Evaluar Mi Infraestructura</button>
-            <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Evaluate My Infrastructure</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Evaluate My Infrastructure</button>
           </div>
         </div>
       </div>
@@ -1707,19 +1678,19 @@ body{cursor:auto !important}
       <!-- CONTINUIDAD -->
       <div style="margin-bottom:60px;padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">03 · Continuidad Operacional</div>
-        <div class="eyebrow reveal en" style="display:none">03 · Operational Continuity</div>
+        <div class="eyebrow reveal en">03 · Operational Continuity</div>
         <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">Cuando falla la energía, el negocio no puede detenerse.</h3>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">When power fails, business cannot stop.</h3>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="en">When power fails, business cannot stop.</h3>
           </div>
           <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Sistemas de respaldo energético, monitoreo preventivo y soporte prioritario para garantizar continuidad.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Energy backup systems, preventive monitoring and priority support to guarantee continuity.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Energy backup systems, preventive monitoring and priority support to guarantee continuity.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye UPS y respaldo energético, monitoreo preventivo y soporte prioritario, para que las cámaras, la red y la grabación no se caigan cuando se va la luz.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes UPS and energy backup, preventive monitoring and priority support, so cameras, network and recording stay up when the power goes out.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Includes UPS and energy backup, preventive monitoring and priority support, so cameras, network and recording stay up when the power goes out.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Diagnóstico</button>
-            <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Diagnosis</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Diagnosis</button>
           </div>
         </div>
       </div>
@@ -1727,62 +1698,62 @@ body{cursor:auto !important}
       <!-- HVAC -->
       <div style="padding-top:40px;border-top:1px solid rgba(11,143,204,0.08)">
         <div class="eyebrow reveal es">04 · HVAC Comercial</div>
-        <div class="eyebrow reveal en" style="display:none">04 · Commercial HVAC</div>
+        <div class="eyebrow reveal en">04 · Commercial HVAC</div>
         <div class="svc-detalle">
           <div class="reveal-l">
             <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="es">El confort no es lujo. Es operación.</h3>
-            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px;display:none" class="en">Comfort is not a luxury. It's operations.</h3>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--white);margin-bottom:12px" class="en">Comfort is not a luxury. It's operations.</h3>
           </div>
           <div class="reveal-r">
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Sistemas HVAC confiables protegen productividad, clientes y continuidad operacional.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Reliable HVAC systems protect productivity, clients and operational continuity.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Reliable HVAC systems protect productivity, clients and operational continuity.</p>
             <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="es">Incluye mantenimiento preventivo, sistemas VRF y rooftop units, diagnóstico y eficiencia energética que se nota en el ahorro de la factura, con técnicos certificados EPA.</p>
-            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px;display:none" class="en">Includes preventive maintenance, VRF systems and rooftop units, diagnostics and energy efficiency that shows up as savings on the bill, with EPA-certified technicians.</p>
+            <p style="font-size:0.9rem;color:var(--gray);line-height:1.75;font-weight:300;margin-bottom:20px" class="en">Includes preventive maintenance, VRF systems and rooftop units, diagnostics and energy efficiency that shows up as savings on the bill, with EPA-certified technicians.</p>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Evaluar Sistema HVAC</button>
-            <button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Evaluate HVAC System</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Evaluate HVAC System</button>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Listo para proteger tu operación?</h2><h2 class="reveal en" style="display:none">Ready to protect your operation?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Evaluación Gratuita</button><button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Free Evaluation</button></div></div></section>
+  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Listo para proteger tu operación?</h2><h2 class="reveal en">Ready to protect your operation?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Evaluación Gratuita</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Free Evaluation</button></div></div></section>
 </div>
 
 <!-- ══════════ CASOS REALES ══════════ -->
 <div class="page" id="page-casos">
   <section class="section" style="padding-top:80px">
     <div class="si">
-      <div class="eyebrow reveal es">Casos Reales</div><div class="eyebrow reveal en" style="display:none">Case Studies</div>
+      <div class="eyebrow reveal es">Casos Reales</div><div class="eyebrow reveal en">Case Studies</div>
       <h2 class="section-title reveal es">Así resolvemos problemas reales.</h2>
-      <h2 class="section-title reveal en" style="display:none">This is how we solve real problems.</h2>
+      <h2 class="section-title reveal en">This is how we solve real problems.</h2>
       <p class="section-desc reveal es">No promesas. Resultados documentados en empresas de Puerto Rico.</p>
-      <p class="section-desc reveal en" style="display:none">No promises. Documented results in Puerto Rico businesses.</p>
+      <p class="section-desc reveal en">No promises. Documented results in Puerto Rico businesses.</p>
       <div class="cases-grid">
         <div class="case-card reveal">
           <div class="case-type es">Restaurante</div>
-          <div class="case-type en" style="display:none">Restaurant</div>
-          <div class="case-problem"><strong class="es">Problema</strong><strong class="en" style="display:none">Problem</strong><span class="es">Pérdidas por monitoreo deficiente y puntos ciegos críticos en el negocio.</span><span class="en" style="display:none">Losses due to poor monitoring and critical blind spots in the business.</span></div>
-          <div class="case-solution"><strong class="es">Solución</strong><strong class="en" style="display:none">Solution</strong><span class="es">Nuevo sistema CCTV + acceso remoto + supervisión estratégica.</span><span class="en" style="display:none">New CCTV system + remote access + strategic supervision.</span></div>
-          <div class="case-result"><strong class="es">Resultado</strong><strong class="en" style="display:none">Result</strong><span class="es">Mayor control operativo y reducción significativa de pérdidas internas.</span><span class="en" style="display:none">Greater operational control and significant reduction in internal losses.</span></div>
+          <div class="case-type en">Restaurant</div>
+          <div class="case-problem"><strong class="es">Problema</strong><strong class="en">Problem</strong><span class="es">Pérdidas por monitoreo deficiente y puntos ciegos críticos en el negocio.</span><span class="en">Losses due to poor monitoring and critical blind spots in the business.</span></div>
+          <div class="case-solution"><strong class="es">Solución</strong><strong class="en">Solution</strong><span class="es">Nuevo sistema CCTV + acceso remoto + supervisión estratégica.</span><span class="en">New CCTV system + remote access + strategic supervision.</span></div>
+          <div class="case-result"><strong class="es">Resultado</strong><strong class="en">Result</strong><span class="es">Mayor control operativo y reducción significativa de pérdidas internas.</span><span class="en">Greater operational control and significant reduction in internal losses.</span></div>
         </div>
         <div class="case-card reveal">
           <div class="case-type es">Oficina Corporativa</div>
-          <div class="case-type en" style="display:none">Corporate Office</div>
-          <div class="case-problem"><strong class="es">Problema</strong><strong class="en" style="display:none">Problem</strong><span class="es">Internet inestable y caídas constantes que afectaban productividad y operaciones.</span><span class="en" style="display:none">Unstable internet and constant outages affecting productivity and operations.</span></div>
-          <div class="case-solution"><strong class="es">Solución</strong><strong class="en" style="display:none">Solution</strong><span class="es">Failover de internet + optimización completa de red empresarial.</span><span class="en" style="display:none">Internet failover + complete enterprise network optimization.</span></div>
-          <div class="case-result"><strong class="es">Resultado</strong><strong class="en" style="display:none">Result</strong><span class="es">Continuidad operativa sin interrupciones críticas desde la implementación.</span><span class="en" style="display:none">Operational continuity without critical interruptions since implementation.</span></div>
+          <div class="case-type en">Corporate Office</div>
+          <div class="case-problem"><strong class="es">Problema</strong><strong class="en">Problem</strong><span class="es">Internet inestable y caídas constantes que afectaban productividad y operaciones.</span><span class="en">Unstable internet and constant outages affecting productivity and operations.</span></div>
+          <div class="case-solution"><strong class="es">Solución</strong><strong class="en">Solution</strong><span class="es">Failover de internet + optimización completa de red empresarial.</span><span class="en">Internet failover + complete enterprise network optimization.</span></div>
+          <div class="case-result"><strong class="es">Resultado</strong><strong class="en">Result</strong><span class="es">Continuidad operativa sin interrupciones críticas desde la implementación.</span><span class="en">Operational continuity without critical interruptions since implementation.</span></div>
         </div>
         <div class="case-card reveal">
           <div class="case-type es">Clínica Médica</div>
-          <div class="case-type en" style="display:none">Medical Clinic</div>
-          <div class="case-problem"><strong class="es">Problema</strong><strong class="en" style="display:none">Problem</strong><span class="es">Riesgo operativo por falta de control y monitoreo deficiente en área crítica.</span><span class="en" style="display:none">Operational risk due to lack of control and poor monitoring in critical area.</span></div>
-          <div class="case-solution"><strong class="es">Solución</strong><strong class="en" style="display:none">Solution</strong><span class="es">Infraestructura de seguridad completa + continuidad operacional integrada.</span><span class="en" style="display:none">Complete security infrastructure + integrated operational continuity.</span></div>
-          <div class="case-result"><strong class="es">Resultado</strong><strong class="en" style="display:none">Result</strong><span class="es">Protección total y estabilidad operativa garantizada en todo momento.</span><span class="en" style="display:none">Total protection and operational stability guaranteed at all times.</span></div>
+          <div class="case-type en">Medical Clinic</div>
+          <div class="case-problem"><strong class="es">Problema</strong><strong class="en">Problem</strong><span class="es">Riesgo operativo por falta de control y monitoreo deficiente en área crítica.</span><span class="en">Operational risk due to lack of control and poor monitoring in critical area.</span></div>
+          <div class="case-solution"><strong class="es">Solución</strong><strong class="en">Solution</strong><span class="es">Infraestructura de seguridad completa + continuidad operacional integrada.</span><span class="en">Complete security infrastructure + integrated operational continuity.</span></div>
+          <div class="case-result"><strong class="es">Resultado</strong><strong class="en">Result</strong><span class="es">Protección total y estabilidad operativa garantizada en todo momento.</span><span class="en">Total protection and operational stability guaranteed at all times.</span></div>
         </div>
       </div>
     </div>
   </section>
-  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Tu empresa tiene un problema que resolver?</h2><h2 class="reveal en" style="display:none">Does your business have a problem to solve?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Hablar con un Especialista</button><button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button></div></div></section>
+  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Tu empresa tiene un problema que resolver?</h2><h2 class="reveal en">Does your business have a problem to solve?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Hablar con un Especialista</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Talk to a Specialist</button></div></div></section>
 </div>
 
 <!-- ══════════ PLANES ══════════ -->
@@ -1790,71 +1761,71 @@ body{cursor:auto !important}
   <section class="section" style="padding-top:80px">
     <div class="si">
       <div class="eyebrow reveal es">Managed Protection Plan™</div>
-      <div class="eyebrow reveal en" style="display:none">Managed Protection Plan™</div>
+      <div class="eyebrow reveal en">Managed Protection Plan™</div>
       <h2 class="section-title reveal es">Tu empresa no necesita soluciones temporales. Necesita estabilidad permanente.</h2>
-      <h2 class="section-title reveal en" style="display:none">Your business doesn't need temporary solutions. It needs permanent stability.</h2>
+      <h2 class="section-title reveal en">Your business doesn't need temporary solutions. It needs permanent stability.</h2>
       <p class="section-desc reveal es">Planes mensuales diseñados para prevenir fallas, responder rápido y mantener tu operación protegida.</p>
-      <p class="section-desc reveal en" style="display:none">Monthly plans designed to prevent failures, respond fast and keep your operation protected.</p>
+      <p class="section-desc reveal en">Monthly plans designed to prevent failures, respond fast and keep your operation protected.</p>
       <div class="plans-grid">
         <div class="plan-card reveal">
           <div class="plan-name">Basic</div>
           <div class="plan-title es">Protección Base</div>
-          <div class="plan-title en" style="display:none">Base Protection</div>
+          <div class="plan-title en">Base Protection</div>
           <div class="plan-features">
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Monitoreo básico del sistema</span><span class="en" style="display:none">Basic system monitoring</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Soporte remoto</span><span class="en" style="display:none">Remote support</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Mantenimiento preventivo básico</span><span class="en" style="display:none">Basic preventive maintenance</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Reporte mensual de estado</span><span class="en" style="display:none">Monthly status report</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Monitoreo básico del sistema</span><span class="en">Basic system monitoring</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Soporte remoto</span><span class="en">Remote support</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Mantenimiento preventivo básico</span><span class="en">Basic preventive maintenance</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Reporte mensual de estado</span><span class="en">Monthly status report</span></div>
           </div>
-          <button class="btn-outline" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en" style="display:none">Request Proposal</span></button>
+          <button class="btn-outline" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en">Request Proposal</span></button>
         </div>
         <div class="plan-card featured reveal">
           <div class="plan-name">Business</div>
           <div class="plan-title es">Protección Completa</div>
-          <div class="plan-title en" style="display:none">Complete Protection</div>
+          <div class="plan-title en">Complete Protection</div>
           <div class="plan-features">
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Visitas técnicas programadas</span><span class="en" style="display:none">Scheduled technical visits</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Soporte prioritario 24/7</span><span class="en" style="display:none">24/7 priority support</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Supervisión completa del sistema</span><span class="en" style="display:none">Complete system supervision</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Respuesta en menos de 4 horas</span><span class="en" style="display:none">Response in less than 4 hours</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Reportes detallados mensuales</span><span class="en" style="display:none">Detailed monthly reports</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Visitas técnicas programadas</span><span class="en">Scheduled technical visits</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Soporte prioritario 24/7</span><span class="en">24/7 priority support</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Supervisión completa del sistema</span><span class="en">Complete system supervision</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Respuesta en menos de 4 horas</span><span class="en">Response in less than 4 hours</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Reportes detallados mensuales</span><span class="en">Detailed monthly reports</span></div>
           </div>
-          <button class="btn-primary" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en" style="display:none">Request Proposal</span></button>
+          <button class="btn-primary" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en">Request Proposal</span></button>
         </div>
         <div class="plan-card reveal">
           <div class="plan-name">Enterprise</div>
           <div class="plan-title es">Administración Total</div>
-          <div class="plan-title en" style="display:none">Total Management</div>
+          <div class="plan-title en">Total Management</div>
           <div class="plan-features">
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Administración total de infraestructura</span><span class="en" style="display:none">Total infrastructure management</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Respuesta crítica en menos de 2h</span><span class="en" style="display:none">Critical response under 2h</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Técnico dedicado asignado</span><span class="en" style="display:none">Dedicated assigned technician</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Revisión trimestral estratégica</span><span class="en" style="display:none">Quarterly strategic review</span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">SLA garantizado por contrato</span><span class="en" style="display:none">Contract-guaranteed SLA</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Administración total de infraestructura</span><span class="en">Total infrastructure management</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Respuesta crítica en menos de 2h</span><span class="en">Critical response under 2h</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Técnico dedicado asignado</span><span class="en">Dedicated assigned technician</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">Revisión trimestral estratégica</span><span class="en">Quarterly strategic review</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg><span class="es">SLA garantizado por contrato</span><span class="en">Contract-guaranteed SLA</span></div>
           </div>
-          <button class="btn-outline" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en" style="display:none">Request Proposal</span></button>
+          <button class="btn-outline" onclick="window.location.href='https://portal.wifnix.com'" style="width:100%;text-align:center"><span class="es">Solicitar Propuesta</span><span class="en">Request Proposal</span></button>
         </div>
       </div>
     </div>
   </section>
-  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Cuál plan es el correcto para tu empresa?</h2><h2 class="reveal en" style="display:none">Which plan is right for your business?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Propuesta Comercial</button><button class="btn-primary en" style="display:none" onclick="window.location.href='https://portal.wifnix.com'">Request Commercial Proposal</button></div></div></section>
+  <section class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">¿Cuál plan es el correcto para tu empresa?</h2><h2 class="reveal en">Which plan is right for your business?</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Propuesta Comercial</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Commercial Proposal</button></div></div></section>
 </div>
 
 <!-- ══════════ CONTACTO ══════════ -->
 <div class="page" id="page-contacto">
   <section class="section contact-hero" style="padding-top:80px">
     <div class="si">
-      <div class="eyebrow reveal es">Contacto</div><div class="eyebrow reveal en" style="display:none">Contact</div>
+      <div class="eyebrow reveal es">Contacto</div><div class="eyebrow reveal en">Contact</div>
       <h2 class="section-title reveal es">Habla con un especialista hoy.</h2>
-      <h2 class="section-title reveal en" style="display:none">Talk to a specialist today.</h2>
+      <h2 class="section-title reveal en">Talk to a specialist today.</h2>
       <p class="section-desc reveal es">Evaluación gratuita · Respuesta en menos de 24h · Sin compromiso</p>
-      <p class="section-desc reveal en" style="display:none">Free evaluation · Response under 24h · No commitment</p>
+      <p class="section-desc reveal en">Free evaluation · Response under 24h · No commitment</p>
       <div class="contact-grid">
         <div class="contact-items reveal-l">
           <div class="contact-item">
             <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.08 6.08l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg></div>
             <div>
-              <div class="c-label es">Teléfonos</div><div class="c-label en" style="display:none">Phones</div>
+              <div class="c-label es">Teléfonos</div><div class="c-label en">Phones</div>
               <a class="c-value" href="tel:7873549596">(787) 354-9596</a><br>
               <a class="c-value" href="tel:7875650031">(787) 565-0031</a>
             </div>
@@ -1876,9 +1847,9 @@ body{cursor:auto !important}
           <div class="contact-item">
             <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div>
-              <div class="c-label es">Ubicación</div><div class="c-label en" style="display:none">Location</div>
+              <div class="c-label es">Ubicación</div><div class="c-label en">Location</div>
               <span class="c-value es">Puerto Rico — Toda la isla</span>
-              <span class="c-value en" style="display:none">Puerto Rico — Island-wide</span>
+              <span class="c-value en">Puerto Rico — Island-wide</span>
             </div>
           </div>
           <div class="socials">
@@ -1890,46 +1861,46 @@ body{cursor:auto !important}
         <div class="contact-form reveal-r">
           <div class="form-success" id="form-success">
             <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--success);fill:none;stroke-width:2;margin-bottom:8px"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <p style="font-weight:700" class="es">¡Mensaje enviado!</p><p style="font-weight:700;display:none" class="en">Message sent!</p>
+            <p style="font-weight:700" class="es">¡Mensaje enviado!</p><p style="font-weight:700" class="en">Message sent!</p>
             <p style="font-size:0.82rem;color:var(--gray);margin-top:4px" class="es">Te contactaremos en menos de 24 horas.</p>
-            <p style="font-size:0.82rem;color:var(--gray);margin-top:4px;display:none" class="en">We'll contact you within 24 hours.</p>
+            <p style="font-size:0.82rem;color:var(--gray);margin-top:4px" class="en">We'll contact you within 24 hours.</p>
           </div>
           <div class="form-error" id="form-error">
             <span class="es">Error al enviar. Llámanos: (787) 354-9596</span>
-            <span class="en" style="display:none">Send error. Call us: (787) 354-9596</span>
+            <span class="en">Send error. Call us: (787) 354-9596</span>
           </div>
           <div class="form-row">
-            <div class="form-field"><label class="es">Nombre *</label><label class="en" style="display:none">Name *</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
-            <div class="form-field"><label class="es">Teléfono</label><label class="en" style="display:none">Phone</label><input type="tel" id="f-tel" placeholder="(787) 000-0000"></div>
+            <div class="form-field"><label class="es">Nombre *</label><label class="en">Name *</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
+            <div class="form-field"><label class="es">Teléfono</label><label class="en">Phone</label><input type="tel" id="f-tel" placeholder="(787) 000-0000"></div>
           </div>
           <div class="form-field"><label>Email *</label><input type="email" id="f-email" placeholder="tu@empresa.com"></div>
-          <div class="form-field"><label class="es">Empresa</label><label class="en" style="display:none">Company</label><input type="text" id="f-empresa" placeholder="Nombre de tu empresa"></div>
+          <div class="form-field"><label class="es">Empresa</label><label class="en">Company</label><input type="text" id="f-empresa" placeholder="Nombre de tu empresa"></div>
           <div class="form-field">
-            <label class="es">Servicio de interés *</label><label class="en" style="display:none">Service of interest *</label>
+            <label class="es">Servicio de interés *</label><label class="en">Service of interest *</label>
             <select id="f-servicio">
               <option value="" class="es">Seleccionar...</option>
-              <option value="" class="en" style="display:none">Select...</option>
+              <option value="" class="en">Select...</option>
               <option value="Seguridad Empresarial / CCTV" class="es">Seguridad Empresarial / CCTV</option>
-              <option value="Enterprise Security / CCTV" class="en" style="display:none">Enterprise Security / CCTV</option>
+              <option value="Enterprise Security / CCTV" class="en">Enterprise Security / CCTV</option>
               <option value="Redes Empresariales" class="es">Redes Empresariales</option>
-              <option value="Enterprise Networks" class="en" style="display:none">Enterprise Networks</option>
+              <option value="Enterprise Networks" class="en">Enterprise Networks</option>
               <option value="Continuidad Operacional" class="es">Continuidad Operacional</option>
-              <option value="Operational Continuity" class="en" style="display:none">Operational Continuity</option>
+              <option value="Operational Continuity" class="en">Operational Continuity</option>
               <option value="HVAC Comercial" class="es">HVAC Comercial</option>
-              <option value="Commercial HVAC" class="en" style="display:none">Commercial HVAC</option>
+              <option value="Commercial HVAC" class="en">Commercial HVAC</option>
               <option value="Managed Protection Plan" class="es">Managed Protection Plan™</option>
-              <option value="Managed Protection Plan" class="en" style="display:none">Managed Protection Plan™</option>
+              <option value="Managed Protection Plan" class="en">Managed Protection Plan™</option>
               <option value="Hurricane & Blackout Protection" class="es">Hurricane & Blackout Protection</option>
-              <option value="Hurricane & Blackout Protection" class="en" style="display:none">Hurricane & Blackout Protection</option>
+              <option value="Hurricane & Blackout Protection" class="en">Hurricane & Blackout Protection</option>
               <option value="Reclamación de Garantía" class="es"> Reclamación de Garantía</option>
-              <option value="Warranty Claim" class="en" style="display:none"> Warranty Claim</option>
+              <option value="Warranty Claim" class="en"> Warranty Claim</option>
               <option value="Otro" class="es">Otro</option>
-              <option value="Other" class="en" style="display:none">Other</option>
+              <option value="Other" class="en">Other</option>
             </select>
           </div>
-          <div class="form-field"><label class="es">Mensaje *</label><label class="en" style="display:none">Message *</label><textarea id="f-mensaje" placeholder="Cuéntanos sobre tu empresa y lo que necesitas..."></textarea></div>
+          <div class="form-field"><label class="es">Mensaje *</label><label class="en">Message *</label><textarea id="f-mensaje" placeholder="Cuéntanos sobre tu empresa y lo que necesitas..."></textarea></div>
           <button class="btn-primary es" onclick="submitForm(event)" style="width:100%">Enviar Mensaje</button>
-          <button class="btn-primary en" onclick="submitForm(event)" style="display:none;width:100%">Send Message</button>
+          <button class="btn-primary en" onclick="submitForm(event)" style="width:100%">Send Message</button>
         </div>
       </div>
     </div>
@@ -1941,18 +1912,18 @@ body{cursor:auto !important}
   <section class="store-hero section" style="padding-top:80px">
     <div class="si">
       <div class="eyebrow reveal es">Tienda</div>
-      <div class="eyebrow reveal en" style="display:none">Store</div>
+      <div class="eyebrow reveal en">Store</div>
       <h2 class="section-title reveal es">Equipos y soluciones para tu empresa</h2>
-      <h2 class="section-title reveal en" style="display:none">Equipment and solutions for your business</h2>
+      <h2 class="section-title reveal en">Equipment and solutions for your business</h2>
       <p class="section-desc reveal es">Equipos profesionales con instalación disponible. Consulta disponibilidad y precios.</p>
-      <p class="section-desc reveal en" style="display:none">Professional equipment with installation available. Check availability and pricing.</p>
+      <p class="section-desc reveal en">Professional equipment with installation available. Check availability and pricing.</p>
 
       <div class="store-coming reveal">
         <svg viewBox="0 0 24 24" style="width:32px;height:32px;stroke:var(--blue);fill:none;stroke-width:1.5;stroke-linecap:round;margin-bottom:8px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
         <p style="color:var(--blue-light);font-weight:700;font-size:0.95rem" class="es">Tienda en construcción</p>
-        <p style="color:var(--blue-light);font-weight:700;font-size:0.95rem;display:none" class="en">Store under construction</p>
+        <p style="color:var(--blue-light);font-weight:700;font-size:0.95rem" class="en">Store under construction</p>
         <p class="es">Estamos estructurando el catálogo. Próximamente podrás comprar directamente aquí con Stripe, PayPal y ATH Móvil.</p>
-        <p class="en" style="display:none">We are structuring the catalog. Soon you will be able to purchase directly here with Stripe, PayPal and ATH Móvil.</p>
+        <p class="en">We are structuring the catalog. Soon you will be able to purchase directly here with Stripe, PayPal and ATH Móvil.</p>
         <div class="pagos-linea">
           <span>Stripe</span>
           <span>PayPal</span>
@@ -1969,42 +1940,42 @@ body{cursor:auto !important}
           <!-- CCTV -->
           <button class="store-cat-btn active" onclick="toggleStoreCat(this,'cctv')">
             <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg>
-            <span class="es">CCTV & Seguridad</span><span class="en" style="display:none">CCTV & Security</span>
+            <span class="es">CCTV & Seguridad</span><span class="en">CCTV & Security</span>
             <svg class="store-cat-chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
           </button>
           <div class="store-subcats">
-            <button class="store-subcat-btn active" onclick="showStoreSection('cctv','analogas')"><span class="es">Cámaras Análogas</span><span class="en" style="display:none">Analog Cameras</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('cctv','ip')"><span class="es">Cámaras IP</span><span class="en" style="display:none">IP Cameras</span></button>
+            <button class="store-subcat-btn active" onclick="showStoreSection('cctv','analogas')"><span class="es">Cámaras Análogas</span><span class="en">Analog Cameras</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('cctv','ip')"><span class="es">Cámaras IP</span><span class="en">IP Cameras</span></button>
             <button class="store-subcat-btn" onclick="showStoreSection('cctv','nvr')">NVR</button>
             <button class="store-subcat-btn" onclick="showStoreSection('cctv','dvr')">DVR</button>
-            <button class="store-subcat-btn" onclick="showStoreSection('cctv','acceso')"><span class="es">Control de Acceso</span><span class="en" style="display:none">Access Control</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('cctv','accesorios')"><span class="es">Accesorios CCTV</span><span class="en" style="display:none">CCTV Accessories</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('cctv','acceso')"><span class="es">Control de Acceso</span><span class="en">Access Control</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('cctv','accesorios')"><span class="es">Accesorios CCTV</span><span class="en">CCTV Accessories</span></button>
           </div>
 
           <!-- NETWORK -->
           <button class="store-cat-btn" onclick="toggleStoreCat(this,'network')">
             <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
-            <span class="es">Network & Redes</span><span class="en" style="display:none">Network</span>
+            <span class="es">Network & Redes</span><span class="en">Network</span>
             <svg class="store-cat-chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
           </button>
           <div class="store-subcats">
             <button class="store-subcat-btn" onclick="showStoreSection('network','routers')">Routers</button>
             <button class="store-subcat-btn" onclick="showStoreSection('network','switches')">Switches / PoE</button>
-            <button class="store-subcat-btn" onclick="showStoreSection('network','wifi')"><span class="es">Puntos de Acceso WiFi</span><span class="en" style="display:none">WiFi Access Points</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('network','cableado')"><span class="es">Cableado</span><span class="en" style="display:none">Cabling</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('network','accesorios')"><span class="es">Accesorios</span><span class="en" style="display:none">Accessories</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('network','wifi')"><span class="es">Puntos de Acceso WiFi</span><span class="en">WiFi Access Points</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('network','cableado')"><span class="es">Cableado</span><span class="en">Cabling</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('network','accesorios')"><span class="es">Accesorios</span><span class="en">Accessories</span></button>
           </div>
 
           <!-- BACKUP -->
           <button class="store-cat-btn" onclick="toggleStoreCat(this,'backup')">
             <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span class="es">Backup & Energía</span><span class="en" style="display:none">Backup & Power</span>
+            <span class="es">Backup & Energía</span><span class="en">Backup & Power</span>
             <svg class="store-cat-chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
           </button>
           <div class="store-subcats">
             <button class="store-subcat-btn" onclick="showStoreSection('backup','ups')">UPS</button>
-            <button class="store-subcat-btn" onclick="showStoreSection('backup','generadores')"><span class="es">Generadores</span><span class="en" style="display:none">Generators</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('backup','baterias')"><span class="es">Baterías</span><span class="en" style="display:none">Batteries</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('backup','generadores')"><span class="es">Generadores</span><span class="en">Generators</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('backup','baterias')"><span class="es">Baterías</span><span class="en">Batteries</span></button>
           </div>
 
           <!-- HVAC -->
@@ -2015,19 +1986,19 @@ body{cursor:auto !important}
           </button>
           <div class="store-subcats">
             <button class="store-subcat-btn" onclick="showStoreSection('hvac','splits')">Mini-Splits</button>
-            <button class="store-subcat-btn" onclick="showStoreSection('hvac','filtros')"><span class="es">Filtros & Repuestos</span><span class="en" style="display:none">Filters & Parts</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('hvac','accesorios')"><span class="es">Accesorios HVAC</span><span class="en" style="display:none">HVAC Accessories</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('hvac','filtros')"><span class="es">Filtros & Repuestos</span><span class="en">Filters & Parts</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('hvac','accesorios')"><span class="es">Accesorios HVAC</span><span class="en">HVAC Accessories</span></button>
           </div>
 
           <!-- ACCESORIOS GENERALES -->
           <button class="store-cat-btn" onclick="toggleStoreCat(this,'general')">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>
-            <span class="es">Accesorios Generales</span><span class="en" style="display:none">General Accessories</span>
+            <span class="es">Accesorios Generales</span><span class="en">General Accessories</span>
             <svg class="store-cat-chevron" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
           </button>
           <div class="store-subcats">
-            <button class="store-subcat-btn" onclick="showStoreSection('general','herramientas')"><span class="es">Herramientas</span><span class="en" style="display:none">Tools</span></button>
-            <button class="store-subcat-btn" onclick="showStoreSection('general','montaje')"><span class="es">Montaje & Soporte</span><span class="en" style="display:none">Mounting & Support</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('general','herramientas')"><span class="es">Herramientas</span><span class="en">Tools</span></button>
+            <button class="store-subcat-btn" onclick="showStoreSection('general','montaje')"><span class="es">Montaje & Soporte</span><span class="en">Mounting & Support</span></button>
             <button class="store-subcat-btn" onclick="showStoreSection('general','cables')">Cables</button>
           </div>
 
@@ -2036,20 +2007,20 @@ body{cursor:auto !important}
         <!-- CONTENT AREA -->
         <div class="store-content" id="store-content-area">
           <div class="store-cat-title es">Cámaras Análogas</div>
-          <div class="store-cat-title en" style="display:none">Analog Cameras</div>
+          <div class="store-cat-title en">Analog Cameras</div>
           <div class="store-cat-desc es">Sistemas de cámaras análogas HD para videovigilancia profesional.</div>
-          <div class="store-cat-desc en" style="display:none">HD analog camera systems for professional video surveillance.</div>
+          <div class="store-cat-desc en">HD analog camera systems for professional video surveillance.</div>
 
           <div class="store-empty">
             <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg>
             <div>
               <strong class="es">Catálogo en preparación</strong>
-              <strong class="en" style="display:none">Catalog in preparation</strong>
+              <strong class="en">Catalog in preparation</strong>
               <p class="es">Los productos de esta categoría estarán disponibles próximamente. Contáctanos para disponibilidad inmediata.</p>
-              <p class="en" style="display:none">Products in this category will be available soon. Contact us for immediate availability.</p>
+              <p class="en">Products in this category will be available soon. Contact us for immediate availability.</p>
             </div>
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'" style="font-size:0.78rem;padding:10px 24px">Consultar Disponibilidad</button>
-            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none;font-size:0.78rem;padding:10px 24px">Check Availability</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="font-size:0.78rem;padding:10px 24px">Check Availability</button>
           </div>
         </div><!-- end content -->
 
@@ -2064,33 +2035,33 @@ body{cursor:auto !important}
     <div class="si">
       <div class="eyebrow reveal">Digital</div>
       <h2 class="section-title reveal es">Diseño Web Profesional</h2>
-      <h2 class="section-title reveal en" style="display:none">Professional Web Design</h2>
+      <h2 class="section-title reveal en">Professional Web Design</h2>
       <p class="section-desc reveal es">Sitios web modernos, rápidos y que convierten visitantes en clientes. Tu presencia digital construida para crecer.</p>
-      <p class="section-desc reveal en" style="display:none">Modern, fast websites that convert visitors into clients. Your digital presence built to grow.</p>
+      <p class="section-desc reveal en">Modern, fast websites that convert visitors into clients. Your digital presence built to grow.</p>
 
       <div style="max-width:68ch">
         <div class="reveal-l">
           <div class="eyebrow es">Lo que incluye</div>
-          <div class="eyebrow en" style="display:none">What's included</div>
+          <div class="eyebrow en">What's included</div>
           <div style="margin-top:16px">
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Diseño responsive y moderno</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Responsive modern design</span></div>
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Optimización SEO incluida</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SEO optimization included</span></div>
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">E-commerce y tiendas en línea</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">E-commerce and online stores</span></div>
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Bilingüe ES/EN</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Bilingual ES/EN</span></div>
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Hosting y dominio incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">Hosting and domain included</span></div>
-            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">SSL y seguridad incluidos</span><span style="font-size:0.85rem;color:var(--gray);display:none" class="en">SSL and security included</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Diseño responsive y moderno</span><span style="font-size:0.85rem;color:var(--gray)" class="en">Responsive modern design</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Optimización SEO incluida</span><span style="font-size:0.85rem;color:var(--gray)" class="en">SEO optimization included</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">E-commerce y tiendas en línea</span><span style="font-size:0.85rem;color:var(--gray)" class="en">E-commerce and online stores</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Bilingüe ES/EN</span><span style="font-size:0.85rem;color:var(--gray)" class="en">Bilingual ES/EN</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">Hosting y dominio incluidos</span><span style="font-size:0.85rem;color:var(--gray)" class="en">Hosting and domain included</span></div>
+            <div style="padding:11px 0;border-bottom:1px solid rgba(150,185,225,.12)"><span style="font-size:0.85rem;color:var(--gray)" class="es">SSL y seguridad incluidos</span><span style="font-size:0.85rem;color:var(--gray)" class="en">SSL and security included</span></div>
           </div>
           <p style="font-size:0.85rem;color:var(--gray2);line-height:1.75;font-weight:300;margin-top:22px" class="es">Cada proyecto se entrega optimizado para PageSpeed, con SSL y HTTPS seguro, bilingüe en español e inglés, en un promedio de 30 días.</p>
-          <p style="font-size:0.85rem;color:var(--gray2);line-height:1.75;font-weight:300;margin-top:22px;display:none" class="en">Every project ships optimized for PageSpeed, with secure SSL and HTTPS, bilingual in Spanish and English, in an average of 30 days.</p>
+          <p style="font-size:0.85rem;color:var(--gray2);line-height:1.75;font-weight:300;margin-top:22px" class="en">Every project ships optimized for PageSpeed, with secure SSL and HTTPS, bilingual in Spanish and English, in an average of 30 days.</p>
           <div style="margin-top:28px">
             <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Iniciar Proyecto</button>
-            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none">Start Project</button>
+            <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Start Project</button>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <div class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">Tu negocio merece una web profesional</h2><h2 class="reveal en" style="display:none">Your business deserves a professional website</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Iniciar Proyecto</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none">Start Project</button></div></div></div>
+  <div class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">Tu negocio merece una web profesional</h2><h2 class="reveal en">Your business deserves a professional website</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Iniciar Proyecto</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Start Project</button></div></div></div>
 </div>
 
 <!-- AI PAGE -->
@@ -2099,57 +2070,57 @@ body{cursor:auto !important}
     <div class="si">
       <div class="eyebrow reveal">Wifnix AI</div>
       <h2 class="section-title reveal es">Inteligencia Artificial para tu Negocio</h2>
-      <h2 class="section-title reveal en" style="display:none">Artificial Intelligence for your Business</h2>
+      <h2 class="section-title reveal en">Artificial Intelligence for your Business</h2>
       <p class="section-desc reveal es">Automatiza tu negocio completo con agentes de IA. Emails, redes sociales, facturación, ventas y más — 24/7 sin descanso.</p>
-      <p class="section-desc reveal en" style="display:none">Automate your entire business with AI agents. Emails, social media, billing, sales and more — 24/7 without rest.</p>
+      <p class="section-desc reveal en">Automate your entire business with AI agents. Emails, social media, billing, sales and more — 24/7 without rest.</p>
 
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:48px">
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Emails</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Email Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Email Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Lee, clasifica y responde emails automáticamente con tu estilo personal.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Reads, classifies and responds to emails automatically in your style.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Reads, classifies and responds to emails automatically in your style.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Gmail · Titan · Outlook</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente Social Media</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Social Media Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Social Media Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Crea y publica contenido viral en Instagram, Facebook y YouTube automáticamente.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Creates and publishes viral content on Instagram, Facebook and YouTube automatically.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Creates and publishes viral content on Instagram, Facebook and YouTube automatically.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Instagram · YouTube</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Facturación</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Billing Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Billing Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Genera facturas, hace seguimiento de pagos y gestiona tu contabilidad.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Generates invoices, tracks payments and manages your accounting.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Generates invoices, tracks payments and manages your accounting.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">QuickBooks · Stripe</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Ventas</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Sales Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Sales Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Identifica prospectos, hace seguimiento y cierra oportunidades de venta.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Identifies prospects, follows up and closes sales opportunities.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Identifies prospects, follows up and closes sales opportunities.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">HubSpot · WhatsApp</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(11,143,204,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en" style="display:none">Available</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Disponible</span><span class="en">Available</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Agenda</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Calendar Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Calendar Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Gestiona tu calendario, agenda citas y envía recordatorios automáticamente.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Manages your calendar, schedules appointments and sends reminders.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Manages your calendar, schedules appointments and sends reminders.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Google Calendar · Telegram</div>
         </div>
         <div style="background:var(--card);border:1px solid rgba(11,143,204,0.1);border-radius:10px;padding:28px;transition:border-color .3s,transform .3s" onmouseover="this.style.borderColor='rgba(255,193,7,0.4)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='rgba(11,143,204,0.1)';this.style.transform='none'">
-          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FFC107;margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Próximamente</span><span class="en" style="display:none">Coming Soon</span></div>
+          <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ambar);margin-bottom:18px;display:flex;align-items:center;gap:6px"><span class="es">Próximamente</span><span class="en">Coming Soon</span></div>
           <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="es">Agente de Análisis</h3>
-          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px;display:none" class="en">Analytics Agent</h3>
+          <h3 style="font-size:1rem;font-weight:700;color:var(--white);margin-bottom:8px" class="en">Analytics Agent</h3>
           <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="es">Analiza métricas y genera reportes con recomendaciones inteligentes.</p>
-          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px;display:none" class="en">Analyzes metrics and generates smart reports with recommendations.</p>
+          <p style="font-size:0.8rem;color:var(--gray);line-height:1.6;font-weight:300;margin-bottom:18px" class="en">Analyzes metrics and generates smart reports with recommendations.</p>
           <div style="font-size:0.72rem;color:var(--gray2);letter-spacing:.02em">Analytics · Meta Ads</div>
         </div>
       </div>
@@ -2160,24 +2131,24 @@ body{cursor:auto !important}
         </div>
         <div style="padding:28px 32px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:2;display:grid;grid-template-columns:1fr 1fr;gap:0 40px">
           <div>
-            <div style="color:#2A4A5A">// Email Agent — activo</div>
+            <div style="color:var(--apagado)">// Email Agent — activo</div>
             <div><span style="color:var(--blue-light)">▶</span> <span style="color:var(--white)">Leyendo inbox@wifnix.com...</span></div>
-            <div><span style="color:#00E5A0">✓</span> <span style="color:var(--white)">3 emails respondidos</span></div>
+            <div><span style="color:var(--verde)">✓</span> <span style="color:var(--white)">3 emails respondidos</span></div>
             <div><span style="color:var(--blue-light)">▶</span> <span style="color:var(--white)">Publicando en Instagram...</span></div>
-            <div><span style="color:#00E5A0">✓</span> <span style="color:var(--white)">Post publicado · 9:00 AM</span></div>
+            <div><span style="color:var(--verde)">✓</span> <span style="color:var(--white)">Post publicado · 9:00 AM</span></div>
           </div>
           <div>
-            <div style="color:#2A4A5A">// Billing Agent</div>
+            <div style="color:var(--apagado)">// Billing Agent</div>
             <div><span style="color:var(--blue-light)">▶</span> <span style="color:var(--white)">Revisando pagos...</span></div>
-            <div><span style="color:#00E5A0">✓</span> <span style="color:var(--white)">Factura #1042 enviada</span></div>
-            <div><span style="color:#FFC107">⚡</span> <span style="color:var(--white)">Pago recibido: $2,400</span></div>
-            <div><span style="color:var(--blue-light)">wifnix@ai</span><span style="color:#2A4A5A">:~$</span> <span style="animation:blink 1s infinite">_</span></div>
+            <div><span style="color:var(--verde)">✓</span> <span style="color:var(--white)">Factura #1042 enviada</span></div>
+            <div><span style="color:var(--ambar)">⚡</span> <span style="color:var(--white)">Pago recibido: $2,400</span></div>
+            <div><span style="color:var(--blue-light)">wifnix@ai</span><span style="color:var(--apagado)">:~$</span> <span style="animation:blink 1s infinite">_</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <div class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">Automatiza tu negocio hoy</h2><h2 class="reveal en" style="display:none">Automate your business today</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Demo Gratis</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none">Request Free Demo</button></div></div></div>
+  <div class="cta-final" style="padding:72px 0"><div class="cta-final-inner"><h2 class="reveal es">Automatiza tu negocio hoy</h2><h2 class="reveal en">Automate your business today</h2><div class="cta-final-btns reveal"><button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'">Solicitar Demo Gratis</button><button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Request Free Demo</button></div></div></div>
 </div>
 
 <!-- FOOTER -->
@@ -2189,9 +2160,9 @@ body{cursor:auto !important}
           <img src="/assets/logo-wifnix.png" alt="Wifnix" loading="lazy" decoding="async" width="100" height="30" style="height:30px;width:auto">
         </a>
         <p class="es">Infraestructura tecnológica profesional para empresas en Puerto Rico.</p>
-        <p class="en" style="display:none">Professional technology infrastructure for businesses in Puerto Rico.</p>
+        <p class="en">Professional technology infrastructure for businesses in Puerto Rico.</p>
         <div class="footer-slogan es">Tú tienes tecnología, nosotros soluciones.</div>
-        <div class="footer-slogan en" style="display:none">You have technology, we have solutions.</div>
+        <div class="footer-slogan en">You have technology, we have solutions.</div>
         <div class="socials" style="margin-top:0">
           <a class="social-btn" href="https://www.instagram.com/wifnixllc/" target="_blank" style="width:34px;height:34px"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></a>
           <a class="social-btn" href="https://www.facebook.com/wifnixllc" target="_blank" style="width:34px;height:34px"><svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
@@ -2199,29 +2170,29 @@ body{cursor:auto !important}
         </div>
       </div>
       <div class="footer-col">
-        <h5 class="es">Servicios</h5><h5 class="en" style="display:none">Services</h5>
+        <h5 class="es">Servicios</h5><h5 class="en">Services</h5>
         <ul>
-          <li><a onclick="showPage('servicios')" class="es">Seguridad Empresarial</a><a onclick="showPage('servicios')" class="en" style="display:none">Enterprise Security</a></li>
-          <li><a onclick="showPage('servicios')" class="es">Redes Empresariales</a><a onclick="showPage('servicios')" class="en" style="display:none">Enterprise Networks</a></li>
-          <li><a onclick="showPage('servicios')" class="es">Continuidad Operacional</a><a onclick="showPage('servicios')" class="en" style="display:none">Operational Continuity</a></li>
-          <li><a onclick="showPage('servicios')" class="es">HVAC Comercial</a><a onclick="showPage('servicios')" class="en" style="display:none">Commercial HVAC</a></li>
+          <li><a onclick="showPage('servicios')" class="es">Seguridad Empresarial</a><a onclick="showPage('servicios')" class="en">Enterprise Security</a></li>
+          <li><a onclick="showPage('servicios')" class="es">Redes Empresariales</a><a onclick="showPage('servicios')" class="en">Enterprise Networks</a></li>
+          <li><a onclick="showPage('servicios')" class="es">Continuidad Operacional</a><a onclick="showPage('servicios')" class="en">Operational Continuity</a></li>
+          <li><a onclick="showPage('servicios')" class="es">HVAC Comercial</a><a onclick="showPage('servicios')" class="en">Commercial HVAC</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5 class="es">Empresa</h5><h5 class="en" style="display:none">Company</h5>
+        <h5 class="es">Empresa</h5><h5 class="en">Company</h5>
         <ul>
-          <li><a onclick="showPage('casos')" class="es">Casos Reales</a><a onclick="showPage('casos')" class="en" style="display:none">Case Studies</a></li>
-          <li><a onclick="showPage('planes')" class="es">Planes Mensuales</a><a onclick="showPage('planes')" class="en" style="display:none">Monthly Plans</a></li>
-          <li><a onclick="showPage('web')" class="es">Web</a><a onclick="showPage('web')" class="en" style="display:none">Web</a></li>
-    <li><a onclick="showPage('ai')" class="es">IA</a><a onclick="showPage('ai')" class="en" style="display:none">AI</a></li>
-    <li><a onclick="showPage('tienda')" class="es">Tienda</a><a onclick="showPage('tienda')" class="en" style="display:none">Store</a></li>
-<li><a href="herramientas.html" class="es">Herramientas</a><a href="herramientas.html" class="en" style="display:none">Tools</a></li>
-          <li><a href="https://rifas.wifnix.com" class="es">Rifas</a><a href="https://rifas.wifnix.com" class="en" style="display:none">Raffles</a></li>
-          <li><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Evaluación Gratuita</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en" style="display:none">Free Evaluation</a></li>
+          <li><a onclick="showPage('casos')" class="es">Casos Reales</a><a onclick="showPage('casos')" class="en">Case Studies</a></li>
+          <li><a onclick="showPage('planes')" class="es">Planes Mensuales</a><a onclick="showPage('planes')" class="en">Monthly Plans</a></li>
+          <li><a onclick="showPage('web')" class="es">Web</a><a onclick="showPage('web')" class="en">Web</a></li>
+    <li><a onclick="showPage('ai')" class="es">IA</a><a onclick="showPage('ai')" class="en">AI</a></li>
+    <li><a onclick="showPage('tienda')" class="es">Tienda</a><a onclick="showPage('tienda')" class="en">Store</a></li>
+<li><a href="herramientas.html" class="es">Herramientas</a><a href="herramientas.html" class="en">Tools</a></li>
+          <li><a href="https://rifas.wifnix.com" class="es">Rifas</a><a href="https://rifas.wifnix.com" class="en">Raffles</a></li>
+          <li><a onclick="window.location.href='https://portal.wifnix.com'" class="es">Evaluación Gratuita</a><a onclick="window.location.href='https://portal.wifnix.com'" class="en">Free Evaluation</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h5 class="es">Contacto</h5><h5 class="en" style="display:none">Contact</h5>
+        <h5 class="es">Contacto</h5><h5 class="en">Contact</h5>
         <ul>
           <li><a href="tel:7873549596">(787) 354-9596</a></li>
           <li><a href="tel:7875650031">(787) 565-0031</a></li>
@@ -2233,7 +2204,7 @@ body{cursor:auto !important}
     <div class="footer-bottom">
       <span class="footer-copy">© 2025 Wifnix LLC · Puerto Rico · All rights reserved</span>
       <span class="footer-tagline es">Infraestructura inteligente para empresas serias.</span>
-      <span class="footer-tagline en" style="display:none">Smart infrastructure for serious businesses.</span>
+      <span class="footer-tagline en">Smart infrastructure for serious businesses.</span>
     </div>
   </div>
 </footer>
@@ -2249,55 +2220,6 @@ document.querySelectorAll('button,a,.svc-card,.plan-card,.case-card,.review-card
   el.addEventListener('mouseenter',()=>{cur.classList.add('h');ring.classList.add('h')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('h');ring.classList.remove('h')});
 });
-
-// NEURAL
-const nc=document.getElementById('neural');
-const ctx=nc.getContext('2d');
-function rsz(){nc.width=window.innerWidth;nc.height=window.innerHeight}
-rsz();window.addEventListener('resize',rsz);
-const N=55,nodes=Array.from({length:N},()=>{
-  return{x:Math.random()*nc.width,y:Math.random()*nc.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*2+1,p:Math.random()*Math.PI*2,ps:Math.random()*.02+.01,sa:Math.random()>.7,sp:Math.random()}
-});
-let mpx=-999,mpy=-999;
-document.addEventListener('mousemove',e=>{mpx=e.clientX;mpy=e.clientY});
-function drawNeural(){
-  ctx.clearRect(0,0,nc.width,nc.height);
-  nodes.forEach(n=>{
-    n.x+=n.vx;n.y+=n.vy;n.p+=n.ps;
-    const dx=n.x-mpx,dy=n.y-mpy,d=Math.sqrt(dx*dx+dy*dy);
-    if(d<100){const f=(100-d)/100*.5;n.vx+=dx/d*f;n.vy+=dy/d*f}
-    n.vx*=.99;n.vy*=.99;
-    const sp=Math.sqrt(n.vx*n.vx+n.vy*n.vy);
-    if(sp>1){n.vx=n.vx/sp;n.vy=n.vy/sp}
-    if(n.x<0||n.x>nc.width)n.vx*=-1;
-    if(n.y<0||n.y>nc.height)n.vy*=-1;
-  });
-  for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
-    const a=nodes[i],b=nodes[j];
-    const dx=a.x-b.x,dy=a.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<150){
-      const al=(1-dist/150)*.25;
-      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-      ctx.strokeStyle=`rgba(11,143,204,${al})`;ctx.lineWidth=.5;ctx.stroke();
-      if(a.sa&&i%4===0){
-        a.sp=(a.sp+.003)%1;
-        const sx=a.x+(b.x-a.x)*a.sp,sy=a.y+(b.y-a.y)*a.sp;
-        const g=ctx.createRadialGradient(sx,sy,0,sx,sy,5);
-        g.addColorStop(0,`rgba(0,191,255,${al*3})`);g.addColorStop(1,'rgba(0,191,255,0)');
-        ctx.beginPath();ctx.arc(sx,sy,5,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-      }
-    }
-  }
-  nodes.forEach(n=>{
-    const pm=Math.sin(n.p)*.5+.5,r=n.r+pm*1.2;
-    const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*3);
-    g.addColorStop(0,`rgba(11,143,204,${.35*pm})`);g.addColorStop(1,'rgba(11,143,204,0)');
-    ctx.beginPath();ctx.arc(n.x,n.y,r*3,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
-    ctx.beginPath();ctx.arc(n.x,n.y,r,0,Math.PI*2);ctx.fillStyle=`rgba(0,191,255,${.6+pm*.4})`;ctx.fill();
-  });
-  requestAnimationFrame(drawNeural);
-}
-drawNeural();
 
 // PARALLAX
 window.addEventListener('scroll',()=>{
@@ -2326,7 +2248,7 @@ function initReveal(){
     return;
   }
   const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
-  els.forEach((el,i)=>{el.style.transitionDelay=`${(i%5)*.07}s`;obs.observe(el)});
+  els.forEach(el=>obs.observe(el));
   // Red de seguridad: si algo falla y a los 3 segundos sigue
   // habiendo bloques invisibles dentro de la pantalla, se muestran.
   setTimeout(()=>{
@@ -2355,12 +2277,6 @@ function showPage(id){
   },100);
 }
 
-// LANGUAGE
-function setLang(lang){
-  document.querySelectorAll('.es').forEach(el=>el.style.display=lang==='es'?'':'none');
-  document.querySelectorAll('.en').forEach(el=>el.style.display=lang==='en'?'':'none');
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
-}
 
 // FORM
 async function submitForm(e){
@@ -2460,19 +2376,19 @@ function showStoreSection(cat, sub) {
 
   area.innerHTML = `
     <div class="store-cat-title es">${info.es}</div>
-    <div class="store-cat-title en" style="display:none">${info.en}</div>
+    <div class="store-cat-title en">${info.en}</div>
     <div class="store-cat-desc es">${info.desc_es}</div>
-    <div class="store-cat-desc en" style="display:none">${info.desc_en}</div>
+    <div class="store-cat-desc en">${info.desc_en}</div>
     <div class="store-empty">
       <svg viewBox="0 0 24 24" style="width:56px;height:56px;stroke:rgba(11,143,204,0.2);fill:none;stroke-width:1;stroke-linecap:round">${info.icon}</svg>
       <div>
         <strong class="es">Catálogo en preparación</strong>
-        <strong class="en" style="display:none">Catalog in preparation</strong>
+        <strong class="en">Catalog in preparation</strong>
         <p class="es">Los productos de esta categoría estarán disponibles próximamente.<br>Contáctanos para disponibilidad y precios inmediatos.</p>
-        <p class="en" style="display:none">Products in this category will be available soon.<br>Contact us for immediate availability and pricing.</p>
+        <p class="en">Products in this category will be available soon.<br>Contact us for immediate availability and pricing.</p>
       </div>
       <button class="btn-primary es" onclick="window.location.href='https://portal.wifnix.com'" style="font-size:0.78rem;padding:10px 24px">Consultar Disponibilidad</button>
-      <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="display:none;font-size:0.78rem;padding:10px 24px">Check Availability</button>
+      <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="font-size:0.78rem;padding:10px 24px">Check Availability</button>
     </div>
   `;
   // Re-apply language
@@ -2526,27 +2442,27 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- AGENTE WIFNIX -->
 <div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:1000;font-family:'DM Sans',sans-serif">
 
-  <button onclick="toggleChat()" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);border:none;cursor:pointer;box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+  <button onclick="toggleChat()" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));border:none;cursor:pointer;box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
     <svg id="ico-open" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
     <svg id="ico-close" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:#00E5A0;border-radius:50%;border:2px solid #06090F"></div>
+    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:var(--verde);border-radius:50%;border:2px solid var(--fondo)"></div>
   </button>
 
-  <div id="chat-box" style="display:none;width:340px;background:#0A0E17;border:1px solid rgba(11,143,204,0.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-bottom:16px;position:absolute;bottom:76px;right:0;overflow:hidden;flex-direction:column">
+  <div id="chat-box" style="display:none;width:340px;background:var(--fondo2);border:1px solid rgba(11,143,204,0.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-bottom:16px;position:absolute;bottom:76px;right:0;overflow:hidden;flex-direction:column">
 
     <!-- HEADER -->
-    <div style="padding:14px 18px;background:linear-gradient(135deg,#0D1526,rgba(11,143,204,0.12));border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:10px">
-      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <div style="padding:14px 18px;background:linear-gradient(135deg,var(--panel),rgba(11,143,204,0.12));border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:10px">
+      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
       </div>
       <div style="flex:1">
-        <div style="font-weight:700;color:#F0F4F8;font-size:0.88rem">Agente Wifnix</div>
-        <div style="font-size:0.65rem;color:#00E5A0;display:flex;align-items:center;gap:4px">
-          <div style="width:5px;height:5px;background:#00E5A0;border-radius:50%"></div>
+        <div style="font-weight:700;color:var(--tinta);font-size:0.88rem">Agente Wifnix</div>
+        <div style="font-size:0.65rem;color:var(--verde);display:flex;align-items:center;gap:4px">
+          <div style="width:5px;height:5px;background:var(--verde);border-radius:50%"></div>
           En línea · Lun-Vie 8am-6pm
         </div>
       </div>
-      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:#8BA0B4;padding:4px">
+      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:var(--texto);padding:4px">
         <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
@@ -2556,10 +2472,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
       <!-- Welcome message -->
       <div style="display:flex;gap:8px;align-items:flex-start">
-        <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
+        <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
           <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
         </div>
-        <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 13px;max-width:260px;font-size:0.8rem;color:#F0F4F8;line-height:1.6">
+        <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 13px;max-width:260px;font-size:0.8rem;color:var(--tinta);line-height:1.6">
           Hola, soy tu agente virtual de Wifnix. Si tienes alguna duda, aquí estoy para servirte. ¿En qué puedo ayudarte hoy?
         </div>
       </div>
@@ -2593,16 +2509,16 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- TYPING -->
     <div id="chat-typing" style="display:none;padding:0 14px 8px;padding-left:48px">
       <div style="display:flex;gap:4px;align-items:center">
-        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite"></div>
-        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .2s"></div>
-        <div style="width:6px;height:6px;background:#29B6F6;border-radius:50%;animation:bounce 1s infinite .4s"></div>
+        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite"></div>
+        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite .2s"></div>
+        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite .4s"></div>
       </div>
     </div>
 
     <!-- INPUT -->
     <div style="padding:10px 14px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px">
-      <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
-      <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:#0B8FCC;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">
+      <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
+      <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:var(--azul-fuerte);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.background='var(--azul)'" onmouseout="this.style.background='var(--azul-fuerte)'">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
       </button>
     </div>
@@ -2611,13 +2527,13 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <style>
-.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:#8BA0B4;transition:all .2s}
-.qopt:hover{border-color:rgba(11,143,204,0.4);color:#F0F4F8;background:rgba(11,143,204,0.08)}
+.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--texto);transition:all .2s}
+.qopt:hover{border-color:rgba(11,143,204,0.4);color:var(--tinta);background:rgba(11,143,204,0.08)}
 .msg-ai{display:flex;gap:8px;align-items:flex-start}
 .msg-user{display:flex;justify-content:flex-end}
-.bbl-ai{background:#0D1A2A;border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:9px 12px;max-width:260px;font-size:0.8rem;color:#F0F4F8;line-height:1.55}
-.bbl-user{background:linear-gradient(135deg,#0B8FCC,#29B6F6);border-radius:10px 10px 0 10px;padding:9px 12px;max-width:260px;font-size:0.8rem;color:white;line-height:1.55}
-.ai-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#29B6F6);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.bbl-ai{background:var(--panel);border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:9px 12px;max-width:260px;font-size:0.8rem;color:var(--tinta);line-height:1.55}
+.bbl-user{background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));border-radius:10px 10px 0 10px;padding:9px 12px;max-width:260px;font-size:0.8rem;color:white;line-height:1.55}
+.ai-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 </style>
 
@@ -2677,16 +2593,16 @@ function selOpt(opt) {
 
   if (opt === 'herramientas') {
     setTimeout(function(){
-      addAiMsg('Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:#0B8FCC;color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver todas las herramientas</a>');
+      addAiMsg('Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver todas las herramientas</a>');
     }, 600);
     return;
   }
 
   if (opt === 'profesional') {
     setTimeout(function(){
-      addAiMsg('Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com" target="_blank" style="display:inline-block;padding:8px 16px;background:#00E5A0;color:#06090F;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Crear cuenta gratis</a>');
+      addAiMsg('Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com" target="_blank" style="display:inline-block;padding:8px 16px;background:var(--verde);color:var(--fondo);border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Crear cuenta gratis</a>');
       setTimeout(function(){
-        addAiMsg('¿Prefieres contactarnos directamente? Llámanos al <a href="tel:7873549596" style="color:#29B6F6">(787) 354-9596</a> o escríbenos por <a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.');
+        addAiMsg('¿Prefieres contactarnos directamente? Llámanos al <a href="tel:7873549596" style="color:var(--azul)">(787) 354-9596</a> o escríbenos por <a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.');
       }, 1500);
     }, 600);
     return;
@@ -2694,7 +2610,7 @@ function selOpt(opt) {
 
   if (opt === 'precios') {
     setTimeout(function(){
-      addAiMsg('Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:#0B8FCC;color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver comparador de planes</a>');
+      addAiMsg('Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver comparador de planes</a>');
     }, 600);
     return;
   }
@@ -2776,5 +2692,6 @@ function sendMessage() {
 })();
 </script>
 
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>
