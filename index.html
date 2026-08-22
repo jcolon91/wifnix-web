@@ -224,8 +224,18 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 
 /* ── AUTHORITY ── */
 .authority-grid{
-  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
-  gap:64px;align-items:start;
+  display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,.9fr) minmax(0,1.05fr);
+  gap:48px;align-items:start;
+}
+.aut-foto{
+  margin:0;overflow:hidden;border-radius:18px;
+  border:1px solid var(--filo);background:var(--panel);
+  aspect-ratio:4/5;
+}
+.aut-foto img{display:block;width:100%;height:100%;object-fit:cover}
+@media(max-width:1000px){
+  .authority-grid{grid-template-columns:1fr;gap:32px}
+  .aut-foto{aspect-ratio:16/10}
 }
 .authority-head .section-title{margin-bottom:0}
 .authority-text p:first-child{margin-top:6px}
@@ -482,25 +492,51 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 }
 
 /* ── REVIEWS ── */
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:48px}
-
-.review-card{
-  background:var(--card);border:1px solid rgba(11,143,204,0.1);
-  border-radius:10px;padding:28px;
-  transition:border-color .3s,transform .3s;
-  position:relative;overflow:hidden;
+/* ── RESEÑAS DE GOOGLE ──
+   Sin tarjeta y sin comilla decorativa de fondo: la reseña es una
+   cita, y una cita se marca con una regla al margen y aire. */
+.resenas{margin-top:44px}
+.resenas-resumen{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding-bottom:22px;margin-bottom:8px;
+  border-bottom:1px solid var(--filo);
 }
-.review-card:hover{border-color:rgba(11,143,204,0.3);transform:translateY(-3px)}
+.resenas-nota{
+  font-family:var(--mono);font-size:1.5rem;font-weight:700;
+  color:var(--tinta);letter-spacing:-.02em;line-height:1;
+}
+.resenas-estrellas{display:inline-flex;gap:3px}
+.resenas-estrellas svg{width:15px;height:15px;fill:var(--ambar);stroke:none}
+.resenas-cuenta{font-size:.88rem;color:var(--texto)}
+.resenas-cargando{font-size:.9rem;color:var(--apagado)}
 
-.review-stars{display:flex;gap:3px;margin-bottom:14px}
-.star svg{width:13px;height:13px;fill:var(--ambar);stroke:none}
-.review-text{font-size:0.875rem;color:var(--gray);line-height:1.7;font-weight:300;margin-bottom:18px;font-style:italic}
-.review-author{display:flex;align-items:center;gap:10px}
-.r-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B6FA0,#0A2E4A);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.82rem;border:1px solid rgba(11,143,204,0.3)}
-.r-name{font-weight:700;font-size:0.82rem;color:var(--white)}
-.r-role{font-size:0.7rem;color:var(--gray);font-weight:300}
-.review-quote{position:absolute;top:20px;right:20px;opacity:0.04}
-.review-quote svg{width:32px;height:32px;fill:var(--blue-light);stroke:none}
+.resena{
+  padding:30px 0 30px 26px;
+  border-bottom:1px solid var(--filo);
+  border-left:2px solid var(--azul-tenue);
+}
+.resena:last-of-type{border-bottom:0}
+.resena-texto{
+  font-size:1.02rem;line-height:1.8;font-weight:300;
+  color:var(--tinta);max-width:70ch;margin-bottom:18px;
+}
+.resena-pie{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.resena-foto{
+  width:34px;height:34px;border-radius:50%;
+  object-fit:cover;background:var(--panel2);flex-shrink:0;
+}
+.resena-quien{font-size:.88rem;font-weight:600;color:var(--tinta)}
+.resena-cuando{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;color:var(--apagado)}
+.resenas-pie{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:18px;flex-wrap:wrap;margin-top:26px;
+}
+.resenas-fuente{font-size:.78rem;color:var(--apagado)}
+.resenas-enlace{
+  font-size:.88rem;font-weight:500;color:var(--azul);
+  text-decoration:none;border-bottom:1px solid var(--azul-tenue);
+}
+.resenas-enlace:hover{border-bottom-color:var(--azul)}
 
 /* ── FAQ ── */
 .faq-list{display:flex;flex-direction:column;gap:2px;margin-top:48px}
@@ -734,7 +770,6 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
   .authority-grid{grid-template-columns:1fr}
   .cases-grid{grid-template-columns:1fr}
   .plans-grid{grid-template-columns:1fr}
-  .reviews-grid{grid-template-columns:1fr}
   .hurricane-inner{grid-template-columns:1fr;padding:0 20px}
   .contact-grid{grid-template-columns:1fr;gap:40px}
   .footer-top{grid-template-columns:1fr 1fr;gap:32px}
@@ -966,7 +1001,7 @@ body{background:var(--fondo)}
 .area-item:hover{background:none !important}
 
 /* ── SUPERFICIES GENERALES ── */
-.case-card,.review-card,.plan-card,.hurricane-card,
+.case-card,.plan-card,.hurricane-card,
 .store-item,.web-card,.ai-card{border-radius:18px}
 .client-logo-wrap{border-radius:12px !important}
 
@@ -984,7 +1019,7 @@ body{background:var(--fondo)}
    en cada página. Ahora: una sola superficie con filo de luz
    arriba, que es lo que le da cuerpo en vez de parecer un
    rectángulo pintado. */
-.case-card,.plan-card,.review-card,
+.case-card,.plan-card,
 [style*="background:var(--card)"]{
   background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
   border:1px solid var(--hair) !important;
@@ -992,11 +1027,11 @@ body{background:var(--fondo)}
   padding:32px !important;
   position:relative;
 }
-.case-card::after,.plan-card::after,.review-card::after{
+.case-card::after,.plan-card::after{
   content:'';position:absolute;left:20px;right:20px;top:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(180,215,255,.3),transparent);
 }
-.case-card:hover,.plan-card:hover,.review-card:hover{
+.case-card:hover,.plan-card:hover{
   border-color:var(--hair2) !important;transform:none !important;
 }
 [style*="border-radius:10px"],[style*="border-radius:12px"]{border-radius:18px !important}
@@ -1086,12 +1121,10 @@ div[style*="text-transform:uppercase"][style*="var(--verde)"]{
 .cta-final h2{font-size:clamp(1.8rem,3.4vw,2.7rem) !important;letter-spacing:-.03em !important}
 
 /* ── RESEÑAS ── */
-.star{color:var(--accent) !important}
-.r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:var(--apagado) !important}
 
 @media(max-width:768px){
   .svc-num{top:24px !important;right:24px !important}
-  .case-card,.plan-card,.review-card,
+  .case-card,.plan-card,
   [style*="background:var(--card)"]{padding:22px !important}
   .cta-final{padding:64px 0 !important}
 }
@@ -1303,6 +1336,13 @@ body{cursor:auto !important}
   <section class="section dark">
     <div class="si">
       <div class="authority-grid">
+        <figure class="aut-foto reveal-l">
+          <picture>
+            <source srcset="/assets/foto-entrega.webp" type="image/webp">
+            <img src="/assets/foto-entrega.jpg" width="2000" height="1342" loading="lazy" decoding="async"
+                 alt="Un tecnico de Wifnix ensena a la duena de una panaderia las camaras de su negocio en una tableta">
+          </picture>
+        </figure>
         <div class="authority-head reveal-l">
           <div class="eyebrow es">Nuestra filosofía</div>
           <div class="eyebrow en">Our philosophy</div>
@@ -1443,29 +1483,15 @@ body{cursor:auto !important}
   <!-- REVIEWS -->
   <section class="section darker">
     <div class="si">
-      <div class="eyebrow reveal es">Testimonios</div>
-      <div class="eyebrow reveal en">Reviews</div>
-      <h2 class="section-title reveal es">Lo que dicen nuestros clientes</h2>
-      <h2 class="section-title reveal en">What our clients say</h2>
-      <div class="reviews-grid">
-        <div class="review-card reveal">
-          <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
-          <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
-          <p class="review-text">"Wifnix instaló nuestro sistema de cámaras y el resultado fue excelente. Ahora tenemos control real de nuestro negocio desde cualquier lugar."</p>
-          <div class="review-author"><div class="r-avatar">CR</div><div><div class="r-name">Carlos Rivera</div><div class="r-role es">Dueño de Restaurante, Bayamón</div><div class="r-role en">Restaurant Owner, Bayamón</div></div></div>
-        </div>
-        <div class="review-card reveal">
-          <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
-          <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
-          <p class="review-text">"Teníamos caídas de internet constantes que nos costaban dinero. Wifnix diseñó una solución de failover y no hemos tenido interrupciones desde entonces."</p>
-          <div class="review-author"><div class="r-avatar">MM</div><div><div class="r-name">María Martínez</div><div class="r-role es">Gerente Corporativa, San Juan</div><div class="r-role en">Corporate Manager, San Juan</div></div></div>
-        </div>
-        <div class="review-card reveal">
-          <div class="review-quote"><svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/></svg></div>
-          <div class="review-stars"><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div></div>
-          <p class="review-text">"El soporte de Wifnix es incomparable. Respondieron en menos de 2 horas ante un problema crítico en nuestra clínica. Eso es lo que esperamos de un socio tecnológico."</p>
-          <div class="review-author"><div class="r-avatar">JS</div><div><div class="r-name">Dr. José Santiago</div><div class="r-role es">Director, Clínica Médica</div><div class="r-role en">Director, Medical Clinic</div></div></div>
-        </div>
+      <div class="eyebrow reveal es">Reseñas en Google</div>
+      <div class="eyebrow reveal en">Google reviews</div>
+      <h2 class="section-title reveal es">Lo que dicen nuestros clientes.</h2>
+      <h2 class="section-title reveal en">What our clients say.</h2>
+      <p class="section-desc reveal es">Sin editar y sin escoger: son las que hay publicadas en nuestro perfil de Google.</p>
+      <p class="section-desc reveal en">Unedited and unfiltered: these are the reviews published on our Google profile.</p>
+      <div id="resenas" class="resenas" aria-live="polite">
+        <p class="resenas-cargando es">Cargando reseñas…</p>
+        <p class="resenas-cargando en">Loading reviews…</p>
       </div>
     </div>
   </section>
@@ -2268,7 +2294,7 @@ const ring = document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('button,a,.svc-fila,.plan-card,.case-card,.review-card,.faq-item').forEach(el=>{
+document.querySelectorAll('button,a,.svc-fila,.plan-card,.case-card,.faq-item').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('h');ring.classList.add('h')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('h');ring.classList.remove('h')});
 });
@@ -2458,6 +2484,82 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
+// ── RESEÑAS DE GOOGLE ──
+// Se piden al backend, no a Google directamente: la llave de la API
+// no puede viajar al navegador. Si el backend no responde o todavía
+// no está configurado, la sección no inventa nada — enseña el
+// enlace al perfil y se acabó.
+(function(){
+  var CAJA = document.getElementById('resenas');
+  if (!CAJA) return;
+
+  var ESTRELLA = '<svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function estrellas(n){
+    var s = '';
+    for (var i = 0; i < Math.round(n || 0); i++) s += ESTRELLA;
+    return '<span class="resenas-estrellas" role="img" aria-label="' +
+           (Math.round(n||0)) + ' de 5">' + s + '</span>';
+  }
+
+  function soloEnlace(url){
+    var u = esc(url || 'https://www.google.com/maps/search/Wifnix+LLC+Puerto+Rico');
+    CAJA.innerHTML =
+      '<p class="resenas-cargando es">Todavía no tenemos reseñas que mostrar aquí. ' +
+        'Puedes verlas o dejar la tuya en <a class="resenas-enlace" href="' + u +
+        '" target="_blank" rel="noopener">nuestro perfil de Google</a>.</p>' +
+      '<p class="resenas-cargando en">We have no reviews to show here yet. ' +
+        'You can read them or leave yours on <a class="resenas-enlace" href="' + u +
+        '" target="_blank" rel="noopener">our Google profile</a>.</p>';
+  }
+
+  fetch('https://api.wifnix.com/api/resenas')
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(d){
+      if (!d || !d.resenas || !d.resenas.length) return soloEnlace(d && d.perfil);
+
+      var html = '';
+      if (d.nota) {
+        html += '<div class="resenas-resumen">' +
+                  '<span class="resenas-nota">' + esc(d.nota.toFixed(1)) + '</span>' +
+                  estrellas(d.nota) +
+                  '<span class="resenas-cuenta">' + esc(d.total) +
+                    (d.total === 1 ? ' reseña en Google' : ' reseñas en Google') + '</span>' +
+                '</div>';
+      }
+
+      // El texto de la reseña se pinta tal cual lo escribió quien la
+      // dejó. Ni se recorta ni se retoca: eso lo prohíben los
+      // términos de Google y, sobre todo, sería mentir.
+      d.resenas.forEach(function(r){
+        html += '<blockquote class="resena">' +
+                  '<p class="resena-texto">' + esc(r.texto) + '</p>' +
+                  '<footer class="resena-pie">' +
+                    (r.foto ? '<img class="resena-foto" src="' + esc(r.foto) +
+                              '" alt="" loading="lazy" referrerpolicy="no-referrer">' : '') +
+                    '<span class="resena-quien">' + esc(r.autor) + '</span>' +
+                    estrellas(r.nota) +
+                    '<span class="resena-cuando">' + esc(r.cuando) + '</span>' +
+                  '</footer>' +
+                '</blockquote>';
+      });
+
+      html += '<div class="resenas-pie">' +
+                '<span class="resenas-fuente">Reseñas publicadas en Google</span>' +
+                '<a class="resenas-enlace" href="' + esc(d.perfil) +
+                  '" target="_blank" rel="noopener">Ver todas en Google</a>' +
+              '</div>';
+      CAJA.innerHTML = html;
+    })
+    .catch(function(){ soloEnlace(); });
+})();
 
 // ── MARCAS ──
 // Los logotipos son de terceros y no viven en este repositorio.

@@ -373,6 +373,82 @@ app.put('/api/admin/usuarios/:id/verificar', authMiddleware, async (req, res) =>
 });
 
 // ============================================================
+// RUTAS — RESEÑAS DE GOOGLE
+// ============================================================
+
+// Este proxy existe por dos razones. La primera es que la llave de la
+// API de Google no puede viajar al navegador: quien la vea puede
+// gastarla. La segunda es que Google cobra por consulta, y la portada
+// de wifnix.com la abre mucha gente — sin caché, cada visita sería
+// una llamada facturada.
+//
+// Sobre los términos de Google: el texto de la reseña se devuelve tal
+// cual, sin recortar ni retocar, y siempre acompañado del enlace al
+// perfil. Eso es obligatorio, y además es lo honesto.
+
+const RESENAS_CACHE_MS = 12 * 60 * 60 * 1000;   // 12 horas
+let resenasCache = { cuando: 0, datos: null };
+
+app.get('/api/resenas', async (req, res) => {
+  const llave = process.env.GOOGLE_PLACES_API_KEY;
+  const lugar = process.env.GOOGLE_PLACE_ID;
+
+  // Sin configurar no se inventa nada: la web enseña el enlace al
+  // perfil y ya. Es preferible a una sección vacía o a un error.
+  if (!llave || !lugar) {
+    return res.json({
+      configurado: false,
+      perfil: process.env.GOOGLE_PERFIL_URL || null,
+      resenas: [],
+    });
+  }
+
+  if (resenasCache.datos && Date.now() - resenasCache.cuando < RESENAS_CACHE_MS) {
+    return res.json(resenasCache.datos);
+  }
+
+  try {
+    const r = await fetch(
+      'https://places.googleapis.com/v1/places/' + encodeURIComponent(lugar) +
+      '?languageCode=es&regionCode=PR',
+      {
+        headers: {
+          'X-Goog-Api-Key': llave,
+          'X-Goog-FieldMask': 'rating,userRatingCount,googleMapsUri,reviews',
+        },
+      }
+    );
+    if (!r.ok) throw new Error('Google respondió ' + r.status);
+    const g = await r.json();
+
+    const datos = {
+      configurado: true,
+      nota: g.rating || null,
+      total: g.userRatingCount || 0,
+      perfil: g.googleMapsUri || process.env.GOOGLE_PERFIL_URL || null,
+      resenas: (g.reviews || []).map((v) => ({
+        autor: (v.authorAttribution && v.authorAttribution.displayName) || 'Cliente de Google',
+        foto: (v.authorAttribution && v.authorAttribution.photoUri) || null,
+        nota: v.rating || null,
+        // Sin tocar. Recortarlo o arreglarle la ortografía a alguien
+        // que dejó su opinión sería falsearla.
+        texto: (v.originalText && v.originalText.text) || (v.text && v.text.text) || '',
+        cuando: v.relativePublishTimeDescription || '',
+      })).filter((v) => v.texto),
+    };
+
+    resenasCache = { cuando: Date.now(), datos };
+    res.json(datos);
+  } catch (err) {
+    console.error('Error reseñas de Google:', err.message);
+    // Si Google falla, se sirve lo último que funcionó antes que
+    // dejar la sección rota.
+    if (resenasCache.datos) return res.json(resenasCache.datos);
+    res.json({ configurado: true, error: true, perfil: process.env.GOOGLE_PERFIL_URL || null, resenas: [] });
+  }
+});
+
+// ============================================================
 // RUTAS — PRODUCTOS
 // ============================================================
 
