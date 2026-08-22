@@ -242,71 +242,49 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 }
 
 /* ── SERVICES ── */
-.services-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:2px;background:rgba(11,143,204,0.06);
+/* ── SERVICIOS: lista editorial ──
+   Ni tarjetas ni iconos en cuadrito. Un número, un título y el
+   argumento, separados por una línea de un píxel. La asimetría de
+   las columnas es lo que hace que se lea como una página y no
+   como una plantilla. */
+.svc-lista{border-top:1px solid var(--filo)}
+.svc-fila{
+  display:grid;
+  grid-template-columns:76px minmax(0,1fr) minmax(0,1.25fr);
+  gap:0 40px;align-items:start;
+  padding:38px 0;
+  border-bottom:1px solid var(--filo);
+  cursor:none;transition:background .35s var(--curva);
 }
-
-.svc-card{
-  background:var(--black2);padding:44px 40px;
-  position:relative;overflow:hidden;cursor:none;
-  transition:background .3s;
-}
-.svc-card:hover{background:rgba(11,143,204,0.04)}
-
-.svc-card::after{
-  content:'';position:absolute;
-  bottom:0;left:0;width:100%;height:3px;
-  background:linear-gradient(90deg,var(--blue),var(--blue-light));
-  transform:scaleX(0);transform-origin:left;transition:transform .4s;
-}
-.svc-card:hover::after{transform:scaleX(1)}
-
+.svc-fila:hover{background:var(--azul-tenue)}
 .svc-num{
-  font-family:'Syne',sans-serif;font-size:4rem;
-  font-weight:800;color:rgba(11,143,204,0.06);
-  position:absolute;top:20px;right:28px;
-  line-height:1;letter-spacing:-0.04em;
-  transition:color .3s;
+  font-family:var(--mono);font-size:.82rem;font-weight:500;
+  letter-spacing:.14em;color:var(--apagado);
+  padding-top:.5em;transition:color .3s var(--curva);
 }
-.svc-card:hover .svc-num{color:rgba(11,143,204,0.12)}
-
-.svc-icon{
-  width:48px;height:48px;
-  background:rgba(11,143,204,0.08);
-  border:1px solid rgba(11,143,204,0.2);
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:20px;
-  transition:all .3s;
+.svc-fila:hover .svc-num{color:var(--azul)}
+.svc-titulo h3{
+  font-family:var(--display);font-size:1.45rem;font-weight:700;
+  letter-spacing:-.025em;line-height:1.15;color:var(--tinta);
 }
-.svc-card:hover .svc-icon{background:rgba(11,143,204,0.18);border-color:var(--blue);transform:scale(1.06)}
-.svc-icon svg{width:22px;height:22px;stroke:var(--blue);fill:none;stroke-width:1.5;stroke-linecap:round;transition:stroke .3s}
-.svc-card:hover .svc-icon svg{stroke:var(--blue-light)}
-
-.svc-card h3{
-  font-family:'Syne',sans-serif;font-size:1.15rem;
-  font-weight:800;color:var(--white);margin-bottom:10px;
-  letter-spacing:-0.01em;transition:color .3s;
+.svc-cuerpo p{
+  font-size:.95rem;line-height:1.8;font-weight:300;
+  color:var(--texto);max-width:56ch;margin-bottom:18px;
 }
-.svc-card:hover h3{color:var(--blue-light)}
-
-.svc-card p{font-size:0.875rem;color:var(--gray);line-height:1.7;font-weight:300;margin-bottom:20px}
-
-
 .svc-cta{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:0.78rem;font-weight:700;
-  color:var(--blue);
-  letter-spacing:0.04em;text-transform:uppercase;
-  cursor:none;transition:color .2s,gap .2s;
-  text-decoration:none;
-  background:none;border:none;
-  padding:0;
+  display:inline-flex;align-items:center;gap:9px;
+  background:none;border:0;padding:0;
+  font-family:var(--cuerpo);font-size:.88rem;font-weight:500;
+  color:var(--azul);cursor:none;
+  transition:gap .25s var(--curva);
 }
-.svc-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;transition:transform .2s}
-.svc-cta:hover{color:var(--blue-light);gap:12px}
-.svc-cta:hover svg{transform:translateX(4px)}
+.svc-fila:hover .svc-cta{gap:15px}
+.svc-cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+@media(max-width:860px){
+  .svc-fila{grid-template-columns:52px minmax(0,1fr);gap:4px 18px;padding:30px 0}
+  .svc-cuerpo{grid-column:2}
+}
 
 /* ── HURRICANE SECTION ── */
 .hurricane{
@@ -360,6 +338,63 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
   gap:64px;align-items:start;margin-top:24px;
 }
+
+/* ── FOTOGRAFÍA ──
+   Sin marco, sin sombra de escaparate y sin esquinas de tarjeta:
+   una lámina con un filo de un píxel, como en una revista. */
+.hero-foto,.hf-foto{
+  margin:0;position:relative;overflow:hidden;
+  border-radius:18px;border:1px solid var(--filo);
+  background:var(--panel);
+}
+.hero-foto img,.hf-foto img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;
+}
+.hero-foto{aspect-ratio:4/3}
+.hf-foto{aspect-ratio:16/10;margin-bottom:26px}
+
+/* En el hero la foto ocupa la segunda columna. El texto manda:
+   se lleva algo más de ancho que la imagen. */
+.hero-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:64px;align-items:center;
+  max-width:1180px;
+}
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-foto{aspect-ratio:16/10}
+}
+
+/* ── MARCAS ──
+   Una fila de logotipos ajenos, cada uno con su color y su peso,
+   es ruido. Van en gris, del mismo tamaño, y solo despiertan al
+   pasar por encima. */
+.marcas{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:14px 52px;
+  padding-bottom:26px;border-bottom:1px solid var(--filo);
+}
+.marca{display:flex;align-items:center;min-height:34px}
+.marca img{
+  max-height:30px;width:auto;display:block;
+  opacity:.55;filter:grayscale(1);
+  transition:opacity .3s var(--curva),filter .3s var(--curva);
+}
+.marca:hover img{opacity:1;filter:none}
+.marca-txt{
+  font-family:var(--display);font-size:1.12rem;font-weight:700;
+  letter-spacing:-.015em;color:var(--apagado);
+  transition:color .3s var(--curva);
+}
+.marca:hover .marca-txt{color:var(--tinta)}
+.marcas-nota{
+  margin-top:22px;font-size:.9rem;line-height:1.8;
+  font-weight:300;color:var(--texto);max-width:66ch;
+}
+.marcas-nota strong{color:var(--tinta);font-weight:600}
 
 /* ── CASES ── */
 .cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
@@ -697,7 +732,6 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
   .svc-detalle{grid-template-columns:1fr;gap:24px}
   .si{padding:0 20px}
   .authority-grid{grid-template-columns:1fr}
-  .services-grid{grid-template-columns:1fr}
   .cases-grid{grid-template-columns:1fr}
   .plans-grid{grid-template-columns:1fr}
   .reviews-grid{grid-template-columns:1fr}
@@ -858,11 +892,11 @@ body{background:var(--fondo)}
    que delata una plantilla. Se cambia por una regla fina que
    llena el resto de la línea. */
 .eyebrow{
-  gap:14px !important;
+  gap:16px !important;
   font-family:var(--mono) !important;
-  font-size:.65rem !important;font-weight:500 !important;
-  letter-spacing:.2em !important;
-  color:var(--apagado) !important;margin-bottom:18px !important;
+  font-size:11px !important;font-weight:500 !important;
+  letter-spacing:.16em !important;
+  color:var(--apagado) !important;margin-bottom:20px !important;
 }
 .eyebrow::before{display:none !important}
 .eyebrow:not([style*="center"])::after{
@@ -882,31 +916,6 @@ body{background:var(--fondo)}
 }
 .section{padding:88px 0}
 @media(max-width:768px){ .section{padding:56px 0} }
-
-/* ── TARJETAS DE SERVICIO ── */
-.services-grid{gap:1px !important;background:var(--hair) !important}
-.svc-card{
-  background:linear-gradient(180deg,var(--panel2),var(--panel)) !important;
-  padding:38px 34px !important;
-}
-.svc-card:hover{background:linear-gradient(180deg,#17273D,#101B2C) !important}
-/* El icono en cuadrito redondeado es otro tic: se queda el trazo solo. */
-.svc-icon{
-  width:auto !important;height:auto !important;
-  background:none !important;border:0 !important;
-  border-radius:0 !important;margin-bottom:18px !important;
-  justify-content:flex-start !important;transform:none !important;
-}
-.svc-card:hover .svc-icon{background:none !important;border:0 !important;transform:none !important}
-.svc-icon svg{width:26px !important;height:26px !important;stroke-width:1.4 !important}
-.svc-num{
-  font-family:var(--mono) !important;font-size:1rem !important;
-  font-weight:500 !important;color:var(--apagado) !important;
-  top:34px !important;right:34px !important;letter-spacing:.12em !important;
-}
-.svc-card:hover .svc-num{color:var(--blue-light) !important}
-.svc-card h3{font-size:1.3rem !important;letter-spacing:-.02em !important;margin-bottom:12px !important}
-.svc-card p{font-size:.92rem !important;line-height:1.75 !important}
 
 /* ── BOTONES: 14px, sin el barrido de brillo ── */
 .btn-primary,.btn-outline,.nav-cta,.social-btn{
@@ -1081,7 +1090,6 @@ div[style*="text-transform:uppercase"][style*="var(--verde)"]{
 .r-role{font-family:var(--mono) !important;font-size:.68rem !important;letter-spacing:.1em !important;color:var(--apagado) !important}
 
 @media(max-width:768px){
-  .svc-card{padding:26px 22px !important}
   .svc-num{top:24px !important;right:24px !important}
   .case-card,.plan-card,.review-card,
   [style*="background:var(--card)"]{padding:22px !important}
@@ -1281,6 +1289,13 @@ body{cursor:auto !important}
         <p class="hero-linea en">Fast response, business support and scalable solutions.</p>
       </div>
 
+      <figure class="hero-foto">
+        <picture>
+          <source srcset="/assets/foto-instalacion.webp" type="image/webp">
+          <img src="/assets/foto-instalacion.jpg" width="2000" height="1117" fetchpriority="high" decoding="async"
+               alt="Técnico de Wifnix instalando una cámara de seguridad en un edificio comercial en Puerto Rico">
+        </picture>
+      </figure>
     </div>
   </section>
 
@@ -1339,42 +1354,54 @@ body{cursor:auto !important}
       <p class="section-desc reveal en">We integrate security, connectivity and operational continuity in a single strategy.</p>
     </div>
     <div style="max-width:1200px;margin:0 auto;padding:0 48px">
-      <div class="services-grid">
-        <div class="svc-card reveal" onclick="showPage('servicios')">
+      <div class="svc-lista">
+        <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">01</div>
-          <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg></div>
-          <h3 class="es">Seguridad Empresarial</h3><h3 class="en">Enterprise Security</h3>
-          <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas. Incluye CCTV, control de acceso, alarmas y monitoreo 24/7.</p>
-          <p class="en">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
-          <button class="svc-cta es">Solicitar Evaluación <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en">Request Evaluation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <div class="svc-titulo">
+            <h3 class="es">Seguridad Empresarial</h3><h3 class="en">Enterprise Security</h3>
+          </div>
+          <div class="svc-cuerpo">
+            <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas. Incluye CCTV, control de acceso, alarmas y monitoreo 24/7.</p>
+            <p class="en">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
+            <button class="svc-cta es">Solicitar Evaluación <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            <button class="svc-cta en">Request Evaluation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
         </div>
-        <div class="svc-card reveal" onclick="showPage('servicios')">
+        <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">02</div>
-          <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg></div>
-          <h3 class="es">Redes Empresariales</h3><h3 class="en">Enterprise Networks</h3>
-          <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones, con WiFi, cableado, failover y redundancia.</p>
-          <p class="en">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
-          <button class="svc-cta es">Evaluar Mi Red <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en">Evaluate My Network <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <div class="svc-titulo">
+            <h3 class="es">Redes Empresariales</h3><h3 class="en">Enterprise Networks</h3>
+          </div>
+          <div class="svc-cuerpo">
+            <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones, con WiFi, cableado, failover y redundancia.</p>
+            <p class="en">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
+            <button class="svc-cta es">Evaluar Mi Red <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            <button class="svc-cta en">Evaluate My Network <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
         </div>
-        <div class="svc-card reveal" onclick="showPage('servicios')">
+        <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">03</div>
-          <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-          <h3 class="es">Continuidad Operacional</h3><h3 class="en">Operational Continuity</h3>
-          <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso con UPS, respaldo energético, monitoreo preventivo y soporte prioritario.</p>
-          <p class="en">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
-          <button class="svc-cta es">Diagnóstico Preventivo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en">Preventive Diagnosis <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <div class="svc-titulo">
+            <h3 class="es">Continuidad Operacional</h3><h3 class="en">Operational Continuity</h3>
+          </div>
+          <div class="svc-cuerpo">
+            <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso con UPS, respaldo energético, monitoreo preventivo y soporte prioritario.</p>
+            <p class="en">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
+            <button class="svc-cta es">Diagnóstico Preventivo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            <button class="svc-cta en">Preventive Diagnosis <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
         </div>
-        <div class="svc-card reveal" onclick="showPage('servicios')">
+        <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">04</div>
-          <div class="svc-icon"><svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1010 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg></div>
-          <h3 class="es">HVAC Comercial</h3><h3 class="en">Commercial HVAC</h3>
-          <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad, con equipos VRF y rooftop, mantenimiento y eficiencia energética.</p>
-          <p class="en">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
-          <button class="svc-cta es">Evaluar Sistema HVAC <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
-          <button class="svc-cta en">Evaluate HVAC System <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <div class="svc-titulo">
+            <h3 class="es">HVAC Comercial</h3><h3 class="en">Commercial HVAC</h3>
+          </div>
+          <div class="svc-cuerpo">
+            <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad, con equipos VRF y rooftop, mantenimiento y eficiencia energética.</p>
+            <p class="en">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
+            <button class="svc-cta es">Evaluar Sistema HVAC <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+            <button class="svc-cta en">Evaluate HVAC System <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          </div>
         </div>
       </div>
     </div>
@@ -1394,6 +1421,13 @@ body{cursor:auto !important}
         <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'">Schedule Preventive Evaluation</button>
       </div>
       <div class="reveal-r">
+        <figure class="hf-foto">
+          <picture>
+            <source srcset="/assets/foto-apagon.webp" type="image/webp">
+            <img src="/assets/foto-apagon.jpg" width="2000" height="1117" loading="lazy" decoding="async"
+                 alt="Un negocio sigue encendido durante un apagón mientras el resto de la calle está a oscuras">
+          </picture>
+        </figure>
         <div class="hurricane-features">
           <div class="hf-item"><span class="es">Cámaras activas 24/7</span><span class="en">24/7 active cameras</span></div>
           <div class="hf-item"><span class="es">Internet redundante</span><span class="en">Redundant internet</span></div>
@@ -1484,6 +1518,24 @@ body{cursor:auto !important}
           <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </div>
       </a>
+    </div>
+  </section>
+
+  <!-- ── MARCAS QUE INSTALAMOS ─────────────────────────────── -->
+  <section class="section darker" style="padding:64px 0">
+    <div class="si">
+      <div class="seclabel es">Marcas que instalamos</div>
+      <div class="seclabel en">Brands we install</div>
+      <ul class="marcas">
+          <li class="marca" data-marca="ubiquiti"><span class="marca-txt">Ubiquiti</span></li>
+          <li class="marca" data-marca="ens"><span class="marca-txt">ENS</span></li>
+          <li class="marca" data-marca="cambium"><span class="marca-txt">Cambium</span></li>
+          <li class="marca" data-marca="unv"><span class="marca-txt">UNV</span></li>
+          <li class="marca" data-marca="tplink"><span class="marca-txt">TP-Link</span></li>
+          <li class="marca" data-marca="titanium"><span class="marca-txt">Titanium</span></li>
+      </ul>
+      <p class="marcas-nota es">Trabajamos con equipo <strong>NDAA compliant</strong>, el estándar que exige el gobierno federal para instalaciones en agencias y contratistas. Si tu operación lo necesita, te lo especificamos por escrito en la propuesta.</p>
+      <p class="marcas-nota en">We work with <strong>NDAA compliant</strong> equipment, the standard the federal government requires for installations at agencies and contractors. If your operation needs it, we specify it in writing in the proposal.</p>
     </div>
   </section>
 
@@ -2216,7 +2268,7 @@ const ring = document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('button,a,.svc-card,.plan-card,.case-card,.review-card,.faq-item').forEach(el=>{
+document.querySelectorAll('button,a,.svc-fila,.plan-card,.case-card,.review-card,.faq-item').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.classList.add('h');ring.classList.add('h')});
   el.addEventListener('mouseleave',()=>{cur.classList.remove('h');ring.classList.remove('h')});
 });
@@ -2406,6 +2458,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+
+// ── MARCAS ──
+// Los logotipos son de terceros y no viven en este repositorio.
+// Mientras no exista assets/marca-<id>.png se enseña el nombre en la
+// tipografía del sitio — que ademas evita la fila de logos de seis
+// colores distintos. En cuanto aparezca el archivo, entra solo.
+document.querySelectorAll('[data-marca]').forEach(function(li){
+  var img=new Image();
+  img.onload=function(){
+    img.alt=li.textContent.trim();
+    img.loading='lazy'; img.decoding='async';
+    li.replaceChildren(img);
+  };
+  img.src='/assets/marca-'+li.dataset.marca+'.png';
+});
 
 // FAQ
 function toggleFaq(el){
