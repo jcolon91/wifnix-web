@@ -180,6 +180,31 @@ html[data-idioma="en"] .es{display:none !important}
 /* Si el JS no llegó a correr, se queda el español. */
 html:not([data-idioma]) .en{display:none !important}
 
+/* ── GRANO ────────────────────────────────────────────────────
+   Lo que delata a una pagina hecha por una maquina es que es
+   demasiado limpia: degradados perfectos y color plano. Una capa
+   de grano finisimo le devuelve el cuerpo del papel impreso.
+   Es una textura SVG en linea — cero peticiones, cero peso — y
+   como no anima, no cuesta nada de bateria. */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='.55'/%3E%3C/svg%3E");
+  opacity:.055;
+}
+/* Sobre papel el grano se ve mas, asi que se baja. */
+:root[data-tema="claro"] body::after{opacity:.032;mix-blend-mode:multiply}
+
+/* ── PARALAJE ────────────────────────────────────────────────
+   La foto del hero baja mas despacio que el texto. Es el unico
+   movimiento de la pagina y va atado a una fotografia de verdad,
+   no a un adorno. El recorte extra evita que asome el borde. */
+.hero-foto img,.aut-foto img{will-change:transform;transform:scale(1.1)}
+@media (prefers-reduced-motion:reduce){
+  .hero-foto img,.aut-foto img{transform:none !important;will-change:auto}
+}
+
 @media (prefers-reduced-motion:reduce){
   :root.tema-cambiando,
   :root.tema-cambiando *{transition:none !important}

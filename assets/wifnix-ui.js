@@ -104,10 +104,64 @@
     void tema;
   }
 
+  /* ── PARALAJE ─────────────────────────────────────────────── */
+
+  // La foto se mueve mas despacio que el texto que tiene al lado. Es
+  // el unico movimiento de la pagina, y va atado a una fotografia de
+  // verdad: eso lo separa del adorno animado de plantilla.
+  //
+  // Solo se calcula para lo que esta en pantalla, y todo el trabajo
+  // ocurre dentro de un requestAnimationFrame para no bloquear el
+  // desplazamiento.
+  function paralaje() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var fotos = document.querySelectorAll('.hero-foto img, .aut-foto img');
+    if (!fotos.length || !('IntersectionObserver' in window)) return;
+
+    var visibles = [];
+    var pendiente = false;
+    var RECORRIDO = 26;   // pixeles totales de deriva
+
+    var ojo = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        var i = visibles.indexOf(e.target);
+        if (e.isIntersecting && i === -1) visibles.push(e.target);
+        else if (!e.isIntersecting && i !== -1) visibles.splice(i, 1);
+      });
+      pintar();
+    }, { rootMargin: '120px 0px' });
+
+    for (var k = 0; k < fotos.length; k++) ojo.observe(fotos[k]);
+
+    function pintar() {
+      pendiente = false;
+      var alto = window.innerHeight;
+      visibles.forEach(function (img) {
+        var marco = img.parentElement.closest('figure') || img.parentElement;
+        var caja = marco.getBoundingClientRect();
+        // -1 cuando el marco entra por abajo, +1 cuando sale por arriba.
+        var avance = (caja.top + caja.height / 2 - alto / 2) / (alto / 2 + caja.height / 2);
+        avance = Math.max(-1, Math.min(1, avance));
+        img.style.transform = 'translate3d(0,' + (avance * RECORRIDO).toFixed(2) + 'px,0) scale(1.1)';
+      });
+    }
+
+    function alDesplazar() {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(pintar);
+    }
+
+    addEventListener('scroll', alDesplazar, { passive: true });
+    addEventListener('resize', alDesplazar, { passive: true });
+    pintar();
+  }
+
   function arrancar() {
     var huecos = document.querySelectorAll('[data-wx-switches]');
     for (var i = 0; i < huecos.length; i++) dibujar(huecos[i]);
     ponerIdioma(raiz.getAttribute('data-idioma') || 'es');
+    paralaje();
   }
 
   if (document.readyState === 'loading') {

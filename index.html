@@ -2299,12 +2299,6 @@ document.querySelectorAll('button,a,.svc-fila,.plan-card,.case-card,.faq-item').
   el.addEventListener('mouseleave',()=>{cur.classList.remove('h');ring.classList.remove('h')});
 });
 
-// PARALLAX
-window.addEventListener('scroll',()=>{
-  const sy=window.scrollY;
-  nc.style.transform=`translateY(${sy*.12}px)`;
-});
-
 // CURSOR PERSONALIZADO — solo con ratón de verdad.
 // En táctil o si el navegador no soporta el media query, se queda
 // el cursor del sistema y el sitio nunca se ve "sin puntero".
