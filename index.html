@@ -6,7 +6,7 @@
 <title>Wifnix — Tú tienes tecnología, nosotros soluciones.</title>
 <meta name="description" content="Soluciones profesionales en CCTV, redes empresariales, HVAC y continuidad operacional para empresas en Puerto Rico.">
 <link rel="canonical" href="https://wifnix.com/">
-<meta name="theme-color" content="var(--fondo)">
+<meta name="theme-color" content="#070C16">
 
 <!-- Icono -->
 <link rel="icon" type="image/png" href="/assets/logo-wifnix.png">
@@ -36,6 +36,10 @@ d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/assets/wifnix.css">
+
+<script>/* El texto que escribe el JavaScript no lo alcanza el CSS: aqui se elige idioma. */
+function wxIdioma(){return document.documentElement.getAttribute('data-idioma')==='en'?'en':'es';}
+function T(es,en){return wxIdioma()==='en'?en:es;}</script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 
@@ -634,7 +638,7 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 .form-field{display:flex;flex-direction:column;gap:5px}
 .form-field label{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray)}
-.form-field input,.form-field select,.form-field textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:6px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:300;outline:none;transition:border-color .2s,background .2s}
+.form-field input,.form-field select,.form-field textarea{background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:6px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:300;outline:none;transition:border-color .2s,background .2s}
 .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--blue);background:rgba(11,143,204,0.05)}
 .form-field textarea{resize:vertical;min-height:100px}
 .form-field select option{background:var(--black2)}
@@ -810,7 +814,7 @@ footer{background:rgba(6,9,15,0.98);border-top:1px solid rgba(11,143,204,0.08);p
   .nav-links li{list-style:none}
   .nav-links li a{display:block;padding:12px 16px;font-size:0.9rem;color:var(--texto);border-radius:8px;transition:all .2s;cursor:pointer}
   .nav-links li a:hover,.nav-links li a.active{background:rgba(11,143,204,0.1);color:var(--tinta)}
-  .nav-links li:last-child{border-top:1px solid rgba(255,255,255,0.06);margin-top:8px;padding-top:8px}
+  .nav-links li:last-child{border-top:1px solid var(--filo);margin-top:8px;padding-top:8px}
 }
 </style>
 
@@ -1280,7 +1284,7 @@ body{cursor:auto !important}
     <span class="ham-line"></span>
   </button>
   <ul class="nav-links" id="nav-links">
-    <li><a onclick="showPage('home')" class="es active">Inicio</a><a onclick="showPage('home')" class="en">Home</a></li>
+    <li><a onclick="showPage('home')" class="es active">Inicio</a><a onclick="showPage('home')" class="en active">Home</a></li>
     <li><a onclick="showPage('servicios')" class="es">Servicios</a><a onclick="showPage('servicios')" class="en">Services</a></li>
     <li><a onclick="showPage('casos')" class="es">Casos Reales</a><a onclick="showPage('casos')" class="en">Case Studies</a></li>
     <li><a onclick="showPage('planes')" class="es">Planes</a><a onclick="showPage('planes')" class="en">Plans</a></li>
@@ -1978,11 +1982,11 @@ body{cursor:auto !important}
             <span class="en">Send error. Call us: (787) 354-9596</span>
           </div>
           <div class="form-row">
-            <div class="form-field"><label class="es">Nombre *</label><label class="en">Name *</label><input type="text" id="f-nombre" placeholder="Tu nombre"></div>
+            <div class="form-field"><label class="es">Nombre *</label><label class="en">Name *</label><input type="text" id="f-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre"></div>
             <div class="form-field"><label class="es">Teléfono</label><label class="en">Phone</label><input type="tel" id="f-tel" placeholder="(787) 000-0000"></div>
           </div>
-          <div class="form-field"><label>Email *</label><input type="email" id="f-email" placeholder="tu@empresa.com"></div>
-          <div class="form-field"><label class="es">Empresa</label><label class="en">Company</label><input type="text" id="f-empresa" placeholder="Nombre de tu empresa"></div>
+          <div class="form-field"><label>Email *</label><input type="email" id="f-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com"></div>
+          <div class="form-field"><label class="es">Empresa</label><label class="en">Company</label><input type="text" id="f-empresa" data-es="Nombre de tu empresa" data-en="Your company name" placeholder="Nombre de tu empresa"></div>
           <div class="form-field">
             <label class="es">Servicio de interés *</label><label class="en">Service of interest *</label>
             <select id="f-servicio">
@@ -2006,7 +2010,7 @@ body{cursor:auto !important}
               <option value="Other" class="en">Other</option>
             </select>
           </div>
-          <div class="form-field"><label class="es">Mensaje *</label><label class="en">Message *</label><textarea id="f-mensaje" placeholder="Cuéntanos sobre tu empresa y lo que necesitas..."></textarea></div>
+          <div class="form-field"><label class="es">Mensaje *</label><label class="en">Message *</label><textarea id="f-mensaje" data-es="Cuéntanos sobre tu empresa y lo que necesitas..." data-en="Tell us about your company and what you need..." placeholder="Cuéntanos sobre tu empresa y lo que necesitas..."></textarea></div>
           <button class="btn-primary es" onclick="submitForm(event)" style="width:100%">Enviar Mensaje</button>
           <button class="btn-primary en" onclick="submitForm(event)" style="width:100%">Send Message</button>
         </div>
@@ -2389,9 +2393,9 @@ async function submitForm(e){
   const empresa=document.getElementById('f-empresa').value;
   const servicio=document.getElementById('f-servicio').value;
   const mensaje=document.getElementById('f-mensaje').value;
-  if(!nombre||!email||!mensaje){alert('Por favor completa los campos requeridos (*)');return}
+  if(!nombre||!email||!mensaje){alert(T('Por favor completa los campos requeridos (*)','Please fill in the required fields (*)'));return}
   const btn=event.target;
-  btn.textContent='Enviando...';btn.disabled=true;
+  btn.textContent=T('Enviando...','Sending...');btn.disabled=true;
   try{
     const fd=new FormData();
     fd.append('_to','sales@wifnix.com');
@@ -2419,7 +2423,7 @@ async function submitForm(e){
     document.getElementById('form-error').style.display='block';
     document.getElementById('form-success').style.display='none';
   }finally{
-    btn.textContent='Enviar Mensaje';btn.disabled=false;
+    btn.textContent=T('Enviar Mensaje','Send Message');btn.disabled=false;
   }
 }
 
@@ -2493,9 +2497,8 @@ function showStoreSection(cat, sub) {
       <button class="btn-primary en" onclick="window.location.href='https://portal.wifnix.com'" style="font-size:0.78rem;padding:10px 24px">Check Availability</button>
     </div>
   `;
-  // Re-apply language
-  const lang = document.querySelector('.lang-btn.active').textContent.toLowerCase();
-  setLang(lang);
+  // El idioma lo aplica solo el CSS compartido leyendo data-idioma del
+  // <html>: este bloque ya viene con sus gemelas .es/.en.
 }
 
 // Init store — open first cat on page load
@@ -2530,7 +2533,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var s = '';
     for (var i = 0; i < Math.round(n || 0); i++) s += ESTRELLA;
     return '<span class="resenas-estrellas" role="img" aria-label="' +
-           (Math.round(n||0)) + ' de 5">' + s + '</span>';
+           (Math.round(n||0)) + T(' de 5', ' out of 5') + '">' + s + '</span>';
   }
 
   function soloEnlace(url){
@@ -2555,7 +2558,8 @@ document.addEventListener('DOMContentLoaded', () => {
                   '<span class="resenas-nota">' + esc(d.nota.toFixed(1)) + '</span>' +
                   estrellas(d.nota) +
                   '<span class="resenas-cuenta">' + esc(d.total) +
-                    (d.total === 1 ? ' reseña en Google' : ' reseñas en Google') + '</span>' +
+                    (d.total === 1 ? T(' reseña en Google', ' review on Google')
+                                   : T(' reseñas en Google', ' reviews on Google')) + '</span>' +
                 '</div>';
       }
 
@@ -2576,9 +2580,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       html += '<div class="resenas-pie">' +
-                '<span class="resenas-fuente">Reseñas publicadas en Google</span>' +
+                '<span class="resenas-fuente">' + T('Reseñas publicadas en Google', 'Reviews published on Google') + '</span>' +
                 '<a class="resenas-enlace" href="' + esc(d.perfil) +
-                  '" target="_blank" rel="noopener">Ver todas en Google</a>' +
+                  '" target="_blank" rel="noopener">' + T('Ver todas en Google', 'See them all on Google') + '</a>' +
               '</div>';
       CAJA.innerHTML = html;
     })
@@ -2652,7 +2656,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div style="font-weight:700;color:var(--tinta);font-size:0.88rem">Agente Wifnix</div>
         <div style="font-size:0.65rem;color:var(--verde);display:flex;align-items:center;gap:4px">
           <div style="width:5px;height:5px;background:var(--verde);border-radius:50%"></div>
-          En línea · Lun-Vie 8am-6pm
+          <span class="es">En línea · Lun-Vie 8am-6pm</span><span class="en">Online · Mon-Fri 8am-6pm</span>
         </div>
       </div>
       <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:var(--texto);padding:4px">
@@ -2669,7 +2673,8 @@ document.addEventListener('DOMContentLoaded', function() {
           <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
         </div>
         <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 13px;max-width:260px;font-size:0.8rem;color:var(--tinta);line-height:1.6">
-          Hola, soy tu agente virtual de Wifnix. Si tienes alguna duda, aquí estoy para servirte. ¿En qué puedo ayudarte hoy?
+          <span class="es">Hola, soy tu agente virtual de Wifnix. Si tienes alguna duda, aquí estoy para servirte. ¿En qué puedo ayudarte hoy?</span>
+          <span class="en">Hi, I am the Wifnix virtual agent. If you have any questions, I am here to help. What can I do for you today?</span>
         </div>
       </div>
 
@@ -2677,23 +2682,23 @@ document.addEventListener('DOMContentLoaded', function() {
       <div id="quick-opts" style="display:flex;flex-direction:column;gap:7px;padding-left:34px">
         <div class="qopt" onclick="selOpt('servicios')">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-          Información sobre servicios
+          <span class="es">Información sobre servicios</span><span class="en">Information about services</span>
         </div>
         <div class="qopt" onclick="selOpt('herramientas')">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
-          Usar herramientas gratuitas
+          <span class="es">Usar herramientas gratuitas</span><span class="en">Use the free tools</span>
         </div>
         <div class="qopt" onclick="selOpt('precios')">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          Ver precios y planes
+          <span class="es">Ver precios y planes</span><span class="en">See pricing and plans</span>
         </div>
         <div class="qopt" onclick="selOpt('profesional')">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          Hablar con un profesional
+          <span class="es">Hablar con un profesional</span><span class="en">Talk to a specialist</span>
         </div>
         <div class="qopt" onclick="selOpt('otro')">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
-          Tengo otra pregunta
+          <span class="es">Tengo otra pregunta</span><span class="en">I have another question</span>
         </div>
       </div>
 
@@ -2710,7 +2715,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- INPUT -->
     <div style="padding:10px 14px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px">
-      <input id="chat-input" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
+      <input id="chat-input" type="text" data-es="Escribe tu mensaje..." data-en="Type your message..." placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:var(--panel2);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
       <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:var(--azul-fuerte);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.background='var(--azul)'" onmouseout="this.style.background='var(--azul-fuerte)'">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
       </button>
@@ -2720,7 +2725,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <style>
-.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:rgba(0,0,0,0.25);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--texto);transition:all .2s}
+.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--panel2);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--texto);transition:all .2s}
 .qopt:hover{border-color:rgba(11,143,204,0.4);color:var(--tinta);background:rgba(11,143,204,0.08)}
 .msg-ai{display:flex;gap:8px;align-items:flex-start}
 .msg-user{display:flex;justify-content:flex-end}
@@ -2775,27 +2780,37 @@ function hideQuickOpts() {
 function selOpt(opt) {
   hideQuickOpts();
   var labels = {
-    servicios: 'Información sobre servicios',
-    herramientas: 'Usar herramientas gratuitas',
-    precios: 'Ver precios y planes',
-    profesional: 'Hablar con un profesional',
-    otro: 'Tengo otra pregunta'
+    servicios: T('Información sobre servicios', 'Information about services'),
+    herramientas: T('Usar herramientas gratuitas', 'Use the free tools'),
+    precios: T('Ver precios y planes', 'See pricing and plans'),
+    profesional: T('Hablar con un profesional', 'Talk to a specialist'),
+    otro: T('Tengo otra pregunta', 'I have another question')
   };
   addUserMsg(labels[opt]);
   chatHistorial.push({role:'user', content: labels[opt]});
 
   if (opt === 'herramientas') {
     setTimeout(function(){
-      addAiMsg('Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver todas las herramientas</a>');
+      var boton = ' style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:#FFFFFF;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
+      addAiMsg(T(
+        'Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html"' + boton + 'Ver todas las herramientas</a>',
+        'We have free tools that help you size your system. You can work out CCTV storage, HVAC BTU, bandwidth, security ROI and more.<br><br><a href="herramientas.html"' + boton + 'See all the tools</a>'));
     }, 600);
     return;
   }
 
   if (opt === 'profesional') {
     setTimeout(function(){
-      addAiMsg('Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com" target="_blank" style="display:inline-block;padding:8px 16px;background:var(--verde);color:var(--fondo);border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Crear cuenta gratis</a>');
+      var verde = ' target="_blank" style="display:inline-block;padding:8px 16px;background:var(--verde);color:var(--fondo);border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
+      addAiMsg(T(
+        'Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com"' + verde + 'Crear cuenta gratis</a>',
+        'We would be glad to put you in touch with one of our specialists for a free evaluation.<br><br>Opening a free portal account gets you:<br>• Priority attention<br>• Service and warranty history<br>• Ticket tracking<br>• Saved quotes<br><br><a href="https://portal.wifnix.com"' + verde + 'Open a free account</a>'));
       setTimeout(function(){
-        addAiMsg('¿Prefieres contactarnos directamente? Llámanos al <a href="tel:7873549596" style="color:var(--azul)">(787) 354-9596</a> o escríbenos por <a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.');
+        var tel = '<a href="tel:7873549596" style="color:var(--azul)">(787) 354-9596</a>';
+        var wa = '<a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>';
+        addAiMsg(T(
+          '¿Prefieres contactarnos directamente? Llámanos al ' + tel + ' o escríbenos por ' + wa + '. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.',
+          'Would you rather reach us directly? Call us at ' + tel + ' or message us on ' + wa + '. Hours: Mon-Fri 8am-6pm, Sat 9am-1pm.'));
       }, 1500);
     }, 600);
     return;
@@ -2803,7 +2818,10 @@ function selOpt(opt) {
 
   if (opt === 'precios') {
     setTimeout(function(){
-      addAiMsg('Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html" style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:white;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">Ver comparador de planes</a>');
+      var boton2 = ' style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:#FFFFFF;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
+      addAiMsg(T(
+        'Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html"' + boton2 + 'Ver comparador de planes</a>',
+        'We have plans for every kind of business. You can compare the options side by side.<br><br><a href="herramientas.html"' + boton2 + 'Open the plan comparison</a>'));
     }, 600);
     return;
   }
@@ -2811,8 +2829,9 @@ function selOpt(opt) {
   // For servicios and otro - use AI
   showTyping(true);
   var prompt = opt === 'servicios'
-    ? 'El usuario quiere información sobre los servicios de Wifnix (CCTV, HVAC, redes, continuidad operacional, diseño web e IA). Da una respuesta concisa y atractiva.'
-    : labels[opt];
+    ? T('El usuario quiere información sobre los servicios de Wifnix (CCTV, HVAC, redes, continuidad operacional, diseño web e IA). Da una respuesta concisa y atractiva. Contesta en español.',
+        'The user wants information about Wifnix services (CCTV, HVAC, networking, operational continuity, web design and AI). Give a short, appealing answer. Reply in English.')
+    : labels[opt] + T('', ' (reply in English)');
 
   fetch('https://api.wifnix.com/api/chat/mensaje', {
     method:'POST',
@@ -2829,7 +2848,8 @@ function selOpt(opt) {
   })
   .catch(function(){
     showTyping(false);
-    addAiMsg('Lo siento, tuve un problema. Llámanos al (787) 354-9596 o escríbenos por WhatsApp.');
+    addAiMsg(T('Lo siento, tuve un problema. Llámanos al (787) 354-9596 o escríbenos por WhatsApp.',
+               'Sorry, something went wrong on my end. Call us at (787) 354-9596 or message us on WhatsApp.'));
   });
 }
 
@@ -2851,7 +2871,7 @@ function sendMessage() {
   fetch('https://api.wifnix.com/api/chat/mensaje', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({mensaje: msg, historial: chatHistorial.slice(-8)})
+    body: JSON.stringify({mensaje: msg + T('', ' (reply in English)'), historial: chatHistorial.slice(-8)})
   })
   .then(function(r){return r.json();})
   .then(function(data){
@@ -2865,7 +2885,8 @@ function sendMessage() {
   .catch(function(){
     showTyping(false);
     chatTypingActive = false;
-    addAiMsg('Lo siento, tuve un problema. Llámanos al (787) 354-9596.');
+    addAiMsg(T('Lo siento, tuve un problema. Llámanos al (787) 354-9596.',
+               'Sorry, something went wrong on my end. Call us at (787) 354-9596.'));
   });
 }
 
@@ -2883,6 +2904,24 @@ function sendMessage() {
     }, 300);
   }
 })();
+</script>
+
+<script>
+// Un <select> cerrado sigue ensenando el texto de la opcion seleccionada
+// aunque el CSS la esconda. Al cambiar de idioma hay que mover la
+// seleccion a su gemela, que es la opcion de al lado.
+function sincronizarSelects() {
+  var lang = wxIdioma(), otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+sincronizarSelects();
+new MutationObserver(sincronizarSelects).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
 </script>
 
 <script src="/assets/wifnix-ui.js" defer></script>

@@ -3,44 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#06090F">
+<meta name="theme-color" content="#070C16">
 <title>Wifnix</title>
-<link rel="icon" type="image/png" sizes="32x32" href="https://wifnix.com/assets/favicon-32.png">
-<link rel="apple-touch-icon" href="https://wifnix.com/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root {
-    --bg:#06090F; --bg2:#0B121C; --card:#0F1825; --card2:#131F30;
-    --bl:#0B8FCC; --bl-l:#29B6F6; --red:#FF5555;
-    --white:#F0F4F8; --gray:#8BA0B4; --gray2:#5A6B7C; --line:rgba(255,255,255,0.06);
-  }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--white); -webkit-font-smoothing:antialiased; overscroll-behavior-y:none; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--fondo); color:var(--tinta); -webkit-font-smoothing:antialiased; overscroll-behavior-y:none; }
   .hidden { display:none !important; }
   button { font-family:inherit; cursor:pointer; border:none; }
   input, textarea, select { font-family:inherit; }
-  a { color:var(--bl-l); text-decoration:none; }
+  a { color:var(--azul); text-decoration:none; }
 
   /* LOGIN */
-  #login { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; background:radial-gradient(circle at 50% 0%, rgba(11,143,204,0.12), transparent 60%), var(--bg); }
+  #login { position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; background:radial-gradient(circle at 50% 0%, rgba(11,143,204,0.12), transparent 60%), var(--fondo); }
+  .login-switches { position:absolute; top:calc(14px + env(safe-area-inset-top)); right:16px; }
   #login .logo { width:150px; margin-bottom:10px; }
-  #login .tagline { color:var(--gray); font-size:0.86rem; margin-bottom:30px; }
-  .login-card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:26px 22px; width:100%; max-width:390px; }
+  #login .tagline { color:var(--texto); font-size:0.86rem; margin-bottom:30px; }
+  .login-card { background:var(--panel); border:1px solid var(--filo); border-radius:18px; padding:26px 22px; width:100%; max-width:390px; }
   .field { margin-bottom:15px; }
-  .field label { display:block; font-size:0.72rem; font-weight:700; color:var(--gray); margin-bottom:7px; text-transform:uppercase; letter-spacing:0.05em; }
-  .field input { width:100%; padding:14px; background:var(--bg2); border:1.5px solid var(--line); border-radius:11px; font-size:1rem; color:var(--white); transition:border .15s; }
-  .field input:focus { outline:none; border-color:var(--bl); }
-  .btn-primary { width:100%; padding:15px; background:var(--bl); color:#fff; border-radius:11px; font-size:1rem; font-weight:700; transition:opacity .15s; }
+  .field label { display:block; font-size:0.72rem; font-weight:700; color:var(--texto); margin-bottom:7px; text-transform:uppercase; letter-spacing:0.05em; }
+  .field input { width:100%; padding:14px; background:var(--fondo2); border:1.5px solid var(--filo); border-radius:11px; font-size:1rem; color:var(--tinta); transition:border .15s; }
+  .field input:focus { outline:none; border-color:var(--azul); }
+  .btn-primary { width:100%; padding:15px; background:var(--azul-fuerte); color:var(--fondo); border-radius:11px; font-size:1rem; font-weight:700; transition:opacity .15s; }
   .btn-primary:active { opacity:0.85; }
   .btn-primary:disabled { opacity:0.5; }
-  #login-err { color:#fff; background:rgba(255,85,85,0.15); border:1px solid rgba(255,85,85,0.3); padding:10px 14px; border-radius:9px; font-size:0.84rem; margin-bottom:14px; text-align:center; }
-  .login-foot { margin-top:18px; text-align:center; font-size:0.84rem; color:var(--gray); }
+  /* El tinte rojo se queda flojo: sobre papel cada punto de opacidad
+     que se le suma al fondo le quita contraste al texto rojo. Con 0.10
+     el aviso se sigue leyendo como aviso y el texto pasa el mínimo. */
+  #login-err { color:var(--rojo); background:rgba(255,85,85,0.10); border:1px solid rgba(255,85,85,0.35); padding:10px 14px; border-radius:9px; font-size:0.84rem; margin-bottom:14px; text-align:center; }
+  .login-foot { margin-top:18px; text-align:center; font-size:0.84rem; color:var(--texto); }
 
   /* APP SHELL */
   #app { min-height:100vh; min-height:100dvh; padding-bottom:80px; }
-  .appbar { background:rgba(6,9,15,0.85); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:calc(14px + env(safe-area-inset-top)) 18px 14px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; border-bottom:1px solid var(--line); }
+  .appbar { background:var(--velo); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); padding:calc(14px + env(safe-area-inset-top)) 18px 14px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; border-bottom:1px solid var(--filo); }
   .appbar .ab-title { font-size:1.15rem; font-weight:800; }
-  .appbar .ab-sub { font-size:0.72rem; color:var(--gray); margin-top:1px; }
-  .ab-icon { width:40px; height:40px; border-radius:11px; background:var(--card); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+  .appbar .ab-sub { font-size:0.72rem; color:var(--texto); margin-top:1px; }
+  .ab-right { display:flex; align-items:center; gap:10px; }
+  .ab-icon { width:40px; height:40px; border-radius:11px; background:var(--panel); border:1px solid var(--filo); display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
 
   .wrap { padding:18px; max-width:600px; margin:0 auto; }
   .view { display:none; }
@@ -48,44 +58,44 @@
   @keyframes fade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
 
   /* NAV INFERIOR */
-  .botnav { position:fixed; bottom:0; left:0; right:0; background:rgba(11,18,28,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--line); display:flex; justify-content:space-around; padding:8px 4px calc(8px + env(safe-area-inset-bottom)); z-index:60; }
-  .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; background:none; color:var(--gray2); padding:6px 2px; transition:color .15s; position:relative; }
+  .botnav { position:fixed; bottom:0; left:0; right:0; background:var(--velo); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-top:1px solid var(--filo); display:flex; justify-content:space-around; padding:8px 4px calc(8px + env(safe-area-inset-bottom)); z-index:60; }
+  .nav-btn { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; background:none; color:var(--apagado); padding:6px 2px; transition:color .15s; position:relative; }
   .nav-btn svg { width:23px; height:23px; stroke:currentColor; fill:none; stroke-width:1.8; }
   .nav-btn span { font-size:0.62rem; font-weight:600; }
-  .nav-btn.active { color:var(--bl-l); }
+  .nav-btn.active { color:var(--azul); }
 
   /* CARDS */
-  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; margin-bottom:14px; }
-  .hero { padding:2px 0 18px; margin-bottom:6px; border-bottom:1px solid var(--line); }
+  .card { background:var(--panel); border:1px solid var(--filo); border-radius:16px; padding:18px; margin-bottom:14px; }
+  .hero { padding:2px 0 18px; margin-bottom:6px; border-bottom:1px solid var(--filo); }
   .hero h2 { font-size:1.35rem; font-weight:800; margin-bottom:5px; }
-  .hero p { font-size:0.85rem; color:var(--gray); }
+  .hero p { font-size:0.85rem; color:var(--texto); }
 
-  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--gray); text-transform:uppercase; letter-spacing:0.2em; margin:26px 0 12px; }
-  .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
+  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--texto); text-transform:uppercase; letter-spacing:0.2em; margin:26px 0 12px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--filo); }
 
   .quick-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .quick { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:18px; display:flex; flex-direction:column; gap:10px; cursor:pointer; transition:transform .12s, border-color .15s; text-align:left; }
+  .quick { background:var(--panel); border:1px solid var(--filo); border-radius:15px; padding:18px; display:flex; flex-direction:column; gap:10px; cursor:pointer; transition:transform .12s, border-color .15s; text-align:left; }
   .quick:active { transform:scale(0.97); }
   .quick .q-ico { display:flex; align-items:center; justify-content:center; width:26px; height:26px; }
   .quick .q-ico svg { width:22px; height:22px; stroke-width:1.8; fill:none; }
-  .quick .q-title { font-size:0.95rem; font-weight:800; color:var(--white); }
-  .quick .q-sub { font-size:0.74rem; color:var(--gray); }
+  .quick .q-title { font-size:0.95rem; font-weight:800; color:var(--tinta); }
+  .quick .q-sub { font-size:0.74rem; color:var(--texto); }
 
-  .stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:8px; }
+  .stat-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--filo); border-bottom:1px solid var(--filo); margin-bottom:8px; }
   .stat-box { padding:15px 0; }
-  .stat-box + .stat-box { border-left:1px solid var(--line); padding-left:16px; }
-  .stat-box .sn { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.35rem; font-weight:500; line-height:1; color:var(--white); }
-  .stat-box .sl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); margin-top:9px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
+  .stat-box + .stat-box { border-left:1px solid var(--filo); padding-left:16px; }
+  .stat-box .sn { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.35rem; font-weight:500; line-height:1; color:var(--tinta); }
+  .stat-box .sl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--texto); margin-top:9px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
 
   .item-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:8px; }
   .status { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.64rem; font-weight:500; text-transform:uppercase; letter-spacing:0.14em; white-space:nowrap; }
 
-  .empty { text-align:center; padding:44px 20px; color:var(--gray2); }
-  .empty svg { width:50px; height:50px; stroke:var(--gray2); fill:none; stroke-width:1.2; margin-bottom:12px; }
-  .empty p { font-size:0.9rem; color:var(--gray); }
-  .loading { text-align:center; padding:36px; color:var(--gray); font-size:0.9rem; }
+  .empty { text-align:center; padding:44px 20px; color:var(--apagado); }
+  .empty svg { width:50px; height:50px; stroke:var(--apagado); fill:none; stroke-width:1.2; margin-bottom:12px; }
+  .empty p { font-size:0.9rem; color:var(--texto); }
+  .loading { text-align:center; padding:36px; color:var(--texto); font-size:0.9rem; }
 
-  .toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:var(--card2); border:1px solid var(--line); color:#fff; padding:13px 22px; border-radius:12px; font-size:0.88rem; font-weight:600; z-index:500; opacity:0; transition:opacity .2s; box-shadow:0 8px 30px rgba(0,0,0,0.5); }
+  .toast { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:var(--panel2); border:1px solid var(--filo2); color:var(--tinta); padding:13px 22px; border-radius:12px; font-size:0.88rem; font-weight:600; z-index:500; opacity:0; transition:opacity .2s; box-shadow:var(--sombra); }
   .toast.show { opacity:1; }
 </style>
 </head>
@@ -93,20 +103,25 @@
 
 <!-- LOGIN -->
 <div id="login">
-  <img src="https://wifnix.com/assets/logo-wifnix.png" class="logo" alt="Wifnix" onerror="this.style.display='none'">
-  <div class="tagline">Tu cuenta Wifnix</div>
+  <div class="login-switches"><span data-wx-switches></span></div>
+  <img src="/assets/logo-wifnix.png" class="logo" alt="Wifnix" onerror="this.style.display='none'">
+  <div class="tagline es">Tu cuenta Wifnix</div>
+  <div class="tagline en">Your Wifnix account</div>
   <div class="login-card">
     <div id="login-err" class="hidden"></div>
     <div class="field">
-      <label>Correo electrónico</label>
-      <input type="email" id="l-email" placeholder="tu@correo.com" autocapitalize="off" autocomplete="username">
+      <label class="es">Correo electrónico</label>
+      <label class="en">Email</label>
+      <input type="email" id="l-email" placeholder="tu@correo.com" data-es="tu@correo.com" data-en="you@email.com" autocapitalize="off" autocomplete="username">
     </div>
     <div class="field">
-      <label>Contraseña</label>
+      <label class="es">Contraseña</label>
+      <label class="en">Password</label>
       <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
     </div>
-    <button class="btn-primary" id="l-btn" onclick="doLogin()">Entrar</button>
-    <div class="login-foot">¿No tienes cuenta? <a href="https://wifnix.com" target="_blank">Regístrate en wifnix.com</a></div>
+    <button class="btn-primary" id="l-btn" onclick="doLogin()" data-es="Entrar" data-en="Sign in">Entrar</button>
+    <div class="login-foot es">¿No tienes cuenta? <a href="https://wifnix.com" target="_blank">Regístrate en wifnix.com</a></div>
+    <div class="login-foot en">Don't have an account? <a href="https://wifnix.com" target="_blank">Sign up at wifnix.com</a></div>
   </div>
 </div>
 
@@ -117,41 +132,46 @@
       <div class="ab-title" id="ab-title">Inicio</div>
       <div class="ab-sub" id="ab-sub">—</div>
     </div>
-    <div class="ab-icon" onclick="switchTab('cuenta')">👤</div>
+    <div class="ab-right">
+      <span data-wx-switches></span>
+      <div class="ab-icon" onclick="switchTab('cuenta')">👤</div>
+    </div>
   </div>
 
   <div class="wrap">
     <!-- TAB INICIO -->
     <div class="view active" id="view-inicio">
       <div class="hero">
-        <h2 id="hero-saludo">Hola</h2>
-        <p>¿Qué necesitas hoy?</p>
+        <h2 id="hero-saludo"><span class="es">Hola</span><span class="en">Hi</span></h2>
+        <p class="es">¿Qué necesitas hoy?</p>
+        <p class="en">What do you need today?</p>
       </div>
 
       <div class="quick-grid">
         <button class="quick" onclick="switchTab('servicios'); subTab('citas')">
-          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          <div><div class="q-title">Agendar</div><div class="q-sub">Mantenimiento</div></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--azul)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div><div class="q-title es">Agendar</div><div class="q-title en">Schedule</div><div class="q-sub es">Mantenimiento</div><div class="q-sub en">Maintenance</div></div>
         </button>
         <button class="quick" onclick="switchTab('tienda')">
-          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
-          <div><div class="q-title">Tienda</div><div class="q-sub">Equipos y más</div></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--azul)"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+          <div><div class="q-title es">Tienda</div><div class="q-title en">Store</div><div class="q-sub es">Equipos y más</div><div class="q-sub en">Equipment and more</div></div>
         </button>
         <button class="quick" onclick="switchTab('servicios'); subTab('garantias')">
-          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-          <div><div class="q-title">Garantías</div><div class="q-sub">Mis equipos</div></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <div><div class="q-title es">Garantías</div><div class="q-title en">Warranties</div><div class="q-sub es">Mis equipos</div><div class="q-sub en">My equipment</div></div>
         </button>
         <button class="quick" onclick="switchTab('servicios'); subTab('tickets')">
-          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--bl-l)"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-          <div><div class="q-title">Ayuda</div><div class="q-sub">Soporte</div></div>
+          <div class="q-ico"><svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+          <div><div class="q-title es">Ayuda</div><div class="q-title en">Help</div><div class="q-sub es">Soporte</div><div class="q-sub en">Support</div></div>
         </button>
       </div>
 
-      <div class="section-title">Resumen</div>
+      <div class="section-title es">Resumen</div>
+      <div class="section-title en">Summary</div>
       <div class="stat-row">
-        <div class="stat-box"><div class="sn" id="st-ordenes">—</div><div class="sl">Órdenes</div></div>
-        <div class="stat-box"><div class="sn" id="st-citas">—</div><div class="sl">Servicios</div></div>
-        <div class="stat-box"><div class="sn" id="st-garantias">—</div><div class="sl">Garantías</div></div>
+        <div class="stat-box"><div class="sn" id="st-ordenes">—</div><div class="sl es">Órdenes</div><div class="sl en">Orders</div></div>
+        <div class="stat-box"><div class="sn" id="st-citas">—</div><div class="sl es">Servicios</div><div class="sl en">Services</div></div>
+        <div class="stat-box"><div class="sn" id="st-garantias">—</div><div class="sl es">Garantías</div><div class="sl en">Warranties</div></div>
       </div>
 
       <div id="proximo-servicio"></div>
@@ -161,20 +181,23 @@
     <div class="view" id="view-tienda">
       <div class="empty" style="padding-top:80px">
         <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-        <p>La tienda llegará aquí muy pronto</p>
-        <a href="https://wifnix.com" target="_blank" style="display:inline-block;margin-top:14px;padding:11px 20px;background:var(--bl);color:#fff;border-radius:10px;font-weight:700;font-size:0.85rem">Ir a la tienda web</a>
+        <p class="es">La tienda llegará aquí muy pronto</p>
+        <p class="en">Our store is coming here very soon</p>
+        <a href="https://wifnix.com" target="_blank" class="es" style="display:inline-block;margin-top:14px;padding:11px 20px;background:var(--azul-fuerte);color:var(--fondo);border-radius:10px;font-weight:700;font-size:0.85rem">Ir a la tienda web</a>
+        <a href="https://wifnix.com" target="_blank" class="en" style="display:inline-block;margin-top:14px;padding:11px 20px;background:var(--azul-fuerte);color:var(--fondo);border-radius:10px;font-weight:700;font-size:0.85rem">Go to the online store</a>
       </div>
     </div>
 
     <!-- TAB SERVICIOS (placeholder, se construye en Fase B) -->
     <div class="view" id="view-servicios">
-      <div class="loading">Cargando servicios...</div>
+      <div class="loading es">Cargando servicios...</div>
+      <div class="loading en">Loading services...</div>
     </div>
 
     <!-- TAB CUENTA (placeholder, se construye en Fase D) -->
     <div class="view" id="view-cuenta">
-      <div class="card" id="cuenta-info"><div class="loading">Cargando...</div></div>
-      <button class="btn-primary" style="background:rgba(255,85,85,0.15);color:var(--red);border:1px solid rgba(255,85,85,0.3)" onclick="logout()">Cerrar sesión</button>
+      <div class="card" id="cuenta-info"><div class="loading es">Cargando...</div><div class="loading en">Loading...</div></div>
+      <button class="btn-primary" style="background:var(--panel);color:var(--rojo);border:1px solid rgba(255,85,85,0.45)" onclick="logout()"><span class="es">Cerrar sesión</span><span class="en">Sign out</span></button>
     </div>
   </div>
 </div>
@@ -183,25 +206,25 @@
 <div class="botnav hidden" id="botnav">
   <button class="nav-btn active" data-tab="inicio" onclick="switchTab('inicio')">
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span>Inicio</span>
+    <span class="es">Inicio</span><span class="en">Home</span>
   </button>
   <button class="nav-btn" data-tab="tienda" onclick="switchTab('tienda')">
     <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-    <span>Tienda</span>
+    <span class="es">Tienda</span><span class="en">Store</span>
   </button>
   <button class="nav-btn" data-tab="servicios" onclick="switchTab('servicios')">
     <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-    <span>Servicios</span>
+    <span class="es">Servicios</span><span class="en">Services</span>
   </button>
   <button class="nav-btn" data-tab="cuenta" onclick="switchTab('cuenta')">
     <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    <span>Cuenta</span>
+    <span class="es">Cuenta</span><span class="en">Account</span>
   </button>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script src="https://wifnix.com/assets/wifnix-core.js"></script>
+<script src="/assets/wifnix-core.js"></script>
 <script>
 var API = 'https://api.wifnix.com';
 window.WIFNIX_TOKEN_KEY = 'wifnix_token';
@@ -210,6 +233,53 @@ var USER = null;
 try { USER = JSON.parse(localStorage.getItem('wifnix_user') || 'null'); } catch(e) {}
 var tabActual = 'inicio';
 var datosCache = { ordenes:[], citas:[], garantias:[] };
+var datosCargados = false;
+
+// Todo texto que escribe este script habla los dos idiomas. El idioma
+// vive en el <html>: lo puso el fragmento en línea del <head>.
+function wxIdioma() { return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+
+// El tipo de servicio y el estado llegan del servidor en español, y la
+// fecha la escribe wifnix-core.js también en español. Si son de los
+// conocidos se enseñan en inglés; si llega uno nuevo, se enseña tal
+// cual y no se rompe nada.
+var SERV_EN = {
+  'Mantenimiento de aire acondicionado':'Air conditioning maintenance',
+  'Limpieza de cámaras CCTV':'CCTV camera cleaning',
+  'Revisión de redes/WiFi':'Network / WiFi check',
+  'Mantenimiento de servidores':'Server maintenance',
+  'Inspección de cableado':'Cabling inspection',
+  'Otro servicio':'Other service'
+};
+function nombreServ(t){ return (wxIdioma() === 'en' && SERV_EN[t]) ? SERV_EN[t] : (t || ''); }
+
+var ESTADO_EN = {
+  solicitada:'Requested', aprobada:'Approved — pay your deposit', confirmada:'Confirmed',
+  reprogramada:'Rescheduled', en_proceso:'In progress', completada:'Completed',
+  cancelada:'Cancelled', no_show:'No-show', activa:'Active'
+};
+function etiquetaEstado(status, label){ return (wxIdioma() === 'en' && ESTADO_EN[status]) ? ESTADO_EN[status] : label; }
+
+// wifnix-core.js devuelve el color del estado en hexadecimal fijo
+// (#00E5A0 y compañía) y sobre papel eso no se lee. El color lo pone
+// la ficha del tema; del core solo se aprovecha el texto.
+var ESTADO_COLOR = {
+  solicitada:'var(--ambar)', aprobada:'var(--azul)', confirmada:'var(--verde)',
+  reprogramada:'var(--azul)', en_proceso:'var(--azul)', completada:'var(--verde)',
+  cancelada:'var(--rojo)', no_show:'var(--apagado)'
+};
+function colorEstado(status){ return ESTADO_COLOR[status] || 'var(--azul)'; }
+
+function fechaCita(f) {
+  if (wxIdioma() === 'en' && f) {
+    var d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(f) ? f + 'T12:00:00' : f);
+    // Mismo formato que fechaPR() del core, para que la tarjeta no
+    // cambie de forma al cambiar de idioma: "3 sept 2026" / "Sep 3, 2026".
+    if (!isNaN(d)) return d.toLocaleDateString('en-US', { day:'numeric', month:'short', year:'numeric' });
+  }
+  return window.Wifnix ? window.Wifnix.fechaPR(f) : f;
+}
 
 function toast(msg) {
   var t = document.getElementById('toast');
@@ -236,8 +306,8 @@ async function doLogin() {
   var err = document.getElementById('login-err');
   var btn = document.getElementById('l-btn');
   err.classList.add('hidden');
-  if (!email || !pass) { err.textContent = 'Ingresa tu correo y contraseña'; err.classList.remove('hidden'); return; }
-  btn.disabled = true; btn.textContent = 'Entrando...';
+  if (!email || !pass) { err.textContent = T('Ingresa tu correo y contraseña','Enter your email and password'); err.classList.remove('hidden'); return; }
+  btn.disabled = true; btn.textContent = T('Entrando...','Signing in...');
   try {
     var r = await fetch(API + '/api/auth/login', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -251,12 +321,12 @@ async function doLogin() {
       localStorage.setItem('wifnix_user', JSON.stringify(USER));
       iniciarApp();
     } else {
-      err.textContent = d.error || 'Correo o contraseña incorrectos'; err.classList.remove('hidden');
-      btn.disabled = false; btn.textContent = 'Entrar';
+      err.textContent = d.error || T('Correo o contraseña incorrectos','Incorrect email or password'); err.classList.remove('hidden');
+      btn.disabled = false; btn.textContent = T('Entrar','Sign in');
     }
   } catch(e) {
-    err.textContent = 'Error de conexión'; err.classList.remove('hidden');
-    btn.disabled = false; btn.textContent = 'Entrar';
+    err.textContent = T('Error de conexión','Connection error'); err.classList.remove('hidden');
+    btn.disabled = false; btn.textContent = T('Entrar','Sign in');
   }
 }
 
@@ -264,11 +334,12 @@ function logout() {
   localStorage.removeItem('wifnix_token');
   localStorage.removeItem('wifnix_user');
   TOKEN = null; USER = null;
+  datosCargados = false;
   document.getElementById('app').classList.add('hidden');
   document.getElementById('botnav').classList.add('hidden');
   document.getElementById('login').classList.remove('hidden');
   var btn = document.getElementById('l-btn');
-  btn.disabled = false; btn.textContent = 'Entrar';
+  btn.disabled = false; btn.textContent = T('Entrar','Sign in');
   document.getElementById('l-pass').value = '';
 }
 
@@ -280,20 +351,34 @@ async function iniciarApp() {
   if (!USER || !USER.nombre) {
     try { USER = await api('/api/auth/me'); localStorage.setItem('wifnix_user', JSON.stringify(USER)); } catch(e) {}
   }
-  var nombre = (USER && USER.nombre) ? USER.nombre : 'cliente';
-  document.getElementById('hero-saludo').textContent = 'Hola, ' + nombre;
+  pintarSaludo();
   document.getElementById('ab-sub').textContent = (USER && USER.email) ? USER.email : '';
   cargarInicio();
 }
 
+function pintarSaludo() {
+  var el = document.getElementById('hero-saludo');
+  if (!el || !USER) return;
+  var nombre = USER.nombre ? USER.nombre : T('cliente','customer');
+  el.textContent = T('Hola, ','Hi, ') + nombre;
+}
+
 // ---- NAVEGACIÓN ----
-var titulos = { inicio:'Inicio', tienda:'Tienda', servicios:'Mis Servicios', cuenta:'Mi Cuenta' };
+function tituloTab(tab) {
+  var t = {
+    inicio: T('Inicio','Home'),
+    tienda: T('Tienda','Store'),
+    servicios: T('Mis Servicios','My Services'),
+    cuenta: T('Mi Cuenta','My Account')
+  };
+  return t[tab] || 'Wifnix';
+}
 function switchTab(tab) {
   tabActual = tab;
   document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
   document.getElementById('view-' + tab).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-tab') === tab); });
-  document.getElementById('ab-title').textContent = titulos[tab] || 'Wifnix';
+  document.getElementById('ab-title').textContent = tituloTab(tab);
   window.scrollTo(0,0);
   if (tab === 'servicios') cargarServicios();
   if (tab === 'cuenta') cargarCuenta();
@@ -306,38 +391,49 @@ async function cargarInicio() {
     var citas = (await api('/api/citas/mis-citas') || []).filter(function(c){ return c.status !== 'cancelada'; });
     var garantias = await api('/api/garantias/mis-garantias') || [];
     datosCache = { ordenes:ordenes, citas:citas, garantias:garantias };
+    datosCargados = true;
 
     document.getElementById('st-ordenes').textContent = ordenes.length;
     document.getElementById('st-citas').textContent = citas.length;
     document.getElementById('st-garantias').textContent = garantias.filter(function(g){ return g.status === 'activa'; }).length;
 
-    // Próximo servicio
-    var proximas = citas.filter(function(c){ return ['solicitada','aprobada','confirmada','reprogramada'].includes(c.status); })
-      .sort(function(a,b){ return new Date(a.fecha) - new Date(b.fecha); });
-    var cont = document.getElementById('proximo-servicio');
-    if (proximas.length) {
-      var c = proximas[0];
-      var fecha = window.Wifnix ? window.Wifnix.fechaPR(c.fecha) : c.fecha;
-      var est = window.Wifnix ? window.Wifnix.estadoCita(c.status) : { label:c.status, color:'#0B8FCC' };
-      cont.innerHTML = '<div class="section-title">Próximo servicio</div>' +
-        '<div class="card" onclick="switchTab(\'servicios\')" style="cursor:pointer;border-color:rgba(11,143,204,0.25)">' +
-          '<div class="item-top"><div><div style="font-weight:800;font-size:1rem">' + c.tipo_servicio + '</div>' +
-          '<div style="font-size:0.8rem;color:var(--gray);margin-top:3px">' + fecha + ' · ' + (c.slot||'') + '</div></div>' +
-          '<span class="status" style="color:' + est.color + '">' + est.label + '</span></div>' +
-        '</div>';
-    } else {
-      cont.innerHTML = '<div class="section-title">Próximo servicio</div>' +
-        '<div class="card" style="text-align:center;color:var(--gray)"><p style="font-size:0.88rem;margin-bottom:12px">No tienes servicios programados</p>' +
-        '<button class="btn-primary" style="max-width:240px;margin:0 auto" onclick="switchTab(\'servicios\')">Agendar mantenimiento</button></div>';
-    }
+    pintarProximo();
   } catch(e) {
-    toast('Error al cargar datos');
+    toast(T('Error al cargar datos','Could not load your data'));
+  }
+}
+
+// Próximo servicio. Vive aparte de la carga para poder volver a
+// pintarlo cuando se cambia de idioma, sin pedir los datos otra vez.
+function pintarProximo() {
+  var cont = document.getElementById('proximo-servicio');
+  if (!cont) return;
+  var titulo = '<div class="section-title">' + T('Próximo servicio','Next service') + '</div>';
+  var proximas = (datosCache.citas || []).filter(function(c){ return ['solicitada','aprobada','confirmada','reprogramada'].includes(c.status); })
+    .sort(function(a,b){ return new Date(a.fecha) - new Date(b.fecha); });
+  if (proximas.length) {
+    var c = proximas[0];
+    var fecha = fechaCita(c.fecha);
+    var est = window.Wifnix ? window.Wifnix.estadoCita(c.status) : { label:c.status };
+    cont.innerHTML = titulo +
+      '<div class="card" onclick="switchTab(\'servicios\')" style="cursor:pointer;border-color:rgba(11,143,204,0.25)">' +
+        '<div class="item-top"><div><div style="font-weight:800;font-size:1rem">' + nombreServ(c.tipo_servicio) + '</div>' +
+        '<div style="font-size:0.8rem;color:var(--texto);margin-top:3px">' + fecha + ' · ' + (c.slot||'') + '</div></div>' +
+        '<span class="status" style="color:' + colorEstado(c.status) + '">' + etiquetaEstado(c.status, est.label) + '</span></div>' +
+      '</div>';
+  } else {
+    cont.innerHTML = titulo +
+      '<div class="card" style="text-align:center;color:var(--texto)"><p style="font-size:0.88rem;margin-bottom:12px">' +
+      T('No tienes servicios programados','You have no scheduled services') + '</p>' +
+      '<button class="btn-primary" style="max-width:240px;margin:0 auto" onclick="switchTab(\'servicios\')">' +
+      T('Agendar mantenimiento','Schedule maintenance') + '</button></div>';
   }
 }
 
 // ---- PLACEHOLDERS (se llenan en próximas fases) ----
 async function cargarServicios() {
-  document.getElementById('view-servicios').innerHTML = '<div class="loading">El detalle de servicios se construye en la siguiente fase</div>';
+  document.getElementById('view-servicios').innerHTML = '<div class="loading">' +
+    T('El detalle de servicios se construye en la siguiente fase','Service details are coming in the next phase') + '</div>';
 }
 function subTab(t) { /* se implementa en Fase B */ }
 
@@ -345,15 +441,32 @@ async function cargarCuenta() {
   var nombre = (USER && USER.nombre) ? (USER.nombre + ' ' + (USER.apellido||'')) : '';
   document.getElementById('cuenta-info').innerHTML =
     '<div style="display:flex;align-items:center;gap:14px;margin-bottom:6px">' +
-      '<div style="width:56px;height:56px;border-radius:50%;background:rgba(11,143,204,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--bl-l)">' + (nombre.charAt(0)||'U') + '</div>' +
+      '<div style="width:56px;height:56px;border-radius:50%;background:rgba(11,143,204,0.15);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;color:var(--azul)">' + (nombre.charAt(0)||'U') + '</div>' +
       '<div><div style="font-weight:800;font-size:1.05rem">' + nombre + '</div>' +
-      '<div style="font-size:0.82rem;color:var(--gray)">' + ((USER&&USER.email)||'') + '</div></div>' +
+      '<div style="font-size:0.82rem;color:var(--texto)">' + ((USER&&USER.email)||'') + '</div></div>' +
     '</div>';
+}
+
+// ---- CAMBIO DE IDIOMA ----
+// El CSS compartido solo alcanza a los pares .es/.en del marcado; lo
+// que escribe este script hay que volver a pintarlo a mano.
+function refrescarIdioma() {
+  var t = document.getElementById('ab-title');
+  if (t) t.textContent = tituloTab(tabActual);
+  pintarSaludo();
+  if (datosCargados) pintarProximo();
+  if (tabActual === 'servicios') cargarServicios();
+  if (tabActual === 'cuenta') cargarCuenta();
+}
+if (window.MutationObserver) {
+  new MutationObserver(refrescarIdioma).observe(document.documentElement, { attributes:true, attributeFilter:['data-idioma'] });
 }
 
 // ---- INIT ----
 if (TOKEN) { iniciarApp(); }
+document.getElementById('ab-title').textContent = tituloTab(tabActual);
 document.getElementById('l-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

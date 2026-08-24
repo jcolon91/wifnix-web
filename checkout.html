@@ -28,7 +28,7 @@ d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
 body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 
-.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
 .logo img{height:32px}
 .logo span{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
@@ -106,7 +106,7 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
     <img src="/assets/logo-wifnix.png" alt="Wifnix">
     <span>Checkout</span>
   </a>
-  <div style="display:flex;align-items:center;gap:14px">
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
     <a href="/tienda.html" class="es" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Volver a tienda</a>
     <a href="/tienda.html" class="en" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Back to store</a>
     <span data-wx-switches></span>
@@ -183,7 +183,7 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
           <div class="option-title en">🚚 Local delivery (Puerto Rico)</div>
           <div class="option-desc es">Pueblos limítrofes gratis con compras >$150. Resto de PR según distancia.</div>
           <div class="option-desc en">Free to neighboring towns on orders over $150. Rest of Puerto Rico priced by distance.</div>
-          <div class="option-price" id="local-price">Calculando...</div>
+          <div class="option-price" id="local-price"><span class="es">Calculando...</span><span class="en">Calculating...</span></div>
         </div>
       </div>
       
@@ -194,7 +194,7 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
           <div class="option-title en">📦 Shipping by mail (USPS)</div>
           <div class="option-desc es">Calculado por peso. Generalmente $8-$25.</div>
           <div class="option-desc en">Calculated by weight. Typically $8-$25.</div>
-          <div class="option-price" id="correo-price">Calculando...</div>
+          <div class="option-price" id="correo-price"><span class="es">Calculando...</span><span class="en">Calculating...</span></div>
         </div>
       </div>
       
@@ -425,7 +425,7 @@ function renderSummary() {
   
   var totalsHTML = 
     '<div class="totals-row"><span>Subtotal</span><span>$' + subtotal.toFixed(2) + '</span></div>' +
-    '<div class="totals-row"><span>' + T('IVU (11.5%)','IVU (Puerto Rico sales tax) 11.5%') + '</span><span>$' + ivu.toFixed(2) + '</span></div>' +
+    '<div class="totals-row"><span>' + T('IVU (11.5%)','Sales tax / IVU (11.5%)') + '</span><span>$' + ivu.toFixed(2) + '</span></div>' +
     '<div class="totals-row"><span>' + T('Envío','Shipping') + '</span><span>' + (entrega === 0 ? T('GRATIS','FREE') : '$' + entrega.toFixed(2)) + '</span></div>' +
     '<div class="totals-row total"><span>Total</span><span>$' + total.toFixed(2) + '</span></div>';
   
@@ -568,6 +568,10 @@ function sincronizarPueblo() {
     if (s.options[i].value === v && s.options[i].classList.contains(idi)) { s.selectedIndex = i; return; }
   }
 }
+
+// Al arrancar, el desplegable ya tiene que ensenar la gemela del
+// idioma puesto: si no, en ingles se lee "Selecciona pueblo".
+sincronizarPueblo();
 
 // Los interruptores viven en el archivo compartido y no avisan a nadie.
 // Se vigila el atributo del <html> para repintar lo que escribe este

@@ -349,10 +349,26 @@ function update() {
   document.getElementById('r-tip').innerHTML = tip;
 }
 
+// Un <select> cerrado sigue ensenando el texto de la opcion
+// seleccionada aunque el CSS la esconda. Al cambiar de idioma hay
+// que mover la seleccion a su gemela, que es la opcion de al lado.
+function sincronizarSelects() {
+  var lang = document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+  var otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+
 // Al cambiar el idioma hay que volver a pintar lo que escribe el
 // script: el CSS compartido solo alcanza al marcado.
-new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+new MutationObserver(function () { sincronizarSelects(); update(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
 
+sincronizarSelects();
 update();
 </script>
 <script src="/assets/wifnix-ui.js" defer></script>

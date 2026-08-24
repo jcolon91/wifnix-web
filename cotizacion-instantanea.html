@@ -856,6 +856,23 @@ function sendLead(nombre, email, tel, msg) {
   });
 }
 
+// Un <select> cerrado sigue ensenando el texto de la opcion
+// seleccionada aunque el CSS la esconda. Al cambiar de idioma hay
+// que mover la seleccion a su gemela, que es la opcion de al lado.
+function sincronizarSelects() {
+  var lang = document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+  var otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+sincronizarSelects();
+new MutationObserver(sincronizarSelects).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>

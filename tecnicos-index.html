@@ -5,146 +5,199 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0B8FCC">
 <title>Wifnix Técnicos</title>
-<link rel="icon" type="image/png" sizes="32x32" href="https://wifnix.com/assets/favicon-32.png">
-<link rel="apple-touch-icon" href="https://wifnix.com/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  :root {
-    --blue:#0B8FCC; --blue-d:#0876a8; --ink:#0F1F2E; --gray:#5B7184; --gray2:#94A8B8;
-    --line:#E3EAF0; --bg:#F4F7FA; --card:#FFFFFF; --green:#00B377; --warn:#E89611; --red:#E5484D;
-  }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; overscroll-behavior:none; }
+
+  /* El código de color por tipo de servicio necesita un morado y un
+     cian que no existen en las fichas compartidas. Se añaden aquí en
+     sus dos versiones — no pisan ninguna ficha del tema, solo suman
+     dos nombres nuevos, y así el modo claro no se queda sin contraste. */
+  :root { --morado:#A78BFA; --cian:#22D3EE; }
+  :root[data-tema="claro"] { --morado:#5B3BC4; --cian:#0E6E80; }
+
+  /* La pantalla de entrada y la barra superior se quedan en azul de
+     marca en los dos temas: es la identidad de la app de campo. Pero
+     tiene que ser un azul FIJO, no --azul-fuerte: esa ficha se aclara
+     a #0B8FCC en el tema oscuro y sobre ella el blanco de la barra
+     baja a 2.8:1 — el número de empleado, "Salir", "Volver" y los
+     interruptores dejan de leerse. Con este azul fijo el blanco da
+     7.7:1 y el blanco atenuado 5.6:1, iguales en claro y en oscuro. */
+  :root { --marca:#08587F; --marca2:#075C84; }
+
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--fondo); color:var(--tinta); -webkit-font-smoothing:antialiased; overscroll-behavior:none; }
   .hidden { display:none !important; }
   button { font-family:inherit; cursor:pointer; border:none; }
   input, textarea { font-family:inherit; }
 
   /* LOGIN */
-  #login { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; background:linear-gradient(160deg,#0B8FCC 0%,#075c84 100%); }
+  #login { position:relative; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 24px; background:linear-gradient(160deg,var(--marca) 0%,var(--marca2) 100%); }
+  .login-switches { position:absolute; top:calc(14px + env(safe-area-inset-top)); right:16px; }
   #login .logo { width:140px; margin-bottom:8px; }
   #login h1 { color:#fff; font-size:1.1rem; font-weight:700; margin-bottom:4px; letter-spacing:0.5px; }
-  #login p { color:rgba(255,255,255,0.7); font-size:0.85rem; margin-bottom:28px; }
-  .login-card { background:#fff; border-radius:18px; padding:26px 22px; width:100%; max-width:380px; box-shadow:0 20px 50px rgba(0,0,0,0.25); }
+  #login p { color:rgba(255,255,255,0.75); font-size:0.85rem; margin-bottom:28px; }
+  .login-card { background:var(--panel2); border:1px solid var(--filo); border-radius:18px; padding:26px 22px; width:100%; max-width:380px; box-shadow:var(--sombra); }
   .field { margin-bottom:16px; }
-  .field label { display:block; font-size:0.74rem; font-weight:700; color:var(--gray); margin-bottom:7px; text-transform:uppercase; letter-spacing:0.04em; }
-  .field input { width:100%; padding:14px; border:1.5px solid var(--line); border-radius:11px; font-size:1rem; color:var(--ink); transition:border .15s; }
-  .field input:focus { outline:none; border-color:var(--blue); }
-  .btn-primary { width:100%; padding:15px; background:var(--blue); color:#fff; border-radius:11px; font-size:1rem; font-weight:700; transition:background .15s; }
-  .btn-primary:active { background:var(--blue-d); }
+  .field label { display:block; font-size:0.74rem; font-weight:700; color:var(--texto); margin-bottom:7px; text-transform:uppercase; letter-spacing:0.04em; }
+  .field input { width:100%; padding:14px; background:var(--fondo2); border:1.5px solid var(--filo); border-radius:11px; font-size:1rem; color:var(--tinta); transition:border .15s; }
+  .field input:focus { outline:none; border-color:var(--azul); }
+  .btn-primary { width:100%; padding:15px; background:var(--azul-fuerte); color:var(--fondo); border-radius:11px; font-size:1rem; font-weight:700; transition:filter .15s; }
+  .btn-primary:active { filter:brightness(0.88); }
   .btn-primary:disabled { opacity:0.6; }
-  #login-err { color:#fff; background:rgba(229,72,77,0.9); padding:10px 14px; border-radius:9px; font-size:0.84rem; margin-bottom:14px; text-align:center; }
+  #login-err { color:var(--rojo); background:rgba(229,72,77,0.10); border:1px solid rgba(229,72,77,0.42); padding:10px 14px; border-radius:9px; font-size:0.84rem; margin-bottom:14px; text-align:center; }
+
+  /* Los interruptores compartidos van aquí sobre azul de marca — en el
+     login y en la barra superior — y ahí el gris apagado no se lee.
+     Sobre esa superficie fija van en blanco, como el resto de la barra. */
+  #login .wx-lang, #login .wx-tema,
+  .topbar .wx-lang, .topbar .wx-tema { border-color:rgba(255,255,255,0.38); }
+  #login .wx-lang button, #login .wx-tema,
+  .topbar .wx-lang button, .topbar .wx-tema { color:rgba(255,255,255,0.82); }
+  #login .wx-lang button:hover, #login .wx-tema:hover,
+  .topbar .wx-lang button:hover, .topbar .wx-tema:hover { color:#fff; }
+  #login .wx-lang button[aria-pressed="true"],
+  .topbar .wx-lang button[aria-pressed="true"] { color:#fff; background:rgba(255,255,255,0.2); }
 
   /* APP SHELL */
   #app { min-height:100vh; padding-bottom:20px; }
-  .topbar { background:var(--blue); color:#fff; padding:16px 18px calc(16px + env(safe-area-inset-top)); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(11,143,204,0.25); }
+  .topbar { background:var(--marca); color:#fff; padding:16px 18px calc(16px + env(safe-area-inset-top)); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:50; box-shadow:0 2px 10px rgba(11,143,204,0.25); }
   .topbar .tb-title { font-size:1.05rem; font-weight:800; }
   .topbar .tb-sub { font-size:0.72rem; opacity:0.8; margin-top:1px; }
+  .tb-right { display:flex; align-items:center; gap:8px; }
   .tb-logout { background:rgba(255,255,255,0.18); color:#fff; padding:8px 12px; border-radius:9px; font-size:0.74rem; font-weight:700; }
 
   .wrap { padding:16px; max-width:560px; margin:0 auto; }
 
   /* RESUMEN */
-  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-bottom:18px; }
+  .stats { display:grid; grid-template-columns:1fr 1fr 1fr; border-top:1px solid var(--filo); border-bottom:1px solid var(--filo); margin-bottom:18px; }
   .stat { padding:14px 0; }
-  .stat + .stat { border-left:1px solid var(--line); padding-left:14px; }
-  .stat .num { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.4rem; font-weight:500; color:var(--ink); line-height:1; }
-  .stat .lbl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); margin-top:8px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
+  .stat + .stat { border-left:1px solid var(--filo); padding-left:14px; }
+  .stat .num { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:1.4rem; font-weight:500; color:var(--tinta); line-height:1; }
+  .stat .lbl { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--texto); margin-top:8px; text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
 
-  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--gray); text-transform:uppercase; letter-spacing:0.2em; margin:22px 0 10px; }
-  .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
+  .section-title { display:flex; align-items:center; gap:12px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.66rem; font-weight:500; color:var(--texto); text-transform:uppercase; letter-spacing:0.2em; margin:22px 0 10px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--filo); }
 
   /* DATE NAV */
-  .datenav { display:flex; align-items:center; justify-content:space-between; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:8px 12px; margin-bottom:14px; }
-  .datenav button { width:36px; height:36px; border-radius:9px; background:var(--bg); color:var(--ink); font-size:1.1rem; font-weight:700; }
-  .datenav .dn-label { font-size:0.9rem; font-weight:700; color:var(--ink); text-transform:capitalize; }
+  .datenav { display:flex; align-items:center; justify-content:space-between; background:var(--panel); border:1px solid var(--filo); border-radius:12px; padding:8px 12px; margin-bottom:14px; }
+  .datenav button { width:36px; height:36px; border-radius:9px; background:var(--fondo2); color:var(--tinta); font-size:1.1rem; font-weight:700; }
+  .datenav .dn-label { font-size:0.9rem; font-weight:700; color:var(--tinta); text-transform:capitalize; }
 
   /* JOB CARD */
-  .job { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:0; margin-bottom:12px; overflow:hidden; box-shadow:0 1px 3px rgba(15,31,46,0.04); }
+  .job { background:var(--panel); border:1px solid var(--filo); border-radius:15px; padding:0; margin-bottom:12px; overflow:hidden; box-shadow:0 1px 3px var(--filo); }
   .job-strip { height:5px; }
   .job-body { padding:15px; }
   .job-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px; }
-  .job-time { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.76rem; font-weight:600; color:var(--ink); letter-spacing:0.04em; }
+  .job-time { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.76rem; font-weight:600; color:var(--tinta); letter-spacing:0.04em; }
   .job-status { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.62rem; font-weight:500; text-transform:uppercase; letter-spacing:0.14em; white-space:nowrap; }
-  .job-serv { font-size:1rem; font-weight:800; color:var(--ink); margin-bottom:4px; }
-  .job-client { font-size:0.86rem; color:var(--gray); }
-  .job-addr { font-size:0.8rem; color:var(--gray2); margin-top:6px; }
-  .job-units { margin-top:9px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.68rem; color:var(--gray); letter-spacing:0.03em; }
+  .job-serv { font-size:1rem; font-weight:800; color:var(--tinta); margin-bottom:4px; }
+  .job-client { font-size:0.86rem; color:var(--texto); }
+  .job-addr { font-size:0.8rem; color:var(--apagado); margin-top:6px; }
+  .job-units { margin-top:9px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.68rem; color:var(--texto); letter-spacing:0.03em; }
 
   /* DETAIL */
-  #detail { position:fixed; inset:0; background:var(--bg); z-index:100; overflow-y:auto; transform:translateX(100%); transition:transform .25s ease; }
+  #detail { position:fixed; inset:0; background:var(--fondo); z-index:100; overflow-y:auto; transform:translateX(100%); transition:transform .25s ease; }
   #detail.open { transform:translateX(0); }
   .det-back { background:rgba(255,255,255,0.18); color:#fff; padding:8px 14px; border-radius:9px; font-size:0.8rem; font-weight:700; display:inline-flex; align-items:center; gap:6px; }
-  .det-card { background:var(--card); border:1px solid var(--line); border-radius:15px; padding:16px; margin-bottom:14px; }
-  .det-row { padding:11px 0; border-bottom:1px solid var(--line); }
+  .det-card { background:var(--panel); border:1px solid var(--filo); border-radius:15px; padding:16px; margin-bottom:14px; }
+  .det-row { padding:11px 0; border-bottom:1px solid var(--filo); }
   .det-row:last-child { border-bottom:none; }
-  .det-k { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.62rem; color:var(--gray2); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
-  .det-v { font-size:0.9rem; color:var(--ink); font-weight:600; margin-top:2px; word-break:break-word; }
-  .det-v a { color:var(--blue); text-decoration:none; }
+  .det-k { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.62rem; color:var(--apagado); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; }
+  .det-v { font-size:0.9rem; color:var(--tinta); font-weight:600; margin-top:2px; word-break:break-word; }
+  .det-v a { color:var(--azul); text-decoration:none; }
 
   .flow-btn { width:100%; padding:17px; border-radius:13px; font-size:1.02rem; font-weight:800; margin-bottom:11px; display:flex; align-items:center; justify-content:center; gap:9px; transition:transform .1s; }
   .flow-btn:active { transform:scale(0.98); }
-  .flow-btn.viaje { background:var(--blue); color:#fff; }
-  .flow-btn.llegue { background:var(--warn); color:#fff; }
-  .flow-btn.completar { background:var(--green); color:#fff; }
-  .flow-btn.done { background:#E8F5EE; color:var(--green); }
+  /* El texto va en el color de fondo del tema: sobre azul, ámbar o
+     verde de marca eso da contraste de sobra en claro y en oscuro. */
+  .flow-btn.viaje { background:var(--azul-fuerte); color:var(--fondo); }
+  .flow-btn.llegue { background:var(--ambar); color:var(--fondo); }
+  .flow-btn.completar { background:var(--verde); color:var(--fondo); }
+  /* El botón "hecho" no es un botón: es el renglón donde el técnico
+     lee a qué hora salió, llegó o terminó. Con el verde y el
+     opacity:0.45 del diseño original ese dato caía a 1.8:1 sobre
+     papel — ilegible. Se queda el tinte verde de fondo y el ✓, pero
+     la hora va en tinta y sin atenuar: 14.7:1 en claro, 12.3:1 en
+     oscuro. Los botones que sí son botones conservan el 0.45. */
+  .flow-btn.done { background:rgba(0,179,119,0.13); color:var(--tinta); }
   .flow-btn:disabled { opacity:0.45; }
+  .flow-btn.done:disabled { opacity:1; }
 
   .timeline { display:flex; justify-content:space-between; margin:6px 0 18px; position:relative; }
-  .timeline::before { content:''; position:absolute; top:13px; left:8%; right:8%; height:2px; background:var(--line); z-index:0; }
+  .timeline::before { content:''; position:absolute; top:13px; left:8%; right:8%; height:2px; background:var(--filo); z-index:0; }
   .tl-step { display:flex; flex-direction:column; align-items:center; gap:6px; z-index:1; flex:1; }
-  .tl-dot { width:28px; height:28px; border-radius:50%; background:var(--card); border:2px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:0.8rem; color:var(--gray2); }
-  .tl-dot.active { background:var(--green); border-color:var(--green); color:#fff; }
-  .tl-lbl { font-size:0.62rem; color:var(--gray); font-weight:700; text-align:center; }
-  .tl-time { font-size:0.6rem; color:var(--gray2); }
+  .tl-dot { width:28px; height:28px; border-radius:50%; background:var(--panel); border:2px solid var(--filo2); display:flex; align-items:center; justify-content:center; font-size:0.8rem; color:var(--apagado); }
+  .tl-dot.active { background:var(--verde); border-color:var(--verde); color:var(--fondo); }
+  .tl-lbl { font-size:0.62rem; color:var(--texto); font-weight:700; text-align:center; }
+  .tl-time { font-size:0.6rem; color:var(--apagado); }
 
   .photo-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
-  .photo-slot { border:2px dashed var(--line); border-radius:12px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--gray2); font-size:0.78rem; font-weight:700; position:relative; overflow:hidden; background:var(--bg); }
+  .photo-slot { border:2px dashed var(--filo2); border-radius:12px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:var(--apagado); font-size:0.78rem; font-weight:700; position:relative; overflow:hidden; background:var(--fondo2); }
   .photo-slot img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   .photo-cell { display:flex; flex-direction:column; }
-  .ph-label { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--gray); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; margin-bottom:6px; }
+  .ph-label { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:0.6rem; color:var(--texto); text-transform:uppercase; letter-spacing:0.16em; font-weight:500; margin-bottom:6px; }
   .photo-add { font-size:1.6rem; }
 
-  textarea.notas { width:100%; min-height:80px; border:1.5px solid var(--line); border-radius:11px; padding:12px; font-size:0.92rem; resize:vertical; color:var(--ink); }
-  textarea.notas:focus { outline:none; border-color:var(--blue); }
+  textarea.notas { width:100%; min-height:80px; background:var(--fondo2); border:1.5px solid var(--filo); border-radius:11px; padding:12px; font-size:0.92rem; resize:vertical; color:var(--tinta); }
+  textarea.notas:focus { outline:none; border-color:var(--azul); }
 
   /* FIRMA */
   #firma-modal { position:fixed; inset:0; background:rgba(15,31,46,0.6); z-index:200; display:none; align-items:center; justify-content:center; padding:20px; }
   #firma-modal.open { display:flex; }
-  .firma-box { background:#fff; border-radius:16px; padding:18px; width:100%; max-width:440px; }
+  .firma-box { background:var(--panel2); border:1px solid var(--filo); border-radius:16px; padding:18px; width:100%; max-width:440px; }
   .firma-box h3 { font-size:1rem; font-weight:800; margin-bottom:4px; }
-  .firma-box p { font-size:0.8rem; color:var(--gray); margin-bottom:12px; }
-  #firma-canvas { width:100%; height:180px; border:2px solid var(--line); border-radius:12px; touch-action:none; background:#fff; }
+  .firma-box p { font-size:0.8rem; color:var(--texto); margin-bottom:12px; }
+  /* El lienzo de la firma se queda blanco con trazo oscuro en los dos
+     temas a propósito: esa imagen se guarda como comprobante y tiene
+     que leerse igual en el expediente y en papel. */
+  #firma-canvas { width:100%; height:180px; border:2px solid var(--filo2); border-radius:12px; touch-action:none; background:#fff; }
   .firma-actions { display:flex; gap:10px; margin-top:12px; }
   .firma-actions button { flex:1; padding:13px; border-radius:11px; font-weight:700; font-size:0.9rem; }
-  .btn-ghost { background:var(--bg); color:var(--ink); }
+  .btn-ghost { background:var(--fondo2); color:var(--tinta); }
 
-  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; padding:13px 22px; border-radius:12px; font-size:0.88rem; font-weight:600; z-index:500; opacity:0; transition:opacity .2s; box-shadow:0 8px 24px rgba(0,0,0,0.3); }
+  .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--panel2); border:1px solid var(--filo2); color:var(--tinta); padding:13px 22px; border-radius:12px; font-size:0.88rem; font-weight:600; z-index:500; opacity:0; transition:opacity .2s; box-shadow:var(--sombra); }
   .toast.show { opacity:1; }
 
-  .empty { text-align:center; padding:50px 20px; color:var(--gray2); }
-  .empty svg { width:54px; height:54px; stroke:var(--gray2); fill:none; stroke-width:1.3; margin-bottom:12px; }
+  .empty { text-align:center; padding:50px 20px; color:var(--apagado); }
+  .empty svg { width:54px; height:54px; stroke:var(--apagado); fill:none; stroke-width:1.3; margin-bottom:12px; }
   .empty p { font-size:0.92rem; }
 
-  .loading { text-align:center; padding:40px; color:var(--gray); font-size:0.9rem; }
+  .loading { text-align:center; padding:40px; color:var(--texto); font-size:0.9rem; }
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="login">
-  <img src="https://wifnix.com/assets/logo-wifnix.png" class="logo" alt="Wifnix" onerror="this.style.display='none'">
-  <h1>PORTAL DE TÉCNICOS</h1>
+  <div class="login-switches"><span data-wx-switches></span></div>
+  <img src="/assets/logo-wifnix.png" class="logo" alt="Wifnix" onerror="this.style.display='none'">
+  <h1 class="es">PORTAL DE TÉCNICOS</h1>
+  <h1 class="en">TECHNICIAN PORTAL</h1>
   <p>Field Service · Wifnix LLC</p>
   <div class="login-card">
     <div id="login-err" class="hidden"></div>
     <div class="field">
-      <label>Número de empleado</label>
+      <label class="es">Número de empleado</label>
+      <label class="en">Employee number</label>
       <input type="text" id="l-num" placeholder="T-00000" autocapitalize="characters" autocomplete="username">
     </div>
     <div class="field">
-      <label>Contraseña</label>
+      <label class="es">Contraseña</label>
+      <label class="en">Password</label>
       <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password">
     </div>
-    <button class="btn-primary" id="l-btn" onclick="doLogin()">Entrar</button>
+    <button class="btn-primary" id="l-btn" onclick="doLogin()" data-es="Entrar" data-en="Sign in">Entrar</button>
   </div>
 </div>
 
@@ -155,13 +208,16 @@
       <div class="tb-title" id="tb-name">—</div>
       <div class="tb-sub" id="tb-num">—</div>
     </div>
-    <button class="tb-logout" onclick="logout()">Salir</button>
+    <div class="tb-right">
+      <span data-wx-switches></span>
+      <button class="tb-logout" onclick="logout()"><span class="es">Salir</span><span class="en">Sign out</span></button>
+    </div>
   </div>
   <div class="wrap">
     <div class="stats">
-      <div class="stat"><div class="num" id="st-hoy">—</div><div class="lbl">Hoy</div></div>
-      <div class="stat"><div class="num" id="st-comp">—</div><div class="lbl">Completados</div></div>
-      <div class="stat"><div class="num" id="st-prox">—</div><div class="lbl">Próximos</div></div>
+      <div class="stat"><div class="num" id="st-hoy">—</div><div class="lbl es">Hoy</div><div class="lbl en">Today</div></div>
+      <div class="stat"><div class="num" id="st-comp">—</div><div class="lbl es">Completados</div><div class="lbl en">Completed</div></div>
+      <div class="stat"><div class="num" id="st-prox">—</div><div class="lbl es">Próximos</div><div class="lbl en">Upcoming</div></div>
     </div>
 
     <div class="datenav">
@@ -170,15 +226,16 @@
       <button onclick="cambiarDia(1)">›</button>
     </div>
 
-    <div class="section-title">Trabajos del día</div>
-    <div id="jobs"><div class="loading">Cargando...</div></div>
+    <div class="section-title es">Trabajos del día</div>
+    <div class="section-title en">Jobs for the day</div>
+    <div id="jobs"><div class="loading es">Cargando...</div><div class="loading en">Loading...</div></div>
   </div>
 </div>
 
 <!-- DETAIL -->
 <div id="detail">
   <div class="topbar">
-    <button class="det-back" onclick="cerrarDetalle()">‹ Volver</button>
+    <button class="det-back" onclick="cerrarDetalle()"><span class="es">‹ Volver</span><span class="en">‹ Back</span></button>
     <div class="tb-title" id="det-num" style="font-size:0.92rem">—</div>
     <div style="width:60px"></div>
   </div>
@@ -188,14 +245,16 @@
 <!-- FIRMA MODAL -->
 <div id="firma-modal">
   <div class="firma-box">
-    <h3>Firma del cliente</h3>
-    <p>Pídele al cliente que firme con el dedo para confirmar el servicio.</p>
+    <h3 class="es">Firma del cliente</h3>
+    <h3 class="en">Customer signature</h3>
+    <p class="es">Pídele al cliente que firme con el dedo para confirmar el servicio.</p>
+    <p class="en">Ask the customer to sign with their finger to confirm the service.</p>
     <canvas id="firma-canvas"></canvas>
     <div class="firma-actions">
-      <button class="btn-ghost" onclick="limpiarFirma()">Limpiar</button>
-      <button class="btn-primary" style="padding:13px" onclick="guardarFirma()">Confirmar firma</button>
+      <button class="btn-ghost" onclick="limpiarFirma()"><span class="es">Limpiar</span><span class="en">Clear</span></button>
+      <button class="btn-primary" style="padding:13px" onclick="guardarFirma()"><span class="es">Confirmar firma</span><span class="en">Confirm signature</span></button>
     </div>
-    <button class="btn-ghost" style="width:100%;margin-top:8px;padding:11px" onclick="cerrarFirma()">Cancelar</button>
+    <button class="btn-ghost" style="width:100%;margin-top:8px;padding:11px" onclick="cerrarFirma()"><span class="es">Cancelar</span><span class="en">Cancel</span></button>
   </div>
 </div>
 
@@ -208,7 +267,14 @@ var TECNICO = null;
 try { TECNICO = JSON.parse(localStorage.getItem('wifnix_tecnico') || 'null'); } catch(e) {}
 var fechaActual = new Date();
 var jobsCache = [];
+var jobsCargados = false;
 var jobActual = null;
+
+// Todo texto que escribe este script habla los dos idiomas. El idioma
+// vive en el <html>: lo puso el fragmento en línea del <head>.
+function wxIdioma() { return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+function wxLocale() { return wxIdioma() === 'en' ? 'en-US' : 'es-PR'; }
 
 // ---- API helper ----
 async function tapi(path, opts) {
@@ -234,8 +300,8 @@ async function doLogin() {
   var err = document.getElementById('login-err');
   var btn = document.getElementById('l-btn');
   err.classList.add('hidden');
-  if (!num || !pass) { err.textContent = 'Ingresa tu número y contraseña'; err.classList.remove('hidden'); return; }
-  btn.disabled = true; btn.textContent = 'Entrando...';
+  if (!num || !pass) { err.textContent = T('Ingresa tu número y contraseña','Enter your employee number and password'); err.classList.remove('hidden'); return; }
+  btn.disabled = true; btn.textContent = T('Entrando...','Signing in...');
   try {
     var r = await fetch(API + '/api/tecnico/login', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -248,12 +314,12 @@ async function doLogin() {
       localStorage.setItem('wifnix_tecnico', JSON.stringify(TECNICO));
       iniciarApp();
     } else {
-      err.textContent = d.error || 'Error al entrar'; err.classList.remove('hidden');
-      btn.disabled = false; btn.textContent = 'Entrar';
+      err.textContent = d.error || T('Error al entrar','Could not sign in'); err.classList.remove('hidden');
+      btn.disabled = false; btn.textContent = T('Entrar','Sign in');
     }
   } catch(e) {
-    err.textContent = 'Error de conexión'; err.classList.remove('hidden');
-    btn.disabled = false; btn.textContent = 'Entrar';
+    err.textContent = T('Error de conexión','Connection error'); err.classList.remove('hidden');
+    btn.disabled = false; btn.textContent = T('Entrar','Sign in');
   }
 }
 
@@ -261,10 +327,11 @@ function logout() {
   localStorage.removeItem('wifnix_tecnico_token');
   localStorage.removeItem('wifnix_tecnico');
   TOKEN = null; TECNICO = null;
+  jobsCargados = false;
   document.getElementById('app').classList.add('hidden');
   document.getElementById('login').classList.remove('hidden');
   var btn = document.getElementById('l-btn');
-  btn.disabled = false; btn.textContent = 'Entrar';
+  btn.disabled = false; btn.textContent = T('Entrar','Sign in');
   document.getElementById('l-pass').value = '';
 }
 
@@ -288,25 +355,38 @@ async function cargarResumen() {
 
 // ---- COLORES POR SERVICIO ----
 var COLOR_SERV = {
-  'Mantenimiento de aire acondicionado':'#0B8FCC',
-  'Limpieza de cámaras CCTV':'#8B5CF6',
-  'Revisión de redes/WiFi':'#00B377',
-  'Mantenimiento de servidores':'#E89611',
-  'Inspección de cableado':'#06B6D4',
-  'Otro servicio':'#5B7184'
+  'Mantenimiento de aire acondicionado':'var(--azul)',
+  'Limpieza de cámaras CCTV':'var(--morado)',
+  'Revisión de redes/WiFi':'var(--verde)',
+  'Mantenimiento de servidores':'var(--ambar)',
+  'Inspección de cableado':'var(--cian)',
+  'Otro servicio':'var(--apagado)'
 };
-function colorServ(t){ return COLOR_SERV[t] || '#5B7184'; }
+function colorServ(t){ return COLOR_SERV[t] || 'var(--apagado)'; }
+
+// El tipo de servicio llega del servidor en español. Si es uno de los
+// conocidos, se enseña en inglés cuando el idioma es inglés; si llega
+// uno nuevo, se enseña tal cual y no se rompe nada.
+var SERV_EN = {
+  'Mantenimiento de aire acondicionado':'Air conditioning maintenance',
+  'Limpieza de cámaras CCTV':'CCTV camera cleaning',
+  'Revisión de redes/WiFi':'Network / WiFi check',
+  'Mantenimiento de servidores':'Server maintenance',
+  'Inspección de cableado':'Cabling inspection',
+  'Otro servicio':'Other service'
+};
+function nombreServ(t){ return (wxIdioma() === 'en' && SERV_EN[t]) ? SERV_EN[t] : (t || ''); }
 
 var STATUS_INFO = {
-  solicitada:{l:'Solicitada',c:'#E89611'},
-  aprobada:{l:'Aprobada',c:'#0B8FCC'},
-  confirmada:{l:'Confirmada',c:'#00B377'},
-  reprogramada:{l:'Reprogramada',c:'#0B8FCC'},
-  en_proceso:{l:'En proceso',c:'#8B5CF6'},
-  completada:{l:'Completada',c:'#00B377'},
-  no_show:{l:'No asistió',c:'#5B7184'}
+  solicitada:{es:'Solicitada',en:'Requested',c:'var(--ambar)'},
+  aprobada:{es:'Aprobada',en:'Approved',c:'var(--azul)'},
+  confirmada:{es:'Confirmada',en:'Confirmed',c:'var(--verde)'},
+  reprogramada:{es:'Reprogramada',en:'Rescheduled',c:'var(--azul)'},
+  en_proceso:{es:'En proceso',en:'In progress',c:'var(--morado)'},
+  completada:{es:'Completada',en:'Completed',c:'var(--verde)'},
+  no_show:{es:'No asistió',en:'No-show',c:'var(--apagado)'}
 };
-function statusInfo(s){ return STATUS_INFO[s] || STATUS_INFO.confirmada; }
+function statusInfo(s){ var i = STATUS_INFO[s] || STATUS_INFO.confirmada; return { l:T(i.es, i.en), c:i.c }; }
 
 // ---- DÍA ----
 function fechaISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -316,25 +396,35 @@ function actualizarLabelDia(){
   var f = new Date(fechaActual); f.setHours(0,0,0,0);
   var diff = Math.round((f-hoy)/86400000);
   var lbl;
-  if (diff === 0) lbl = 'Hoy';
-  else if (diff === 1) lbl = 'Mañana';
-  else if (diff === -1) lbl = 'Ayer';
-  else lbl = fechaActual.toLocaleDateString('es-PR',{weekday:'long',day:'numeric',month:'short'});
+  if (diff === 0) lbl = T('Hoy','Today');
+  else if (diff === 1) lbl = T('Mañana','Tomorrow');
+  else if (diff === -1) lbl = T('Ayer','Yesterday');
+  else lbl = fechaActual.toLocaleDateString(wxLocale(),{weekday:'long',day:'numeric',month:'short'});
   document.getElementById('dn-label').textContent = lbl;
 }
 
 // ---- TRABAJOS ----
 async function cargarTrabajos() {
   var cont = document.getElementById('jobs');
-  cont.innerHTML = '<div class="loading">Cargando...</div>';
+  cont.innerHTML = '<div class="loading">' + T('Cargando...','Loading...') + '</div>';
   var d = await tapi('/api/tecnico/trabajos?fecha=' + fechaISO(fechaActual));
-  if (!d) { cont.innerHTML = '<div class="loading">Error al cargar</div>'; return; }
+  if (!d) { cont.innerHTML = '<div class="loading">' + T('Error al cargar','Could not load') + '</div>'; return; }
   jobsCache = d;
-  if (!d.length) {
-    cont.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>No tienes trabajos este día</p></div>';
+  jobsCargados = true;
+  pintarTrabajos();
+}
+
+// Pintar va aparte de cargar para poder repintar la lista al cambiar
+// de idioma sin volver a pedirla al servidor.
+function pintarTrabajos() {
+  var cont = document.getElementById('jobs');
+  if (!cont) return;
+  if (!jobsCache.length) {
+    cont.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p>' +
+      T('No tienes trabajos este día','No jobs on this day') + '</p></div>';
     return;
   }
-  cont.innerHTML = d.map(function(j){
+  cont.innerHTML = jobsCache.map(function(j){
     var col = colorServ(j.tipo_servicio);
     var si = statusInfo(j.status);
     var cliente = ((j.cliente_nombre||'')+' '+(j.cliente_apellido||'')).trim();
@@ -346,8 +436,8 @@ async function cargarTrabajos() {
           '<span class="job-time">'+ (j.slot||'') +'</span>' +
           '<span class="job-status" style="color:'+si.c+'">'+si.l+'</span>' +
         '</div>' +
-        '<div class="job-serv">'+j.tipo_servicio+'</div>' +
-        '<div class="job-client">'+(cliente||'Cliente')+'</div>' +
+        '<div class="job-serv">'+nombreServ(j.tipo_servicio)+'</div>' +
+        '<div class="job-client">'+(cliente||T('Cliente','Customer'))+'</div>' +
         (j.direccion ? '<div class="job-addr">'+j.direccion+(j.municipio?', '+j.municipio:'')+'</div>' : '') +
         units +
       '</div>' +
@@ -367,7 +457,7 @@ function cerrarDetalle() {
   cargarTrabajos(); cargarResumen();
 }
 
-function fmtHora(ts){ if(!ts) return ''; return new Date(ts).toLocaleTimeString('es-PR',{hour:'2-digit',minute:'2-digit'}); }
+function fmtHora(ts){ if(!ts) return ''; return new Date(ts).toLocaleTimeString(wxLocale(),{hour:'2-digit',minute:'2-digit'}); }
 
 function renderDetalle() {
   var j = jobActual;
@@ -379,10 +469,10 @@ function renderDetalle() {
 
   // Timeline
   var pasos = [
-    { k:'Asignado', done:true, t:'' },
-    { k:'En viaje', done:!!j.hora_inicio_viaje, t:fmtHora(j.hora_inicio_viaje) },
-    { k:'En sitio', done:!!j.hora_llegada, t:fmtHora(j.hora_llegada) },
-    { k:'Completado', done:!!j.hora_fin, t:fmtHora(j.hora_fin) }
+    { k:T('Asignado','Assigned'), done:true, t:'' },
+    { k:T('En viaje','En route'), done:!!j.hora_inicio_viaje, t:fmtHora(j.hora_inicio_viaje) },
+    { k:T('En sitio','On site'), done:!!j.hora_llegada, t:fmtHora(j.hora_llegada) },
+    { k:T('Completado','Completed'), done:!!j.hora_fin, t:fmtHora(j.hora_fin) }
   ];
   var tl = '<div class="timeline">' + pasos.map(function(p){
     return '<div class="tl-step"><div class="tl-dot '+(p.done?'active':'')+'">'+(p.done?'✓':'')+'</div><div class="tl-lbl">'+p.k+'</div><div class="tl-time">'+(p.t||'')+'</div></div>';
@@ -392,41 +482,41 @@ function renderDetalle() {
 
   var html = tl +
     '<div class="det-card" style="border-left:4px solid '+col+'">' +
-      '<div class="job-serv" style="font-size:1.1rem">'+j.tipo_servicio+'</div>' +
-      '<div style="font-size:0.8rem;color:var(--gray);margin-top:4px">'+ (j.slot||'') +' · '+ new Date(j.fecha+'T12:00:00').toLocaleDateString('es-PR',{weekday:'long',day:'numeric',month:'long'}) +'</div>' +
+      '<div class="job-serv" style="font-size:1.1rem">'+nombreServ(j.tipo_servicio)+'</div>' +
+      '<div style="font-size:0.8rem;color:var(--texto);margin-top:4px">'+ (j.slot||'') +' · '+ new Date(j.fecha+'T12:00:00').toLocaleDateString(wxLocale(),{weekday:'long',day:'numeric',month:'long'}) +'</div>' +
     '</div>' +
 
     '<div class="det-card">' +
-      '<div class="det-row"><div class="det-k">Cliente</div><div class="det-v">'+(cliente||'—')+'</div></div>' +
-      (tel ? '<div class="det-row"><div class="det-k">Teléfono</div><div class="det-v"><a href="tel:'+tel+'">'+tel+'</a></div></div>' : '') +
-      (j.direccion ? '<div class="det-row"><div class="det-k">Dirección</div><div class="det-v">'+j.direccion+(j.municipio?', '+j.municipio:'')+(maps?' · <a href="'+maps+'" target="_blank">Navegar</a>':'')+'</div></div>' : '') +
-      '<div class="det-row"><div class="det-k">Unidades / Detalle</div><div class="det-v">'+units+'</div></div>' +
-      (j.notas_cliente ? '<div class="det-row"><div class="det-k">Notas del cliente</div><div class="det-v" style="font-weight:500;font-style:italic">"'+j.notas_cliente+'"</div></div>' : '') +
+      '<div class="det-row"><div class="det-k">'+T('Cliente','Customer')+'</div><div class="det-v">'+(cliente||'—')+'</div></div>' +
+      (tel ? '<div class="det-row"><div class="det-k">'+T('Teléfono','Phone')+'</div><div class="det-v"><a href="tel:'+tel+'">'+tel+'</a></div></div>' : '') +
+      (j.direccion ? '<div class="det-row"><div class="det-k">'+T('Dirección','Address')+'</div><div class="det-v">'+j.direccion+(j.municipio?', '+j.municipio:'')+(maps?' · <a href="'+maps+'" target="_blank">'+T('Navegar','Navigate')+'</a>':'')+'</div></div>' : '') +
+      '<div class="det-row"><div class="det-k">'+T('Unidades / Detalle','Units / Details')+'</div><div class="det-v">'+units+'</div></div>' +
+      (j.notas_cliente ? '<div class="det-row"><div class="det-k">'+T('Notas del cliente','Customer notes')+'</div><div class="det-v" style="font-weight:500;font-style:italic">"'+j.notas_cliente+'"</div></div>' : '') +
     '</div>';
 
   // Flujo de botones segun estado
   if (!j.hora_fin) {
     html += '<div class="det-card">';
     if (!j.hora_inicio_viaje) {
-      html += '<button class="flow-btn viaje" onclick="accionFlujo(\'iniciar-viaje\')">🚗 Iniciar viaje</button>';
+      html += '<button class="flow-btn viaje" onclick="accionFlujo(\'iniciar-viaje\')">🚗 '+T('Iniciar viaje','Start trip')+'</button>';
     } else if (!j.hora_llegada) {
-      html += '<button class="flow-btn done" disabled>✓ En viaje desde '+fmtHora(j.hora_inicio_viaje)+'</button>';
-      html += '<button class="flow-btn llegue" onclick="accionFlujo(\'llegue\')">📍 Marcar llegada</button>';
+      html += '<button class="flow-btn done" disabled>✓ '+T('En viaje desde ','En route since ')+fmtHora(j.hora_inicio_viaje)+'</button>';
+      html += '<button class="flow-btn llegue" onclick="accionFlujo(\'llegue\')">📍 '+T('Marcar llegada','Mark arrival')+'</button>';
     } else {
-      html += '<button class="flow-btn done" disabled>✓ Llegada '+fmtHora(j.hora_llegada)+'</button>';
+      html += '<button class="flow-btn done" disabled>✓ '+T('Llegada ','Arrived ')+fmtHora(j.hora_llegada)+'</button>';
       // Fotos + notas + completar
-      html += '<div class="section-title" style="margin:16px 0 8px">Fotos del trabajo</div>';
+      html += '<div class="section-title" style="margin:16px 0 8px">'+T('Fotos del trabajo','Job photos')+'</div>';
       html += '<div class="photo-grid" id="photo-grid"></div>';
-      html += '<div class="section-title" style="margin:18px 0 8px">Notas del técnico</div>';
-      html += '<textarea class="notas" id="notas-tec" placeholder="Describe el trabajo realizado, observaciones, recomendaciones...">'+(j.notas_tecnico||'')+'</textarea>';
-      html += '<button class="flow-btn completar" style="margin-top:12px" onclick="abrirFirma()">✓ Completar trabajo</button>';
+      html += '<div class="section-title" style="margin:18px 0 8px">'+T('Notas del técnico','Technician notes')+'</div>';
+      html += '<textarea class="notas" id="notas-tec" placeholder="'+T('Describe el trabajo realizado, observaciones, recomendaciones...','Describe the work done, observations, recommendations...')+'">'+(j.notas_tecnico||'')+'</textarea>';
+      html += '<button class="flow-btn completar" style="margin-top:12px" onclick="abrirFirma()">✓ '+T('Completar trabajo','Complete job')+'</button>';
     }
     html += '</div>';
   } else {
-    html += '<div class="det-card"><button class="flow-btn done" disabled>✓ Trabajo completado a las '+fmtHora(j.hora_fin)+'</button>';
+    html += '<div class="det-card"><button class="flow-btn done" disabled>✓ '+T('Trabajo completado a las ','Job completed at ')+fmtHora(j.hora_fin)+'</button>';
     if (j.hora_llegada && j.hora_fin) {
       var mins = Math.round((new Date(j.hora_fin) - new Date(j.hora_llegada))/60000);
-      html += '<div style="text-align:center;font-size:0.82rem;color:var(--gray);margin-top:6px">Tiempo de servicio: '+mins+' min</div>';
+      html += '<div style="text-align:center;font-size:0.82rem;color:var(--texto);margin-top:6px">'+T('Tiempo de servicio: ','Service time: ')+mins+' min</div>';
     }
     html += '</div>';
   }
@@ -440,10 +530,10 @@ function renderDetalle() {
 async function accionFlujo(accion) {
   var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/'+accion, { method:'POST' });
   if (r && r.ok) {
-    if (accion === 'iniciar-viaje') { jobActual.hora_inicio_viaje = new Date().toISOString(); toast('Viaje iniciado'); }
-    if (accion === 'llegue') { jobActual.hora_llegada = new Date().toISOString(); toast('Llegada registrada'); }
+    if (accion === 'iniciar-viaje') { jobActual.hora_inicio_viaje = new Date().toISOString(); toast(T('Viaje iniciado','Trip started')); }
+    if (accion === 'llegue') { jobActual.hora_llegada = new Date().toISOString(); toast(T('Llegada registrada','Arrival recorded')); }
     renderDetalle();
-  } else { toast('Error: '+((r&&r.error)||'intenta de nuevo')); }
+  } else { toast('Error: '+((r&&r.error)||T('intenta de nuevo','try again'))); }
 }
 
 // ---- FOTOS ----
@@ -459,15 +549,15 @@ async function cargarFotos() {
     if (existe) {
       return '<div class="photo-cell"><div class="ph-label">'+label+'</div><div class="photo-slot"><img src="'+existe.url+'"></div></div>';
     }
-    return '<div class="photo-cell"><div class="ph-label">'+label+'</div><label class="photo-slot"><span class="photo-add">+</span><span>Tomar foto</span><input type="file" accept="image/*" capture="environment" style="display:none" onchange="subirFoto(this,\''+tipo+'\')"></label></div>';
+    return '<div class="photo-cell"><div class="ph-label">'+label+'</div><label class="photo-slot"><span class="photo-add">+</span><span>'+T('Tomar foto','Take photo')+'</span><input type="file" accept="image/*" capture="environment" style="display:none" onchange="subirFoto(this,\''+tipo+'\')"></label></div>';
   }
-  grid.innerHTML = slot('antes','ANTES') + slot('despues','DESPUÉS');
+  grid.innerHTML = slot('antes', T('ANTES','BEFORE')) + slot('despues', T('DESPUÉS','AFTER'));
 }
 
 function subirFoto(input, tipo) {
   var file = input.files[0];
   if (!file) return;
-  toast('Subiendo foto...');
+  toast(T('Subiendo foto...','Uploading photo...'));
   var reader = new FileReader();
   reader.onload = async function(e) {
     // Comprimir antes de subir
@@ -481,8 +571,8 @@ function subirFoto(input, tipo) {
       canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
       var b64 = canvas.toDataURL('image/jpeg', 0.7);
       var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/foto', { method:'POST', body:{ tipo:tipo, imagen:b64 } });
-      if (r && r.ok) { toast('Foto guardada'); cargarFotos(); }
-      else { toast('Error al subir foto'); }
+      if (r && r.ok) { toast(T('Foto guardada','Photo saved')); cargarFotos(); }
+      else { toast(T('Error al subir foto','Photo upload failed')); }
     };
     img.src = e.target.result;
   };
@@ -501,6 +591,8 @@ function initFirma() {
   firmaCanvas.width = rect.width;
   firmaCanvas.height = rect.height;
   firmaCtx = firmaCanvas.getContext('2d');
+  // Trazo oscuro sobre lienzo blanco en los dos temas: la firma se
+  // guarda como imagen de comprobante, no como parte de la interfaz.
   firmaCtx.strokeStyle = '#0F1F2E';
   firmaCtx.lineWidth = 2.5;
   firmaCtx.lineCap = 'round';
@@ -527,12 +619,30 @@ async function guardarFirma() {
   var r = await tapi('/api/tecnico/trabajos/'+jobActual.id+'/completar', { method:'POST', body:{ notas_tecnico:notas, firma_cliente:firma } });
   if (r && r.ok) {
     cerrarFirma();
-    toast('¡Trabajo completado!');
+    toast(T('¡Trabajo completado!','Job completed!'));
     jobActual.hora_fin = new Date().toISOString();
     jobActual.notas_tecnico = notas;
     jobActual.status = 'completada';
     renderDetalle();
-  } else { toast('Error al completar'); }
+  } else { toast(T('Error al completar','Could not complete the job')); }
+}
+
+// ---- CAMBIO DE IDIOMA ----
+// El CSS compartido solo alcanza a los pares .es/.en del marcado; lo
+// que escribe este script hay que volver a pintarlo a mano.
+function refrescarIdioma() {
+  actualizarLabelDia();
+  if (jobsCargados) pintarTrabajos();
+  var det = document.getElementById('detail');
+  if (jobActual && det && det.classList.contains('open')) {
+    // No perderle al técnico lo que ya escribió en las notas.
+    var n = document.getElementById('notas-tec');
+    if (n) jobActual.notas_tecnico = n.value;
+    renderDetalle();
+  }
+}
+if (window.MutationObserver) {
+  new MutationObserver(refrescarIdioma).observe(document.documentElement, { attributes:true, attributeFilter:['data-idioma'] });
 }
 
 // ---- INIT ----
@@ -540,5 +650,6 @@ if (TOKEN && TECNICO) { iniciarApp(); }
 actualizarLabelDia();
 document.getElementById('l-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

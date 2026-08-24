@@ -4,78 +4,102 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estimador de Mantenimiento HVAC — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+:root{--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--orange)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
-.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+/* El acento del titular va en EM y no en SPAN: los gemelos .es/.en
+   son spans, y si el color colgara del span se lo llevarían ellos. */
+.header h1 em{color:var(--ambar);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
+.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:4px;padding:26px;margin-bottom:16px}
-.card-title{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-bottom:20px}
-.card-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.card{background:var(--panel);border:1px solid rgba(249,115,22,0.12);border-radius:4px;padding:26px;margin-bottom:16px}
+.card-title{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin-bottom:20px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--filo)}
 .f-group{margin-bottom:14px}
-.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:5px}
-select,input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
-select option{background:var(--navy)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
-.lbl-val{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange);float:right}
-.verdict-hero{border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);padding:26px 0;margin-bottom:4px}
+.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px}
+select,input[type=number]{background:var(--fondo2);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+select option{background:var(--panel);color:var(--tinta)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ambar);cursor:pointer}
+.lbl-val{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--ambar);float:right}
+.verdict-hero{border-top:1px solid var(--filo2);border-bottom:1px solid var(--filo2);padding:26px 0;margin-bottom:4px}
 .verdict-text{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;line-height:1.3}
 .datalist{margin-bottom:26px}
-.dataline{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.07)}
-.data-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em}
-.data-val{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--white)}
-.maint-plan{padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.dataline{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid var(--filo)}
+.data-lbl{font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.08em}
+.data-val{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--tinta)}
+.maint-plan{padding:18px 0;border-bottom:1px solid var(--filo)}
 .maint-plan:last-child{border-bottom:none;padding-bottom:0}
-.plan-tag{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--orange);margin-bottom:8px}
-.maint-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:5px}
-.maint-detail{font-size:0.78rem;color:var(--gray);line-height:1.7;margin-bottom:9px}
-.maint-price{font-family:var(--mono);font-size:0.9rem;font-weight:600;color:var(--success)}
+.plan-tag{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ambar);margin-bottom:8px}
+.maint-name{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:5px}
+.maint-detail{font-size:0.78rem;color:var(--texto);line-height:1.7;margin-bottom:9px}
+.maint-price{font-family:var(--mono);font-size:0.9rem;font-weight:600;color:var(--verde)}
 .timeline{display:flex;flex-direction:column;gap:0}
-.tl-item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.tl-item{padding:14px 0;border-bottom:1px solid var(--filo)}
 .tl-item:last-child{border-bottom:none;padding-bottom:0}
-.tl-content-title{font-size:0.82rem;font-weight:600;color:var(--white);margin-bottom:2px}
-.tl-content-detail{font-size:0.72rem;color:var(--gray);line-height:1.4}
-.tl-freq{font-size:0.65rem;color:var(--orange);font-weight:600;margin-top:3px}
-.tip-box{border-top:1px solid rgba(255,255,255,0.08);padding:18px 0 0;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:22px}
-.tip-box strong{color:var(--white)}
-.cta-box{border-top:1px solid rgba(255,255,255,0.08);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
+.tl-content-title{font-size:0.82rem;font-weight:600;color:var(--tinta);margin-bottom:2px}
+.tl-content-detail{font-size:0.72rem;color:var(--texto);line-height:1.4}
+.tl-freq{font-size:0.65rem;color:var(--ambar);font-weight:600;margin-top:3px}
+.tip-box{border-top:1px solid var(--filo);padding:18px 0 0;font-size:0.8rem;color:var(--texto);line-height:1.8;margin-bottom:22px}
+.tip-box strong{color:var(--tinta)}
+.cta-box{border-top:1px solid var(--filo);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--ambar);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn-azul{background:var(--azul-fuerte);color:#FFFFFF}
 @media(max-width:768px){.grid-2{grid-template-columns:1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
+
   <div class="header" style="animation:fadeUp .5s ease">
-    <div class="eyebrow">Reparar o reemplazar · HVAC en Puerto Rico</div>
-    <h1>Estimador de <span>Mantenimiento HVAC</span></h1>
-    <p>Determina si conviene reparar tu equipo de aire acondicionado o reemplazarlo. Obtén un plan de mantenimiento preventivo personalizado y el costo estimado para tu negocio o residencia en Puerto Rico.</p>
+    <div class="eyebrow es">Reparar o reemplazar · HVAC en Puerto Rico</div>
+    <div class="eyebrow en">Repair or replace · HVAC in Puerto Rico</div>
+    <h1><span class="es">Estimador de <em>Mantenimiento HVAC</em></span><span class="en"><em>HVAC Maintenance</em> Estimator</span></h1>
+    <p class="es">Determina si conviene reparar tu equipo de aire acondicionado o reemplazarlo. Obtén un plan de mantenimiento preventivo personalizado y el costo estimado para tu negocio o residencia en Puerto Rico.</p>
+    <p class="en">Find out whether it makes more sense to repair your air conditioning unit or replace it. Get a personalized preventive maintenance plan and the estimated cost for your business or home in Puerto Rico.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Tu equipo actual</div>
+        <div class="card-title es">Tu equipo actual</div>
+        <div class="card-title en">Your current equipment</div>
         <div class="f-group">
-          <div class="f-label">Tipo de sistema</div>
+          <div class="f-label es">Tipo de sistema</div>
+          <div class="f-label en">System type</div>
           <select id="tipo-equipo" onchange="update()">
             <option value="minisplit">Mini Split</option>
-            <option value="central">Sistema Central / Manejadora</option>
-            <option value="ventana">A/C de ventana</option>
-            <option value="portatil">Portátil</option>
+            <option value="central" class="es">Sistema Central / Manejadora</option>
+            <option value="central" class="en">Central system / Air handler</option>
+            <option value="ventana" class="es">A/C de ventana</option>
+            <option value="ventana" class="en">Window A/C</option>
+            <option value="portatil" class="es">Portátil</option>
+            <option value="portatil" class="en">Portable</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Capacidad (BTU/Ton)</div>
+          <div class="f-label es">Capacidad (BTU/Ton)</div>
+          <div class="f-label en">Capacity (BTU/Ton)</div>
           <select id="capacidad" onchange="update()">
             <option value="12000">12,000 BTU (1 Ton)</option>
             <option value="18000">18,000 BTU (1.5 Ton)</option>
@@ -85,29 +109,43 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Marca</div>
+          <div class="f-label es">Marca</div>
+          <div class="f-label en">Brand</div>
           <select id="marca" onchange="update()">
             <option value="carrier">Carrier</option>
             <option value="lg">LG</option>
             <option value="daikin">Daikin</option>
             <option value="samsung">Samsung</option>
             <option value="trane">Trane / York</option>
-            <option value="otra">Otra / Desconocida</option>
+            <option value="otra" class="es">Otra / Desconocida</option>
+            <option value="otra" class="en">Other / Unknown</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Antigüedad del equipo <span class="lbl-val" id="lbl-anos">5 años</span></div>
+          <!-- El valor vive en un solo span con id: los gemelos .es/.en
+               solo envuelven el rótulo, para no duplicar el id. -->
+          <div class="f-label"><span class="es">Antigüedad del equipo</span><span class="en">Equipment age</span> <span class="lbl-val" id="lbl-anos">5 años</span></div>
           <input type="range" id="sl-anos" min="1" max="25" value="5" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1 año</span><span>10 años</span><span>25 años</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px">
+            <span><span class="es">1 año</span><span class="en">1 year</span></span>
+            <span><span class="es">10 años</span><span class="en">10 years</span></span>
+            <span><span class="es">25 años</span><span class="en">25 years</span></span>
+          </div>
         </div>
         <div class="f-group">
-          <div class="f-label">SEER del equipo (si lo sabe)</div>
+          <div class="f-label es">SEER del equipo (si lo sabe)</div>
+          <div class="f-label en">Equipment SEER (if you know it)</div>
           <select id="seer-actual" onchange="update()">
-            <option value="8">8 SEER — Muy antiguo</option>
-            <option value="10">10 SEER — Antiguo</option>
-            <option value="13" selected>13 SEER — Estándar</option>
-            <option value="16">16 SEER — Moderno</option>
-            <option value="20">20+ SEER — Alta eficiencia</option>
+            <option value="8" class="es">8 SEER — Muy antiguo</option>
+            <option value="8" class="en">8 SEER — Very old</option>
+            <option value="10" class="es">10 SEER — Antiguo</option>
+            <option value="10" class="en">10 SEER — Old</option>
+            <option value="13" selected class="es">13 SEER — Estándar</option>
+            <option value="13" selected class="en">13 SEER — Standard</option>
+            <option value="16" class="es">16 SEER — Moderno</option>
+            <option value="16" class="en">16 SEER — Modern</option>
+            <option value="20" class="es">20+ SEER — Alta eficiencia</option>
+            <option value="20" class="en">20+ SEER — High efficiency</option>
           </select>
         </div>
       </div>
@@ -115,42 +153,61 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
     <div>
       <div class="card">
-        <div class="card-title">Estado del equipo</div>
+        <div class="card-title es">Estado del equipo</div>
+        <div class="card-title en">Equipment condition</div>
         <div class="f-group">
-          <div class="f-label">¿Cuándo fue el último mantenimiento?</div>
+          <div class="f-label es">¿Cuándo fue el último mantenimiento?</div>
+          <div class="f-label en">When was the last service?</div>
           <select id="ultimo-mant" onchange="update()">
-            <option value="reciente">Hace menos de 6 meses</option>
-            <option value="ano">Hace 6-12 meses</option>
-            <option value="2anos" selected>Hace 1-2 años</option>
-            <option value="nunca">Hace más de 2 años / Nunca</option>
+            <option value="reciente" class="es">Hace menos de 6 meses</option>
+            <option value="reciente" class="en">Less than 6 months ago</option>
+            <option value="ano" class="es">Hace 6-12 meses</option>
+            <option value="ano" class="en">6-12 months ago</option>
+            <option value="2anos" selected class="es">Hace 1-2 años</option>
+            <option value="2anos" selected class="en">1-2 years ago</option>
+            <option value="nunca" class="es">Hace más de 2 años / Nunca</option>
+            <option value="nunca" class="en">More than 2 years ago / Never</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Problemas que experimenta</div>
+          <div class="f-label es">Problemas que experimenta</div>
+          <div class="f-label en">Problems you are seeing</div>
           <select id="problema" onchange="update()">
-            <option value="ninguno">Ninguno — Funciona bien</option>
-            <option value="ruido">Hace ruidos inusuales</option>
-            <option value="enfria_mal">No enfría como antes</option>
-            <option value="agua">Gotea agua / humedad excesiva</option>
-            <option value="apaga">Se apaga solo / Error frecuente</option>
-            <option value="no_enciende">No enciende</option>
+            <option value="ninguno" class="es">Ninguno — Funciona bien</option>
+            <option value="ninguno" class="en">None — It works fine</option>
+            <option value="ruido" class="es">Hace ruidos inusuales</option>
+            <option value="ruido" class="en">Unusual noises</option>
+            <option value="enfria_mal" class="es">No enfría como antes</option>
+            <option value="enfria_mal" class="en">Not cooling like it used to</option>
+            <option value="agua" class="es">Gotea agua / humedad excesiva</option>
+            <option value="agua" class="en">Water leaks / excess humidity</option>
+            <option value="apaga" class="es">Se apaga solo / Error frecuente</option>
+            <option value="apaga" class="en">Shuts off on its own / Frequent errors</option>
+            <option value="no_enciende" class="es">No enciende</option>
+            <option value="no_enciende" class="en">Won't turn on</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">¿Ha necesitado reparaciones antes?</div>
+          <div class="f-label es">¿Ha necesitado reparaciones antes?</div>
+          <div class="f-label en">Has it needed repairs before?</div>
           <select id="reparaciones" onchange="update()">
-            <option value="no">No, nunca</option>
-            <option value="una">Una vez (menor)</option>
-            <option value="varias">Varias veces</option>
-            <option value="frecuente">Frecuentemente / Costosas</option>
+            <option value="no" class="es">No, nunca</option>
+            <option value="no" class="en">No, never</option>
+            <option value="una" class="es">Una vez (menor)</option>
+            <option value="una" class="en">Once (minor)</option>
+            <option value="varias" class="es">Varias veces</option>
+            <option value="varias" class="en">Several times</option>
+            <option value="frecuente" class="es">Frecuentemente / Costosas</option>
+            <option value="frecuente" class="en">Often / Expensive ones</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Costo estimado de la reparación actual ($)</div>
-          <input type="number" id="costo-rep" value="0" oninput="update()" placeholder="$0 si no sabe aún">
+          <div class="f-label es">Costo estimado de la reparación actual ($)</div>
+          <div class="f-label en">Estimated cost of the current repair ($)</div>
+          <input type="number" id="costo-rep" value="0" oninput="update()" data-es="$0 si no sabe aún" data-en="$0 if you don't know yet" placeholder="$0 si no sabe aún">
         </div>
         <div class="f-group">
-          <div class="f-label">Uso del sistema (horas/día) <span class="lbl-val" id="lbl-uso">12h</span></div>
+          <div class="f-label"><span class="es">Uso del sistema (horas/día)</span><span class="en">System usage (hours/day)</span> <span class="lbl-val" id="lbl-uso">12h</span></div>
           <input type="range" id="sl-uso" min="1" max="24" value="12" oninput="update()">
         </div>
       </div>
@@ -159,36 +216,41 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
   <!-- VERDICT -->
   <div class="verdict-hero" id="verdict-hero">
-    <div class="verdict-text" id="verdict-text">Analizando tu equipo...</div>
-    <div style="font-size:0.85rem;color:var(--gray);margin-top:8px" id="verdict-sub">—</div>
+    <div class="verdict-text" id="verdict-text"><span class="es">Analizando tu equipo...</span><span class="en">Analyzing your equipment...</span></div>
+    <div style="font-size:0.85rem;color:var(--texto);margin-top:8px" id="verdict-sub">—</div>
   </div>
 
   <div class="datalist">
-    <div class="dataline"><div class="data-lbl">Costo de la reparación</div><div class="data-val" id="r-costo-rep">$0</div></div>
-    <div class="dataline"><div class="data-lbl">Costo de un equipo nuevo</div><div class="data-val" id="r-costo-nuevo">$0</div></div>
-    <div class="dataline"><div class="data-lbl">Vida útil restante</div><div class="data-val" id="r-vida-util">0 años</div></div>
+    <div class="dataline"><div class="data-lbl"><span class="es">Costo de la reparación</span><span class="en">Repair cost</span></div><div class="data-val" id="r-costo-rep">$0</div></div>
+    <div class="dataline"><div class="data-lbl"><span class="es">Costo de un equipo nuevo</span><span class="en">Cost of a new unit</span></div><div class="data-val" id="r-costo-nuevo">$0</div></div>
+    <div class="dataline"><div class="data-lbl"><span class="es">Vida útil restante</span><span class="en">Remaining service life</span></div><div class="data-val" id="r-vida-util"><span class="es">0 años</span><span class="en">0 years</span></div></div>
   </div>
 
   <!-- MAINTENANCE PLANS -->
   <div class="card">
-    <div class="card-title">Plan de mantenimiento preventivo</div>
+    <div class="card-title es">Plan de mantenimiento preventivo</div>
+    <div class="card-title en">Preventive maintenance plan</div>
     <div id="maint-plans"></div>
   </div>
 
   <!-- MAINTENANCE TIMELINE -->
   <div class="card">
-    <div class="card-title">Calendario de mantenimiento recomendado</div>
+    <div class="card-title es">Calendario de mantenimiento recomendado</div>
+    <div class="card-title en">Recommended maintenance schedule</div>
     <div class="timeline" id="maint-timeline"></div>
   </div>
 
-  <div class="tip-box" id="tip-box">Completa los datos de tu equipo.</div>
+  <div class="tip-box" id="tip-box"><span class="es">Completa los datos de tu equipo.</span><span class="en">Fill in your equipment details.</span></div>
 
   <div class="cta-box">
     <div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas mantenimiento o reemplazo?</h3>
-      <p style="font-size:0.78rem;color:var(--gray)">Técnicos certificados en HVAC disponibles en Puerto Rico. Diagnóstico gratis.</p>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="es">¿Necesitas mantenimiento o reemplazo?</h3>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="en">Need maintenance or a replacement?</h3>
+      <p style="font-size:0.78rem;color:var(--texto)" class="es">Técnicos certificados en HVAC disponibles en Puerto Rico. Diagnóstico gratis.</p>
+      <p style="font-size:0.78rem;color:var(--texto)" class="en">Certified HVAC technicians available across Puerto Rico. Free diagnostic.</p>
     </div>
-    <a href="#" onclick="openLead(); return false;" class="cta-btn">Agendar diagnóstico</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn es">Agendar diagnóstico</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn en">Schedule a diagnostic</a>
   </div>
 </div>
 
@@ -203,6 +265,44 @@ const PRECIO_NUEVO = {
 const PROBLEMA_COST = {ninguno:0,ruido:250,enfria_mal:400,agua:350,apaga:500,no_enciende:600};
 const PROBLEMA_SEVERITY = {ninguno:0,ruido:1,enfria_mal:2,agua:2,apaga:3,no_enciende:4};
 
+// ── IDIOMA ──
+// El interruptor compartido cambia data-idioma en el <html>. Todo lo
+// que escribe este script tiene que hablar los dos idiomas, así que se
+// pregunta por el atributo cada vez que se pinta.
+function idi() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return idi() === 'en' ? en : es; }
+function anosTxt(n) {
+  return idi() === 'en' ? n + ' year' + (n === 1 ? '' : 's')
+                        : n + ' año' + (n === 1 ? '' : 's');
+}
+
+// Nombre del tipo de equipo, para los avisos que lo mencionan.
+const NOMBRE_TIPO = {
+  minisplit: {es:'mini split',            en:'mini split'},
+  central:   {es:'sistema central',       en:'central system'},
+  ventana:   {es:'A/C de ventana',        en:'window A/C'},
+  portatil:  {es:'equipo portátil',       en:'portable unit'}
+};
+
+// Las opciones de cada menú están en los dos idiomas y el CSS
+// esconde las del idioma que no toca. Pero el navegador sigue
+// enseñando el texto de la opción SELECCIONADA aunque esté oculta:
+// por eso, al cambiar de idioma, hay que mover la selección a su
+// gemela con el mismo value.
+function sincronizarSelects() {
+  var lang = idi();
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], v = sel.value;
+    for (var i = 0; i < sel.options.length; i++) {
+      var o = sel.options[i];
+      if (o.value === v && o.classList.contains(lang)) { sel.selectedIndex = i; break; }
+    }
+  }
+}
+
 function update() {
   const tipo = document.getElementById('tipo-equipo').value;
   const cap = parseInt(document.getElementById('capacidad').value);
@@ -214,7 +314,7 @@ function update() {
   const ultimoMant = document.getElementById('ultimo-mant').value;
   const costoRepInput = parseFloat(document.getElementById('costo-rep').value)||0;
 
-  document.getElementById('lbl-anos').textContent = anos + ' año'+(anos>1?'s':'');
+  document.getElementById('lbl-anos').textContent = anosTxt(anos);
   document.getElementById('lbl-uso').textContent = uso+'h';
 
   const vidaUtil = VIDA_UTIL[tipo] || 15;
@@ -234,17 +334,20 @@ function update() {
   let verdict, verdictSub, verdictColor;
 
   if (anos <= 5 && severity <= 2 && costoRep < repair50pct) {
-    verdict = 'Reparar — Equipo relativamente nuevo';
-    verdictSub = 'Con '+vidaRestante+' años de vida útil restante, la reparación es la opción más económica.';
-    verdictColor = 'var(--success)';
+    verdict = T('Reparar — Equipo relativamente nuevo', 'Repair — Fairly new equipment');
+    verdictSub = T('Con '+anosTxt(vidaRestante)+' de vida útil restante, la reparación es la opción más económica.',
+                   'With '+anosTxt(vidaRestante)+' of service life left, repairing is the more economical option.');
+    verdictColor = 'var(--verde)';
   } else if (anos >= vidaUtil * 0.75 || severity >= 4 || costoRep > repair50pct || reparaciones === 'frecuente') {
-    verdict = 'Reemplazar — Mayor costo-beneficio';
-    verdictSub = 'La edad o condición del equipo hace que invertir en uno nuevo sea más inteligente a largo plazo.';
-    verdictColor = 'var(--orange)';
+    verdict = T('Reemplazar — Mayor costo-beneficio', 'Replace — Better long-term value');
+    verdictSub = T('La edad o condición del equipo hace que invertir en uno nuevo sea más inteligente a largo plazo.',
+                   'The age or condition of the unit makes investing in a new one the smarter long-term move.');
+    verdictColor = 'var(--ambar)';
   } else {
-    verdict = 'Evaluar — Depende del diagnóstico';
-    verdictSub = 'Tu equipo está en una zona intermedia. Un técnico debe diagnosticar antes de decidir.';
-    verdictColor = 'var(--warn)';
+    verdict = T('Evaluar — Depende del diagnóstico', 'Evaluate — It depends on the diagnostic');
+    verdictSub = T('Tu equipo está en una zona intermedia. Un técnico debe diagnosticar antes de decidir.',
+                   'Your unit is in a gray area. A technician should run a diagnostic before you decide.');
+    verdictColor = 'var(--azul)';
   }
 
   document.getElementById('verdict-text').textContent = verdict;
@@ -252,32 +355,63 @@ function update() {
   document.getElementById('verdict-sub').textContent = verdictSub;
   document.getElementById('r-costo-rep').textContent = '$'+costoRep.toLocaleString();
   document.getElementById('r-costo-nuevo').textContent = '$'+precioNuevo.toLocaleString();
-  document.getElementById('r-vida-util').textContent = vidaRestante+' años';
+  document.getElementById('r-vida-util').textContent = anosTxt(vidaRestante);
 
   // Maintenance plans
-  const freqMant = uso >= 12 ? 'cada 3 meses' : 'cada 6 meses';
+  const freqMant = uso >= 12 ? T('cada 3 meses', 'every 3 months') : T('cada 6 meses', 'every 6 months');
   const costoMant = uso >= 12 ? 149 : 99;
   document.getElementById('maint-plans').innerHTML = `
     <div class="maint-plan">
-      <div class="plan-tag">Recomendado para tu uso (${uso}h/día)</div>
-      <div class="maint-name">Plan Preventivo ${uso>=12?'Trimestral':'Semestral'}</div>
-      <div class="maint-detail">Mantenimiento ${freqMant} — ideal para sistemas de aire acondicionado con uso ${uso>=12?'intensivo':'moderado'} como el tuyo. Incluye limpieza de filtros y serpentines, verificación del nivel de gas refrigerante, revisión de las conexiones eléctricas, limpieza de la bandeja de condensado y un reporte digital del estado del equipo.</div>
-      <div class="maint-price">$${costoMant}/visita · $${costoMant*(uso>=12?4:2)}/año</div>
+      <div class="plan-tag">${T('Recomendado para tu uso ('+uso+'h/día)', 'Recommended for your usage ('+uso+'h/day)')}</div>
+      <div class="maint-name">${T('Plan Preventivo '+(uso>=12?'Trimestral':'Semestral'), (uso>=12?'Quarterly':'Semiannual')+' Preventive Plan')}</div>
+      <div class="maint-detail">${T(
+        'Mantenimiento '+freqMant+' — ideal para sistemas de aire acondicionado con uso '+(uso>=12?'intensivo':'moderado')+' como el tuyo. Incluye limpieza de filtros y serpentines, verificación del nivel de gas refrigerante, revisión de las conexiones eléctricas, limpieza de la bandeja de condensado y un reporte digital del estado del equipo.',
+        'Service '+freqMant+' — ideal for air conditioning systems with '+(uso>=12?'heavy':'moderate')+' usage like yours. Includes filter and coil cleaning, refrigerant level check, electrical connection inspection, condensate pan cleaning and a digital report on the condition of the unit.'
+      )}</div>
+      <div class="maint-price">${T('$'+costoMant+'/visita · $'+costoMant*(uso>=12?4:2)+'/año', '$'+costoMant+'/visit · $'+costoMant*(uso>=12?4:2)+'/year')}</div>
     </div>
     <div class="maint-plan">
-      <div class="maint-name">Plan Premium — Anual con prioridad</div>
-      <div class="maint-detail">4 visitas al año con técnico dedicado. Prioridad en emergencias, descuento del 20% en reparaciones y piezas, y reporte completo de eficiencia energética.</div>
-      <div class="maint-price">$${costoMant*4*0.8}/año — Ahorra 20%</div>
+      <div class="maint-name">${T('Plan Premium — Anual con prioridad', 'Premium Plan — Annual with priority service')}</div>
+      <div class="maint-detail">${T(
+        '4 visitas al año con técnico dedicado. Prioridad en emergencias, descuento del 20% en reparaciones y piezas, y reporte completo de eficiencia energética.',
+        'Four visits a year with a dedicated technician. Priority on emergencies, 20% off repairs and parts, and a full energy efficiency report.'
+      )}</div>
+      <div class="maint-price">${T('$'+costoMant*4*0.8+'/año — Ahorra 20%', '$'+costoMant*4*0.8+'/year — Save 20%')}</div>
     </div>
   `;
 
   // Timeline
   document.getElementById('maint-timeline').innerHTML = [
-    {title:'Limpieza de filtros',detail:'Filtros sucios reducen la eficiencia hasta 25%. En Puerto Rico, con el polvo y la humedad, es crítico.',freq:uso>=12?'Cada mes':'Cada 2 meses'},
-    {title:'Limpieza de serpentines (evaporador y condensador)',detail:'Acumulación de suciedad reduce la transferencia de calor y hace trabajar más el compresor.',freq:uso>=12?'Cada 3 meses':'Cada 6 meses'},
-    {title:'Verificación de gas refrigerante (R-410A)',detail:'Pérdida de gas reduce la capacidad de enfriamiento y puede dañar el compresor permanentemente.',freq:'Cada 6 meses'},
-    {title:'Revisión eléctrica completa',detail:'Conexiones flojas, capacitores débiles y controles pueden causar fallas inesperadas y costosas.',freq:'Anual'},
-    {title:'Evaluación general del sistema',detail:'Inspección completa: compresor, válvulas, ductos, drenaje. Detecta problemas antes que fallen.',freq:'Anual'},
+    {
+      title: T('Limpieza de filtros', 'Filter cleaning'),
+      detail: T('Filtros sucios reducen la eficiencia hasta 25%. En Puerto Rico, con el polvo y la humedad, es crítico.',
+                'Dirty filters cut efficiency by up to 25%. In Puerto Rico, with all the dust and humidity, this one is critical.'),
+      freq: uso>=12 ? T('Cada mes', 'Every month') : T('Cada 2 meses', 'Every 2 months')
+    },
+    {
+      title: T('Limpieza de serpentines (evaporador y condensador)', 'Coil cleaning (evaporator and condenser)'),
+      detail: T('Acumulación de suciedad reduce la transferencia de calor y hace trabajar más el compresor.',
+                'Built-up dirt reduces heat transfer and makes the compressor work harder.'),
+      freq: uso>=12 ? T('Cada 3 meses', 'Every 3 months') : T('Cada 6 meses', 'Every 6 months')
+    },
+    {
+      title: T('Verificación de gas refrigerante (R-410A)', 'Refrigerant charge check (R-410A)'),
+      detail: T('Pérdida de gas reduce la capacidad de enfriamiento y puede dañar el compresor permanentemente.',
+                'A refrigerant leak lowers cooling capacity and can permanently damage the compressor.'),
+      freq: T('Cada 6 meses', 'Every 6 months')
+    },
+    {
+      title: T('Revisión eléctrica completa', 'Full electrical inspection'),
+      detail: T('Conexiones flojas, capacitores débiles y controles pueden causar fallas inesperadas y costosas.',
+                'Loose connections, weak capacitors and faulty controls can cause unexpected, costly failures.'),
+      freq: T('Anual', 'Yearly')
+    },
+    {
+      title: T('Evaluación general del sistema', 'Overall system evaluation'),
+      detail: T('Inspección completa: compresor, válvulas, ductos, drenaje. Detecta problemas antes que fallen.',
+                'Full inspection: compressor, valves, ducts, drainage. Catches problems before they turn into failures.'),
+      freq: T('Anual', 'Yearly')
+    },
   ].map(t=>`
     <div class="tl-item">
       <div class="tl-content-title">${t.title}</div>
@@ -287,116 +421,160 @@ function update() {
   `).join('');
 
   // Tips
+  const nombreTipo = (NOMBRE_TIPO[tipo] || NOMBRE_TIPO.minisplit)[idi()];
   let tip = '';
   if (ultimoMant === 'nunca' || ultimoMant === '2anos') {
-    tip += `<strong>Sin mantenimiento reciente:</strong> Un equipo sin mantenimiento consume hasta un 25% más de electricidad y tiene 3x más probabilidad de fallar en el peor momento. Agenda una revisión hoy.<br><br>`;
+    tip += T(
+      `<strong>Sin mantenimiento reciente:</strong> Un equipo sin mantenimiento consume hasta un 25% más de electricidad y tiene 3x más probabilidad de fallar en el peor momento. Agenda una revisión hoy.<br><br>`,
+      `<strong>No recent maintenance:</strong> A unit that goes without service uses up to 25% more electricity and is 3x more likely to fail at the worst possible moment. Schedule a check-up today.<br><br>`
+    );
   }
   if (porcentajeVida >= 75) {
-    tip += `<strong>Equipo en la etapa final de vida útil:</strong> Tu ${tipo} tiene ${anos} años de ${vidaUtil} años de vida útil promedio. Las reparaciones serán más frecuentes y costosas. Planifica el reemplazo.<br><br>`;
+    tip += T(
+      `<strong>Equipo en la etapa final de vida útil:</strong> Tu ${nombreTipo} tiene ${anos} años de ${vidaUtil} años de vida útil promedio. Las reparaciones serán más frecuentes y costosas. Planifica el reemplazo.<br><br>`,
+      `<strong>Unit near the end of its service life:</strong> Your ${nombreTipo} is ${anos} years into an average service life of ${vidaUtil} years. Repairs will only get more frequent and more expensive. Start planning the replacement.<br><br>`
+    );
   }
   if (seer <= 10) {
-    tip += `<strong>SEER muy bajo:</strong> Un equipo SEER ${seer} consume el doble de electricidad que uno moderno SEER 20. El reemplazo puede ahorrarte $${Math.round((uso/24)*30*12*0.25*cap/seer*(1-10/20))}/año en electricidad.<br><br>`;
+    tip += T(
+      `<strong>SEER muy bajo:</strong> Un equipo SEER ${seer} consume el doble de electricidad que uno moderno SEER 20. El reemplazo puede ahorrarte $${Math.round((uso/24)*30*12*0.25*cap/seer*(1-10/20))}/año en electricidad.<br><br>`,
+      `<strong>Very low SEER:</strong> A SEER ${seer} unit uses twice the electricity of a modern SEER 20 unit. Replacing it could save you $${Math.round((uso/24)*30*12*0.25*cap/seer*(1-10/20))}/year on electricity.<br><br>`
+    );
   }
-  if (!tip) tip = `<strong>Tu equipo está en buenas condiciones.</strong> Con mantenimiento preventivo ${freqMant}, puedes extender su vida útil ${vidaRestante} años más y mantener la máxima eficiencia.`;
+  if (!tip) tip = T(
+    `<strong>Tu equipo está en buenas condiciones.</strong> Con mantenimiento preventivo ${freqMant}, puedes extender su vida útil ${vidaRestante} años más y mantener la máxima eficiencia.`,
+    `<strong>Your unit is in good shape.</strong> With preventive maintenance ${freqMant}, you can extend its service life another ${vidaRestante} years and keep it running at peak efficiency.`
+  );
   document.getElementById('tip-box').innerHTML = tip;
 }
 
+// Al cambiar el idioma con el interruptor compartido hay que volver a
+// pintar lo que escribe este script: el CSS solo alcanza al marcado.
+new MutationObserver(function () {
+  sincronizarSelects();
+  update();
+}).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+
+sincronizarSelects();
 update();
 </script>
 
 
 <!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
 
     <!-- LOGGED IN STATE -->
     <div id="lead-loggedin" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--azul-fuerte);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#FFFFFF;flex-shrink:0" id="lead-avatar">?</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--tinta)" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="es">Cuenta verificada</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="en">Verified account</div>
         </div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title-li"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+      <div id="lead-summary-li" style="padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7;margin-bottom:16px"></div>
       <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Mensaje adicional (opcional)</div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Additional message (optional)</div>
+        <textarea id="lead-msg" data-es="Alguna información adicional para el equipo..." data-en="Anything else the team should know..." placeholder="Alguna información adicional para el equipo..." style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+        <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+        <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
       </div>
     </div>
 
     <!-- GUEST STATE -->
     <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your proposal.</div>
 
       <!-- AUTH OPTIONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
         <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--azul);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="es">Continuar como invitado</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="en">Continue as a guest</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Solo email, rápido</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Just an email, quick</div>
         </div>
         <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--verde);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="es">Crear cuenta</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="en">Create an account</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Guarda tu historial</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Keeps your history</div>
         </div>
       </div>
 
       <!-- GUEST FORM -->
       <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Nombre completo *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Full name *</div>
+            <input type="text" id="lead-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Email *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Email *</div>
+            <input type="email" id="lead-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Teléfono</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Phone</div>
+            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
         </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+          <button onclick="submitLead()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+          <button onclick="submitLead()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+          <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+          <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
         </div>
         <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="es">Ya tienes cuenta? </span>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="en">Already have an account? </span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul-fuerte);text-decoration:none" class="es">Inicia sesión</a>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul-fuerte);text-decoration:none" class="en">Sign in</a>
         </div>
       </div>
 
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="es">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="en">No obligation · Your information stays confidential</p>
     </div>
 
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="es">Solicitud enviada</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="en">Request sent</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+    <div style="font-size:0.78rem;color:var(--azul);margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="es">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="en">In the meantime you can create a portal account to follow up on your request.</div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <button onclick="closeLead()" class="btn-azul es" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+      <button onclick="closeLead()" class="btn-azul en" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Close</button>
+      <a href="https://portal.wifnix.com" class="es" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <a href="https://portal.wifnix.com" class="en" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Create an account</a>
     </div>
   </div>
 </div>
@@ -459,7 +637,7 @@ function submitLead() {
   var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
     alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.textContent = T('Por favor ingresa tu nombre y email.', 'Please enter your name and email.');
     return;
   }
   sendLead(nombre, email, tel, '');
@@ -491,18 +669,20 @@ function sendLead(nombre, email, tel, msg) {
   .then(function(r) { return r.json(); })
   .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success-email').textContent =
+      T('Confirmación enviada a: ', 'Confirmation sent to: ') + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
     var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
+    if (alertEl) { alertEl.style.display='block'; alertEl.textContent = T('Error. Llámanos al (787) 354-9596', 'Something went wrong. Call us at (787) 354-9596'); }
   });
 }
 
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 
 </body>
 </html>
