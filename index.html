@@ -260,11 +260,28 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .svc-lista{border-top:1px solid var(--filo)}
 .svc-fila{
   display:grid;
-  grid-template-columns:76px minmax(0,1fr) minmax(0,1.25fr);
-  gap:0 40px;align-items:start;
-  padding:38px 0;
+  grid-template-columns:64px minmax(0,1fr) minmax(0,1.25fr);
+  gap:0 36px;align-items:start;
+  padding:34px 0;
   border-bottom:1px solid var(--filo);
   cursor:none;transition:background .35s var(--curva);
+}
+/* Una foto por oficio. Es lo que hace que de un vistazo se vea que
+   esta empresa monta camaras, tira cable y tambien instala aires. */
+.svc-foto{
+  margin:0;overflow:hidden;border-radius:14px;
+  border:1px solid var(--filo);background:var(--panel);
+  aspect-ratio:4/3;
+}
+.svc-foto img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transition:transform .6s var(--curva);
+}
+.svc-fila:hover .svc-foto img{transform:scale(1.04)}
+.svc-cuerpo h3{
+  font-family:var(--display);font-size:1.4rem;font-weight:700;
+  letter-spacing:-.025em;line-height:1.15;color:var(--tinta);
+  margin-bottom:14px;
 }
 .svc-fila:hover{background:var(--azul-tenue)}
 .svc-num{
@@ -273,10 +290,6 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
   padding-top:.5em;transition:color .3s var(--curva);
 }
 .svc-fila:hover .svc-num{color:var(--azul)}
-.svc-titulo h3{
-  font-family:var(--display);font-size:1.45rem;font-weight:700;
-  letter-spacing:-.025em;line-height:1.15;color:var(--tinta);
-}
 .svc-cuerpo p{
   font-size:.95rem;line-height:1.8;font-weight:300;
   color:var(--texto);max-width:56ch;margin-bottom:18px;
@@ -292,7 +305,8 @@ nav.scrolled{background:rgba(6,9,15,0.98)}
 .svc-cta svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 @media(max-width:860px){
-  .svc-fila{grid-template-columns:52px minmax(0,1fr);gap:4px 18px;padding:30px 0}
+  .svc-fila{grid-template-columns:44px minmax(0,1fr);gap:14px 16px;padding:28px 0}
+  .svc-foto{grid-column:2;aspect-ratio:16/10}
   .svc-cuerpo{grid-column:2}
 }
 
@@ -1397,10 +1411,14 @@ body{cursor:auto !important}
       <div class="svc-lista">
         <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">01</div>
-          <div class="svc-titulo">
-            <h3 class="es">Seguridad Empresarial</h3><h3 class="en">Enterprise Security</h3>
-          </div>
+          <figure class="svc-foto">
+            <picture>
+              <source srcset="/assets/foto-cctv-ajuste.webp" type="image/webp">
+              <img src="/assets/foto-cctv-ajuste.jpg" width="2000" height="1200" loading="lazy" decoding="async" alt="Dos tecnicos de Wifnix instalando y apuntando una camara de seguridad en un almacen">
+            </picture>
+          </figure>
           <div class="svc-cuerpo">
+            <h3 class="es">Seguridad Empresarial</h3><h3 class="en">Enterprise Security</h3>
             <p class="es">Protege tu negocio con sistemas diseñados para control real, monitoreo constante y prevención de pérdidas. Incluye CCTV, control de acceso, alarmas y monitoreo 24/7.</p>
             <p class="en">Protect your business with systems designed for real control, constant monitoring and loss prevention. Includes CCTV, access control, alarms and 24/7 monitoring.</p>
             <button class="svc-cta es">Solicitar Evaluación <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -1409,10 +1427,14 @@ body{cursor:auto !important}
         </div>
         <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">02</div>
-          <div class="svc-titulo">
-            <h3 class="es">Redes Empresariales</h3><h3 class="en">Enterprise Networks</h3>
-          </div>
+          <figure class="svc-foto">
+            <picture>
+              <source srcset="/assets/foto-red-panel.webp" type="image/webp">
+              <img src="/assets/foto-red-panel.jpg" width="2000" height="1200" loading="lazy" decoding="async" alt="Tecnico de Wifnix ponchando cable de red en un panel de parcheo">
+            </picture>
+          </figure>
           <div class="svc-cuerpo">
+            <h3 class="es">Redes Empresariales</h3><h3 class="en">Enterprise Networks</h3>
             <p class="es">Una red inestable cuesta dinero. Diseñamos infraestructura robusta para mantener operaciones activas sin interrupciones, con WiFi, cableado, failover y redundancia.</p>
             <p class="en">An unstable network costs money. We design robust infrastructure to keep operations active without interruptions, with WiFi, cabling, failover and redundancy.</p>
             <button class="svc-cta es">Evaluar Mi Red <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -1421,10 +1443,14 @@ body{cursor:auto !important}
         </div>
         <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">03</div>
-          <div class="svc-titulo">
-            <h3 class="es">Continuidad Operacional</h3><h3 class="en">Operational Continuity</h3>
-          </div>
+          <figure class="svc-foto">
+            <picture>
+              <source srcset="/assets/foto-rack.webp" type="image/webp">
+              <img src="/assets/foto-rack.jpg" width="2000" height="1200" loading="lazy" decoding="async" alt="El rack de comunicaciones encendido durante un apagon, con el UPS aguantando la carga">
+            </picture>
+          </figure>
           <div class="svc-cuerpo">
+            <h3 class="es">Continuidad Operacional</h3><h3 class="en">Operational Continuity</h3>
             <p class="es">Cuando falla la energía, internet o monitoreo, el negocio se detiene. Nosotros prevenimos eso con UPS, respaldo energético, monitoreo preventivo y soporte prioritario.</p>
             <p class="en">When power, internet or monitoring fails, business stops. We prevent that with UPS, energy backup, preventive monitoring and priority support.</p>
             <button class="svc-cta es">Diagnóstico Preventivo <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
@@ -1433,10 +1459,14 @@ body{cursor:auto !important}
         </div>
         <div class="svc-fila reveal" onclick="showPage('servicios')">
           <div class="svc-num">04</div>
-          <div class="svc-titulo">
-            <h3 class="es">HVAC Comercial</h3><h3 class="en">Commercial HVAC</h3>
-          </div>
+          <figure class="svc-foto">
+            <picture>
+              <source srcset="/assets/foto-hvac-instala.webp" type="image/webp">
+              <img src="/assets/foto-hvac-instala.jpg" width="2000" height="1200" loading="lazy" decoding="async" alt="Dos tecnicos de Wifnix montando la unidad exterior de un aire acondicionado">
+            </picture>
+          </figure>
           <div class="svc-cuerpo">
+            <h3 class="es">HVAC Comercial</h3><h3 class="en">Commercial HVAC</h3>
             <p class="es">El confort no es lujo. Es operación. Sistemas HVAC confiables protegen productividad, clientes y continuidad, con equipos VRF y rooftop, mantenimiento y eficiencia energética.</p>
             <p class="en">Comfort is not a luxury. It's operations. Reliable HVAC systems protect productivity, clients and continuity, with VRF and rooftop equipment, maintenance and energy efficiency.</p>
             <button class="svc-cta es">Evaluar Sistema HVAC <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
