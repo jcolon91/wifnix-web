@@ -68,6 +68,22 @@ select option{background:var(--panel);color:var(--tinta)}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
 @media(max-width:768px){.grid-2,.seer-grid,.proj-grid{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TELÉFONO ──
+   La media query de 768px baja las rejillas a dos columnas, y dos
+   tarjetas no caben en 375px: la página entera se desplazaba de lado.
+   Aquí van a una sola. */
+@media(max-width:560px){
+  .grid-2,.seer-grid,.proj-grid,.datalist{grid-template-columns:1fr !important}
+  .compare-row{grid-template-columns:1.4fr 1fr !important}
+  .compare-cell:nth-child(3){display:none}
+}
+/* Un titular con una palabra larga empujaba el ancho de toda la
+   página. Que parta antes de desbordar. */
+h1,h2,h3,.card-title,.plan-name{overflow-wrap:break-word;hyphens:auto}
+@media(max-width:560px){
+  h1{font-size:clamp(1.35rem,6vw,1.9rem)}
+}
 </style>
 </head>
 <body>
