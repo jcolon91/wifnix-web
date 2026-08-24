@@ -4,70 +4,90 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Red — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.topbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--bl);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--azul);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
-.seclabel{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
-.seclabel::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.09)}
-.device-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.card{background:var(--panel);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:20px}
+.seclabel{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--apagado);margin-bottom:12px}
+.seclabel::after{content:'';flex:1;height:1px;background:var(--filo2)}
+.device-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--filo)}
 .device-row:last-child{border-bottom:none}
 .device-icon{width:32px;text-align:center;flex-shrink:0}
-.device-icon svg{width:18px;height:18px;stroke:var(--gray);fill:none;stroke-width:1.5;stroke-linecap:round}
+.device-icon svg{width:18px;height:18px;stroke:var(--texto);fill:none;stroke-width:1.5;stroke-linecap:round}
 .device-info{flex:1}
-.device-name{font-size:0.82rem;font-weight:600;color:var(--white)}
-.device-bw{font-size:0.68rem;color:var(--gray2);margin-top:2px}
+.device-name{font-size:0.82rem;font-weight:600;color:var(--tinta)}
+.device-bw{font-size:0.68rem;color:var(--apagado);margin-top:2px}
 .qty-ctrl{display:flex;align-items:center;gap:8px}
-.qty-btn{width:26px;height:26px;border-radius:5px;background:rgba(11,143,204,0.12);border:1px solid rgba(11,143,204,0.2);color:var(--bl);font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.qty-btn{width:26px;height:26px;border-radius:5px;background:rgba(11,143,204,0.12);border:1px solid rgba(11,143,204,0.2);color:var(--azul);font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:rgba(11,143,204,0.25)}
-.qty-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);min-width:24px;text-align:center}
+.qty-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);min-width:24px;text-align:center}
 .field{margin-bottom:14px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
-.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--bl)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer}
-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-select option{background:var(--navy)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span[id]{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--azul)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--azul-fuerte);cursor:pointer}
+select{width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--panel);color:var(--tinta)}
 .result-hero{border-top:1px solid rgba(11,143,204,0.35);padding:26px 0 24px;margin-bottom:0}
-.bw-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--bl);line-height:1}
+.bw-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--azul);line-height:1}
 .datalist{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;margin-bottom:26px}
-.data{padding:12px 0;border-top:1px solid rgba(255,255,255,0.09)}
-.data-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px}
-.data-num{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--white)}
-.tip{border-left:2px solid rgba(11,143,204,0.45);padding:4px 0 4px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:22px}
-.tip strong{color:var(--white)}
+.data{padding:12px 0;border-top:1px solid var(--filo)}
+.data-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px}
+.data-num{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--tinta)}
+.tip{border-left:2px solid rgba(11,143,204,0.45);padding:4px 0 4px 16px;font-size:0.8rem;color:var(--texto);line-height:1.8;margin-bottom:22px}
+.tip strong{color:var(--tinta)}
 .cta{border-top:1px solid rgba(11,143,204,0.3);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--bl);transform:translateY(-2px)}
+/* Texto claro fijo: el fondo del botón es azul de marca — oscuro en los dos
+   temas — así que aquí el blanco es lo que da contraste, no lo que lo quita. */
+.cta-btn{padding:11px 24px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--azul);transform:translateY(-2px)}
 @media(max-width:768px){.grid-2,.datalist{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="topbar"><span data-wx-switches></span></div>
+
   <div class="header">
-    <h1>Calculadora de <em>Ancho de Banda</em></h1>
-    <p>Calcula bajo los estándares IEEE 802.11 y TIA-942 el ancho de banda real que necesita la red de tu empresa en Puerto Rico y el equipo recomendado, según el consumo real por tipo de dispositivo.</p>
+    <h1 class="es">Calculadora de <em>Ancho de Banda</em></h1>
+    <h1 class="en"><em>Bandwidth</em> Calculator</h1>
+    <p class="es">Calcula bajo los estándares IEEE 802.11 y TIA-942 el ancho de banda real que necesita la red de tu empresa en Puerto Rico y el equipo recomendado, según el consumo real por tipo de dispositivo.</p>
+    <p class="en">Using the IEEE 802.11 and TIA-942 standards, calculate the real bandwidth your business network in Puerto Rico needs and the equipment to match, based on actual usage per device type.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Dispositivos en la red</div>
+        <div class="card-title es">Dispositivos en la red</div>
+        <div class="card-title en">Devices on the network</div>
 
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Computadoras / Laptops</div>
-            <div class="device-bw">5-10 Mbps uso general · 25 Mbps en videoconferencia HD</div>
+            <div class="device-name es">Computadoras / Laptops</div>
+            <div class="device-name en">Computers / Laptops</div>
+            <div class="device-bw es">5-10 Mbps uso general · 25 Mbps en videoconferencia HD</div>
+            <div class="device-bw en">5-10 Mbps general use · 25 Mbps on HD video calls</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="chg('pc',-1)">−</button>
@@ -79,8 +99,10 @@ select option{background:var(--navy)}
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Teléfonos / Tablets</div>
-            <div class="device-bw">2-5 Mbps uso general · 10 Mbps streaming</div>
+            <div class="device-name es">Teléfonos / Tablets</div>
+            <div class="device-name en">Phones / Tablets</div>
+            <div class="device-bw es">2-5 Mbps uso general · 10 Mbps streaming</div>
+            <div class="device-bw en">2-5 Mbps general use · 10 Mbps streaming</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="chg('mobile',-1)">−</button>
@@ -92,7 +114,8 @@ select option{background:var(--navy)}
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Cámaras IP (CCTV)</div>
+            <div class="device-name es">Cámaras IP (CCTV)</div>
+            <div class="device-name en">IP cameras (CCTV)</div>
             <div class="device-bw">1 Mbps (720p H.265) · 2 Mbps (1080p) · 8 Mbps (4K)</div>
           </div>
           <div class="qty-ctrl">
@@ -105,8 +128,10 @@ select option{background:var(--navy)}
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Teléfonos VoIP</div>
-            <div class="device-bw">100 Kbps por llamada (G.711) · 30 Kbps (G.729)</div>
+            <div class="device-name es">Teléfonos VoIP</div>
+            <div class="device-name en">VoIP phones</div>
+            <div class="device-bw es">100 Kbps por llamada (G.711) · 30 Kbps (G.729)</div>
+            <div class="device-bw en">100 Kbps per call (G.711) · 30 Kbps (G.729)</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="chg('voip',-1)">−</button>
@@ -118,8 +143,10 @@ select option{background:var(--navy)}
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Servidores locales</div>
-            <div class="device-bw">50-100 Mbps tráfico interno · 10-50 Mbps hacia internet</div>
+            <div class="device-name es">Servidores locales</div>
+            <div class="device-name en">Local servers</div>
+            <div class="device-bw es">50-100 Mbps tráfico interno · 10-50 Mbps hacia internet</div>
+            <div class="device-bw en">50-100 Mbps internal traffic · 10-50 Mbps to the internet</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="chg('server',-1)">−</button>
@@ -144,8 +171,10 @@ select option{background:var(--navy)}
         <div class="device-row">
           <div class="device-icon"><svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></div>
           <div class="device-info">
-            <div class="device-name">Impresoras en red</div>
-            <div class="device-bw">1-2 Mbps durante impresión</div>
+            <div class="device-name es">Impresoras en red</div>
+            <div class="device-name en">Network printers</div>
+            <div class="device-bw es">1-2 Mbps durante impresión</div>
+            <div class="device-bw en">1-2 Mbps while printing</div>
           </div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="chg('printer',-1)">−</button>
@@ -158,34 +187,38 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">Tipo de uso</div>
+        <div class="card-title es">Tipo de uso</div>
+        <div class="card-title en">Type of usage</div>
         <div class="field">
-          <label>Videoconferencias simultáneas <span id="lbl-vc">2</span></label>
+          <label><span class="es">Videoconferencias simultáneas</span><span class="en">Simultaneous video calls</span> <span id="lbl-vc">2</span></label>
           <input type="range" id="sl-vc" min="0" max="20" value="2" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Zoom/Teams HD: 3 Mbps subida + 3 Mbps bajada por sesión</div>
+          <div class="es" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">Zoom/Teams HD: 3 Mbps subida + 3 Mbps bajada por sesión</div>
+          <div class="en" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">Zoom/Teams HD: 3 Mbps up + 3 Mbps down per session</div>
         </div>
         <div class="field">
-          <label>% uso de servicios en la nube <span id="lbl-cloud">40</span>%</label>
+          <label><span class="es">% uso de servicios en la nube</span><span class="en">% of cloud service usage</span> <span id="lbl-cloud">40</span>%</label>
           <input type="range" id="sl-cloud" min="0" max="100" value="40" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Google Workspace, Microsoft 365, Dropbox, AWS</div>
+          <div style="font-size:0.68rem;color:var(--apagado);margin-top:4px">Google Workspace, Microsoft 365, Dropbox, AWS</div>
         </div>
         <div class="field">
-          <label>Factor de simultaneidad <span id="lbl-sim">70</span>%</label>
+          <label><span class="es">Factor de simultaneidad</span><span class="en">Concurrency factor</span> <span id="lbl-sim">70</span>%</label>
           <input type="range" id="sl-sim" min="20" max="100" value="70" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">% de dispositivos usando la red al mismo tiempo en hora pico</div>
+          <div class="es" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">% de dispositivos usando la red al mismo tiempo en hora pico</div>
+          <div class="en" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">% of devices using the network at the same time during peak hour</div>
         </div>
         <div class="field">
-          <label>Proyección de crecimiento (12 meses) <span id="lbl-growth">20</span>%</label>
+          <label><span class="es">Proyección de crecimiento (12 meses)</span><span class="en">Growth projection (12 months)</span> <span id="lbl-growth">20</span>%</label>
           <input type="range" id="sl-growth" min="0" max="100" value="20" oninput="update()">
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Infraestructura actual</div>
+        <div class="card-title es">Infraestructura actual</div>
+        <div class="card-title en">Current infrastructure</div>
         <div class="field">
-          <label style="margin-bottom:8px">Internet contratado actualmente</label>
+          <label style="margin-bottom:8px"><span class="es">Internet contratado actualmente</span><span class="en">Internet plan you have today</span></label>
           <select id="sel-current" onchange="update()">
-            <option value="0">No tengo / No sé</option>
+            <option value="0" data-es="No tengo / No sé" data-en="I don't have one / Not sure">No tengo / No sé</option>
             <option value="50">50 Mbps</option>
             <option value="100">100 Mbps</option>
             <option value="200">200 Mbps</option>
@@ -195,11 +228,11 @@ select option{background:var(--navy)}
           </select>
         </div>
         <div class="field">
-          <label style="margin-bottom:8px">WiFi actual</label>
+          <label style="margin-bottom:8px"><span class="es">WiFi actual</span><span class="en">Current WiFi</span></label>
           <select id="sel-wifi" onchange="update()">
-            <option value="no">Sin WiFi / Router residencial</option>
-            <option value="basico">Router empresarial básico</option>
-            <option value="profesional">APs profesionales (Ubiquiti, Cisco, Aruba)</option>
+            <option value="no" data-es="Sin WiFi / Router residencial" data-en="No WiFi / Home router">Sin WiFi / Router residencial</option>
+            <option value="basico" data-es="Router empresarial básico" data-en="Basic business router">Router empresarial básico</option>
+            <option value="profesional" data-es="APs profesionales (Ubiquiti, Cisco, Aruba)" data-en="Professional APs (Ubiquiti, Cisco, Aruba)">APs profesionales (Ubiquiti, Cisco, Aruba)</option>
           </select>
         </div>
       </div>
@@ -208,19 +241,21 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div class="seclabel">Ancho de banda recomendado</div>
+    <div class="seclabel es">Ancho de banda recomendado</div>
+    <div class="seclabel en">Recommended bandwidth</div>
     <div class="bw-num" id="r-bw">0 Mbps</div>
-    <div style="font-size:0.88rem;color:var(--gray);margin-top:8px" id="r-bw-sub">Con margen de crecimiento</div>
+    <div style="font-size:0.88rem;color:var(--texto);margin-top:8px" id="r-bw-sub">Con margen de crecimiento</div>
   </div>
 
   <div class="datalist">
-    <div class="data"><div class="data-lbl">Pico estimado</div><div class="data-num" id="s-pico">0 Mbps</div></div>
-    <div class="data"><div class="data-lbl">Actual contratado</div><div class="data-num" id="s-actual">0 Mbps</div></div>
-    <div class="data"><div class="data-lbl">Estado</div><div class="data-num" id="s-estado" style="color:var(--green)">—</div></div>
+    <div class="data"><div class="data-lbl es">Pico estimado</div><div class="data-lbl en">Estimated peak</div><div class="data-num" id="s-pico">0 Mbps</div></div>
+    <div class="data"><div class="data-lbl es">Actual contratado</div><div class="data-lbl en">Currently contracted</div><div class="data-num" id="s-actual">0 Mbps</div></div>
+    <div class="data"><div class="data-lbl es">Estado</div><div class="data-lbl en">Status</div><div class="data-num" id="s-estado" style="color:var(--verde)">—</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Equipo de red recomendado</div>
+    <div class="card-title es">Equipo de red recomendado</div>
+    <div class="card-title en">Recommended network equipment</div>
     <div id="r-equipo"></div>
   </div>
 
@@ -228,10 +263,13 @@ select option{background:var(--navy)}
 
   <div class="cta">
     <div>
-      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Diseñamos, instalamos y gestionamos redes en todo Puerto Rico.</div>
+      <div class="es" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">¿Necesitas diseñar tu red empresarial?</div>
+      <div class="en" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">Need to design your business network?</div>
+      <div class="es" style="font-size:0.78rem;color:var(--texto)">Diseñamos, instalamos y gestionamos redes en todo Puerto Rico.</div>
+      <div class="en" style="font-size:0.78rem;color:var(--texto)">We design, install and manage networks across Puerto Rico.</div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Request an evaluation</a>
   </div>
 </div>
 
@@ -246,6 +284,13 @@ var BW_DEVICE = {
   tv: 8,        // Streaming HD/4K
   printer: 0.5  // Solo durante impresión
 };
+
+// Todo texto que escribe este script habla los dos idiomas. El idioma
+// vive en el <html>, lo puso el fragmento del <head>.
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
 
 var qty = { pc: 5, mobile: 8, cam: 0, voip: 0, server: 0, tv: 0, printer: 0 };
 
@@ -297,15 +342,18 @@ function update() {
   var planRecomendado = planes.find(function(p) { return p >= bwFinal; }) || bwFinal;
 
   document.getElementById('r-bw').textContent = planRecomendado + ' Mbps';
-  document.getElementById('r-bw-sub').textContent = 'Mínimo requerido: ' + bwFinal + ' Mbps · Plan recomendado: ' + planRecomendado + ' Mbps';
+  document.getElementById('r-bw-sub').textContent = T(
+    'Mínimo requerido: ' + bwFinal + ' Mbps · Plan recomendado: ' + planRecomendado + ' Mbps',
+    'Minimum required: ' + bwFinal + ' Mbps · Recommended plan: ' + planRecomendado + ' Mbps'
+  );
   document.getElementById('s-pico').textContent = Math.round(bwPico) + ' Mbps';
-  document.getElementById('s-actual').textContent = current > 0 ? current + ' Mbps' : 'No configurado';
+  document.getElementById('s-actual').textContent = current > 0 ? current + ' Mbps' : T('No configurado', 'Not set');
 
   var estado, estadoColor;
-  if (current === 0) { estado = 'Sin datos'; estadoColor = 'var(--gray)'; }
-  else if (current >= planRecomendado) { estado = 'Suficiente'; estadoColor = 'var(--green)'; }
-  else if (current >= bwPico) { estado = 'Ajustado'; estadoColor = 'var(--warn)'; }
-  else { estado = 'Insuficiente'; estadoColor = 'var(--red)'; }
+  if (current === 0) { estado = T('Sin datos', 'No data'); estadoColor = 'var(--texto)'; }
+  else if (current >= planRecomendado) { estado = T('Suficiente', 'Sufficient'); estadoColor = 'var(--verde)'; }
+  else if (current >= bwPico) { estado = T('Ajustado', 'Tight'); estadoColor = 'var(--ambar)'; }
+  else { estado = T('Insuficiente', 'Insufficient'); estadoColor = 'var(--rojo)'; }
   document.getElementById('s-estado').textContent = estado;
   document.getElementById('s-estado').style.color = estadoColor;
 
@@ -319,38 +367,62 @@ function renderEquipo(bwNecesario, qty, wifi) {
 
   // Switch
   if (totalDevices <= 8) {
-    equipos.push({ top: true, name: 'Switch PoE 8 puertos (1 Gbps)', detail: 'Ideal para redes pequeñas. Alimenta cámaras IP y teléfonos VoIP sin cableado eléctrico adicional. Recomendados: TP-Link TL-SG1008P, Netgear GS308EP.', price: 'Desde $85' });
+    equipos.push({ top: true,
+      name: T('Switch PoE 8 puertos (1 Gbps)', '8-port PoE switch (1 Gbps)'),
+      detail: T('Ideal para redes pequeñas. Alimenta cámaras IP y teléfonos VoIP sin cableado eléctrico adicional. Recomendados: TP-Link TL-SG1008P, Netgear GS308EP.', 'Ideal for small networks. It powers IP cameras and VoIP phones with no extra electrical wiring. Recommended: TP-Link TL-SG1008P, Netgear GS308EP.'),
+      price: T('Desde $85', 'From $85') });
   } else if (totalDevices <= 24) {
-    equipos.push({ top: true, name: 'Switch PoE 24 puertos (1 Gbps)', detail: 'Para redes medianas. Con uplink de 1-10 Gbps hacia el router. Recomendados: TP-Link TL-SG1024DE, Cisco SG350-28P.', price: 'Desde $220' });
+    equipos.push({ top: true,
+      name: T('Switch PoE 24 puertos (1 Gbps)', '24-port PoE switch (1 Gbps)'),
+      detail: T('Para redes medianas. Con uplink de 1-10 Gbps hacia el router. Recomendados: TP-Link TL-SG1024DE, Cisco SG350-28P.', 'For mid-size networks. With a 1-10 Gbps uplink to the router. Recommended: TP-Link TL-SG1024DE, Cisco SG350-28P.'),
+      price: T('Desde $220', 'From $220') });
   } else {
-    equipos.push({ top: true, name: 'Switch core 48 puertos + switches de distribución', detail: 'Para redes grandes. Arquitectura jerárquica con switch core de 10 Gbps y switches de acceso PoE por piso/área.', price: 'Desde $600' });
+    equipos.push({ top: true,
+      name: T('Switch core 48 puertos + switches de distribución', '48-port core switch + distribution switches'),
+      detail: T('Para redes grandes. Arquitectura jerárquica con switch core de 10 Gbps y switches de acceso PoE por piso/área.', 'For large networks. A tiered architecture with a 10 Gbps core switch and PoE access switches per floor or area.'),
+      price: T('Desde $600', 'From $600') });
   }
 
   // Router/Firewall
   if (bwNecesario <= 200) {
-    equipos.push({ top: false, name: 'Router empresarial (hasta 200 Mbps)', detail: 'Con QoS para priorizar VoIP y videoconferencias. VPN, VLAN y firewall integrados. Recomendados: MikroTik hEX, Ubiquiti EdgeRouter Lite.', price: 'Desde $75' });
+    equipos.push({ top: false,
+      name: T('Router empresarial (hasta 200 Mbps)', 'Business router (up to 200 Mbps)'),
+      detail: T('Con QoS para priorizar VoIP y videoconferencias. VPN, VLAN y firewall integrados. Recomendados: MikroTik hEX, Ubiquiti EdgeRouter Lite.', 'With QoS to prioritize VoIP and video calls. Built-in VPN, VLAN and firewall. Recommended: MikroTik hEX, Ubiquiti EdgeRouter Lite.'),
+      price: T('Desde $75', 'From $75') });
   } else if (bwNecesario <= 600) {
-    equipos.push({ top: false, name: 'Router/Firewall empresarial (hasta 1 Gbps)', detail: 'Con inspección profunda de paquetes, balanceo de carga, VPN y soporte multi-WAN. Recomendados: Ubiquiti UniFi Dream Machine, MikroTik CCR.', price: 'Desde $300' });
+    equipos.push({ top: false,
+      name: T('Router/Firewall empresarial (hasta 1 Gbps)', 'Business router/firewall (up to 1 Gbps)'),
+      detail: T('Con inspección profunda de paquetes, balanceo de carga, VPN y soporte multi-WAN. Recomendados: Ubiquiti UniFi Dream Machine, MikroTik CCR.', 'With deep packet inspection, load balancing, VPN and multi-WAN support. Recommended: Ubiquiti UniFi Dream Machine, MikroTik CCR.'),
+      price: T('Desde $300', 'From $300') });
   } else {
-    equipos.push({ top: false, name: 'Firewall dedicado + Router de borde', detail: 'Para conexiones de alta velocidad. Separación de funciones para máximo rendimiento. Recomendados: Fortinet FortiGate, Palo Alto.', price: 'Desde $800' });
+    equipos.push({ top: false,
+      name: T('Firewall dedicado + Router de borde', 'Dedicated firewall + edge router'),
+      detail: T('Para conexiones de alta velocidad. Separación de funciones para máximo rendimiento. Recomendados: Fortinet FortiGate, Palo Alto.', 'For high-speed connections. Splitting the roles keeps performance at its peak. Recommended: Fortinet FortiGate, Palo Alto.'),
+      price: T('Desde $800', 'From $800') });
   }
 
   // WiFi APs
   if (wifi !== 'profesional') {
     var aps = Math.max(1, Math.ceil(totalDevices / 25));
-    equipos.push({ top: false, name: 'Access Points WiFi 6 (' + aps + ' unidad' + (aps > 1 ? 'es' : '') + ' recomendada' + (aps > 1 ? 's' : '') + ')', detail: 'WiFi 6 (802.11ax) soporta hasta 50+ dispositivos por AP con menor latencia. Cada AP cubre ~2,000 ft². Recomendados: Ubiquiti UAP-6-LR, TP-Link EAP670.', price: 'Desde $' + (aps * 120) + ' instalado' });
+    equipos.push({ top: false,
+      name: T('Access Points WiFi 6 (' + aps + ' unidad' + (aps > 1 ? 'es' : '') + ' recomendada' + (aps > 1 ? 's' : '') + ')', 'WiFi 6 access points (' + aps + ' unit' + (aps > 1 ? 's' : '') + ' recommended)'),
+      detail: T('WiFi 6 (802.11ax) soporta hasta 50+ dispositivos por AP con menor latencia. Cada AP cubre ~2,000 ft². Recomendados: Ubiquiti UAP-6-LR, TP-Link EAP670.', 'WiFi 6 (802.11ax) handles 50+ devices per AP with lower latency. Each AP covers about 2,000 ft². Recommended: Ubiquiti UAP-6-LR, TP-Link EAP670.'),
+      price: T('Desde $' + (aps * 120) + ' instalado', 'From $' + (aps * 120) + ' installed') });
   }
 
   if (qty.cam > 4) {
-    equipos.push({ top: false, name: 'VLAN dedicada para cámaras CCTV', detail: 'Con ' + qty.cam + ' cámaras IP es crítico segregar el tráfico en una VLAN separada. Evita que el video sature la red de trabajo y mejora la seguridad.', price: 'Incluido en configuración' });
+    equipos.push({ top: false,
+      name: T('VLAN dedicada para cámaras CCTV', 'Dedicated VLAN for CCTV cameras'),
+      detail: T('Con ' + qty.cam + ' cámaras IP es crítico segregar el tráfico en una VLAN separada. Evita que el video sature la red de trabajo y mejora la seguridad.', 'With ' + qty.cam + ' IP cameras it is critical to segregate the traffic onto its own VLAN. It keeps video from saturating the work network and improves security.'),
+      price: T('Incluido en configuración', 'Included in the configuration') });
   }
 
   document.getElementById('r-equipo').innerHTML = equipos.map(function(e) {
     return '<div style="border-top:1px solid rgba(11,143,204,' + (e.top ? '0.4' : '0.14') + ');padding:16px 0">' +
-      (e.top ? '<div style="font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--bl);margin-bottom:6px">Principal</div>' : '') +
-      '<div style="font-weight:700;color:var(--white);font-size:0.88rem;margin-bottom:4px">' + e.name + '</div>' +
-      '<div style="font-size:0.75rem;color:var(--gray);line-height:1.5">' + e.detail + '</div>' +
-      '<div style="font-family:Syne,sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);margin-top:6px">' + e.price + '</div>' +
+      (e.top ? '<div style="font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--azul);margin-bottom:6px">' + T('Principal', 'Primary') + '</div>' : '') +
+      '<div style="font-weight:700;color:var(--tinta);font-size:0.88rem;margin-bottom:4px">' + e.name + '</div>' +
+      '<div style="font-size:0.75rem;color:var(--texto);line-height:1.5">' + e.detail + '</div>' +
+      '<div style="font-family:Syne,sans-serif;font-size:0.95rem;font-weight:800;color:var(--verde);margin-top:6px">' + e.price + '</div>' +
     '</div>';
   }).join('');
 }
@@ -358,19 +430,38 @@ function renderEquipo(bwNecesario, qty, wifi) {
 function renderTip(pico, recomendado, qty, wifi, current) {
   var tip = '';
   if (wifi === 'no') {
-    tip += '<strong>Router residencial detectado:</strong> Un router de hogar no puede manejar múltiples VLANs, QoS ni la carga de una red empresarial. Puede causar caídas, latencia alta en videoconferencias y problemas de seguridad.<br><br>';
+    tip += T(
+      '<strong>Router residencial detectado:</strong> Un router de hogar no puede manejar múltiples VLANs, QoS ni la carga de una red empresarial. Puede causar caídas, latencia alta en videoconferencias y problemas de seguridad.<br><br>',
+      '<strong>Home router detected:</strong> A home router cannot handle multiple VLANs, QoS or the load of a business network. It leads to dropouts, high latency on video calls and security problems.<br><br>'
+    );
   }
   if (current > 0 && current < pico) {
-    tip += '<strong>Internet insuficiente:</strong> Tu plan actual (' + current + ' Mbps) está por debajo de tu pico estimado (' + Math.round(pico) + ' Mbps). Esto causará lentitud en horas pico, especialmente en videoconferencias y carga de archivos en la nube.<br><br>';
+    tip += T(
+      '<strong>Internet insuficiente:</strong> Tu plan actual (' + current + ' Mbps) está por debajo de tu pico estimado (' + Math.round(pico) + ' Mbps). Esto causará lentitud en horas pico, especialmente en videoconferencias y carga de archivos en la nube.<br><br>',
+      '<strong>Not enough internet:</strong> Your current plan (' + current + ' Mbps) sits below your estimated peak (' + Math.round(pico) + ' Mbps). Expect slowdowns at peak hours, especially on video calls and cloud file uploads.<br><br>'
+    );
   }
   if (qty.cam > 0) {
-    tip += '<strong>' + qty.cam + ' cámaras IP:</strong> Generan tráfico constante. Se recomienda una VLAN separada para que el video no afecte la productividad. Asegúrate de que tu switch tenga suficientes puertos PoE.<br><br>';
+    tip += T(
+      '<strong>' + qty.cam + ' cámaras IP:</strong> Generan tráfico constante. Se recomienda una VLAN separada para que el video no afecte la productividad. Asegúrate de que tu switch tenga suficientes puertos PoE.<br><br>',
+      '<strong>' + qty.cam + ' IP cameras:</strong> They generate constant traffic. A separate VLAN is recommended so the video does not get in the way of productivity. Make sure your switch has enough PoE ports.<br><br>'
+    );
   }
-  tip += '<strong>Proveedores en PR:</strong> Liberty Fiber (hasta 1 Gbps), Claro Puerto Rico, AT&T. Compara precios y disponibilidad en tu área. Considera contratar un plan de respaldo 4G/LTE para continuidad operacional.';
+  tip += T(
+    '<strong>Proveedores en PR:</strong> Liberty Fiber (hasta 1 Gbps), Claro Puerto Rico, AT&T. Compara precios y disponibilidad en tu área. Considera contratar un plan de respaldo 4G/LTE para continuidad operacional.',
+    '<strong>Providers in Puerto Rico:</strong> Liberty Fiber (up to 1 Gbps), Claro Puerto Rico, AT&T. Compare pricing and availability in your area. Consider a backup 4G/LTE plan for operational continuity.'
+  );
   document.getElementById('r-tip').innerHTML = tip;
 }
 
 update();
+
+// Al cambiar de idioma hay que volver a escribir lo que pinta el script:
+// el CSS solo alcanza a los pares .es/.en del marcado.
+if (window.MutationObserver) {
+  new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+}
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

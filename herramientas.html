@@ -4,47 +4,58 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Herramientas Gratuitas — Wifnix</title>
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:1100px;margin:0 auto;padding:60px 20px}
+.topbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:28px}
 .header{text-align:center;margin-bottom:56px}
-.eyebrow{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.66rem;font-weight:500;color:var(--gray);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
-.header h1{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--white);margin-bottom:14px;line-height:1.15}
-.header h1 span{color:var(--blue-light)}
-.header p{font-size:0.95rem;color:var(--gray);max-width:600px;margin:0 auto;line-height:1.8}
-.filter-tabs{display:flex;gap:26px;justify-content:center;margin-bottom:34px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.07)}
-.filter-tab{padding:0 0 12px;margin-bottom:-1px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:color .2s,border-color .2s;border:0;border-bottom:1px solid transparent;color:var(--gray2);background:transparent;display:flex;align-items:center;gap:7px}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.66rem;font-weight:500;color:var(--apagado);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
+.header h1{font-family:'Syne',sans-serif;font-size:2.8rem;font-weight:800;color:var(--tinta);margin-bottom:14px;line-height:1.15}
+.header h1 .acento{color:var(--azul)}
+.header p{font-size:0.95rem;color:var(--texto);max-width:600px;margin:0 auto;line-height:1.8}
+.filter-tabs{display:flex;gap:26px;justify-content:center;margin-bottom:34px;flex-wrap:wrap;border-bottom:1px solid var(--filo)}
+.filter-tab{padding:0 0 12px;margin-bottom:-1px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:color .2s,border-color .2s;border:0;border-bottom:1px solid transparent;color:var(--apagado);background:transparent;display:flex;align-items:center;gap:7px}
 .filter-tab svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round}
-.filter-tab:hover{color:var(--white)}
-.filter-tab.active{color:var(--blue-light);border-bottom-color:var(--blue-light)}
+.filter-tab:hover{color:var(--tinta)}
+.filter-tab.active{color:var(--azul);border-bottom-color:var(--azul)}
 .search-wrap{max-width:480px;margin:0 auto 30px;position:relative}
-.search-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.2);border-radius:6px;padding:13px 20px 13px 48px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s}
-.search-input:focus{border-color:var(--blue)}
-.search-input::placeholder{color:var(--gray2)}
-.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--gray);fill:none;stroke-width:2;stroke-linecap:round}
+.search-input{width:100%;background:var(--panel);border:1px solid var(--filo2);border-radius:6px;padding:13px 20px 13px 48px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s}
+.search-input:focus{border-color:var(--azul)}
+.search-input::placeholder{color:var(--apagado)}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--texto);fill:none;stroke-width:2;stroke-linecap:round}
 .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.tool-card{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:26px;cursor:pointer;transition:border-color .25s,background .25s;position:relative;overflow:hidden;text-decoration:none;display:block}
-.tool-card:hover{border-color:rgba(11,143,204,0.35);background:#0F1E30}
+.tool-card{background:var(--panel);border:1px solid var(--filo);border-radius:6px;padding:26px;cursor:pointer;transition:border-color .25s,background .25s;position:relative;overflow:hidden;text-decoration:none;display:block}
+.tool-card:hover{border-color:rgba(11,143,204,0.35);background:var(--panel2)}
 .tool-card.featured{border-color:rgba(11,143,204,0.2)}
 .tool-card.hidden{display:none}
 .tool-icon-wrap{display:block;margin-bottom:18px}
 .tool-icon-wrap svg{width:24px;height:24px;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.tool-name{font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:800;color:var(--white);margin-bottom:8px;line-height:1.35}
-.tool-desc{font-size:0.78rem;color:var(--gray);line-height:1.65;margin-bottom:16px}
-.tool-meta{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray2);line-height:1.7;border-top:1px solid rgba(255,255,255,0.07);padding-top:13px}
+.tool-name{font-family:'Syne',sans-serif;font-size:0.98rem;font-weight:800;color:var(--tinta);margin-bottom:8px;line-height:1.35}
+.tool-desc{font-size:0.78rem;color:var(--texto);line-height:1.65;margin-bottom:16px}
+.tool-meta{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);line-height:1.7;border-top:1px solid var(--filo);padding-top:13px}
 .tool-arrow{position:absolute;top:26px;right:26px;display:flex}
-.tool-arrow svg{width:14px;height:14px;stroke:var(--gray2);fill:none;stroke-width:1.75;stroke-linecap:round;transition:stroke .3s}
-.tool-card:hover .tool-arrow svg{stroke:var(--blue-light)}
-.empty-state{text-align:center;padding:60px 20px;color:var(--gray2);display:none}
-.empty-state svg{width:44px;height:44px;stroke:var(--gray2);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 16px;display:block}
-.cta-bottom{border-top:1px solid rgba(255,255,255,0.08);padding:48px 20px 0;text-align:center;margin-top:56px}
-.cta-bottom h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white);margin-bottom:10px}
-.cta-bottom p{font-size:0.88rem;color:var(--gray);margin-bottom:24px;line-height:1.7}
-.cta-btn{display:inline-block;padding:14px 32px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:4px;text-decoration:none;transition:all .2s}
-.cta-btn:hover{background:var(--blue-light)}
+.tool-arrow svg{width:14px;height:14px;stroke:var(--apagado);fill:none;stroke-width:1.75;stroke-linecap:round;transition:stroke .3s}
+.tool-card:hover .tool-arrow svg{stroke:var(--azul)}
+.empty-state{text-align:center;padding:60px 20px;color:var(--apagado);display:none}
+.empty-state svg{width:44px;height:44px;stroke:var(--apagado);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 16px;display:block}
+.cta-bottom{border-top:1px solid var(--filo);padding:48px 20px 0;text-align:center;margin-top:56px}
+.cta-bottom h2{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tinta);margin-bottom:10px}
+.cta-bottom p{font-size:0.88rem;color:var(--texto);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-block;padding:14px 32px;background:var(--azul-fuerte);color:#FFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:4px;text-decoration:none;transition:all .2s}
+.cta-btn:hover{background:var(--azul)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:900px){.tools-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.tools-grid{grid-template-columns:1fr}.header h1{font-size:2rem}.filter-tabs{gap:16px}}
@@ -53,179 +64,222 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 <body>
 <div class="page">
 
+  <div class="topbar">
+    <span data-wx-switches></span>
+  </div>
+
   <div class="header" style="animation:fadeUp .5s ease">
-    <div class="eyebrow">Herramientas profesionales gratuitas</div>
-    <h1>Calcula, compara y<br><span>decide con datos reales</span></h1>
-    <p>Todas las herramientas que necesitas para dimensionar, cotizar y planificar tu sistema de seguridad, HVAC y redes. Son once herramientas gratis, sin registro requerido y calibradas para Puerto Rico.</p>
+    <div class="eyebrow es">Herramientas profesionales gratuitas</div>
+    <div class="eyebrow en">Free professional tools</div>
+    <h1><span class="es">Calcula, compara y<br><span class="acento">decide con datos reales</span></span><span class="en">Calculate, compare and<br><span class="acento">decide with real numbers</span></span></h1>
+    <p class="es">Todas las herramientas que necesitas para dimensionar, cotizar y planificar tu sistema de seguridad, HVAC y redes. Son once herramientas gratis, sin registro requerido y calibradas para Puerto Rico.</p>
+    <p class="en">Everything you need to size, price and plan your security, HVAC and network systems. Eleven free tools, no sign-up required, and calibrated for Puerto Rico.</p>
   </div>
 
   <div class="search-wrap" style="animation:fadeUp .5s ease .15s both">
     <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" type="text" id="search" placeholder="Buscar herramienta..." oninput="filterTools()">
+    <input class="search-input" type="text" id="search" placeholder="Buscar herramienta..." data-es="Buscar herramienta..." data-en="Search for a tool..." oninput="filterTools()">
   </div>
 
   <div class="filter-tabs" style="animation:fadeUp .5s ease .2s both">
     <div class="filter-tab active" onclick="setFilter('all',this)">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Todas (11)
+      <span class="es">Todas (11)</span><span class="en">All (11)</span>
     </div>
     <div class="filter-tab" onclick="setFilter('cctv',this)">
       <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-      CCTV
+      <span class="es">CCTV</span><span class="en">CCTV</span>
     </div>
     <div class="filter-tab" onclick="setFilter('hvac',this)">
       <svg viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
-      HVAC
+      <span class="es">HVAC</span><span class="en">HVAC</span>
     </div>
     <div class="filter-tab" onclick="setFilter('redes',this)">
       <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
-      Redes
+      <span class="es">Redes</span><span class="en">Networking</span>
     </div>
     <div class="filter-tab" onclick="setFilter('negocio',this)">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Negocio
+      <span class="es">Negocio</span><span class="en">Business</span>
     </div>
     <div class="filter-tab" onclick="setFilter('cotizacion',this)">
       <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      Cotización
+      <span class="es">Cotización</span><span class="en">Quote</span>
     </div>
   </div>
 
   <div class="tools-grid" id="tools-grid">
 
     <!-- 1. COTIZACION INSTANTANEA -->
-    <a href="cotizacion-instantanea.html" class="tool-card featured" data-cats="cotizacion negocio" data-name="cotización instantánea configura sistema precio" style="animation:fadeUp .4s ease .25s both">
+    <a href="cotizacion-instantanea.html" class="tool-card featured" data-cats="cotizacion negocio" data-name="cotización instantánea configura sistema precio instant quote configure system price estimate" style="animation:fadeUp .4s ease .25s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--blue-light)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Cotización Instantánea</div>
-      <div class="tool-desc">Arma tu cotización paso a paso: configura tu sistema Wifnix y obtén un estimado de precio en tiempo real de CCTV, HVAC, redes y más. Es la herramienta más usada del sitio.</div>
-      <div class="tool-meta">CCTV · HVAC · Redes · Precio</div>
+      <div class="tool-name es">Cotización Instantánea</div>
+      <div class="tool-name en">Instant Quote</div>
+      <div class="tool-desc es">Arma tu cotización paso a paso: configura tu sistema Wifnix y obtén un estimado de precio en tiempo real de CCTV, HVAC, redes y más. Es la herramienta más usada del sitio.</div>
+      <div class="tool-desc en">Build your quote step by step: configure your Wifnix system and get a real-time price estimate for CCTV, HVAC, networking and more. It is the most used tool on the site.</div>
+      <div class="tool-meta es">CCTV · HVAC · Redes · Precio</div>
+      <div class="tool-meta en">CCTV · HVAC · Networking · Price</div>
     </a>
 
     <!-- 2. CALCULADORA CCTV -->
-    <a href="calculadora-cctv.html" class="tool-card" data-cats="cctv" data-name="calculadora cctv almacenamiento cámaras resolución días hd 4k" style="animation:fadeUp .4s ease .3s both">
+    <a href="calculadora-cctv.html" class="tool-card" data-cats="cctv" data-name="calculadora cctv almacenamiento cámaras resolución días hd 4k storage calculator cameras resolution retention days" style="animation:fadeUp .4s ease .3s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--blue-light)"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/><circle cx="9" cy="12" r="2"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Calculadora de Almacenamiento CCTV</div>
-      <div class="tool-desc">Calcula cuánto disco necesita tu sistema de CCTV según la resolución (de HD a 4K), el número de cámaras y los días de retención del NVR.</div>
-      <div class="tool-meta">HD · 4K · NVR · Almacenamiento</div>
+      <div class="tool-name es">Calculadora de Almacenamiento CCTV</div>
+      <div class="tool-name en">CCTV Storage Calculator</div>
+      <div class="tool-desc es">Calcula cuánto disco necesita tu sistema de CCTV según la resolución (de HD a 4K), el número de cámaras y los días de retención del NVR.</div>
+      <div class="tool-desc en">Work out how much disk space your CCTV system needs based on resolution (HD through 4K), how many cameras you run and how many days the NVR keeps.</div>
+      <div class="tool-meta es">HD · 4K · NVR · Almacenamiento</div>
+      <div class="tool-meta en">HD · 4K · NVR · Storage</div>
     </a>
 
     <!-- 3. ROI SEGURIDAD -->
-    <a href="calculadora-roi-seguridad.html" class="tool-card" data-cats="cctv negocio cotizacion" data-name="roi seguridad robo pérdida inversión retorno" style="animation:fadeUp .4s ease .35s both">
+    <a href="calculadora-roi-seguridad.html" class="tool-card" data-cats="cctv negocio cotizacion" data-name="roi seguridad robo pérdida inversión retorno security theft loss investment return" style="animation:fadeUp .4s ease .35s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--success)"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--verde)"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Costo de no tener seguridad</div>
-      <div class="tool-desc">Calcula el ROI real de instalar CCTV: el retorno de inversión de protegerte frente a lo que cuesta un robo sin monitoreo.</div>
-      <div class="tool-meta">ROI · Pérdidas · Inversión</div>
+      <div class="tool-name es">Costo de no tener seguridad</div>
+      <div class="tool-name en">The cost of going unprotected</div>
+      <div class="tool-desc es">Calcula el ROI real de instalar CCTV: el retorno de inversión de protegerte frente a lo que cuesta un robo sin monitoreo.</div>
+      <div class="tool-desc en">Calculate the real ROI of installing CCTV: what protection gives back, measured against what a break-in costs when nobody is watching.</div>
+      <div class="tool-meta es">ROI · Pérdidas · Inversión</div>
+      <div class="tool-meta en">ROI · Losses · Investment</div>
     </a>
 
     <!-- 4. CALCULADORA BTU HVAC -->
-    <a href="calculadora-hvac.html" class="tool-card" data-cats="hvac" data-name="calculadora hvac btu aire acondicionado capacidad toneladas salon barberia restaurante" style="animation:fadeUp .4s ease .4s both">
+    <a href="calculadora-hvac.html" class="tool-card" data-cats="hvac" data-name="calculadora hvac btu aire acondicionado capacidad toneladas salon barberia restaurante air conditioning capacity tons mini split" style="animation:fadeUp .4s ease .4s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--orange)"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--ambar)"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Calculadora BTU — Aire Acondicionado</div>
-      <div class="tool-desc">Determina qué capacidad de HVAC necesitas considerando dimensiones, exposición solar, tipo de local y equipos que generan calor.</div>
-      <div class="tool-meta">BTU · Toneladas · Mini Split · Central</div>
+      <div class="tool-name es">Calculadora BTU — Aire Acondicionado</div>
+      <div class="tool-name en">BTU Calculator — Air Conditioning</div>
+      <div class="tool-desc es">Determina qué capacidad de HVAC necesitas considerando dimensiones, exposición solar, tipo de local y equipos que generan calor.</div>
+      <div class="tool-desc en">Find the HVAC capacity you actually need, factoring in room size, sun exposure, the type of space and any equipment that throws off heat.</div>
+      <div class="tool-meta es">BTU · Toneladas · Mini Split · Central</div>
+      <div class="tool-meta en">BTU · Tons · Mini Split · Central</div>
     </a>
 
     <!-- 5. AHORRO ELECTRICO -->
-    <a href="ahorro-electrico-hvac.html" class="tool-card" data-cats="hvac negocio" data-name="ahorro eléctrico hvac seer eficiencia factura electricidad" style="animation:fadeUp .4s ease .45s both">
+    <a href="ahorro-electrico-hvac.html" class="tool-card" data-cats="hvac negocio" data-name="ahorro eléctrico hvac seer eficiencia factura electricidad energy savings efficiency power bill" style="animation:fadeUp .4s ease .45s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--success)"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--verde)"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Calculadora de Ahorro Eléctrico HVAC</div>
-      <div class="tool-desc">Descubre cuánto ahorras al cambiar tu A/C por uno de alta eficiencia SEER, cuál es el ahorro mensual y en cuánto tiempo se paga solo.</div>
-      <div class="tool-meta">SEER · Eficiencia · Factura · ROI</div>
+      <div class="tool-name es">Calculadora de Ahorro Eléctrico HVAC</div>
+      <div class="tool-name en">HVAC Energy Savings Calculator</div>
+      <div class="tool-desc es">Descubre cuánto ahorras al cambiar tu A/C por uno de alta eficiencia SEER, cuál es el ahorro mensual y en cuánto tiempo se paga solo.</div>
+      <div class="tool-desc en">See how much you save by replacing your A/C with a high-efficiency SEER unit, what that adds up to each month, and how long it takes to pay for itself.</div>
+      <div class="tool-meta es">SEER · Eficiencia · Factura · ROI</div>
+      <div class="tool-meta en">SEER · Efficiency · Power bill · ROI</div>
     </a>
 
     <!-- 6. MANTENIMIENTO HVAC -->
-    <a href="estimador-mantenimiento-hvac.html" class="tool-card" data-cats="hvac" data-name="mantenimiento hvac reparar reemplazar equipo antigüedad" style="animation:fadeUp .4s ease .5s both">
+    <a href="estimador-mantenimiento-hvac.html" class="tool-card" data-cats="hvac" data-name="mantenimiento hvac reparar reemplazar equipo antigüedad maintenance repair replace unit age" style="animation:fadeUp .4s ease .5s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--orange)"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--ambar)"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Reparar o reemplazar tu HVAC</div>
-      <div class="tool-desc">Analiza la edad y condición de tu equipo. Te decimos si conviene repararlo o invertir en uno nuevo con plan de mantenimiento preventivo.</div>
-      <div class="tool-meta">Diagnóstico · Reparación · Plan de mantenimiento</div>
+      <div class="tool-name es">Reparar o reemplazar tu HVAC</div>
+      <div class="tool-name en">Repair or replace your HVAC</div>
+      <div class="tool-desc es">Analiza la edad y condición de tu equipo. Te decimos si conviene repararlo o invertir en uno nuevo con plan de mantenimiento preventivo.</div>
+      <div class="tool-desc en">Weigh the age and condition of your unit. We tell you whether it pays to repair it or to invest in a new one with a preventive maintenance plan.</div>
+      <div class="tool-meta es">Diagnóstico · Reparación · Plan de mantenimiento</div>
+      <div class="tool-meta en">Diagnosis · Repair · Maintenance plan</div>
     </a>
 
     <!-- 7. RED Y ANCHO DE BANDA -->
-    <a href="calculadora-red.html" class="tool-card" data-cats="redes" data-name="red ancho de banda internet mbps router wifi switch empresarial" style="animation:fadeUp .4s ease .55s both">
+    <a href="calculadora-red.html" class="tool-card" data-cats="redes" data-name="red ancho de banda internet mbps router wifi switch empresarial network bandwidth business poe access points" style="animation:fadeUp .4s ease .55s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--blue-light)"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M5 12.55a11 11 0 0114.08 0M1.42 9a16 16 0 0121.16 0M8.53 16.11a6 6 0 016.95 0M12 20h.01"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Calculadora de Ancho de Banda</div>
-      <div class="tool-desc">Calcula el internet y el equipo de redes que necesita tu empresa según dispositivos, videoconferencias y cámaras IP.</div>
-      <div class="tool-meta">Mbps · WiFi 6 · Switch PoE · APs</div>
+      <div class="tool-name es">Calculadora de Ancho de Banda</div>
+      <div class="tool-name en">Bandwidth Calculator</div>
+      <div class="tool-desc es">Calcula el internet y el equipo de redes que necesita tu empresa según dispositivos, videoconferencias y cámaras IP.</div>
+      <div class="tool-desc en">Size the internet service and network gear your business needs based on connected devices, video calls and IP cameras.</div>
+      <div class="tool-meta es">Mbps · WiFi 6 · Switch PoE · APs</div>
+      <div class="tool-meta en">Mbps · WiFi 6 · PoE switch · APs</div>
     </a>
 
     <!-- 8. CONTINUIDAD -->
-    <a href="evaluador-continuidad.html" class="tool-card" data-cats="negocio redes" data-name="continuidad operacional apagones ups generador internet backup pérdida" style="animation:fadeUp .4s ease .6s both">
+    <a href="evaluador-continuidad.html" class="tool-card" data-cats="negocio redes" data-name="continuidad operacional apagones ups generador internet backup pérdida business continuity outage blackout generator downtime" style="animation:fadeUp .4s ease .6s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--orange)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--ambar)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Evaluador de Continuidad Operacional</div>
-      <div class="tool-desc">Cuánto pierde tu negocio cuando se va la luz o el internet, y qué plan de continuidad operacional necesitas en Puerto Rico.</div>
-      <div class="tool-meta">UPS · Generador · 4G Backup · PR</div>
+      <div class="tool-name es">Evaluador de Continuidad Operacional</div>
+      <div class="tool-name en">Business Continuity Assessment</div>
+      <div class="tool-desc es">Cuánto pierde tu negocio cuando se va la luz o el internet, y qué plan de continuidad operacional necesitas en Puerto Rico.</div>
+      <div class="tool-desc en">What your business loses every hour the power or the internet is down, and the continuity plan you need for Puerto Rico.</div>
+      <div class="tool-meta es">UPS · Generador · 4G Backup · PR</div>
+      <div class="tool-meta en">UPS · Generator · 4G Backup · PR</div>
     </a>
 
     <!-- 9. QUIZ -->
-    <a href="quiz-sistema-seguridad.html" class="tool-card" data-cats="cctv negocio cotizacion" data-name="quiz sistema seguridad qué necesito recomendación guiado" style="animation:fadeUp .4s ease .65s both">
+    <a href="quiz-sistema-seguridad.html" class="tool-card" data-cats="cctv negocio cotizacion" data-name="quiz sistema seguridad qué necesito recomendación guiado security system what do i need recommendation guided" style="animation:fadeUp .4s ease .65s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:#C084FC"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--azul)"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Quiz — Qué sistema necesitas</div>
-      <div class="tool-desc">Quiz de 8 preguntas rápidas. Te recomendamos el sistema de seguridad y tecnología ideal para tu tipo de negocio.</div>
-      <div class="tool-meta">Recomendación · Guiado · 5 min</div>
+      <div class="tool-name es">Quiz — Qué sistema necesitas</div>
+      <div class="tool-name en">Quiz — Which system you need</div>
+      <div class="tool-desc es">Quiz de 8 preguntas rápidas. Te recomendamos el sistema de seguridad y tecnología ideal para tu tipo de negocio.</div>
+      <div class="tool-desc en">Eight quick questions. We recommend the security and technology setup that fits your kind of business.</div>
+      <div class="tool-meta es">Recomendación · Guiado · 5 min</div>
+      <div class="tool-meta en">Recommendation · Guided · 5 min</div>
     </a>
 
     <!-- 10. COMPARADOR DE PLANES -->
-    <a href="comparador-planes.html" class="tool-card" data-cats="cotizacion negocio" data-name="comparador planes precios básico profesional enterprise managed" style="animation:fadeUp .4s ease .7s both">
+    <a href="comparador-planes.html" class="tool-card" data-cats="cotizacion negocio" data-name="comparador planes precios básico profesional enterprise managed plan comparison pricing basic professional services" style="animation:fadeUp .4s ease .7s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--blue-light)"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--azul)"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Comparador de Planes Wifnix</div>
-      <div class="tool-desc">Selecciona lo que necesitas y compara en detalle los planes Básico, Profesional, Enterprise y Managed Services.</div>
-      <div class="tool-meta">Básico · Profesional · Enterprise</div>
+      <div class="tool-name es">Comparador de Planes Wifnix</div>
+      <div class="tool-name en">Wifnix Plan Comparison</div>
+      <div class="tool-desc es">Selecciona lo que necesitas y compara en detalle los planes Básico, Profesional, Enterprise y Managed Services.</div>
+      <div class="tool-desc en">Pick what you need and compare the Basic, Professional, Enterprise and Managed Services plans side by side.</div>
+      <div class="tool-meta es">Básico · Profesional · Enterprise</div>
+      <div class="tool-meta en">Basic · Professional · Enterprise</div>
     </a>
 
     <!-- 11. RESTAURANTES -->
-    <a href="calculadora-restaurante.html" class="tool-card" data-cats="negocio hvac cctv redes" data-name="restaurante cafetería bar todo en uno cctv hvac red continuidad" style="animation:fadeUp .4s ease .75s both">
+    <a href="calculadora-restaurante.html" class="tool-card" data-cats="negocio hvac cctv redes" data-name="restaurante cafetería bar todo en uno cctv hvac red continuidad restaurant cafe all in one food beverage" style="animation:fadeUp .4s ease .75s both">
       <div class="tool-icon-wrap">
-        <svg viewBox="0 0 24 24" style="stroke:var(--warn)"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+        <svg viewBox="0 0 24 24" style="stroke:var(--ambar)"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
       </div>
       <div class="tool-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-      <div class="tool-name">Todo en Uno — Restaurantes y A&B</div>
-      <div class="tool-desc">CCTV, HVAC, redes y continuidad en una sola herramienta especial para el sector de alimentos y bebidas en Puerto Rico.</div>
-      <div class="tool-meta">Restaurante · Bar · Cafetería · A&B</div>
+      <div class="tool-name es">Todo en Uno — Restaurantes y A&B</div>
+      <div class="tool-name en">All-in-One — Restaurants and F&B</div>
+      <div class="tool-desc es">CCTV, HVAC, redes y continuidad en una sola herramienta especial para el sector de alimentos y bebidas en Puerto Rico.</div>
+      <div class="tool-desc en">CCTV, HVAC, networking and continuity in a single tool built for the food and beverage business in Puerto Rico.</div>
+      <div class="tool-meta es">Restaurante · Bar · Cafetería · A&B</div>
+      <div class="tool-meta en">Restaurant · Bar · Café · F&B</div>
     </a>
 
   </div>
 
   <div class="empty-state" id="empty-state">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <p style="font-size:0.9rem;color:var(--gray)">No encontramos herramientas para "<span id="search-term" style="color:var(--white)"></span>"</p>
-    <p style="font-size:0.78rem;margin-top:8px">Intenta con: CCTV, HVAC, red, ahorro, cotización, restaurante...</p>
+    <p style="font-size:0.9rem;color:var(--texto)"><span class="es">No encontramos herramientas para</span><span class="en">No tools found for</span> "<span id="search-term" style="color:var(--tinta)"></span>"</p>
+    <p class="es" style="font-size:0.78rem;margin-top:8px">Intenta con: CCTV, HVAC, red, ahorro, cotización, restaurante...</p>
+    <p class="en" style="font-size:0.78rem;margin-top:8px">Try: CCTV, HVAC, network, savings, quote, restaurant...</p>
   </div>
 
   <div class="cta-bottom" style="animation:fadeUp .5s ease .8s both">
-    <h2>No encuentras lo que buscas</h2>
-    <p>Nuestros expertos te asesoran sin costo — evaluación presencial o por videollamada en todo Puerto Rico.</p>
-    <a href="https://wifnix.com/#chat" target="_blank" class="cta-btn">Hablar con un experto</a>
+    <h2 class="es">No encuentras lo que buscas</h2>
+    <h2 class="en">Not finding what you need</h2>
+    <p class="es">Nuestros expertos te asesoran sin costo — evaluación presencial o por videollamada en todo Puerto Rico.</p>
+    <p class="en">Our experts will advise you at no cost — on-site or by video call anywhere in Puerto Rico.</p>
+    <a href="https://wifnix.com/#chat" target="_blank" class="cta-btn es">Hablar con un experto</a>
+    <a href="https://wifnix.com/#chat" target="_blank" class="cta-btn en">Talk to an expert</a>
   </div>
 
 </div>
@@ -258,44 +312,53 @@ function filterTools() {
 </script>
 
 <!-- LEAD MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:440px">
-    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px">Hablar con un experto</div>
-    <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas. Sin compromiso.</div>
-    <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel2);border:1px solid rgba(11,143,204,0.25);box-shadow:var(--sombra);border-radius:16px;padding:32px;width:100%;max-width:440px">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px"><span class="es">Hablar con un experto</span><span class="en">Talk to an expert</span></div>
+    <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6"><span class="es">Nuestro equipo te contactará en menos de 24 horas. Sin compromiso.</span><span class="en">Our team will get back to you in under 24 hours. No obligation.</span></div>
+    <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
     <div style="display:flex;flex-direction:column;gap:10px">
       <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre *</div>
-        <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Nombre *</span><span class="en">Name *</span></div>
+        <input type="text" id="lead-nombre" placeholder="Tu nombre" data-es="Tu nombre" data-en="Your name" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
       </div>
       <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-        <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Email *</span><span class="en">Email *</span></div>
+        <input type="email" id="lead-email" placeholder="tu@empresa.com" data-es="tu@empresa.com" data-en="you@company.com" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
       </div>
       <div>
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-        <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Teléfono</span><span class="en">Phone</span></div>
+        <input type="tel" id="lead-tel" placeholder="(787) 000-0000" data-es="(787) 000-0000" data-en="(787) 000-0000" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
       </div>
     </div>
     <div style="display:flex;gap:10px;margin-top:16px">
-      <button onclick="submitLeadHub()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar</button>
-      <button onclick="document.getElementById('lead-overlay').style.display='none'" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+      <button onclick="submitLeadHub()" class="es" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar</button>
+      <button onclick="submitLeadHub()" class="en" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send</button>
+      <button onclick="document.getElementById('lead-overlay').style.display='none'" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+      <button onclick="document.getElementById('lead-overlay').style.display='none'" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
     </div>
   </div>
 </div>
 
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel2);border:1px solid rgba(0,229,160,0.3);box-shadow:var(--sombra);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center">
     <div style="width:60px;height:60px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-      <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:8px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:20px">Nuestro equipo te contactará en menos de 24 horas.</div>
-    <button onclick="document.getElementById('lead-success').style.display='none'" style="padding:11px 28px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--tinta);margin-bottom:8px"><span class="es">Solicitud enviada</span><span class="en">Request sent</span></div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:20px"><span class="es">Nuestro equipo te contactará en menos de 24 horas.</span><span class="en">Our team will get back to you in under 24 hours.</span></div>
+    <button onclick="document.getElementById('lead-success').style.display='none'" class="es" style="padding:11px 28px;background:var(--azul-fuerte);color:#FFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+    <button onclick="document.getElementById('lead-success').style.display='none'" class="en" style="padding:11px 28px;background:var(--azul-fuerte);color:#FFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Close</button>
   </div>
 </div>
 
 <script>
+/* El idioma lo manda el atributo del <html>; los mensajes que escribe
+   este script tienen que hablarlo también. */
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+
 function openLeadHub() {
   document.getElementById('lead-overlay').style.display = 'flex';
   document.getElementById('lead-nombre').focus();
@@ -305,7 +368,12 @@ function submitLeadHub() {
   var email = document.getElementById('lead-email').value.trim();
   var tel = document.getElementById('lead-tel').value.trim();
   var alertEl = document.getElementById('lead-alert');
-  if (!nombre || !email) { alertEl.style.display='block'; alertEl.textContent='Por favor ingresa tu nombre y email.'; return; }
+  var en = wxIdioma() === 'en';
+  if (!nombre || !email) {
+    alertEl.style.display='block';
+    alertEl.textContent = en ? 'Please enter your name and email.' : 'Por favor ingresa tu nombre y email.';
+    return;
+  }
   fetch('https://api.wifnix.com/api/leads', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({nombre:nombre,email:email,telefono:tel,herramienta:'Hub de Herramientas',estimado:''})
@@ -313,7 +381,8 @@ function submitLeadHub() {
     document.getElementById('lead-overlay').style.display='none';
     document.getElementById('lead-success').style.display='flex';
   }).catch(function(){
-    alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596';
+    alertEl.style.display='block';
+    alertEl.textContent = en ? 'Something went wrong. Call us at (787) 354-9596' : 'Error. Llámanos al (787) 354-9596';
   });
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.getElementById('lead-overlay').style.display='none';document.getElementById('lead-success').style.display='none';}});
@@ -331,6 +400,8 @@ function abrirChat() {
   window.location.href = 'https://wifnix.com/?chat=1';
 }
 </script>
+
+<script src="/assets/wifnix-ui.js" defer></script>
 
 </body>
 </html>

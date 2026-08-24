@@ -4,93 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Almacenamiento CCTV — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.topbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--bl);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--azul);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
-.seclabel{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--gray);margin-bottom:12px}
-.seclabel::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.09)}
+.card{background:var(--panel);border:1px solid rgba(11,143,204,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:20px}
+.seclabel{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--apagado);margin-bottom:12px}
+.seclabel::after{content:'';flex:1;height:1px;background:var(--filo2)}
 .field{margin-bottom:16px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
-.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--bl)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);cursor:pointer}
-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-select option{background:var(--navy)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label span[id]{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--azul)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--azul-fuerte);cursor:pointer}
+select{width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--panel);color:var(--tinta)}
 .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.opt{border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
+.opt{border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:var(--fondo2)}
 .opt:hover{border-color:rgba(11,143,204,0.35)}
-.opt.sel{border-color:var(--blue);background:rgba(11,143,204,0.08)}
-.opt-name{font-size:0.78rem;font-weight:700;color:var(--gray)}
-.opt.sel .opt-name{color:var(--white)}
-.opt-detail{font-size:0.65rem;color:var(--gray2);margin-top:3px}
-.opt-bitrate{font-size:0.68rem;color:var(--bl);font-weight:600;margin-top:4px}
+.opt.sel{border-color:var(--azul-fuerte);background:rgba(11,143,204,0.08)}
+.opt-name{font-size:0.78rem;font-weight:700;color:var(--texto)}
+.opt.sel .opt-name{color:var(--tinta)}
+.opt-detail{font-size:0.65rem;color:var(--apagado);margin-top:3px}
+.opt-bitrate{font-size:0.68rem;color:var(--azul);font-weight:600;margin-top:4px}
 .result-hero{border-top:1px solid rgba(11,143,204,0.35);padding:26px 0 24px;margin-bottom:0}
-.storage-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--bl);line-height:1}
+.storage-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--azul);line-height:1}
 .datalist{display:grid;grid-template-columns:repeat(4,1fr);column-gap:28px;margin-bottom:26px}
-.data{padding:12px 0;border-top:1px solid rgba(255,255,255,0.09)}
-.data-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px}
-.data-num{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--white)}
+.data{padding:12px 0;border-top:1px solid var(--filo)}
+.data-lbl{font-family:var(--mono);font-size:0.58rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px}
+.data-num{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--tinta)}
 .hdd-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;margin-bottom:16px}
-.hdd-card{border-top:1px solid rgba(255,255,255,0.09);padding:14px 0}
-.hdd-card.rec{border-top-color:var(--blue)}
-.hdd-size{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--bl);margin-bottom:4px}
-.hdd-days{font-size:0.72rem;color:var(--gray)}
-.hdd-price{font-size:0.78rem;color:var(--green);font-weight:600;margin-top:6px}
-.tip{border-left:2px solid rgba(11,143,204,0.45);padding:4px 0 4px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:22px}
-.tip strong{color:var(--white)}
+.hdd-card{border-top:1px solid var(--filo);padding:14px 0}
+.hdd-card.rec{border-top-color:var(--azul-fuerte)}
+.hdd-size{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--azul);margin-bottom:4px}
+.hdd-days{font-size:0.72rem;color:var(--texto)}
+.hdd-price{font-size:0.78rem;color:var(--verde);font-weight:600;margin-top:6px}
+.tip{border-left:2px solid rgba(11,143,204,0.45);padding:4px 0 4px 16px;font-size:0.8rem;color:var(--texto);line-height:1.8;margin-bottom:22px}
+.tip strong{color:var(--tinta)}
 .cta{border-top:1px solid rgba(11,143,204,0.3);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--bl);transform:translateY(-2px)}
+/* Texto claro fijo: el fondo del botón es azul de marca — oscuro en los dos
+   temas — así que aquí el blanco es lo que da contraste, no lo que lo quita. */
+.cta-btn{padding:11px 24px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--azul);transform:translateY(-2px)}
 @media(max-width:768px){.grid-2,.datalist,.hdd-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="topbar"><span data-wx-switches></span></div>
+
   <div class="header">
-    <h1>Calculadora de <em>Almacenamiento CCTV</em></h1>
-    <p>Calcula con la fórmula de bitrate real por resolución cuánto disco necesita tu sistema de CCTV y videovigilancia en Puerto Rico, según compresión, horas de grabación y días de retención.</p>
+    <h1 class="es">Calculadora de <em>Almacenamiento CCTV</em></h1>
+    <h1 class="en"><em>CCTV Storage</em> Calculator</h1>
+    <p class="es">Calcula con la fórmula de bitrate real por resolución cuánto disco necesita tu sistema de CCTV y videovigilancia en Puerto Rico, según compresión, horas de grabación y días de retención.</p>
+    <p class="en">Use real bitrate-per-resolution math to find how much disk space your CCTV and video surveillance system in Puerto Rico needs, based on compression, recording hours and retention days.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Cámaras</div>
+        <div class="card-title es">Cámaras</div>
+        <div class="card-title en">Cameras</div>
         <div class="field">
-          <label>Número de cámaras <span id="lbl-cams">4</span></label>
+          <label><span class="es">Número de cámaras</span><span class="en">Number of cameras</span> <span id="lbl-cams">4</span></label>
           <input type="range" id="sl-cams" min="1" max="64" value="4" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>1</span><span>8</span><span>16</span><span>32</span><span>64</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px"><span>1</span><span>8</span><span>16</span><span>32</span><span>64</span></div>
         </div>
         <div class="field">
-          <label>Días de retención <span id="lbl-dias">30</span></label>
+          <label><span class="es">Días de retención</span><span class="en">Retention days</span> <span id="lbl-dias">30</span></label>
           <input type="range" id="sl-dias" min="7" max="90" value="30" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>7 días</span><span>30 días</span><span>60 días</span><span>90 días</span></div>
+          <div class="es" style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px"><span>7 días</span><span>30 días</span><span>60 días</span><span>90 días</span></div>
+          <div class="en" style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px"><span>7 days</span><span>30 days</span><span>60 days</span><span>90 days</span></div>
         </div>
         <div class="field">
-          <label>Horas de grabación al día <span id="lbl-hrs">24</span>h</label>
+          <label><span class="es">Horas de grabación al día</span><span class="en">Recording hours per day</span> <span id="lbl-hrs">24</span>h</label>
           <input type="range" id="sl-hrs" min="1" max="24" value="24" oninput="update()">
         </div>
         <div class="field">
-          <label>Porcentaje de movimiento detectado <span id="lbl-mov">30</span>%</label>
+          <label><span class="es">Porcentaje de movimiento detectado</span><span class="en">Percentage of motion detected</span> <span id="lbl-mov">30</span>%</label>
           <input type="range" id="sl-mov" min="5" max="100" value="30" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Si grabas 24/7 usa 100%. Si grabas por movimiento, ¿qué % del tiempo hay actividad?</div>
+          <div class="es" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">Si grabas 24/7 usa 100%. Si grabas por movimiento, ¿qué % del tiempo hay actividad?</div>
+          <div class="en" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">If you record 24/7, use 100%. If you record on motion, what % of the time is there activity?</div>
         </div>
       </div>
     </div>
 
     <div>
       <div class="card">
-        <div class="card-title">Resolución y compresión</div>
-        <div class="seclabel">Resolución</div>
+        <div class="card-title es">Resolución y compresión</div>
+        <div class="card-title en">Resolution and compression</div>
+        <div class="seclabel es">Resolución</div>
+        <div class="seclabel en">Resolution</div>
         <div class="opt-grid" style="margin-bottom:14px">
           <div class="opt" onclick="selRes('720p',this)">
             <div class="opt-name">HD 720p</div>
@@ -103,7 +125,8 @@ select option{background:var(--navy)}
             <div class="opt-bitrate">~2 Mbps (H.265)</div>
           </div>
           <div class="opt" onclick="selRes('4mp',this)">
-            <div class="opt-name">4 Megapíxeles</div>
+            <div class="opt-name es">4 Megapíxeles</div>
+            <div class="opt-name en">4 Megapixels</div>
             <div class="opt-detail">2688×1520 px</div>
             <div class="opt-bitrate">~4 Mbps (H.265)</div>
           </div>
@@ -113,36 +136,45 @@ select option{background:var(--navy)}
             <div class="opt-bitrate">~8 Mbps (H.265)</div>
           </div>
         </div>
-        <div class="seclabel">Compresión de video</div>
+        <div class="seclabel es">Compresión de video</div>
+        <div class="seclabel en">Video compression</div>
         <div class="opt-grid">
           <div class="opt" onclick="selComp('h264',this)">
             <div class="opt-name">H.264 / AVC</div>
-            <div class="opt-detail">Estándar, compatible universal</div>
-            <div class="opt-bitrate">2× más espacio que H.265</div>
+            <div class="opt-detail es">Estándar, compatible universal</div>
+            <div class="opt-detail en">Standard, universally compatible</div>
+            <div class="opt-bitrate es">2× más espacio que H.265</div>
+            <div class="opt-bitrate en">2× more space than H.265</div>
           </div>
           <div class="opt sel" onclick="selComp('h265',this)">
             <div class="opt-name">H.265 / HEVC</div>
-            <div class="opt-detail">Alta eficiencia, recomendado</div>
-            <div class="opt-bitrate">50% menos espacio</div>
+            <div class="opt-detail es">Alta eficiencia, recomendado</div>
+            <div class="opt-detail en">High efficiency, recommended</div>
+            <div class="opt-bitrate es">50% menos espacio</div>
+            <div class="opt-bitrate en">50% less space</div>
           </div>
           <div class="opt" onclick="selComp('h264+',this)">
             <div class="opt-name">H.264+</div>
-            <div class="opt-detail">Optimizado por fabricante</div>
-            <div class="opt-bitrate">~30% menos que H.264</div>
+            <div class="opt-detail es">Optimizado por fabricante</div>
+            <div class="opt-detail en">Optimized by the manufacturer</div>
+            <div class="opt-bitrate es">~30% menos que H.264</div>
+            <div class="opt-bitrate en">~30% less than H.264</div>
           </div>
           <div class="opt" onclick="selComp('h265+',this)">
             <div class="opt-name">H.265+</div>
-            <div class="opt-detail">Mejor compresión disponible</div>
-            <div class="opt-bitrate">Hasta 70% menos espacio</div>
+            <div class="opt-detail es">Mejor compresión disponible</div>
+            <div class="opt-detail en">Best compression available</div>
+            <div class="opt-bitrate es">Hasta 70% menos espacio</div>
+            <div class="opt-bitrate en">Up to 70% less space</div>
           </div>
         </div>
         <div class="field" style="margin-top:14px">
-          <label>Frames por segundo (FPS)</label>
+          <label><span class="es">Frames por segundo (FPS)</span><span class="en">Frames per second (FPS)</span></label>
           <select id="sel-fps" onchange="update()">
-            <option value="15">15 FPS — Fluido, ahorra espacio</option>
-            <option value="20">20 FPS — Buena fluidez</option>
-            <option value="25" selected>25 FPS — Estándar PAL (Europa/PR)</option>
-            <option value="30">30 FPS — Máxima fluidez</option>
+            <option value="15" data-es="15 FPS — Fluido, ahorra espacio" data-en="15 FPS — Smooth, saves space">15 FPS — Fluido, ahorra espacio</option>
+            <option value="20" data-es="20 FPS — Buena fluidez" data-en="20 FPS — Good smoothness">20 FPS — Buena fluidez</option>
+            <option value="25" selected data-es="25 FPS — Estándar PAL (Europa/PR)" data-en="25 FPS — PAL standard (Europe/PR)">25 FPS — Estándar PAL (Europa/PR)</option>
+            <option value="30" data-es="30 FPS — Máxima fluidez" data-en="30 FPS — Maximum smoothness">30 FPS — Máxima fluidez</option>
           </select>
         </div>
       </div>
@@ -151,32 +183,38 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div class="seclabel">Almacenamiento necesario</div>
+    <div class="seclabel es">Almacenamiento necesario</div>
+    <div class="seclabel en">Storage needed</div>
     <div class="storage-num" id="r-storage">0 TB</div>
-    <div style="font-size:0.88rem;color:var(--gray);margin-top:8px" id="r-storage-sub">Para 0 cámaras durante 0 días</div>
+    <div style="font-size:0.88rem;color:var(--texto);margin-top:8px" id="r-storage-sub">Para 0 cámaras durante 0 días</div>
   </div>
 
   <div class="datalist">
-    <div class="data"><div class="data-lbl">Bitrate por cámara</div><div class="data-num" id="s-bitrate">0 Mbps</div></div>
-    <div class="data"><div class="data-lbl">GB por cámara/día</div><div class="data-num" id="s-gbdia">0 GB</div></div>
-    <div class="data"><div class="data-lbl">Total por día</div><div class="data-num" id="s-total-dia">0 GB</div></div>
-    <div class="data"><div class="data-lbl">Sin redundancia</div><div class="data-num" id="s-raw">0 TB</div></div>
+    <div class="data"><div class="data-lbl es">Bitrate por cámara</div><div class="data-lbl en">Bitrate per camera</div><div class="data-num" id="s-bitrate">0 Mbps</div></div>
+    <div class="data"><div class="data-lbl es">GB por cámara/día</div><div class="data-lbl en">GB per camera/day</div><div class="data-num" id="s-gbdia">0 GB</div></div>
+    <div class="data"><div class="data-lbl es">Total por día</div><div class="data-lbl en">Total per day</div><div class="data-num" id="s-total-dia">0 GB</div></div>
+    <div class="data"><div class="data-lbl es">Sin redundancia</div><div class="data-lbl en">Without redundancy</div><div class="data-num" id="s-raw">0 TB</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Opciones de disco recomendadas</div>
+    <div class="card-title es">Opciones de disco recomendadas</div>
+    <div class="card-title en">Recommended drive options</div>
     <div class="hdd-grid" id="r-hdd"></div>
-    <div style="font-size:0.72rem;color:var(--gray2);margin-top:8px">* Precios estimados de discos duros WD Purple o Seagate SkyHawk (optimizados para CCTV). Se recomienda usar discos específicos para vigilancia, no discos de computadora.</div>
+    <div class="es" style="font-size:0.72rem;color:var(--apagado);margin-top:8px">* Precios estimados de discos duros WD Purple o Seagate SkyHawk (optimizados para CCTV). Se recomienda usar discos específicos para vigilancia, no discos de computadora.</div>
+    <div class="en" style="font-size:0.72rem;color:var(--apagado);margin-top:8px">* Estimated prices for WD Purple or Seagate SkyHawk hard drives (built for CCTV). Use surveillance-rated drives, not regular desktop computer drives.</div>
   </div>
 
   <div class="tip" id="r-tip"></div>
 
   <div class="cta">
     <div>
-      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas un sistema CCTV completo?</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Instalamos sistemas IP y análogos en todo Puerto Rico. Evaluación gratuita.</div>
+      <div class="es" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">¿Necesitas un sistema CCTV completo?</div>
+      <div class="en" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">Need a complete CCTV system?</div>
+      <div class="es" style="font-size:0.78rem;color:var(--texto)">Instalamos sistemas IP y análogos en todo Puerto Rico. Evaluación gratuita.</div>
+      <div class="en" style="font-size:0.78rem;color:var(--texto)">We install IP and analog systems across Puerto Rico. Free evaluation.</div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Request an evaluation</a>
   </div>
 </div>
 
@@ -192,6 +230,13 @@ var BITRATES = {
 
 // Factor de FPS (relativo a 25fps base)
 var FPS_FACTOR = { 15: 0.6, 20: 0.8, 25: 1.0, 30: 1.2 };
+
+// Todo texto que escribe este script habla los dos idiomas. El idioma
+// vive en el <html>, lo puso el fragmento del <head>.
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
 
 var selResVal = '1080p';
 var selCompVal = 'h265';
@@ -250,7 +295,10 @@ function update() {
   document.getElementById('r-storage').textContent = tbConMargen >= 1
     ? tbConMargen.toFixed(2) + ' TB'
     : Math.round(tbConMargen * 1024) + ' GB';
-  document.getElementById('r-storage-sub').textContent = 'Para ' + cams + ' cámara' + (cams > 1 ? 's' : '') + ' durante ' + dias + ' días (' + hrs + 'h/día, ' + mov + '% actividad)';
+  document.getElementById('r-storage-sub').textContent = T(
+    'Para ' + cams + ' cámara' + (cams > 1 ? 's' : '') + ' durante ' + dias + ' días (' + hrs + 'h/día, ' + mov + '% actividad)',
+    'For ' + cams + ' camera' + (cams > 1 ? 's' : '') + ' over ' + dias + ' days (' + hrs + 'h/day, ' + mov + '% activity)'
+  );
 
   document.getElementById('s-bitrate').textContent = bitrateMbps.toFixed(1) + ' Mbps';
   document.getElementById('s-gbdia').textContent = gbPorCamaraDia.toFixed(2) + ' GB';
@@ -286,37 +334,65 @@ function renderHDD(tbNecesario, cams) {
     var diasQueAlmacena = Math.floor((o.tb * 1024 * 0.80) / (parseFloat(document.getElementById('s-total-dia').textContent)));
     var esRec = o === recomendada;
     return '<div class="hdd-card ' + (esRec ? 'rec' : '') + '">' +
-      (esRec ? '<div style="font-family:var(--mono);font-size:0.58rem;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px">Recomendado</div>' : '') +
+      (esRec ? '<div style="font-family:var(--mono);font-size:0.58rem;font-weight:600;color:var(--azul-fuerte);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px">' + T('Recomendado', 'Recommended') + '</div>' : '') +
       '<div class="hdd-size">' + o.size + ' TB</div>' +
-      '<div class="hdd-days">Almacena ~' + diasQueAlmacena + ' días</div>' +
-      '<div class="hdd-price">' + o.price + ' aprox.</div>' +
+      '<div class="hdd-days">' + T('Almacena ~' + diasQueAlmacena + ' días', 'Stores ~' + diasQueAlmacena + ' days') + '</div>' +
+      '<div class="hdd-price">' + o.price + T(' aprox.', ' approx.') + '</div>' +
     '</div>';
   }).join('');
 
   // Si necesita más de 16TB sugerir múltiples discos
   if (tbNecesario > 16) {
     var numDiscos = Math.ceil(tbNecesario / 8);
-    document.getElementById('r-hdd').innerHTML += '<div style="grid-column:1/-1;border-top:1px solid rgba(11,143,204,0.3);padding:14px 0 0;font-size:0.8rem;color:var(--gray);margin-top:10px"><strong style="color:var(--white)">Sistema de múltiples discos:</strong> Para ' + tbNecesario.toFixed(1) + ' TB se recomiendan ' + numDiscos + ' discos de 8TB en un NVR con múltiples bahías o un arreglo RAID para redundancia.</div>';
+    document.getElementById('r-hdd').innerHTML += '<div style="grid-column:1/-1;border-top:1px solid rgba(11,143,204,0.3);padding:14px 0 0;font-size:0.8rem;color:var(--texto);margin-top:10px">' + T(
+      '<strong style="color:var(--tinta)">Sistema de múltiples discos:</strong> Para ' + tbNecesario.toFixed(1) + ' TB se recomiendan ' + numDiscos + ' discos de 8TB en un NVR con múltiples bahías o un arreglo RAID para redundancia.',
+      '<strong style="color:var(--tinta)">Multi-drive system:</strong> For ' + tbNecesario.toFixed(1) + ' TB we recommend ' + numDiscos + ' 8TB drives in a multi-bay NVR, or a RAID array for redundancy.'
+    ) + '</div>';
   }
 }
 
 function renderTip(bitrate, gbDia, tb, cams, res, comp, dias) {
-  var tip = '<strong>¿Cómo se calcula?</strong> El almacenamiento = Bitrate × Horas × Factor de actividad × Días.<br>';
-  tip += 'Con ' + res + ' en ' + comp.toUpperCase() + ' a ' + bitrate.toFixed(1) + ' Mbps, cada cámara usa ~' + gbDia.toFixed(2) + ' GB al día.<br><br>';
+  var tip = T(
+    '<strong>¿Cómo se calcula?</strong> El almacenamiento = Bitrate × Horas × Factor de actividad × Días.<br>',
+    '<strong>How is it calculated?</strong> Storage = Bitrate × Hours × Activity factor × Days.<br>'
+  );
+  tip += T(
+    'Con ' + res + ' en ' + comp.toUpperCase() + ' a ' + bitrate.toFixed(1) + ' Mbps, cada cámara usa ~' + gbDia.toFixed(2) + ' GB al día.<br><br>',
+    'At ' + res + ' in ' + comp.toUpperCase() + ' running ' + bitrate.toFixed(1) + ' Mbps, each camera uses about ' + gbDia.toFixed(2) + ' GB a day.<br><br>'
+  );
 
   if (comp === 'h264') {
-    tip += '<strong>Consejo:</strong> Cambia a H.265 y reducirás el almacenamiento a la mitad sin perder calidad de imagen. La mayoría de cámaras IP modernas lo soportan.<br><br>';
+    tip += T(
+      '<strong>Consejo:</strong> Cambia a H.265 y reducirás el almacenamiento a la mitad sin perder calidad de imagen. La mayoría de cámaras IP modernas lo soportan.<br><br>',
+      '<strong>Tip:</strong> Switch to H.265 and you cut storage in half without losing image quality. Most modern IP cameras support it.<br><br>'
+    );
   }
   if (res === '4k') {
-    tip += '<strong>Almacenamiento 4K:</strong> Las cámaras 4K generan muchos datos. Si no necesitas identificar matrículas o rostros a gran distancia, 1080p ofrece excelente calidad con 4× menos espacio.<br><br>';
+    tip += T(
+      '<strong>Almacenamiento 4K:</strong> Las cámaras 4K generan muchos datos. Si no necesitas identificar matrículas o rostros a gran distancia, 1080p ofrece excelente calidad con 4× menos espacio.<br><br>',
+      '<strong>4K storage:</strong> 4K cameras generate a lot of data. If you do not need to identify license plates or faces at long range, 1080p gives excellent quality with 4× less space.<br><br>'
+    );
   }
-  tip += '<strong>Discos para vigilancia:</strong> Usa discos WD Purple, Seagate SkyHawk o Toshiba S300. Están diseñados para escritura continua 24/7. Los discos de escritorio normales fallan prematuramente en NVR.<br><br>';
-  tip += '<strong>RAID:</strong> Para sistemas críticos considera RAID 1 (espejo) o RAID 5. Duplica la protección ante fallas de disco a costo de capacidad adicional.';
+  tip += T(
+    '<strong>Discos para vigilancia:</strong> Usa discos WD Purple, Seagate SkyHawk o Toshiba S300. Están diseñados para escritura continua 24/7. Los discos de escritorio normales fallan prematuramente en NVR.<br><br>',
+    '<strong>Surveillance drives:</strong> Use WD Purple, Seagate SkyHawk or Toshiba S300 drives. They are built for continuous 24/7 writing. Regular desktop drives fail early inside an NVR.<br><br>'
+  );
+  tip += T(
+    '<strong>RAID:</strong> Para sistemas críticos considera RAID 1 (espejo) o RAID 5. Duplica la protección ante fallas de disco a costo de capacidad adicional.',
+    '<strong>RAID:</strong> For critical systems consider RAID 1 (mirror) or RAID 5. It doubles protection against a drive failure at the cost of extra capacity.'
+  );
 
   document.getElementById('r-tip').innerHTML = tip;
 }
 
 update();
+
+// Al cambiar de idioma hay que volver a escribir lo que pinta el script:
+// el CSS solo alcanza a los pares .es/.en del marcado.
+if (window.MutationObserver) {
+  new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+}
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

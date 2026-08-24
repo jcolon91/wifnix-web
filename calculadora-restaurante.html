@@ -4,107 +4,162 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora Todo en Uno — Restaurantes — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--orange:#F97316}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--warn)}
+.header h1 span{color:var(--ambar)}
+.header p{font-size:0.88rem;color:var(--texto);max-width:600px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(255,193,7,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:18px}
+.card{background:var(--panel);border:1px solid rgba(255,193,7,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:18px}
 .f-group{margin-bottom:14px}
-.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:5px;display:flex;justify-content:space-between}
-.f-label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--warn)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--warn);cursor:pointer}
-select,input[type=number]{background:rgba(255,255,255,0.04);border:1px solid rgba(255,193,7,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
-select option{background:var(--navy)}
-.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
-.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:16px}
-.seclabel::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.f-label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px;display:flex;justify-content:space-between}
+.f-label .val{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--ambar)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ambar);cursor:pointer}
+select,input[type=number]{background:var(--panel2);border:1px solid rgba(255,193,7,0.15);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none;width:100%}
+select option{background:var(--panel2);color:var(--tinta)}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:16px}
+.seclabel::after{content:"";flex:1;height:1px;background:var(--filo)}
 .section-total{padding:0;margin-bottom:32px}
-.total-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--warn);line-height:1}
-.dl{border-top:1px solid rgba(255,255,255,0.08);margin-bottom:32px}
-.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.dl-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em}
+.total-num{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--ambar);line-height:1}
+.dl{border-top:1px solid var(--filo);margin-bottom:32px}
+.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid var(--filo)}
+.dl-lbl{font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em}
 .dl-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.95rem;font-weight:600;white-space:nowrap}
-.pkg-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.pkg-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--filo)}
 .pkg-item:last-child{border-bottom:none}
-.pkg-name{font-size:0.85rem;color:var(--white);font-weight:600}
-.pkg-detail{font-size:0.72rem;color:var(--gray);margin-top:2px}
-.pkg-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--success);white-space:nowrap}
-.tip-box{border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;font-size:0.82rem;color:var(--gray);line-height:1.9;margin-bottom:28px}
-.tip-box strong{color:var(--white)}
-.cta-box{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--warn);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.pkg-name{font-size:0.85rem;color:var(--tinta);font-weight:600}
+.pkg-detail{font-size:0.72rem;color:var(--texto);margin-top:2px}
+.pkg-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--verde);white-space:nowrap}
+.tip-box{border-top:1px solid var(--filo);padding-top:18px;font-size:0.82rem;color:var(--texto);line-height:1.9;margin-bottom:28px}
+.tip-box strong{color:var(--tinta)}
+.cta-box{border-top:1px solid var(--filo);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--ambar);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,193,7,0.3)}
+/* El texto del modal va sobre azul de marca, que es oscuro en los dos
+   temas: por eso ahí el blanco sí es fijo. */
+.btn-azul{background:var(--azul-fuerte);color:#FFFFFF}
 @media(max-width:768px){.grid-2{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
+
   <div class="header" style="animation:fadeUp .5s ease">
-    <div class="eyebrow">Especial para restaurantes en Puerto Rico</div>
-    <h1>Calculadora <span>Todo en Uno</span> para Restaurantes</h1>
-    <p>Dimensiona CCTV, red, HVAC y continuidad operacional en una sola herramienta diseñada específicamente para el sector de alimentos y bebidas en Puerto Rico.</p>
+    <div class="eyebrow es">Especial para restaurantes en Puerto Rico</div>
+    <div class="eyebrow en">Made for restaurants in Puerto Rico</div>
+    <h1 class="es">Calculadora <span>Todo en Uno</span> para Restaurantes</h1>
+    <h1 class="en"><span>All-in-One</span> Calculator for Restaurants</h1>
+    <p class="es">Dimensiona CCTV, red, HVAC y continuidad operacional en una sola herramienta diseñada específicamente para el sector de alimentos y bebidas en Puerto Rico.</p>
+    <p class="en">Size CCTV, network, HVAC and operational continuity in a single tool built specifically for the food and beverage sector in Puerto Rico.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Tu restaurante</div>
+        <div class="card-title es">Tu restaurante</div>
+        <div class="card-title en">Your restaurant</div>
         <div class="f-group">
-          <div class="f-label">Área del local (ft²) <span id="lbl-area">800</span></div>
+          <div class="f-label">
+            <span class="es">Área del local (ft²)</span>
+            <span class="en">Floor area (ft²)</span>
+            <span class="val" id="lbl-area">800</span>
+          </div>
           <input type="range" id="sl-area" min="200" max="5000" step="100" value="800" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">Capacidad de mesas <span id="lbl-mesas">20</span></div>
+          <div class="f-label">
+            <span class="es">Capacidad de mesas</span>
+            <span class="en">Table capacity</span>
+            <span class="val" id="lbl-mesas">20</span>
+          </div>
           <input type="range" id="sl-mesas" min="5" max="200" value="20" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">Empleados totales <span id="lbl-emp">8</span></div>
+          <div class="f-label">
+            <span class="es">Empleados totales</span>
+            <span class="en">Total employees</span>
+            <span class="val" id="lbl-emp">8</span>
+          </div>
           <input type="range" id="sl-emp" min="2" max="50" value="8" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">Tipo de restaurante</div>
+          <div class="f-label es">Tipo de restaurante</div>
+          <div class="f-label en">Restaurant type</div>
           <select id="tipo" onchange="update()">
-            <option value="casual">Casual / Familiar</option>
-            <option value="rapida">Comida rápida / Fast food</option>
-            <option value="bar">Bar / Lounge</option>
-            <option value="fino">Fine dining</option>
-            <option value="panaderia">Panadería / Repostería</option>
+            <option value="casual" class="es">Casual / Familiar</option>
+            <option value="casual" class="en">Casual / Family</option>
+            <option value="rapida" class="es">Comida rápida / Fast food</option>
+            <option value="rapida" class="en">Fast food / Quick service</option>
+            <option value="bar" class="es">Bar / Lounge</option>
+            <option value="bar" class="en">Bar / Lounge</option>
+            <option value="fino" class="es">Fine dining</option>
+            <option value="fino" class="en">Fine dining</option>
+            <option value="panaderia" class="es">Panadería / Repostería</option>
+            <option value="panaderia" class="en">Bakery / Pastry shop</option>
           </select>
         </div>
         <div class="f-group">
-          <div class="f-label">Ventas mensuales ($)</div>
+          <div class="f-label es">Ventas mensuales ($)</div>
+          <div class="f-label en">Monthly sales ($)</div>
           <input type="number" id="ventas" value="25000" oninput="update()">
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Cocina y equipos</div>
+        <div class="card-title es">Cocina y equipos</div>
+        <div class="card-title en">Kitchen and equipment</div>
         <div class="f-group">
-          <div class="f-label">Número de estaciones de cocina <span id="lbl-cocinas">2</span></div>
+          <div class="f-label">
+            <span class="es">Número de estaciones de cocina</span>
+            <span class="en">Number of kitchen stations</span>
+            <span class="val" id="lbl-cocinas">2</span>
+          </div>
           <input type="range" id="sl-cocinas" min="1" max="10" value="2" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">Freidoras industriales <span id="lbl-freidoras">1</span></div>
+          <div class="f-label">
+            <span class="es">Freidoras industriales</span>
+            <span class="en">Commercial fryers</span>
+            <span class="val" id="lbl-freidoras">1</span>
+          </div>
           <input type="range" id="sl-freidoras" min="0" max="6" value="1" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">Neveras/congeladores comerciales <span id="lbl-neveras">3</span></div>
+          <div class="f-label">
+            <span class="es">Neveras/congeladores comerciales</span>
+            <span class="en">Commercial coolers/freezers</span>
+            <span class="val" id="lbl-neveras">3</span>
+          </div>
           <input type="range" id="sl-neveras" min="1" max="12" value="3" oninput="update()">
         </div>
         <div class="f-group">
-          <div class="f-label">¿Tienen área de delivery/POS?</div>
+          <div class="f-label es">¿Tienen área de delivery/POS?</div>
+          <div class="f-label en">Do you have a delivery/POS area?</div>
           <select id="pos" onchange="update()">
-            <option value="si">Sí (POS + impresoras de cocina)</option>
-            <option value="no">No / Solo efectivo</option>
+            <option value="si" class="es">Sí (POS + impresoras de cocina)</option>
+            <option value="si" class="en">Yes (POS + kitchen printers)</option>
+            <option value="no" class="es">No / Solo efectivo</option>
+            <option value="no" class="en">No / Cash only</option>
           </select>
         </div>
       </div>
@@ -112,56 +167,73 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">CCTV recomendado</div>
-        <div id="cctv-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
+        <div class="card-title es">CCTV recomendado</div>
+        <div class="card-title en">Recommended CCTV</div>
+        <div id="cctv-rec" style="font-size:0.82rem;color:var(--texto);line-height:1.8"></div>
       </div>
       <div class="card">
-        <div class="card-title">HVAC recomendado</div>
-        <div id="hvac-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
+        <div class="card-title es">HVAC recomendado</div>
+        <div class="card-title en">Recommended HVAC</div>
+        <div id="hvac-rec" style="font-size:0.82rem;color:var(--texto);line-height:1.8"></div>
       </div>
       <div class="card">
-        <div class="card-title">Red y continuidad operacional</div>
-        <div id="red-rec" style="font-size:0.82rem;color:var(--gray);line-height:1.8"></div>
+        <div class="card-title es">Red y continuidad operacional</div>
+        <div class="card-title en">Network and operational continuity</div>
+        <div id="red-rec" style="font-size:0.82rem;color:var(--texto);line-height:1.8"></div>
       </div>
     </div>
   </div>
 
   <!-- TOTAL -->
   <div class="section-total">
-    <div class="seclabel">Inversión total estimada</div>
+    <div class="seclabel es">Inversión total estimada</div>
+    <div class="seclabel en">Estimated total investment</div>
     <div class="total-num" id="r-total">$0</div>
-    <div style="font-size:0.82rem;color:var(--gray);margin-top:10px">Incluye equipos, instalación, configuración e IVU</div>
+    <div style="font-size:0.82rem;color:var(--texto);margin-top:10px" class="es">Incluye equipos, instalación, configuración e IVU</div>
+    <div style="font-size:0.82rem;color:var(--texto);margin-top:10px" class="en">Includes equipment, installation, configuration and IVU (Puerto Rico sales tax)</div>
   </div>
 
   <div class="dl">
-    <div class="dl-row"><div class="dl-lbl">CCTV — cámaras y NVR</div><div class="dl-val" style="color:var(--blue-light)" id="b-cctv">$0</div></div>
-    <div class="dl-row"><div class="dl-lbl">HVAC — enfriamiento del local</div><div class="dl-val" style="color:var(--orange)" id="b-hvac">$0</div></div>
-    <div class="dl-row"><div class="dl-lbl">Red y datos</div><div class="dl-val" style="color:var(--blue)" id="b-red">$0</div></div>
-    <div class="dl-row"><div class="dl-lbl">Continuidad operacional y UPS</div><div class="dl-val" style="color:var(--success)" id="b-cont">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">CCTV — cámaras y NVR</div><div class="dl-lbl en">CCTV — cameras and NVR</div><div class="dl-val" style="color:var(--azul)" id="b-cctv">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">HVAC — enfriamiento del local</div><div class="dl-lbl en">HVAC — cooling the space</div><div class="dl-val" style="color:var(--ambar)" id="b-hvac">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Red y datos</div><div class="dl-lbl en">Network and data</div><div class="dl-val" style="color:var(--azul-fuerte)" id="b-red">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Continuidad operacional y UPS</div><div class="dl-lbl en">Operational continuity and UPS</div><div class="dl-val" style="color:var(--verde)" id="b-cont">$0</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Desglose del paquete</div>
+    <div class="card-title es">Desglose del paquete</div>
+    <div class="card-title en">Package breakdown</div>
     <div id="r-items"></div>
-    <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06)">
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">Subtotal</span><span style="font-weight:700;color:var(--white)" id="r-sub">$0</span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">IVU 10.5%</span><span style="color:var(--gray)" id="r-ivu">$0</span></div>
-      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800">Total con IVU</span><span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--warn)" id="r-total2">$0</span></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--filo)">
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--texto)" class="es">Subtotal</span><span style="font-size:0.82rem;color:var(--texto)" class="en">Subtotal</span><span style="font-weight:700;color:var(--tinta)" id="r-sub">$0</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--texto)" class="es">IVU 10.5%</span><span style="font-size:0.82rem;color:var(--texto)" class="en">IVU 10.5%</span><span style="color:var(--texto)" id="r-ivu">$0</span></div>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--filo)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800" class="es">Total con IVU</span><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800" class="en">Total with IVU</span><span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ambar)" id="r-total2">$0</span></div>
     </div>
   </div>
 
-  <div class="tip-box" id="tip-box">Ajusta los datos de tu restaurante para ver la recomendación completa.</div>
+  <div class="tip-box" id="tip-box"></div>
 
   <div class="cta-box">
     <div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Listo para proteger tu restaurante?</h3>
-      <p style="font-size:0.78rem;color:var(--gray)">Ofrecemos paquetes especiales para el sector de A&B en Puerto Rico. Instalación rápida, sin afectar tu operación.</p>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="es">¿Listo para proteger tu restaurante?</h3>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="en">Ready to protect your restaurant?</h3>
+      <p style="font-size:0.78rem;color:var(--texto)" class="es">Ofrecemos paquetes especiales para el sector de A&amp;B en Puerto Rico. Instalación rápida, sin afectar tu operación.</p>
+      <p style="font-size:0.78rem;color:var(--texto)" class="en">We offer special packages for the F&amp;B sector in Puerto Rico. Fast installation, without disrupting your operation.</p>
     </div>
-    <a href="#" onclick="openLead(); return false;" class="cta-btn">Solicitar paquete restaurante</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn es">Solicitar paquete restaurante</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn en">Request the restaurant package</a>
   </div>
 </div>
 
 <script>
+/* Idioma: lo decide el atributo data-idioma del <html>, que ya puso el
+   fragmento en línea del <head>. Las tres recomendaciones, el desglose
+   y los consejos los escribe este script: todos pasan por T(). */
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+
 function update() {
   const area = parseInt(document.getElementById('sl-area').value);
   const mesas = parseInt(document.getElementById('sl-mesas').value);
@@ -211,23 +283,33 @@ function update() {
   const ivu = subtotal * 0.105;
   const total = subtotal + ivu;
 
+  const ftPorCam = Math.round(area / camarasInteriores);
+  const personas = Math.round(mesas * 2.5 + emp);
+  const tonsRedondas = Math.round(tons);
+
   // Update CCTV rec
   document.getElementById('cctv-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:6px">${totalCams} cámaras de CCTV recomendadas</div>
-    ${camarasInteriores} cámaras cubren el salón (una por cada ${Math.round(area/camarasInteriores)} ft²), ${camarasExterio} el exterior y la entrada, y ${camarasCocina} la cocina y el área de caja.
-    <div style="margin-top:8px;color:var(--blue-light);font-weight:600">Estimado: $${costoCCTV.toLocaleString()}</div>
+    <div style="color:var(--tinta);font-weight:600;margin-bottom:6px">${T(totalCams + ' cámaras de CCTV recomendadas', totalCams + ' CCTV cameras recommended')}</div>
+    ${T(
+      camarasInteriores + ' cámaras cubren el salón (una por cada ' + ftPorCam + ' ft²), ' + camarasExterio + ' el exterior y la entrada, y ' + camarasCocina + ' la cocina y el área de caja.',
+      camarasInteriores + ' cameras cover the dining room (one for every ' + ftPorCam + ' ft²), ' + camarasExterio + ' cover the exterior and the entrance, and ' + camarasCocina + ' cover the kitchen and the register area.')}
+    <div style="margin-top:8px;color:var(--azul);font-weight:600">${T('Estimado', 'Estimate')}: $${costoCCTV.toLocaleString()}</div>
   `;
 
   document.getElementById('hvac-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:6px">${Math.round(tons)} toneladas de HVAC necesarias</div>
-    Incluye la carga base del salón (${area} ft²), ${cocinas} estaciones de cocina con ${freidoras} freidoras y ${Math.round(mesas * 2.5 + emp)} personas en ocupación máxima.
-    <div style="margin-top:8px;color:var(--orange);font-weight:600">Estimado: $${costoHVAC.toLocaleString()}</div>
+    <div style="color:var(--tinta);font-weight:600;margin-bottom:6px">${T(tonsRedondas + ' toneladas de HVAC necesarias', tonsRedondas + ' tons of HVAC needed')}</div>
+    ${T(
+      'Incluye la carga base del salón (' + area + ' ft²), ' + cocinas + ' estaciones de cocina con ' + freidoras + ' freidoras y ' + personas + ' personas en ocupación máxima.',
+      'Covers the dining room base load (' + area + ' ft²), ' + cocinas + ' kitchen stations with ' + freidoras + ' fryers, and ' + personas + ' people at full occupancy.')}
+    <div style="margin-top:8px;color:var(--ambar);font-weight:600">${T('Estimado', 'Estimate')}: $${costoHVAC.toLocaleString()}</div>
   `;
 
   document.getElementById('red-rec').innerHTML = `
-    <div style="color:var(--white);font-weight:600;margin-bottom:6px">Red empresarial y continuidad operacional</div>
-    ${aps} Access Points de WiFi empresarial, ${pos === 'si' ? 'POS e impresoras de cocina en red' : 'red básica empresarial'}, UPS para el POS y los equipos críticos, y protección para ${neveras} neveras y congeladores.
-    <div style="margin-top:8px;color:var(--success);font-weight:600">Red: $${costoRed.toLocaleString()} | Continuidad: $${costoCont.toLocaleString()}</div>
+    <div style="color:var(--tinta);font-weight:600;margin-bottom:6px">${T('Red empresarial y continuidad operacional', 'Enterprise network and operational continuity')}</div>
+    ${T(
+      aps + ' Access Points de WiFi empresarial, ' + (pos === 'si' ? 'POS e impresoras de cocina en red' : 'red básica empresarial') + ', UPS para el POS y los equipos críticos, y protección para ' + neveras + ' neveras y congeladores.',
+      aps + ' enterprise WiFi access points, ' + (pos === 'si' ? 'networked POS and kitchen printers' : 'a basic enterprise network') + ', a UPS for the POS and the critical equipment, and protection for ' + neveras + ' coolers and freezers.')}
+    <div style="margin-top:8px;color:var(--verde);font-weight:600">${T('Red', 'Network')}: $${costoRed.toLocaleString()} | ${T('Continuidad', 'Continuity')}: $${costoCont.toLocaleString()}</div>
   `;
 
   // Update totals
@@ -241,10 +323,26 @@ function update() {
   document.getElementById('r-ivu').textContent = '$'+Math.round(ivu).toLocaleString();
 
   document.getElementById('r-items').innerHTML = [
-    {n:`CCTV — ${totalCams} cámaras 4K (salón, cocina, exterior)`,d:'NVR + instalación + configuración',p:costoCCTV},
-    {n:`HVAC — ${Math.round(tons)} toneladas de refrigeración`,d:'Equipos + instalación (alta carga por cocina)',p:costoHVAC},
-    {n:`Red WiFi empresarial — ${aps} APs + switch`,d:`${dispositivos} dispositivos${pos==='si'?' + POS integrado':''}`,p:costoRed},
-    {n:`Continuidad — UPS + protección ${neveras} neveras`,d:'Evita pérdida de inventario refrigerado',p:costoCont},
+    {
+      n: T('CCTV — ' + totalCams + ' cámaras 4K (salón, cocina, exterior)', 'CCTV — ' + totalCams + ' 4K cameras (dining room, kitchen, exterior)'),
+      d: T('NVR + instalación + configuración', 'NVR + installation + configuration'),
+      p: costoCCTV
+    },
+    {
+      n: T('HVAC — ' + tonsRedondas + ' toneladas de refrigeración', 'HVAC — ' + tonsRedondas + ' tons of cooling'),
+      d: T('Equipos + instalación (alta carga por cocina)', 'Equipment + installation (high kitchen heat load)'),
+      p: costoHVAC
+    },
+    {
+      n: T('Red WiFi empresarial — ' + aps + ' APs + switch', 'Enterprise WiFi network — ' + aps + ' APs + switch'),
+      d: T(dispositivos + ' dispositivos' + (pos === 'si' ? ' + POS integrado' : ''), dispositivos + ' devices' + (pos === 'si' ? ' + integrated POS' : '')),
+      p: costoRed
+    },
+    {
+      n: T('Continuidad — UPS + protección ' + neveras + ' neveras', 'Continuity — UPS + protection for ' + neveras + ' coolers'),
+      d: T('Evita pérdida de inventario refrigerado', 'Prevents the loss of refrigerated inventory'),
+      p: costoCont
+    }
   ].map(i=>`
     <div class="pkg-item">
       <div><div class="pkg-name">${i.n}</div><div class="pkg-detail">${i.d}</div></div>
@@ -254,110 +352,164 @@ function update() {
 
   // ROI tip
   const perdidaApagon = (ventas / 30 / 10) * 2 * 4;
-  let tip = `<strong>Para tu restaurante de ${mesas} mesas:</strong> Un apagón de 2 horas puede costarte hasta $${Math.round(perdidaApagon).toLocaleString()} en ventas perdidas y alimentos dañados.<br><br>`;
-  if (neveras >= 3) tip += '<strong>Protección de refrigeración:</strong> Con '+neveras+' neveras/congeladores, el costo de un apagón de 4+ horas puede superar los $5,000 en inventario arruinado. El UPS es crítico.<br><br>';
-  if (tipo === 'bar') tip += '<strong>Bar/Lounge:</strong> Las cámaras en el área del bar son especialmente importantes para resolver disputas y prevenir robo interno en el manejo de efectivo.<br><br>';
-  if (freidoras > 0) tip += '<strong>Freidoras industriales:</strong> Generan una carga de calor significativa que debe compensarse con mayor capacidad de HVAC. No subestimes esta carga térmica.<br><br>';
-  tip += `<strong>Recomendación Wifnix:</strong> Para restaurantes siempre incluimos cámaras en la caja registradora, cocina y todas las entradas. El ${Math.round((costoCCTV/subtotal)*100)}% del presupuesto va a seguridad visual — inversión que se recupera con la primera disputa evitada.`;
+  const perdidaTxt = Math.round(perdidaApagon).toLocaleString();
+  const pctCCTV = Math.round((costoCCTV/subtotal)*100);
+  let tip = T(
+    '<strong>Para tu restaurante de ' + mesas + ' mesas:</strong> Un apagón de 2 horas puede costarte hasta $' + perdidaTxt + ' en ventas perdidas y alimentos dañados.<br><br>',
+    '<strong>For your ' + mesas + '-table restaurant:</strong> A 2-hour blackout can cost you up to $' + perdidaTxt + ' in lost sales and spoiled food.<br><br>');
+  if (neveras >= 3) tip += T(
+    '<strong>Protección de refrigeración:</strong> Con ' + neveras + ' neveras/congeladores, el costo de un apagón de 4+ horas puede superar los $5,000 en inventario arruinado. El UPS es crítico.<br><br>',
+    '<strong>Refrigeration protection:</strong> With ' + neveras + ' coolers/freezers, a blackout of 4+ hours can ruin more than $5,000 of inventory. The UPS is critical.<br><br>');
+  if (tipo === 'bar') tip += T(
+    '<strong>Bar/Lounge:</strong> Las cámaras en el área del bar son especialmente importantes para resolver disputas y prevenir robo interno en el manejo de efectivo.<br><br>',
+    '<strong>Bar/Lounge:</strong> Cameras over the bar area matter most for settling disputes and preventing internal theft in cash handling.<br><br>');
+  if (freidoras > 0) tip += T(
+    '<strong>Freidoras industriales:</strong> Generan una carga de calor significativa que debe compensarse con mayor capacidad de HVAC. No subestimes esta carga térmica.<br><br>',
+    '<strong>Commercial fryers:</strong> They add a significant heat load that has to be offset with extra HVAC capacity. Do not underestimate it.<br><br>');
+  tip += T(
+    '<strong>Recomendación Wifnix:</strong> Para restaurantes siempre incluimos cámaras en la caja registradora, cocina y todas las entradas. El ' + pctCCTV + '% del presupuesto va a seguridad visual — inversión que se recupera con la primera disputa evitada.',
+    '<strong>Wifnix recommendation:</strong> For restaurants we always include cameras at the register, in the kitchen and at every entrance. ' + pctCCTV + '% of the budget goes to visual security — an investment that pays for itself the first time a dispute is avoided.');
   document.getElementById('tip-box').innerHTML = tip;
 }
+
+/* Al cambiar el idioma hay dos cosas que arreglar: la opción elegida de
+   cada <select> es la gemela del idioma anterior (misma value, pero
+   escondida, y entonces el select se ve en blanco), y las tres
+   recomendaciones y el desglose siguen en el idioma anterior. */
+(function () {
+  if (!window.MutationObserver) return;
+  new MutationObserver(function () {
+    var idi = wxIdioma();
+    var sels = document.querySelectorAll('select');
+    for (var i = 0; i < sels.length; i++) {
+      var s = sels[i], v = s.value;
+      for (var j = 0; j < s.options.length; j++) {
+        if (s.options[j].value === v && s.options[j].className === idi) { s.selectedIndex = j; break; }
+      }
+    }
+    update();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+})();
 
 update();
 </script>
 
 
 <!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
 
     <!-- LOGGED IN STATE -->
     <div id="lead-loggedin" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--azul-fuerte);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#FFFFFF;flex-shrink:0" id="lead-avatar">?</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--tinta)" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="es">Cuenta verificada</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="en">Verified account</div>
         </div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title-li"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+      <div id="lead-summary-li" style="padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7;margin-bottom:16px"></div>
       <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Mensaje adicional (opcional)</div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Additional message (optional)</div>
+        <textarea id="lead-msg" data-es="Alguna información adicional para el equipo..." data-en="Anything else the team should know..." placeholder="Alguna información adicional para el equipo..." style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+        <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+        <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
       </div>
     </div>
 
     <!-- GUEST STATE -->
     <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your proposal.</div>
 
       <!-- AUTH OPTIONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
         <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--azul);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="es">Continuar como invitado</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="en">Continue as a guest</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Solo email, rápido</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Just an email, quick</div>
         </div>
         <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--verde);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="es">Crear cuenta</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="en">Create an account</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Guarda tu historial</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Keeps your history</div>
         </div>
       </div>
 
       <!-- GUEST FORM -->
       <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Nombre completo *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Full name *</div>
+            <input type="text" id="lead-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Email *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Email *</div>
+            <input type="email" id="lead-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Teléfono</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Phone</div>
+            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
         </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+          <button onclick="submitLead()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+          <button onclick="submitLead()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+          <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+          <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
         </div>
         <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="es">Ya tienes cuenta? </span>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="en">Already have an account? </span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul-fuerte);text-decoration:none" class="es">Inicia sesión</a>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul-fuerte);text-decoration:none" class="en">Sign in</a>
         </div>
       </div>
 
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="es">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="en">No obligation · Your information stays confidential</p>
     </div>
 
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="es">Solicitud enviada</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="en">Request sent</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+    <div style="font-size:0.78rem;color:var(--azul);margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="es">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="en">In the meantime you can create a portal account to follow up on your request.</div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <button onclick="closeLead()" class="btn-azul es" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+      <button onclick="closeLead()" class="btn-azul en" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Close</button>
+      <a href="https://portal.wifnix.com" class="es" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <a href="https://portal.wifnix.com" class="en" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Create an account</a>
     </div>
   </div>
 </div>
@@ -420,7 +572,7 @@ function submitLead() {
   var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
     alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.textContent = T('Por favor ingresa tu nombre y email.', 'Please enter your name and email.');
     return;
   }
   sendLead(nombre, email, tel, '');
@@ -452,12 +604,16 @@ function sendLead(nombre, email, tel, msg) {
   .then(function(r) { return r.json(); })
   .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success-email').textContent =
+      T('Confirmación enviada a: ', 'Confirmation sent to: ') + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
     var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
+    if (alertEl) {
+      alertEl.style.display='block';
+      alertEl.textContent = T('Error. Llámanos al (787) 354-9596', 'Something went wrong. Call us at (787) 354-9596');
+    }
   });
 }
 
@@ -465,5 +621,6 @@ document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLea
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
 
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

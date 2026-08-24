@@ -5,40 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Producto — Wifnix LLC</title>
 <meta name="description" content="Detalle de producto Wifnix Puerto Rico.">
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
-:root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
 :root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .hero h1,.cat-title,.product-price,.cart-header h2,.tab-content h2,.precio-grande{font-family:'Plus Jakarta Sans',sans-serif}
 
 /* NAV */
-.nav{position:sticky;top:0;background:rgba(13,21,38,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-:root[data-theme="light"] .nav{background:rgba(255,255,255,0.95)}
+.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--filo);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .nav-left{display:flex;align-items:center;gap:14px}
-.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--tinta)}
 .logo img{height:32px}
 .logo span{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
 .nav-search{flex:1;max-width:500px;position:relative}
-.nav-search input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:10px 16px 10px 38px;color:var(--white);font-family:inherit;font-size:0.85rem;outline:none}
-.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--gray);fill:none;stroke-width:2}
-.nav-actions{display:flex;align-items:center;gap:8px}
-.lang-btns{display:flex;background:rgba(255,255,255,0.05);border-radius:6px;overflow:hidden;margin-right:8px}
-.lang-btn{padding:6px 12px;font-size:0.7rem;font-weight:700;color:var(--gray);cursor:pointer;border:none;background:transparent;transition:all .2s;letter-spacing:0.06em;font-family:inherit}
-.lang-btn.active{background:#075A7F;color:#FFFFFF}
-.btn{padding:8px 16px;border:none;background:var(--blue);color:white;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.78rem;cursor:pointer;letter-spacing:0.03em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.nav-search input{width:100%;background:var(--fondo2);border:1px solid var(--filo);border-radius:8px;padding:10px 16px 10px 38px;color:var(--tinta);font-family:inherit;font-size:0.85rem;outline:none}
+.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--texto);fill:none;stroke-width:2}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{padding:8px 16px;border:none;background:var(--azul-fuerte);color:#FFFFFF;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.78rem;cursor:pointer;letter-spacing:0.03em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(11,143,204,0.3)}
-.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
-.cart-btn{position:relative;background:rgba(11,143,204,0.1);color:var(--bl);border:1px solid rgba(11,143,204,0.25);padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;gap:6px;font-family:inherit}
-.cart-count{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.04em;color:var(--bl)}
+.btn-ghost{background:transparent;color:var(--tinta);border:1px solid var(--filo2)}
+.cart-btn{position:relative;background:rgba(11,143,204,0.1);color:var(--azul);border:1px solid rgba(11,143,204,0.25);padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;gap:6px;font-family:inherit}
+.cart-count{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.04em;color:var(--azul)}
 
 /* BREADCRUMB */
-.breadcrumb{padding:14px 20px;max-width:1300px;margin:0 auto;font-size:0.78rem;color:var(--gray)}
-.breadcrumb a{color:var(--bl);text-decoration:none}
+.breadcrumb{padding:14px 20px;max-width:1300px;margin:0 auto;font-size:0.78rem;color:var(--texto)}
+.breadcrumb a{color:var(--azul);text-decoration:none}
 .breadcrumb a:hover{text-decoration:underline}
 
 /* LAYOUT */
@@ -47,223 +52,218 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 
 /* GALLERY */
 .gallery{position:sticky;top:80px;height:fit-content}
-.main-img{aspect-ratio:1;background:linear-gradient(135deg,rgba(11,143,204,0.06),rgba(11,143,204,0.02));border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px}
+.main-img{aspect-ratio:1;background:linear-gradient(135deg,rgba(11,143,204,0.06),rgba(11,143,204,0.02));border:1px solid var(--filo);border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:12px}
 .main-img img{max-width:90%;max-height:90%;object-fit:contain}
 .main-img svg{width:120px;height:120px;stroke:rgba(11,143,204,0.3);fill:none;stroke-width:1}
 .thumbs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-.thumb{flex-shrink:0;width:70px;height:70px;background:var(--card);border:2px solid var(--border);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .2s}
-.thumb.active{border-color:var(--blue)}
+.thumb{flex-shrink:0;width:70px;height:70px;background:var(--panel);border:2px solid var(--filo);border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;overflow:hidden;transition:all .2s}
+.thumb.active{border-color:var(--azul)}
 .thumb img{max-width:85%;max-height:85%;object-fit:contain}
 
 /* INFO */
 .info{display:flex;flex-direction:column}
-.brand-tag{display:inline-block;font-family:var(--mono);font-size:0.66rem;color:var(--bl);font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px}
+.brand-tag{display:inline-block;font-family:var(--mono);font-size:0.66rem;color:var(--azul);font-weight:700;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px}
 .product-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.65rem;font-weight:800;line-height:1.25;margin-bottom:12px}
-.meta-row{display:flex;gap:18px;font-size:0.8rem;color:var(--gray);margin-bottom:18px;flex-wrap:wrap}
-.meta-row strong{color:var(--white);font-weight:600}
+.meta-row{display:flex;gap:18px;font-size:0.8rem;color:var(--texto);margin-bottom:18px;flex-wrap:wrap}
+.meta-row strong{color:var(--tinta);font-weight:600}
 
 .rating-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;font-size:0.85rem}
-.stars{color:#FFC107;letter-spacing:1px}
-.reviews-link{color:var(--bl);cursor:pointer;text-decoration:none;font-weight:600}
+.stars{color:var(--ambar);letter-spacing:1px}
+.reviews-link{color:var(--azul);cursor:pointer;text-decoration:none;font-weight:600}
 
 /* PRECIO BOX */
-.precio-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:18px}
-.precio-grande{font-size:2.1rem;font-weight:800;color:var(--green);margin-bottom:4px;line-height:1}
-.precio-old{font-size:0.95rem;color:var(--gray2);text-decoration:line-through;margin-bottom:6px}
-.precio-suggested{display:block;font-size:0.8rem;color:var(--gray);font-weight:500;margin-top:8px}
-.precio-ivu{font-size:0.75rem;color:var(--gray);margin-top:6px}
+.precio-box{background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:22px;margin-bottom:18px}
+.precio-grande{font-size:2.1rem;font-weight:800;color:var(--verde);margin-bottom:4px;line-height:1}
+.precio-old{font-size:0.95rem;color:var(--apagado);text-decoration:line-through;margin-bottom:6px}
+.precio-suggested{display:block;font-size:0.8rem;color:var(--texto);font-weight:500;margin-top:8px}
+.precio-ivu{font-size:0.75rem;color:var(--texto);margin-top:6px}
 .precio-locked{padding:2px 0}
-.precio-locked-text{font-family:var(--mono);font-size:0.74rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bl);margin-bottom:8px}
-.precio-locked-sub{font-size:0.85rem;color:var(--gray);line-height:1.55;margin-bottom:16px}
-.login-cta-btn{display:inline-block;padding:10px 22px;background:var(--bl);color:#06090F;text-decoration:none;border-radius:8px;font-weight:800;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em}
+.precio-locked-text{font-family:var(--mono);font-size:0.74rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--azul);margin-bottom:8px}
+.precio-locked-sub{font-size:0.85rem;color:var(--texto);line-height:1.55;margin-bottom:16px}
+.login-cta-btn{display:inline-block;padding:10px 22px;background:var(--azul);color:var(--fondo);text-decoration:none;border-radius:8px;font-weight:800;font-size:0.82rem;text-transform:uppercase;letter-spacing:0.04em}
 
 /* DISPONIBILIDAD */
 .stock-badge{font-family:var(--mono);font-size:0.74rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:18px}
-.stock-in{color:var(--green)}
-.stock-low{color:var(--warn)}
-.stock-out{color:var(--red)}
+.stock-in{color:var(--verde)}
+.stock-low{color:var(--ambar)}
+.stock-out{color:var(--rojo)}
 
 /* QUANTITY + ADD */
 .qty-row{display:flex;gap:10px;align-items:center;margin-bottom:18px}
-.qty-control{display:flex;align-items:center;gap:0;background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.qty-control button{background:transparent;border:none;color:var(--white);width:36px;height:42px;font-size:1.1rem;cursor:pointer;font-family:inherit}
+.qty-control{display:flex;align-items:center;gap:0;background:var(--panel);border:1px solid var(--filo);border-radius:8px;overflow:hidden}
+.qty-control button{background:transparent;border:none;color:var(--tinta);width:36px;height:42px;font-size:1.1rem;cursor:pointer;font-family:inherit}
 .qty-control button:hover{background:rgba(11,143,204,0.08)}
-.qty-control input{width:50px;height:42px;text-align:center;background:transparent;border:none;color:var(--white);font-family:inherit;font-size:0.9rem;font-weight:700;outline:none}
+.qty-control input{width:50px;height:42px;text-align:center;background:transparent;border:none;color:var(--tinta);font-family:inherit;font-size:0.9rem;font-weight:700;outline:none}
 .qty-control input::-webkit-inner-spin-button{display:none}
-.add-cart-btn{flex:1;padding:13px 24px;background:var(--blue);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;transition:all .2s}
-.add-cart-btn:hover{background:var(--bl);transform:translateY(-1px)}
+.add-cart-btn{flex:1;padding:13px 24px;background:var(--azul-fuerte);color:#FFFFFF;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;transition:all .2s}
+.add-cart-btn:hover{background:var(--azul);transform:translateY(-1px)}
 .add-cart-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
 
 .cta-secundario{display:flex;gap:10px;margin-bottom:18px}
-.cta-sec-btn{flex:1;padding:11px;background:rgba(11,143,204,0.08);color:var(--bl);border:1px solid rgba(11,143,204,0.2);border-radius:8px;font-family:inherit;font-weight:700;font-size:0.76rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
+.cta-sec-btn{flex:1;padding:11px;background:rgba(11,143,204,0.08);color:var(--azul);border:1px solid rgba(11,143,204,0.2);border-radius:8px;font-family:inherit;font-weight:700;font-size:0.76rem;cursor:pointer;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px}
 .cta-sec-btn:hover{background:rgba(11,143,204,0.15)}
 
 /* TABS */
 .tabs{margin-top:36px;max-width:1300px;margin-left:auto;margin-right:auto;padding:0 20px 60px}
-.tabs-nav{display:flex;gap:4px;border-bottom:1px solid var(--border);overflow-x:auto;padding-bottom:0;margin-bottom:24px}
-.tab-btn{padding:12px 22px;background:transparent;border:none;color:var(--gray);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;letter-spacing:0.02em}
-.tab-btn:hover{color:var(--white)}
-.tab-btn.active{color:var(--bl);border-bottom-color:var(--bl)}
+.tabs-nav{display:flex;gap:4px;border-bottom:1px solid var(--filo);overflow-x:auto;padding-bottom:0;margin-bottom:24px}
+.tab-btn{padding:12px 22px;background:transparent;border:none;color:var(--texto);font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;letter-spacing:0.02em}
+.tab-btn:hover{color:var(--tinta)}
+.tab-btn.active{color:var(--azul);border-bottom-color:var(--azul)}
 .tab-content{display:none;animation:fadeIn .25s}
 .tab-content.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .tab-content h2{font-size:1.2rem;font-weight:800;margin-bottom:14px}
-.tab-content p{color:var(--gray);line-height:1.7;font-size:0.92rem;margin-bottom:14px}
+.tab-content p{color:var(--texto);line-height:1.7;font-size:0.92rem;margin-bottom:14px}
 
 /* SPECS TABLE */
 .specs-table{width:100%;border-collapse:collapse;font-size:0.88rem}
-.specs-table tr{border-bottom:1px solid var(--border)}
+.specs-table tr{border-bottom:1px solid var(--filo)}
 .specs-table td{padding:11px 14px}
-.specs-table td:first-child{font-weight:700;color:var(--gray);width:40%;background:rgba(11,143,204,0.04)}
-.specs-table td:last-child{color:var(--white)}
+.specs-table td:first-child{font-weight:700;color:var(--texto);width:40%;background:rgba(11,143,204,0.04)}
+.specs-table td:last-child{color:var(--tinta)}
 
 /* FILES */
 .files-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
-.file-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white);transition:all .2s}
+.file-card{background:var(--panel);border:1px solid var(--filo);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--tinta);transition:all .2s}
 .file-card:hover{border-color:rgba(11,143,204,0.4);transform:translateY(-2px)}
-.file-icon{width:40px;height:40px;background:rgba(220,38,38,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#DC2626;font-weight:800;font-size:0.7rem;flex-shrink:0}
+.file-icon{width:40px;height:40px;background:rgba(220,38,38,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--rojo);font-weight:800;font-size:0.7rem;flex-shrink:0}
 .file-info{flex:1;min-width:0}
 .file-name{font-weight:700;font-size:0.88rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.file-size{font-size:0.72rem;color:var(--gray)}
+.file-size{font-size:0.72rem;color:var(--texto)}
 
 /* COMPAT PRODUCTS */
 .compat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
-.compat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--white);transition:all .2s}
+.compat-card{background:var(--panel);border:1px solid var(--filo);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--tinta);transition:all .2s}
 .compat-card:hover{border-color:rgba(11,143,204,0.4);transform:translateY(-2px)}
 .compat-img{aspect-ratio:1;background:rgba(11,143,204,0.04);display:flex;align-items:center;justify-content:center;padding:18px}
 .compat-img img{max-width:90%;max-height:90%;object-fit:contain}
 .compat-img svg{width:48px;height:48px;stroke:rgba(11,143,204,0.3);fill:none}
 .compat-body{padding:10px 12px}
 .compat-name{font-size:0.78rem;font-weight:600;line-height:1.3;margin-bottom:4px}
-.compat-price{font-size:0.82rem;color:var(--green);font-weight:700}
+.compat-price{font-size:0.82rem;color:var(--verde);font-weight:700}
 
-.empty-tab{padding:40px 20px;text-align:center;color:var(--gray);font-size:0.88rem}
+.empty-tab{padding:40px 20px;text-align:center;color:var(--texto);font-size:0.88rem}
 
 /* CART DRAWER */
-.cart-drawer{position:fixed;top:0;right:-450px;width:100%;max-width:420px;height:100vh;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:24px;overflow-y:auto;transition:right .3s;display:flex;flex-direction:column}
+.cart-drawer{position:fixed;top:0;right:-450px;width:100%;max-width:420px;height:100vh;background:var(--panel);border-left:1px solid var(--filo);z-index:1000;padding:24px;overflow-y:auto;transition:right .3s;display:flex;flex-direction:column}
 .cart-drawer.open{right:0}
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s}
+.cart-overlay{position:fixed;inset:0;background:rgba(16,24,34,0.55);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s}
 .cart-overlay.open{opacity:1;visibility:visible}
-.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--filo)}
 .cart-header h2{font-size:1.1rem;font-weight:800}
-.cart-close{background:transparent;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px}
-.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-close{background:transparent;border:none;color:var(--texto);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--filo)}
 .cart-item-info{flex:1}
 .cart-item-name{font-size:0.82rem;font-weight:700;margin-bottom:4px;line-height:1.3}
-.cart-item-price{font-size:0.78rem;color:var(--green);font-weight:700}
+.cart-item-price{font-size:0.78rem;color:var(--verde);font-weight:700}
 .cart-qty{display:flex;align-items:center;gap:6px;margin-top:8px}
-.cart-qty button{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--white);width:26px;height:26px;border-radius:5px;cursor:pointer;font-weight:700}
-.cart-qty input{width:42px;text-align:center;background:transparent;border:1px solid var(--border);color:var(--white);border-radius:5px;padding:3px;font-family:inherit}
-.cart-remove{background:transparent;border:none;color:var(--red);font-size:0.7rem;cursor:pointer;margin-top:6px;font-family:inherit;padding:0}
-.cart-totals{margin-top:auto;padding-top:18px;border-top:1px solid var(--border)}
-.cart-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;color:var(--gray)}
-.cart-row.total{font-size:1.15rem;font-weight:800;color:var(--white);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
-.checkout-btn{width:100%;padding:14px;background:var(--green);color:#06090F;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;margin-top:14px}
+.cart-qty button{background:var(--fondo2);border:1px solid var(--filo);color:var(--tinta);width:26px;height:26px;border-radius:5px;cursor:pointer;font-weight:700}
+.cart-qty input{width:42px;text-align:center;background:transparent;border:1px solid var(--filo);color:var(--tinta);border-radius:5px;padding:3px;font-family:inherit}
+.cart-remove{background:transparent;border:none;color:var(--rojo);font-size:0.7rem;cursor:pointer;margin-top:6px;font-family:inherit;padding:0}
+.cart-totals{margin-top:auto;padding-top:18px;border-top:1px solid var(--filo)}
+.cart-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;color:var(--texto)}
+.cart-row.total{font-size:1.15rem;font-weight:800;color:var(--tinta);margin-top:12px;padding-top:12px;border-top:1px solid var(--filo)}
+.checkout-btn{width:100%;padding:14px;background:var(--verde);color:var(--fondo);border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;margin-top:14px}
 
-.theme-toggle{position:fixed;bottom:20px;right:20px;background:var(--card);border:1px solid var(--border);width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:99;color:var(--white)}
-
-.loading-overlay{position:fixed;inset:0;background:var(--black);display:flex;align-items:center;justify-content:center;z-index:9999;color:var(--gray)}
+.loading-overlay{position:fixed;inset:0;background:var(--fondo);display:flex;align-items:center;justify-content:center;z-index:9999;color:var(--texto)}
 
 /* RESEÑAS */
 .reviews-section{max-width:1300px;margin:0 auto;padding:20px 20px 60px}
-.reviews-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--filo)}
 .reviews-header h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800}
-.reviews-summary{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:0 0 24px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.reviews-summary{display:grid;grid-template-columns:200px 1fr;gap:30px;padding:0 0 24px;border-bottom:1px solid var(--filo);margin-bottom:24px}
 @media(max-width:700px){.reviews-summary{grid-template-columns:1fr;gap:18px}}
-.rating-big{text-align:center;border-right:1px solid var(--border);padding-right:30px}
-@media(max-width:700px){.rating-big{border-right:none;border-bottom:1px solid var(--border);padding:0 0 18px}}
-.rating-num-big{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--white);line-height:1;margin-bottom:6px}
-.rating-stars-big{color:#FFC107;font-size:1.2rem;letter-spacing:3px;margin-bottom:8px}
-.rating-total{font-size:0.82rem;color:var(--gray)}
+.rating-big{text-align:center;border-right:1px solid var(--filo);padding-right:30px}
+@media(max-width:700px){.rating-big{border-right:none;border-bottom:1px solid var(--filo);padding:0 0 18px}}
+.rating-num-big{font-family:var(--mono);font-size:3rem;font-weight:700;color:var(--tinta);line-height:1;margin-bottom:6px}
+.rating-stars-big{color:var(--ambar);font-size:1.2rem;letter-spacing:3px;margin-bottom:8px}
+.rating-total{font-size:0.82rem;color:var(--texto)}
 .rating-bars{display:flex;flex-direction:column;gap:8px}
 .rating-bar-row{display:grid;grid-template-columns:60px 1fr 40px;gap:10px;align-items:center;font-size:0.82rem}
-.rating-bar-row .num{color:var(--gray);font-weight:600}
-.rating-bar{background:rgba(255,255,255,0.06);height:8px;border-radius:4px;overflow:hidden}
-.rating-bar-fill{background:#FFC107;height:100%;border-radius:4px;transition:width .5s}
-.rating-count{text-align:right;color:var(--gray);font-size:0.78rem}
+.rating-bar-row .num{color:var(--texto);font-weight:600}
+.rating-bar{background:var(--fondo2);height:8px;border-radius:4px;overflow:hidden}
+.rating-bar-fill{background:var(--ambar);height:100%;border-radius:4px;transition:width .5s}
+.rating-count{text-align:right;color:var(--texto);font-size:0.78rem}
 
-.write-review-btn{padding:11px 22px;background:var(--blue);color:white;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.82rem;cursor:pointer;letter-spacing:0.03em}
-.write-review-btn:hover{background:var(--bl)}
+.write-review-btn{padding:11px 22px;background:var(--azul-fuerte);color:#FFFFFF;border:none;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.82rem;cursor:pointer;letter-spacing:0.03em}
+.write-review-btn:hover{background:var(--azul)}
 .write-review-btn:disabled{opacity:0.5;cursor:not-allowed}
 
 .review-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.filter-btn{padding:7px 14px;background:transparent;border:1px solid var(--border);color:var(--gray);font-family:inherit;font-size:0.76rem;font-weight:600;cursor:pointer;border-radius:6px;transition:all .15s}
-.filter-btn:hover{color:var(--white);border-color:rgba(11,143,204,0.4)}
-.filter-btn.active{background:rgba(11,143,204,0.12);border-color:var(--bl);color:var(--bl)}
+.filter-btn{padding:7px 14px;background:transparent;border:1px solid var(--filo);color:var(--texto);font-family:inherit;font-size:0.76rem;font-weight:600;cursor:pointer;border-radius:6px;transition:all .15s}
+.filter-btn:hover{color:var(--tinta);border-color:rgba(11,143,204,0.4)}
+.filter-btn.active{background:rgba(11,143,204,0.12);border-color:var(--azul);color:var(--azul)}
 
 .reviews-list{display:flex;flex-direction:column;gap:14px}
-.review-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.review-card{background:var(--panel);border:1px solid var(--filo);border-radius:12px;padding:20px}
 .review-header{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:10px;flex-wrap:wrap}
 .review-author{display:flex;align-items:center;gap:10px}
-.review-avatar{width:36px;height:36px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--bl);font-size:0.82rem;text-transform:uppercase}
+.review-avatar{width:36px;height:36px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--azul);font-size:0.82rem;text-transform:uppercase}
 .review-name{font-weight:700;font-size:0.88rem;margin-bottom:2px}
-.review-date{font-size:0.7rem;color:var(--gray)}
-.review-rating{color:#FFC107;font-size:0.9rem;letter-spacing:2px}
-.review-title{font-weight:700;font-size:0.95rem;margin-bottom:8px;color:var(--white)}
-.review-comment{font-size:0.88rem;line-height:1.65;color:var(--gray);margin-bottom:10px;white-space:pre-line}
-:root[data-theme="light"] .review-comment{color:#334155}
+.review-date{font-size:0.7rem;color:var(--texto)}
+.review-rating{color:var(--ambar);font-size:0.9rem;letter-spacing:2px}
+.review-title{font-weight:700;font-size:0.95rem;margin-bottom:8px;color:var(--tinta)}
+.review-comment{font-size:0.88rem;line-height:1.65;color:var(--texto);margin-bottom:10px;white-space:pre-line}
 .review-photos{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.review-photo{width:80px;height:80px;border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--border)}
+.review-photo{width:80px;height:80px;border-radius:8px;overflow:hidden;cursor:pointer;border:1px solid var(--filo)}
 .review-photo img{width:100%;height:100%;object-fit:cover}
-.review-actions{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
-.review-action-btn{background:transparent;border:none;color:var(--gray);font-size:0.74rem;font-weight:600;cursor:pointer;font-family:inherit;padding:0}
-.review-action-btn:hover{color:var(--bl)}
+.review-actions{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--filo)}
+.review-action-btn{background:transparent;border:none;color:var(--texto);font-size:0.74rem;font-weight:600;cursor:pointer;font-family:inherit;padding:0}
+.review-action-btn:hover{color:var(--azul)}
 
-.no-reviews{text-align:center;padding:50px 20px;color:var(--gray)}
-.no-reviews svg{width:60px;height:60px;stroke:var(--gray2);fill:none;stroke-width:1.2;margin-bottom:14px}
+.no-reviews{text-align:center;padding:50px 20px;color:var(--texto)}
+.no-reviews svg{width:60px;height:60px;stroke:var(--apagado);fill:none;stroke-width:1.2;margin-bottom:14px}
 
 /* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:1100;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.modal-overlay{position:fixed;inset:0;background:rgba(16,24,34,0.78);backdrop-filter:blur(8px);z-index:1100;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;position:relative}
-.modal-close{position:absolute;top:12px;right:12px;background:transparent;border:none;color:var(--gray);font-size:1.6rem;cursor:pointer;line-height:1;padding:4px 10px}
+.modal{background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;position:relative}
+.modal-close{position:absolute;top:12px;right:12px;background:transparent;border:none;color:var(--texto);font-size:1.6rem;cursor:pointer;line-height:1;padding:4px 10px}
 .modal h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:18px}
 .modal-field{margin-bottom:16px}
-.modal-field label{display:block;font-size:0.74rem;font-weight:700;color:var(--gray);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
-.modal-field input[type="text"],.modal-field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--white);font-family:inherit;font-size:0.88rem;outline:none}
+.modal-field label{display:block;font-size:0.74rem;font-weight:700;color:var(--texto);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
+.modal-field input[type="text"],.modal-field textarea{width:100%;background:var(--fondo2);border:1px solid var(--filo);border-radius:8px;padding:10px 14px;color:var(--tinta);font-family:inherit;font-size:0.88rem;outline:none}
 .modal-field textarea{min-height:120px;resize:vertical;line-height:1.55}
-.modal-field input:focus,.modal-field textarea:focus{border-color:var(--bl)}
+.modal-field input:focus,.modal-field textarea:focus{border-color:var(--azul)}
 
 .star-input{display:flex;gap:6px;font-size:2rem;cursor:pointer;user-select:none}
-.star-input .star{color:var(--gray2);transition:color .15s}
-.star-input .star.filled,.star-input .star.hover{color:#FFC107}
+.star-input .star{color:var(--apagado);transition:color .15s}
+.star-input .star.filled,.star-input .star.hover{color:var(--ambar)}
 
 .modal-actions{display:flex;gap:10px;margin-top:20px}
 .modal-btn{flex:1;padding:11px;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.82rem;cursor:pointer;border:none;letter-spacing:0.03em}
-.modal-btn-primary{background:var(--blue);color:white}
-.modal-btn-secondary{background:transparent;border:1px solid var(--border);color:var(--white)}
-.modal-alert{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.3);color:var(--red);padding:10px 14px;border-radius:7px;font-size:0.8rem;margin-bottom:14px;display:none}
+.modal-btn-primary{background:var(--azul-fuerte);color:#FFFFFF}
+.modal-btn-secondary{background:transparent;border:1px solid var(--filo2);color:var(--tinta)}
+.modal-alert{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.3);color:var(--rojo);padding:10px 14px;border-radius:7px;font-size:0.8rem;margin-bottom:14px;display:none}
 .modal-alert.show{display:block}
-.modal-alert.success{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--green)}
+.modal-alert.success{background:rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.3);color:var(--verde)}
 </style>
 </head>
 <body>
-<div class="loading-overlay" id="loading">Cargando producto...</div>
+<div class="loading-overlay" id="loading"><span class="es">Cargando producto...</span><span class="en">Loading product...</span></div>
 
 <nav class="nav">
   <div class="nav-left">
     <a href="/" class="logo">
       <img src="/assets/logo-wifnix.png" alt="Wifnix">
-      <span>Tienda</span>
+      <span class="es">Tienda</span><span class="en">Store</span>
     </a>
   </div>
   <div class="nav-search">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search" placeholder="Buscar productos..." onkeydown="if(event.key==='Enter')window.location.href='/tienda.html?q='+encodeURIComponent(this.value)">
+    <input type="text" id="search" placeholder="Buscar productos..." data-es="Buscar productos..." data-en="Search products..." onkeydown="if(event.key==='Enter')window.location.href='/tienda.html?q='+encodeURIComponent(this.value)">
   </div>
   <div class="nav-actions">
-    <div class="lang-btns">
-      <button class="lang-btn active" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
-    </div>
-    <a href="/tienda.html" class="btn btn-ghost">← Tienda</a>
+    <span data-wx-switches></span>
+    <a href="/tienda.html" class="btn btn-ghost es">← Tienda</a>
+    <a href="/tienda.html" class="btn btn-ghost en">← Store</a>
     <button class="cart-btn" onclick="abrirCarrito()">🛒 <span class="cart-count" id="cart-count">0</span></button>
-    <a href="https://portal.wifnix.com" class="btn" id="login-btn">Iniciar sesión</a>
+    <a href="https://portal.wifnix.com" class="btn" id="login-btn" data-es="Iniciar sesión" data-en="Sign in">Iniciar sesión</a>
   </div>
 </nav>
 
 <div class="breadcrumb" id="breadcrumb">
-  <a href="/">Inicio</a> / <a href="/tienda.html">Tienda</a> / <span id="bc-cat">Cargando...</span>
+  <a href="/" class="es">Inicio</a><a href="/" class="en">Home</a> / <a href="/tienda.html" class="es">Tienda</a><a href="/tienda.html" class="en">Store</a> / <span id="bc-cat"><span class="es">Cargando...</span><span class="en">Loading...</span></span>
 </div>
 
 <div class="layout" id="main-layout" style="display:none">
@@ -271,70 +271,77 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
     <div class="main-img" id="main-img"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg></div>
     <div class="thumbs" id="thumbs"></div>
   </div>
-  
+
   <div class="info">
-    <div class="brand-tag" id="brand">MARCA</div>
-    <h1 class="product-title" id="title">Cargando...</h1>
+    <div class="brand-tag" id="brand"><span class="es">MARCA</span><span class="en">BRAND</span></div>
+    <h1 class="product-title" id="title"><span class="es">Cargando...</span><span class="en">Loading...</span></h1>
     <div class="meta-row">
-      <div>SKU: <strong id="sku">—</strong></div>
-      <div>Modelo: <strong id="modelo">—</strong></div>
+      <div><span class="es">SKU:</span><span class="en">SKU:</span> <strong id="sku">—</strong></div>
+      <div><span class="es">Modelo:</span><span class="en">Model:</span> <strong id="modelo">—</strong></div>
     </div>
-    
+
     <div class="rating-row" id="rating-row" style="display:none">
       <span class="stars" id="stars">★★★★★</span>
       <span id="rating-num">0.0</span>
-      <a href="#reviews" class="reviews-link" id="reviews-count">0 reseñas</a>
+      <a href="#reviews" class="reviews-link" id="reviews-count"><span class="es">0 reseñas</span><span class="en">0 reviews</span></a>
     </div>
-    
+
     <div class="precio-box" id="precio-box">
       <div id="precio-content"></div>
     </div>
-    
+
     <div class="stock-badge" id="stock-badge"></div>
-    
+
     <div class="qty-row" id="qty-row" style="display:none">
       <div class="qty-control">
         <button onclick="qty(-1)">−</button>
         <input type="number" id="qty" value="1" min="1">
         <button onclick="qty(1)">+</button>
       </div>
-      <button class="add-cart-btn" id="add-cart" onclick="addCart()">Añadir al carrito</button>
+      <button class="add-cart-btn" id="add-cart" onclick="addCart()"><span class="es">Añadir al carrito</span><span class="en">Add to cart</span></button>
     </div>
-    
+
     <div class="cta-secundario" id="cta-sec" style="display:none">
-      <a href="#" class="cta-sec-btn" onclick="event.preventDefault();solicitarInstalacion()">🔧 Solicitar instalación</a>
-      <a href="#" class="cta-sec-btn" onclick="event.preventDefault();consultaProducto()">💬 Consultar</a>
+      <a href="#" class="cta-sec-btn es" onclick="event.preventDefault();solicitarInstalacion()">🔧 Solicitar instalación</a>
+      <a href="#" class="cta-sec-btn en" onclick="event.preventDefault();solicitarInstalacion()">🔧 Request installation</a>
+      <a href="#" class="cta-sec-btn es" onclick="event.preventDefault();consultaProducto()">💬 Consultar</a>
+      <a href="#" class="cta-sec-btn en" onclick="event.preventDefault();consultaProducto()">💬 Ask a question</a>
     </div>
   </div>
 </div>
 
 <div class="tabs" id="tabs" style="display:none">
   <div class="tabs-nav">
-    <button class="tab-btn active" onclick="showTab('desc', this)" id="tab-btn-desc">Descripción</button>
-    <button class="tab-btn" onclick="showTab('specs', this)" id="tab-btn-specs">Especificaciones</button>
-    <button class="tab-btn" onclick="showTab('docs', this)" id="tab-btn-docs">Documentos</button>
-    <button class="tab-btn" onclick="showTab('compat', this)" id="tab-btn-compat">Productos compatibles</button>
-    <button class="tab-btn" onclick="showTab('acc', this)" id="tab-btn-acc">Accesorios</button>
+    <button class="tab-btn active" onclick="showTab('desc', this)" id="tab-btn-desc"><span class="es">Descripción</span><span class="en">Description</span></button>
+    <button class="tab-btn" onclick="showTab('specs', this)" id="tab-btn-specs"><span class="es">Especificaciones</span><span class="en">Specifications</span></button>
+    <button class="tab-btn" onclick="showTab('docs', this)" id="tab-btn-docs"><span class="es">Documentos</span><span class="en">Documents</span></button>
+    <button class="tab-btn" onclick="showTab('compat', this)" id="tab-btn-compat"><span class="es">Productos compatibles</span><span class="en">Compatible products</span></button>
+    <button class="tab-btn" onclick="showTab('acc', this)" id="tab-btn-acc"><span class="es">Accesorios</span><span class="en">Accessories</span></button>
   </div>
-  
+
   <div class="tab-content active" id="tab-desc">
-    <h2>Descripción del producto</h2>
+    <h2 class="es">Descripción del producto</h2>
+    <h2 class="en">Product description</h2>
     <div id="descripcion"></div>
   </div>
   <div class="tab-content" id="tab-specs">
-    <h2>Especificaciones técnicas</h2>
+    <h2 class="es">Especificaciones técnicas</h2>
+    <h2 class="en">Technical specifications</h2>
     <div id="specs"></div>
   </div>
   <div class="tab-content" id="tab-docs">
-    <h2>Documentos y manuales</h2>
+    <h2 class="es">Documentos y manuales</h2>
+    <h2 class="en">Documents and manuals</h2>
     <div id="docs"></div>
   </div>
   <div class="tab-content" id="tab-compat">
-    <h2>Productos compatibles</h2>
+    <h2 class="es">Productos compatibles</h2>
+    <h2 class="en">Compatible products</h2>
     <div id="compat"></div>
   </div>
   <div class="tab-content" id="tab-acc">
-    <h2>Accesorios compatibles</h2>
+    <h2 class="es">Accesorios compatibles</h2>
+    <h2 class="en">Compatible accessories</h2>
     <div id="acc"></div>
   </div>
 </div>
@@ -345,30 +352,32 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 <section class="reviews-section" id="reviews" style="display:none">
   <div class="reviews-header">
     <div>
-      <h2>Reseñas y opiniones</h2>
-      <p style="color:var(--gray);font-size:0.85rem;margin-top:4px">Opiniones reales de clientes verificados</p>
+      <h2 class="es">Reseñas y opiniones</h2>
+      <h2 class="en">Ratings and reviews</h2>
+      <p class="es" style="color:var(--texto);font-size:0.85rem;margin-top:4px">Opiniones reales de clientes verificados</p>
+      <p class="en" style="color:var(--texto);font-size:0.85rem;margin-top:4px">Real feedback from verified customers</p>
     </div>
-    <button class="write-review-btn" id="write-review-btn" onclick="abrirModalResena()" style="display:none">✏️ Escribir reseña</button>
+    <button class="write-review-btn" id="write-review-btn" onclick="abrirModalResena()" style="display:none">✏️ <span class="es">Escribir reseña</span><span class="en">Write a review</span></button>
   </div>
-  
+
   <div class="reviews-summary" id="reviews-summary" style="display:none">
     <div class="rating-big">
       <div class="rating-num-big" id="rev-prom">0.0</div>
       <div class="rating-stars-big" id="rev-stars">☆☆☆☆☆</div>
-      <div class="rating-total" id="rev-total">0 reseñas</div>
+      <div class="rating-total" id="rev-total"><span class="es">0 reseñas</span><span class="en">0 reviews</span></div>
     </div>
     <div class="rating-bars" id="rev-bars"></div>
   </div>
-  
+
   <div class="review-filters" id="rev-filters">
-    <button class="filter-btn active" onclick="filtrarResenas('todas', this)">Todas</button>
-    <button class="filter-btn" onclick="filtrarResenas('5', this)">★★★★★</button>
-    <button class="filter-btn" onclick="filtrarResenas('4', this)">★★★★</button>
-    <button class="filter-btn" onclick="filtrarResenas('3', this)">★★★</button>
-    <button class="filter-btn" onclick="filtrarResenas('2', this)">★★</button>
-    <button class="filter-btn" onclick="filtrarResenas('1', this)">★</button>
+    <button class="filter-btn active" data-f="todas" onclick="filtrarResenas('todas', this)"><span class="es">Todas</span><span class="en">All</span></button>
+    <button class="filter-btn" data-f="5" onclick="filtrarResenas('5', this)">★★★★★</button>
+    <button class="filter-btn" data-f="4" onclick="filtrarResenas('4', this)">★★★★</button>
+    <button class="filter-btn" data-f="3" onclick="filtrarResenas('3', this)">★★★</button>
+    <button class="filter-btn" data-f="2" onclick="filtrarResenas('2', this)">★★</button>
+    <button class="filter-btn" data-f="1" onclick="filtrarResenas('1', this)">★</button>
   </div>
-  
+
   <div class="reviews-list" id="reviews-list"></div>
 </section>
 
@@ -376,11 +385,13 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
 <div class="modal-overlay" id="modal-resena">
   <div class="modal">
     <button class="modal-close" onclick="cerrarModalResena()">×</button>
-    <h2>Escribir reseña</h2>
+    <h2 class="es">Escribir reseña</h2>
+    <h2 class="en">Write a review</h2>
     <div class="modal-alert" id="modal-alert"></div>
-    
+
     <div class="modal-field">
-      <label>Calificación *</label>
+      <label class="es">Calificación *</label>
+      <label class="en">Rating *</label>
       <div class="star-input" id="star-input">
         <span class="star" data-v="1" onclick="setRating(1)" onmouseover="hoverRating(1)" onmouseout="hoverRating(0)">★</span>
         <span class="star" data-v="2" onclick="setRating(2)" onmouseover="hoverRating(2)" onmouseout="hoverRating(0)">★</span>
@@ -389,38 +400,37 @@ body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;backgroun
         <span class="star" data-v="5" onclick="setRating(5)" onmouseover="hoverRating(5)" onmouseout="hoverRating(0)">★</span>
       </div>
     </div>
-    
+
     <div class="modal-field">
-      <label>Título (opcional)</label>
-      <input type="text" id="mr-titulo" maxlength="200" placeholder="Ej: Excelente cámara, recomendada">
+      <label class="es">Título (opcional)</label>
+      <label class="en">Title (optional)</label>
+      <input type="text" id="mr-titulo" maxlength="200" placeholder="Ej: Excelente cámara, recomendada" data-es="Ej: Excelente cámara, recomendada" data-en="e.g. Great camera, highly recommended">
     </div>
-    
+
     <div class="modal-field">
-      <label>Tu opinión *</label>
-      <textarea id="mr-comentario" maxlength="2000" placeholder="Cuéntanos tu experiencia con este producto..."></textarea>
+      <label class="es">Tu opinión *</label>
+      <label class="en">Your review *</label>
+      <textarea id="mr-comentario" maxlength="2000" placeholder="Cuéntanos tu experiencia con este producto..." data-es="Cuéntanos tu experiencia con este producto..." data-en="Tell us about your experience with this product..."></textarea>
     </div>
-    
+
     <div class="modal-actions">
-      <button class="modal-btn modal-btn-secondary" onclick="cerrarModalResena()">Cancelar</button>
-      <button class="modal-btn modal-btn-primary" id="btn-publicar" onclick="publicarResena()">Publicar reseña</button>
+      <button class="modal-btn modal-btn-secondary es" onclick="cerrarModalResena()">Cancelar</button>
+      <button class="modal-btn modal-btn-secondary en" onclick="cerrarModalResena()">Cancel</button>
+      <button class="modal-btn modal-btn-primary" id="btn-publicar" onclick="publicarResena()"><span class="es">Publicar reseña</span><span class="en">Publish review</span></button>
     </div>
   </div>
 </div>
 
 <div class="cart-drawer" id="cart-drawer">
-  <div class="cart-header"><h2>Mi Carrito</h2><button class="cart-close" onclick="cerrarCarrito()">×</button></div>
-  <div id="cart-items"><p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p></div>
+  <div class="cart-header"><h2 class="es">Mi Carrito</h2><h2 class="en">My Cart</h2><button class="cart-close" onclick="cerrarCarrito()">×</button></div>
+  <div id="cart-items"><p style="color:var(--texto);text-align:center;padding:40px 0"><span class="es">Tu carrito está vacío</span><span class="en">Your cart is empty</span></p></div>
   <div class="cart-totals" id="cart-totals" style="display:none">
-    <div class="cart-row"><span>Subtotal</span><span id="t-sub">$0.00</span></div>
-    <div class="cart-row"><span>IVU (11.5%)</span><span id="t-ivu">$0.00</span></div>
-    <div class="cart-row total"><span>Total</span><span id="t-tot">$0.00</span></div>
-    <button class="checkout-btn" onclick="alert('Checkout próximamente')">Proceder al pago</button>
+    <div class="cart-row"><span class="es">Subtotal</span><span class="en">Subtotal</span><span id="t-sub">$0.00</span></div>
+    <div class="cart-row"><span class="es">IVU (11.5%)</span><span class="en">IVU (Puerto Rico sales tax) 11.5%</span><span id="t-ivu">$0.00</span></div>
+    <div class="cart-row total"><span class="es">Total</span><span class="en">Total</span><span id="t-tot">$0.00</span></div>
+    <button class="checkout-btn" onclick="irAlPago()"><span class="es">Proceder al pago</span><span class="en">Proceed to payment</span></button>
   </div>
 </div>
-
-<button class="theme-toggle" onclick="toggleTheme()">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-</button>
 
 <script>
 var API = 'https://api.wifnix.com';
@@ -429,48 +439,59 @@ var USER = TOKEN ? JSON.parse(localStorage.getItem('wifnix_user') || 'null') : n
 var carrito = JSON.parse(localStorage.getItem('wifnix_carrito') || '[]');
 var producto = null;
 var todosProductos = [];
+var galeriaPintada = false;
 
-function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('wifnix_theme',n);}catch(e){}}
-(function(){try{var s=localStorage.getItem('wifnix_theme')||'dark';document.documentElement.setAttribute('data-theme',s);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+/* ── IDIOMA ──────────────────────────────────────────────────
+   El idioma ya está puesto en el <html> antes de pintar. Lo que
+   este script escribe en pantalla no lo alcanza el CSS: se elige aquí. */
+function idioma() { return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en) { return idioma() === 'en' ? en : es; }
+// Si el API trae la versión en inglés se usa; si no, se queda el español.
+function nom(o) { if (!o) return ''; return (idioma() === 'en' && o.nombre_en) ? o.nombre_en : (o.nombre_es || ''); }
+function descripcionDe(o) { if (!o) return ''; return (idioma() === 'en' && o.descripcion_en) ? o.descripcion_en : (o.descripcion_es || ''); }
+function categoriaDe(o) { if (!o) return ''; return (idioma() === 'en' && o.categoria_nombre_en) ? o.categoria_nombre_en : (o.categoria_nombre || ''); }
 
 if (USER) {
-  document.getElementById('login-btn').textContent = 'Mi cuenta';
-  document.getElementById('login-btn').href = 'https://portal.wifnix.com';
+  var lb = document.getElementById('login-btn');
+  lb.setAttribute('data-es', 'Mi cuenta');
+  lb.setAttribute('data-en', 'My account');
+  lb.textContent = T('Mi cuenta', 'My account');
+  lb.href = 'https://portal.wifnix.com';
 }
-
-function setLang(lang) {
-  try { localStorage.setItem('wifnix_lang', lang); } catch(e){}
-  document.documentElement.lang = lang;
-  document.querySelectorAll('.lang-btn').forEach(function(b){
-    b.classList.toggle('active', b.textContent.toLowerCase() === lang);
-  });
-}
-setLang(localStorage.getItem('wifnix_lang') || 'es');
 
 function getQueryParam(name) {
   var url = new URL(window.location.href);
   return url.searchParams.get(name);
 }
 
+function irAlPago() {
+  alert(T('Checkout próximamente', 'Checkout coming soon'));
+}
+
 async function cargarProducto() {
   var sku = getQueryParam('sku');
-  if (!sku) { document.getElementById('loading').innerHTML = 'SKU no especificado. <a href="/tienda.html" style="color:var(--bl)">Volver a tienda</a>'; return; }
-  
+  if (!sku) {
+    document.getElementById('loading').innerHTML = T('SKU no especificado. ', 'No SKU specified. ') +
+      '<a href="/tienda.html" style="color:var(--azul)">' + T('Volver a tienda', 'Back to store') + '</a>';
+    return;
+  }
+
   try {
     var headers = {};
     if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
-    
+
     // Cargar todos los productos y filtrar por SKU
     var r = await fetch(API + '/api/productos?limit=500', { headers });
     var data = await r.json();
     todosProductos = data.productos || [];
     producto = todosProductos.find(function(p){ return p.sku === sku; });
-    
+
     if (!producto) {
-      document.getElementById('loading').innerHTML = 'Producto no encontrado. <a href="/tienda.html" style="color:var(--bl)">Volver a tienda</a>';
+      document.getElementById('loading').innerHTML = T('Producto no encontrado. ', 'Product not found. ') +
+        '<a href="/tienda.html" style="color:var(--azul)">' + T('Volver a tienda', 'Back to store') + '</a>';
       return;
     }
-    
+
     // Cargar detalle completo
     try {
       var r2 = await fetch(API + '/api/productos/' + producto.id, { headers });
@@ -479,80 +500,86 @@ async function cargarProducto() {
         producto = Object.assign(producto, detalle);
       }
     } catch(e) {}
-    
+
     renderProducto();
     cargarResenasStats();
     document.getElementById('loading').style.display = 'none';
     document.getElementById('main-layout').style.display = 'grid';
     document.getElementById('tabs').style.display = 'block';
   } catch(e) {
-    document.getElementById('loading').innerHTML = 'Error: ' + e.message;
+    document.getElementById('loading').innerHTML = T('Error: ', 'Error: ') + e.message;
   }
 }
 
 function renderProducto() {
-  document.title = producto.nombre_es + ' — Wifnix';
-  document.getElementById('brand').textContent = producto.marca || 'PRODUCTO';
-  document.getElementById('title').textContent = producto.nombre_es;
+  document.title = nom(producto) + ' — Wifnix';
+  document.getElementById('brand').textContent = producto.marca || T('PRODUCTO', 'PRODUCT');
+  document.getElementById('title').textContent = nom(producto);
   document.getElementById('sku').textContent = producto.sku;
   document.getElementById('modelo').textContent = producto.modelo || '—';
-  document.getElementById('bc-cat').textContent = producto.categoria_nombre || producto.nombre_es;
-  
-  // Imagen principal + thumbs
-  var imgs = [];
-  if (producto.imagen_principal) imgs.push(producto.imagen_principal);
-  if (Array.isArray(producto.imagenes)) imgs = imgs.concat(producto.imagenes);
-  
-  if (imgs.length) {
-    document.getElementById('main-img').innerHTML = '<img src="' + imgs[0] + '" alt="' + producto.nombre_es + '">';
-    document.getElementById('thumbs').innerHTML = imgs.map(function(src, i) {
-      return '<div class="thumb' + (i===0?' active':'') + '" onclick="cambiarImg(' + i + ', this)"><img src="' + src + '" alt=""></div>';
-    }).join('');
-    window.__imgs = imgs;
+  document.getElementById('bc-cat').textContent = categoriaDe(producto) || nom(producto);
+
+  // Imagen principal + thumbs. Solo se pintan una vez: al cambiar de
+  // idioma no se toca la galería, así no se pierde la foto elegida.
+  if (!galeriaPintada) {
+    var imgs = [];
+    if (producto.imagen_principal) imgs.push(producto.imagen_principal);
+    if (Array.isArray(producto.imagenes)) imgs = imgs.concat(producto.imagenes);
+
+    if (imgs.length) {
+      document.getElementById('main-img').innerHTML = '<img src="' + imgs[0] + '" alt="' + nom(producto) + '">';
+      document.getElementById('thumbs').innerHTML = imgs.map(function(src, i) {
+        return '<div class="thumb' + (i===0?' active':'') + '" onclick="cambiarImg(' + i + ', this)"><img src="' + src + '" alt=""></div>';
+      }).join('');
+      window.__imgs = imgs;
+      galeriaPintada = true;
+    }
   }
-  
+
   // Precio
   if (producto.precio_mostrar !== null && producto.precio_mostrar !== undefined) {
     var html = '<div class="precio-grande">$' + parseFloat(producto.precio_mostrar).toFixed(2) + '</div>';
     if (producto.precio_anterior) html += '<div class="precio-old">$' + parseFloat(producto.precio_anterior).toFixed(2) + '</div>';
     if (producto.precio_sugerido_reventa && USER && USER.rol === 'empresa_revendedora') {
-      html += '<div class="precio-suggested">💡 Precio sugerido reventa: $' + parseFloat(producto.precio_sugerido_reventa).toFixed(2) + '</div>';
+      html += '<div class="precio-suggested">💡 ' + T('Precio sugerido reventa: $', 'Suggested resale price: $') + parseFloat(producto.precio_sugerido_reventa).toFixed(2) + '</div>';
     }
-    html += '<div class="precio-ivu">+ IVU 11.5% al checkout</div>';
+    html += '<div class="precio-ivu">' + T('+ IVU 11.5% al momento de pagar', '+ 11.5% IVU (Puerto Rico sales tax) at checkout') + '</div>';
     document.getElementById('precio-content').innerHTML = html;
     document.getElementById('qty-row').style.display = 'flex';
   } else {
-    document.getElementById('precio-content').innerHTML = 
+    document.getElementById('precio-content').innerHTML =
       '<div class="precio-locked">' +
-        '<div class="precio-locked-text">Inicia sesión para ver precios</div>' +
-        '<div class="precio-locked-sub">Precios exclusivos para clientes registrados, empresas y resellers</div>' +
-        '<a href="https://portal.wifnix.com" class="login-cta-btn">Iniciar sesión</a>' +
+        '<div class="precio-locked-text">' + T('Inicia sesión para ver precios', 'Sign in to see pricing') + '</div>' +
+        '<div class="precio-locked-sub">' + T('Precios exclusivos para clientes registrados, empresas y resellers', 'Pricing reserved for registered customers, businesses and resellers') + '</div>' +
+        '<a href="https://portal.wifnix.com" class="login-cta-btn">' + T('Iniciar sesión', 'Sign in') + '</a>' +
       '</div>';
   }
-  
+
   document.getElementById('cta-sec').style.display = 'flex';
-  
+
   // Stock
   var stockBadge = document.getElementById('stock-badge');
   if (producto.stock === 0) {
     stockBadge.className = 'stock-badge stock-out';
-    stockBadge.innerHTML = '<span>Sin stock — Notifícame cuando esté disponible</span>';
+    stockBadge.innerHTML = '<span>' + T('Sin stock — Notifícame cuando esté disponible', 'Out of stock — Notify me when it is available') + '</span>';
     document.getElementById('add-cart').disabled = true;
-    document.getElementById('add-cart').textContent = 'Sin stock';
+    document.getElementById('add-cart').textContent = T('Sin stock', 'Out of stock');
   } else if (producto.stock < 5) {
     stockBadge.className = 'stock-badge stock-low';
-    stockBadge.innerHTML = '<span>Solo ' + producto.stock + ' disponibles</span>';
+    stockBadge.innerHTML = '<span>' + T('Solo ' + producto.stock + ' disponibles', 'Only ' + producto.stock + ' left') + '</span>';
   } else {
     stockBadge.className = 'stock-badge stock-in';
-    stockBadge.innerHTML = '<span>En stock (' + producto.stock + ' disponibles)</span>';
+    stockBadge.innerHTML = '<span>' + T('En stock (' + producto.stock + ' disponibles)', 'In stock (' + producto.stock + ' available)') + '</span>';
   }
-  
+
   // TABS
   // Descripción
-  document.getElementById('descripcion').innerHTML = producto.descripcion_es ? 
-    '<p>' + producto.descripcion_es.replace(/\n/g, '</p><p>') + '</p>' :
-    '<div class="empty-tab">Sin descripción disponible. <br><br>Contáctanos para más información sobre este producto.</div>';
-  
+  var texto = descripcionDe(producto);
+  document.getElementById('descripcion').innerHTML = texto ?
+    '<p>' + texto.replace(/\n/g, '</p><p>') + '</p>' :
+    '<div class="empty-tab">' + T('Sin descripción disponible. <br><br>Contáctanos para más información sobre este producto.',
+      'No description available. <br><br>Contact us for more information about this product.') + '</div>';
+
   // Specs
   if (producto.specs && typeof producto.specs === 'object' && Object.keys(producto.specs).length) {
     var rows = '';
@@ -561,24 +588,26 @@ function renderProducto() {
     });
     document.getElementById('specs').innerHTML = '<table class="specs-table"><tbody>' + rows + '</tbody></table>';
   } else {
-    document.getElementById('specs').innerHTML = '<div class="empty-tab">No hay especificaciones técnicas detalladas para este producto.</div>';
+    document.getElementById('specs').innerHTML = '<div class="empty-tab">' +
+      T('No hay especificaciones técnicas detalladas para este producto.', 'There are no detailed technical specifications for this product.') + '</div>';
   }
-  
+
   // Docs
   if (Array.isArray(producto.archivos) && producto.archivos.length) {
     document.getElementById('docs').innerHTML = '<div class="files-list">' + producto.archivos.map(function(f) {
       return '<a href="' + f.url + '" target="_blank" class="file-card">' +
         '<div class="file-icon">PDF</div>' +
         '<div class="file-info">' +
-          '<div class="file-name">' + (f.nombre || 'Documento') + '</div>' +
-          '<div class="file-size">' + (f.tamano || 'Click para descargar') + '</div>' +
+          '<div class="file-name">' + (f.nombre || T('Documento', 'Document')) + '</div>' +
+          '<div class="file-size">' + (f.tamano || T('Haz clic para descargar', 'Click to download')) + '</div>' +
         '</div>' +
       '</a>';
     }).join('') + '</div>';
   } else {
-    document.getElementById('docs').innerHTML = '<div class="empty-tab">No hay documentos disponibles para este producto.</div>';
+    document.getElementById('docs').innerHTML = '<div class="empty-tab">' +
+      T('No hay documentos disponibles para este producto.', 'There are no documents available for this product.') + '</div>';
   }
-  
+
   // Productos compatibles
   renderCompat('compat', producto.productos_compatibles || []);
   renderCompat('acc', producto.accesorios_compatibles || []);
@@ -586,19 +615,21 @@ function renderProducto() {
 
 function renderCompat(divId, ids) {
   if (!ids || !ids.length) {
-    document.getElementById(divId).innerHTML = '<div class="empty-tab">No hay productos compatibles registrados.</div>';
+    document.getElementById(divId).innerHTML = '<div class="empty-tab">' +
+      T('No hay productos compatibles registrados.', 'No compatible products are listed yet.') + '</div>';
     return;
   }
   var compats = todosProductos.filter(function(p){ return ids.indexOf(p.id) >= 0; });
   if (!compats.length) {
-    document.getElementById(divId).innerHTML = '<div class="empty-tab">No hay productos compatibles disponibles.</div>';
+    document.getElementById(divId).innerHTML = '<div class="empty-tab">' +
+      T('No hay productos compatibles disponibles.', 'No compatible products are available.') + '</div>';
     return;
   }
   document.getElementById(divId).innerHTML = '<div class="compat-grid">' + compats.map(function(p) {
     return '<a href="/producto.html?sku=' + p.sku + '" class="compat-card">' +
       '<div class="compat-img">' + (p.imagen_principal ? '<img src="' + p.imagen_principal + '">' : '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>') + '</div>' +
       '<div class="compat-body">' +
-        '<div class="compat-name">' + p.nombre_es + '</div>' +
+        '<div class="compat-name">' + nom(p) + '</div>' +
         (p.precio_mostrar ? '<div class="compat-price">$' + parseFloat(p.precio_mostrar).toFixed(2) + '</div>' : '') +
       '</div>' +
     '</a>';
@@ -636,7 +667,7 @@ function addCart() {
   var n = parseInt(document.getElementById('qty').value) || 1;
   var item = carrito.find(function(x){ return x.id === producto.id; });
   if (item) {
-    if (item.cantidad + n > producto.stock) { alert('Stock máximo: ' + producto.stock); return; }
+    if (item.cantidad + n > producto.stock) { alert(T('Stock máximo: ', 'Maximum stock: ') + producto.stock); return; }
     item.cantidad += n;
   } else {
     carrito.push({ id: producto.id, sku: producto.sku, nombre: producto.nombre_es, precio: parseFloat(producto.precio_mostrar), cantidad: n, stock: producto.stock });
@@ -650,7 +681,10 @@ function solicitarInstalacion() {
   window.location.href = '/cotizacion-instantanea.html?producto=' + encodeURIComponent(producto.sku);
 }
 function consultaProducto() {
-  window.location.href = 'mailto:customerservice@wifnix.com?subject=Consulta producto ' + producto.sku + '&body=Buenas, me interesa el producto ' + encodeURIComponent(producto.nombre_es) + ' (SKU: ' + producto.sku + ').';
+  var asunto = T('Consulta producto ', 'Product inquiry ') + producto.sku;
+  var cuerpo = T('Buenas, me interesa el producto ', 'Hello, I am interested in the product ') +
+    encodeURIComponent(nom(producto)) + ' (SKU: ' + producto.sku + ').';
+  window.location.href = 'mailto:customerservice@wifnix.com?subject=' + asunto + '&body=' + cuerpo;
 }
 
 async function cargarResenasStats() {
@@ -660,7 +694,8 @@ async function cargarResenasStats() {
       var data = await r.json();
       var stats = data.stats || {};
       window.__todasResenas = data.resenas || [];
-      
+      window.__stats = stats;
+
       // Top rating badge
       if (stats.total && parseInt(stats.total) > 0) {
         document.getElementById('rating-row').style.display = 'flex';
@@ -669,12 +704,12 @@ async function cargarResenasStats() {
         for (var i = 1; i <= 5; i++) stars += (i <= Math.round(prom) ? '★' : '☆');
         document.getElementById('stars').textContent = stars;
         document.getElementById('rating-num').textContent = prom.toFixed(1);
-        document.getElementById('reviews-count').textContent = stats.total + (parseInt(stats.total) === 1 ? ' reseña' : ' reseñas');
+        document.getElementById('reviews-count').textContent = etiquetaResenas(stats.total);
       }
-      
+
       renderResenasSection(data.resenas || [], stats);
     }
-    
+
     // Verificar si puede reseñar
     if (USER) {
       var r2 = await fetch(API + '/api/resenas/puedo-resenar/' + producto.id, {
@@ -682,44 +717,60 @@ async function cargarResenasStats() {
       });
       if (r2.ok) {
         var check = await r2.json();
-        if (check.puede) {
-          document.getElementById('write-review-btn').style.display = 'inline-block';
-          document.getElementById('write-review-btn').textContent = '✏️ Escribir reseña (' + check.dias_restantes + ' días restantes)';
-        } else if (check.ya_resenada) {
-          document.getElementById('write-review-btn').style.display = 'inline-block';
-          document.getElementById('write-review-btn').textContent = '✓ Ya reseñaste este producto';
-          document.getElementById('write-review-btn').disabled = true;
-        }
+        window.__puedeResenar = check;
+        pintarBotonResena();
       }
     }
-  } catch(e) { console.error('Reseñas error:', e); }
+  } catch(e) { console.error('Resenas error:', e); }
+}
+
+// "1 reseña" / "3 reseñas" — en inglés "1 review" / "3 reviews".
+function etiquetaResenas(total) {
+  var n = parseInt(total) || 0;
+  return n + (idioma() === 'en' ? (n === 1 ? ' review' : ' reviews') : (n === 1 ? ' reseña' : ' reseñas'));
+}
+
+function pintarBotonResena() {
+  var check = window.__puedeResenar;
+  if (!check) return;
+  var btn = document.getElementById('write-review-btn');
+  if (check.puede) {
+    btn.style.display = 'inline-block';
+    btn.disabled = false;
+    btn.textContent = '✏️ ' + T('Escribir reseña (' + check.dias_restantes + ' días restantes)',
+                                'Write a review (' + check.dias_restantes + ' days left)');
+  } else if (check.ya_resenada) {
+    btn.style.display = 'inline-block';
+    btn.textContent = '✓ ' + T('Ya reseñaste este producto', 'You already reviewed this product');
+    btn.disabled = true;
+  }
 }
 
 function renderResenasSection(resenas, stats) {
   document.getElementById('reviews').style.display = 'block';
-  
+
   var total = parseInt(stats.total) || 0;
-  
+
   if (total === 0) {
     document.getElementById('reviews-summary').style.display = 'none';
     document.getElementById('rev-filters').style.display = 'none';
-    document.getElementById('reviews-list').innerHTML = 
+    document.getElementById('reviews-list').innerHTML =
       '<div class="no-reviews">' +
         '<svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>' +
-        '<p style="font-size:0.95rem;margin-bottom:6px">Aún no hay reseñas para este producto</p>' +
-        '<span style="font-size:0.78rem;color:var(--gray2)">¡Sé el primero en compartir tu opinión!</span>' +
+        '<p style="font-size:0.95rem;margin-bottom:6px">' + T('Aún no hay reseñas para este producto', 'There are no reviews for this product yet') + '</p>' +
+        '<span style="font-size:0.78rem;color:var(--apagado)">' + T('¡Sé el primero en compartir tu opinión!', 'Be the first to share your experience!') + '</span>' +
       '</div>';
     return;
   }
-  
+
   // Summary
   document.getElementById('reviews-summary').style.display = 'grid';
   document.getElementById('rev-prom').textContent = parseFloat(stats.promedio || 0).toFixed(1);
   var stars = '';
   for (var i = 1; i <= 5; i++) stars += (i <= Math.round(stats.promedio) ? '★' : '☆');
   document.getElementById('rev-stars').textContent = stars;
-  document.getElementById('rev-total').textContent = total + (total === 1 ? ' reseña' : ' reseñas');
-  
+  document.getElementById('rev-total').textContent = etiquetaResenas(total);
+
   // Bars
   var bars = '';
   [5,4,3,2,1].forEach(function(n) {
@@ -732,38 +783,41 @@ function renderResenasSection(resenas, stats) {
     '</div>';
   });
   document.getElementById('rev-bars').innerHTML = bars;
-  
-  // Lista
-  renderListaResenas(resenas);
+
+  // Lista, respetando el filtro de estrellas que estuviera puesto
+  var activo = document.querySelector('.filter-btn.active');
+  var filtro = activo ? (activo.getAttribute('data-f') || 'todas') : 'todas';
+  renderListaResenas(filtro === 'todas' ? resenas : resenas.filter(function(r){ return r.rating === parseInt(filtro); }));
 }
 
 function renderListaResenas(resenas) {
   if (!resenas.length) {
-    document.getElementById('reviews-list').innerHTML = '<div class="no-reviews"><p>No hay reseñas con este filtro</p></div>';
+    document.getElementById('reviews-list').innerHTML = '<div class="no-reviews"><p>' +
+      T('No hay reseñas con este filtro', 'No reviews match this filter') + '</p></div>';
     return;
   }
-  
+
   document.getElementById('reviews-list').innerHTML = resenas.map(function(r) {
     var rstars = '';
     for (var i = 1; i <= 5; i++) rstars += (i <= r.rating ? '★' : '☆');
     var inicial = (r.nombre || 'A')[0];
-    var nombre = (r.nombre || 'Anónimo') + ' ' + (r.apellido ? r.apellido[0] + '.' : '');
-    var fecha = new Date(r.creado_en).toLocaleDateString('es-PR', { year:'numeric', month:'long', day:'numeric' });
-    
+    var nombre = (r.nombre || T('Anónimo', 'Anonymous')) + ' ' + (r.apellido ? r.apellido[0] + '.' : '');
+    var fecha = new Date(r.creado_en).toLocaleDateString(T('es-PR', 'en-US'), { year:'numeric', month:'long', day:'numeric' });
+
     var fotos = '';
     if (r.fotos && Array.isArray(r.fotos) && r.fotos.length) {
       fotos = '<div class="review-photos">' + r.fotos.map(function(f){
         return '<div class="review-photo" onclick="window.open(\'' + f + '\',\'_blank\')"><img src="' + f + '"></div>';
       }).join('') + '</div>';
     }
-    
+
     return '<div class="review-card">' +
       '<div class="review-header">' +
         '<div class="review-author">' +
           '<div class="review-avatar">' + inicial + '</div>' +
           '<div>' +
             '<div class="review-name">' + nombre + '</div>' +
-            '<div class="review-date">' + fecha + ' · Compra verificada</div>' +
+            '<div class="review-date">' + fecha + T(' · Compra verificada', ' · Verified purchase') + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="review-rating">' + rstars + '</div>' +
@@ -778,7 +832,7 @@ function renderListaResenas(resenas) {
 function filtrarResenas(filtro, btn) {
   document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
-  
+
   var todas = window.__todasResenas || [];
   var filtradas = filtro === 'todas' ? todas : todas.filter(function(r){ return r.rating === parseInt(filtro); });
   renderListaResenas(filtradas);
@@ -815,16 +869,22 @@ function hoverRating(n) {
 }
 
 async function publicarResena() {
-  var alert = document.getElementById('modal-alert');
-  alert.classList.remove('show', 'success');
-  
-  if (__rating === 0) { alert.textContent = 'Selecciona una calificación'; alert.classList.add('show'); return; }
+  var aviso = document.getElementById('modal-alert');
+  aviso.classList.remove('show', 'success');
+
+  if (__rating === 0) {
+    aviso.textContent = T('Selecciona una calificación', 'Choose a rating');
+    aviso.classList.add('show'); return;
+  }
   var comentario = document.getElementById('mr-comentario').value.trim();
-  if (!comentario || comentario.length < 10) { alert.textContent = 'Escribe al menos 10 caracteres en tu opinión'; alert.classList.add('show'); return; }
-  
+  if (!comentario || comentario.length < 10) {
+    aviso.textContent = T('Escribe al menos 10 caracteres en tu opinión', 'Write at least 10 characters in your review');
+    aviso.classList.add('show'); return;
+  }
+
   var btn = document.getElementById('btn-publicar');
-  btn.disabled = true; btn.textContent = 'Publicando...';
-  
+  btn.disabled = true; btn.textContent = T('Publicando...', 'Publishing...');
+
   try {
     var r = await fetch(API + '/api/resenas/crear', {
       method: 'POST',
@@ -839,19 +899,19 @@ async function publicarResena() {
     });
     var data = await r.json();
     if (data.ok) {
-      alert.textContent = '✓ ¡Reseña publicada! Gracias por tu opinión.';
-      alert.classList.add('show', 'success');
-      btn.textContent = '✓ Publicada';
+      aviso.textContent = T('✓ ¡Reseña publicada! Gracias por tu opinión.', '✓ Review published! Thanks for your feedback.');
+      aviso.classList.add('show', 'success');
+      btn.textContent = T('✓ Publicada', '✓ Published');
       setTimeout(function(){ cerrarModalResena(); cargarResenasStats(); }, 1500);
     } else {
-      alert.textContent = data.error || 'Error publicando reseña';
-      alert.classList.add('show');
-      btn.disabled = false; btn.textContent = 'Publicar reseña';
+      aviso.textContent = data.error || T('Error publicando reseña', 'Error publishing review');
+      aviso.classList.add('show');
+      btn.disabled = false; btn.textContent = T('Publicar reseña', 'Publish review');
     }
   } catch(e) {
-    alert.textContent = 'Error de conexión';
-    alert.classList.add('show');
-    btn.disabled = false; btn.textContent = 'Publicar reseña';
+    aviso.textContent = T('Error de conexión', 'Connection error');
+    aviso.classList.add('show');
+    btn.disabled = false; btn.textContent = T('Publicar reseña', 'Publish review');
   }
 }
 
@@ -860,7 +920,8 @@ function actualizarCarritoUI() {
   var count = carrito.reduce(function(a,b){ return a + b.cantidad; }, 0);
   document.getElementById('cart-count').textContent = count;
   if (!carrito.length) {
-    document.getElementById('cart-items').innerHTML = '<p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p>';
+    document.getElementById('cart-items').innerHTML = '<p style="color:var(--texto);text-align:center;padding:40px 0">' +
+      T('Tu carrito está vacío', 'Your cart is empty') + '</p>';
     document.getElementById('cart-totals').style.display = 'none';
     return;
   }
@@ -871,7 +932,7 @@ function actualizarCarritoUI() {
       '<div class="cart-qty"><button onclick="cambiarCant(' + idx + ', -1)">−</button>' +
       '<input type="number" value="' + item.cantidad + '" min="1" onchange="setCant(' + idx + ', this.value)">' +
       '<button onclick="cambiarCant(' + idx + ', 1)">+</button></div>' +
-      '<button class="cart-remove" onclick="quitar(' + idx + ')">Eliminar</button>' +
+      '<button class="cart-remove" onclick="quitar(' + idx + ')">' + T('Eliminar', 'Remove') + '</button>' +
     '</div></div>';
   }).join('');
   var subtotal = carrito.reduce(function(a,b){ return a + b.precio * b.cantidad; }, 0);
@@ -883,7 +944,7 @@ function actualizarCarritoUI() {
 }
 function cambiarCant(idx, delta) {
   var item = carrito[idx]; var n = item.cantidad + delta;
-  if (n < 1) return; if (item.stock && n > item.stock) { alert('Stock máximo: ' + item.stock); return; }
+  if (n < 1) return; if (item.stock && n > item.stock) { alert(T('Stock máximo: ', 'Maximum stock: ') + item.stock); return; }
   item.cantidad = n; localStorage.setItem('wifnix_carrito', JSON.stringify(carrito)); actualizarCarritoUI();
 }
 function setCant(idx, v) {
@@ -903,8 +964,23 @@ function cerrarCarrito() {
   document.getElementById('cart-overlay').classList.remove('open');
 }
 
+/* Al cambiar el idioma con el interruptor compartido hay que volver a
+   pintar lo que dibujó este script: el CSS solo alcanza al marcado. */
+function repintarIdioma() {
+  if (producto) renderProducto();
+  if (window.__stats) renderResenasSection(window.__todasResenas || [], window.__stats);
+  if (window.__puedeResenar) pintarBotonResena();
+  actualizarCarritoUI();
+}
+
+try {
+  new MutationObserver(function(){ repintarIdioma(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+} catch(e) { /* navegador viejo: se queda en el idioma con el que cargó */ }
+
 cargarProducto();
 actualizarCarritoUI();
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

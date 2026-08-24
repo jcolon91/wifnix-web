@@ -4,121 +4,186 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Política de Privacidad — Wifnix LLC</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh;line-height:1.8}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh;line-height:1.8}
 .page{max-width:800px;margin:0 auto;padding:60px 20px}
-.back{display:inline-flex;align-items:center;gap:8px;color:var(--gray);text-decoration:none;font-size:0.82rem;margin-bottom:32px;transition:color .2s}
-.back:hover{color:var(--white)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--texto);text-decoration:none;font-size:0.82rem;transition:color .2s}
+.back:hover{color:var(--tinta)}
 .back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .header{margin-bottom:48px}
-.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px}
-.header p{font-size:0.85rem;color:var(--gray)}
-.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.66rem;font-weight:500;color:var(--gray);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
-.seclabel::after{content:'';flex:1;height:1px;background:rgba(11,143,204,0.18)}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--tinta);margin-bottom:8px}
+.header p{font-size:0.85rem;color:var(--texto)}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.66rem;font-weight:500;color:var(--texto);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
+.seclabel::after{content:'';flex:1;height:1px;background:var(--filo2)}
 section{margin-bottom:36px}
-h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(11,143,204,0.1)}
-h3{font-size:0.88rem;font-weight:700;color:var(--blue-light);margin:16px 0 8px}
-p{font-size:0.85rem;color:var(--gray);margin-bottom:10px}
+h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--filo)}
+h3{font-size:0.88rem;font-weight:700;color:var(--azul);margin:16px 0 8px}
+p{font-size:0.85rem;color:var(--texto);margin-bottom:10px}
 ul{list-style:none;margin-bottom:10px}
-ul li{font-size:0.85rem;color:var(--gray);padding:4px 0 4px 20px;position:relative}
-ul li::before{content:'—';position:absolute;left:0;color:var(--gray)}
-.highlight{border-left:2px solid rgba(11,143,204,0.45);padding:2px 0 2px 18px;margin:18px 0}
+ul li{font-size:0.85rem;color:var(--texto);padding:4px 0 4px 20px;position:relative}
+ul li::before{content:'—';position:absolute;left:0;color:var(--texto)}
+.highlight{border-left:2px solid var(--azul);padding:2px 0 2px 18px;margin:18px 0}
 .highlight p{margin:0;font-size:0.83rem}
-.contact-box{border-top:1px solid rgba(11,143,204,0.15);padding-top:26px;margin-top:48px}
-.contact-box h3{color:var(--white);font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px}
-.contact-box p{color:var(--gray);font-size:0.82rem;margin-bottom:4px}
-.contact-box a{color:var(--blue-light);text-decoration:none}
+.contact-box{border-top:1px solid var(--filo);padding-top:26px;margin-top:48px}
+.contact-box h3{color:var(--tinta);font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px}
+.contact-box p{color:var(--texto);font-size:0.82rem;margin-bottom:4px}
+.contact-box a{color:var(--azul);text-decoration:none}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <a href="https://wifnix.com" class="back">
-    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Volver a Wifnix.com
-  </a>
+  <div class="topbar">
+    <a href="https://wifnix.com" class="back es">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver a Wifnix.com
+    </a>
+    <a href="https://wifnix.com" class="back en">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Wifnix.com
+    </a>
+    <span data-wx-switches></span>
+  </div>
 
   <div class="header">
-    <div class="seclabel">Documento legal</div>
-    <h1>Política de Privacidad</h1>
-    <p>Última actualización: Junio 2026 · Aplicable a wifnix.com, portal.wifnix.com y las aplicaciones de Wifnix LLC</p>
+    <div class="seclabel es">Documento legal</div>
+    <div class="seclabel en">Legal document</div>
+    <h1 class="es">Política de Privacidad</h1>
+    <h1 class="en">Privacy Policy</h1>
+    <p class="es">Última actualización: Junio 2026 · Aplicable a wifnix.com, portal.wifnix.com y las aplicaciones de Wifnix LLC</p>
+    <p class="en">Last updated: June 2026 · Applies to wifnix.com, portal.wifnix.com and the Wifnix LLC apps</p>
+  </div>
+
+  <div class="highlight">
+    <p class="es"><strong style="color:var(--tinta)">Aviso:</strong> La versión en español de este documento es la que prevalece legalmente. La traducción al inglés se ofrece únicamente por conveniencia; ante cualquier discrepancia, rige el texto en español.</p>
+    <p class="en"><strong style="color:var(--tinta)">Notice:</strong> The Spanish version of this document is the legally binding version. This English translation is provided for convenience only; in the event of any discrepancy, the Spanish text prevails.</p>
   </div>
 
   <section>
-    <h2>1. Información que Recopilamos</h2>
-    <p>Wifnix LLC ("Wifnix", "nosotros") recopila la siguiente información cuando creas una cuenta o usas nuestros servicios:</p>
-    <ul>
+    <h2 class="es">1. Información que Recopilamos</h2>
+    <h2 class="en">1. Information We Collect</h2>
+    <p class="es">Wifnix LLC ("Wifnix", "nosotros") recopila la siguiente información cuando creas una cuenta o usas nuestros servicios:</p>
+    <p class="en">Wifnix LLC ("Wifnix", "we", "us") collects the following information when you create an account or use our services:</p>
+    <ul class="es">
       <li>Nombre, apellido, correo electrónico, número de teléfono y contraseña</li>
       <li>Dirección física y postal, y pueblo, para coordinar entregas y servicios</li>
       <li>Datos de citas, equipos, historial de servicio y compras</li>
       <li>Información de pago, procesada de forma segura por Stripe y ATH Móvil (Wifnix no almacena números de tarjeta)</li>
       <li>Información técnica y de uso necesaria para operar la plataforma</li>
     </ul>
+    <ul class="en">
+      <li>First name, last name, email address, phone number and password</li>
+      <li>Physical and mailing address, and town, so we can coordinate deliveries and service visits</li>
+      <li>Appointment, equipment, service history and purchase records</li>
+      <li>Payment information, processed securely by Stripe and ATH Móvil (Wifnix does not store card numbers)</li>
+      <li>Technical and usage information needed to operate the platform</li>
+    </ul>
   </section>
 
   <section>
-    <h2>2. Cómo Usamos tu Información</h2>
-    <ul>
+    <h2 class="es">2. Cómo Usamos tu Información</h2>
+    <h2 class="en">2. How We Use Your Information</h2>
+    <ul class="es">
       <li>Crear y administrar tu cuenta</li>
       <li>Procesar tus órdenes, citas y servicios</li>
       <li>Enviarte códigos de verificación de acceso (2FA) y notificaciones sobre tus citas, el estado del técnico y tus órdenes, por SMS y/o correo electrónico</li>
       <li>Brindar soporte y comunicarnos contigo sobre tu cuenta</li>
       <li>Cumplir con obligaciones legales y fiscales</li>
     </ul>
+    <ul class="en">
+      <li>Create and manage your account</li>
+      <li>Process your orders, appointments and services</li>
+      <li>Send you login verification codes (2FA) and notifications about your appointments, your technician's status and your orders, by SMS and/or email</li>
+      <li>Provide support and communicate with you about your account</li>
+      <li>Meet legal and tax obligations</li>
+    </ul>
   </section>
 
   <section>
-    <h2>3. Mensajería por Texto (SMS)</h2>
-    <p>Si nos provees tu número de teléfono y das tu consentimiento (marcando la casilla correspondiente al registrarte), te enviamos mensajes de texto transaccionales: códigos de verificación de acceso (2FA) y notificaciones sobre tus citas, el estado del técnico y tus órdenes.</p>
-    <ul>
+    <h2 class="es">3. Mensajería por Texto (SMS)</h2>
+    <h2 class="en">3. Text Messaging (SMS)</h2>
+    <p class="es">Si nos provees tu número de teléfono y das tu consentimiento (marcando la casilla correspondiente al registrarte), te enviamos mensajes de texto transaccionales: códigos de verificación de acceso (2FA) y notificaciones sobre tus citas, el estado del técnico y tus órdenes.</p>
+    <p class="en">If you give us your phone number and your consent (by checking the corresponding box when you sign up), we send you transactional text messages: login verification codes (2FA) and notifications about your appointments, your technician's status and your orders.</p>
+    <ul class="es">
       <li>La frecuencia de los mensajes varía según la actividad de tu cuenta</li>
       <li>Pueden aplicar tarifas de mensajes y datos de tu operador</li>
-      <li>Para cancelar, responde <strong style="color:var(--white)">STOP</strong>. Para ayuda, responde <strong style="color:var(--white)">HELP</strong></li>
+      <li>Para cancelar, responde <strong style="color:var(--tinta)">STOP</strong>. Para ayuda, responde <strong style="color:var(--tinta)">HELP</strong></li>
+    </ul>
+    <ul class="en">
+      <li>Message frequency varies depending on your account activity</li>
+      <li>Message and data rates from your carrier may apply</li>
+      <li>To opt out, reply <strong style="color:var(--tinta)">STOP</strong>. For help, reply <strong style="color:var(--tinta)">HELP</strong></li>
     </ul>
     <div class="highlight">
-      <p><strong style="color:var(--white)">No vendemos ni compartimos la información de tu número de teléfono móvil, ni los datos de consentimiento de SMS, con terceros ni afiliados para fines de mercadeo o promoción.</strong></p>
-      <p style="margin-top:8px;font-size:0.78rem;color:var(--gray2)">No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt-in data and consent will not be shared with any third parties. Message and data rates may apply. Reply STOP to opt out and HELP for help.</p>
+      <p class="es"><strong style="color:var(--tinta)">No vendemos ni compartimos la información de tu número de teléfono móvil, ni los datos de consentimiento de SMS, con terceros ni afiliados para fines de mercadeo o promoción.</strong></p>
+      <p class="en"><strong style="color:var(--tinta)">We do not sell or share your mobile phone number information, or your SMS consent data, with third parties or affiliates for marketing or promotional purposes.</strong></p>
+      <p style="margin-top:8px;font-size:0.78rem;color:var(--apagado)">No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging originator opt-in data and consent will not be shared with any third parties. Message and data rates may apply. Reply STOP to opt out and HELP for help.</p>
     </div>
   </section>
 
   <section>
-    <h2>4. Cómo Compartimos la Información</h2>
+    <h2 class="es">4. Cómo Compartimos la Información</h2>
+    <h2 class="en">4. How We Share Information</h2>
     <div class="highlight">
-      <p><strong style="color:var(--white)">Wifnix LLC NO vende, alquila ni comparte la información personal de sus clientes con terceros con fines comerciales o de mercadeo.</strong> La información solo se comparte con proveedores necesarios para prestar el servicio (procesadores de pago, proveedor de mensajería y alojamiento) bajo acuerdos de confidencialidad, o cuando la ley lo requiera.</p>
+      <p class="es"><strong style="color:var(--tinta)">Wifnix LLC NO vende, alquila ni comparte la información personal de sus clientes con terceros con fines comerciales o de mercadeo.</strong> La información solo se comparte con proveedores necesarios para prestar el servicio (procesadores de pago, proveedor de mensajería y alojamiento) bajo acuerdos de confidencialidad, o cuando la ley lo requiera.</p>
+      <p class="en"><strong style="color:var(--tinta)">Wifnix LLC does NOT sell, rent or share its clients' personal information with third parties for commercial or marketing purposes.</strong> Information is shared only with the vendors needed to deliver the service (payment processors, messaging provider and hosting) under confidentiality agreements, or when required by law.</p>
     </div>
   </section>
 
   <section>
-    <h2>5. Seguridad de Datos</h2>
-    <p>Implementamos medidas técnicas y organizativas para proteger tu información, incluyendo encriptación SSL en tránsito, acceso restringido y monitoreo continuo de seguridad. Ningún sistema es 100% infalible, pero trabajamos continuamente para resguardar tus datos.</p>
+    <h2 class="es">5. Seguridad de Datos</h2>
+    <h2 class="en">5. Data Security</h2>
+    <p class="es">Implementamos medidas técnicas y organizativas para proteger tu información, incluyendo encriptación SSL en tránsito, acceso restringido y monitoreo continuo de seguridad. Ningún sistema es 100% infalible, pero trabajamos continuamente para resguardar tus datos.</p>
+    <p class="en">We apply technical and organizational measures to protect your information, including SSL encryption in transit, restricted access and continuous security monitoring. No system is 100% foolproof, but we work continuously to safeguard your data.</p>
   </section>
 
   <section>
-    <h2>6. Tus Derechos</h2>
-    <p>Tienes derecho a acceder, corregir o solicitar la eliminación de tu información personal desde la sección "Cuenta" de la app, o escribiéndonos a <a href="mailto:customerservice@wifnix.com" style="color:var(--blue-light)">customerservice@wifnix.com</a>. Puedes cancelar las comunicaciones por SMS en cualquier momento respondiendo STOP.</p>
+    <h2 class="es">6. Tus Derechos</h2>
+    <h2 class="en">6. Your Rights</h2>
+    <p class="es">Tienes derecho a acceder, corregir o solicitar la eliminación de tu información personal desde la sección "Cuenta" de la app, o escribiéndonos a <a href="mailto:customerservice@wifnix.com" style="color:var(--azul)">customerservice@wifnix.com</a>. Puedes cancelar las comunicaciones por SMS en cualquier momento respondiendo STOP.</p>
+    <p class="en">You have the right to access, correct or request deletion of your personal information from the "Account" section of the app, or by writing to <a href="mailto:customerservice@wifnix.com" style="color:var(--azul)">customerservice@wifnix.com</a>. You can stop SMS communications at any time by replying STOP.</p>
   </section>
 
   <section>
-    <h2>7. Retención de Datos</h2>
-    <p>Conservamos tu información mientras tu cuenta esté activa o según sea necesario para prestarte servicios y cumplir con obligaciones legales. Al eliminar tu cuenta, removemos o anonimizamos tus datos salvo lo que debamos conservar por ley.</p>
+    <h2 class="es">7. Retención de Datos</h2>
+    <h2 class="en">7. Data Retention</h2>
+    <p class="es">Conservamos tu información mientras tu cuenta esté activa o según sea necesario para prestarte servicios y cumplir con obligaciones legales. Al eliminar tu cuenta, removemos o anonimizamos tus datos salvo lo que debamos conservar por ley.</p>
+    <p class="en">We keep your information for as long as your account is active, or as needed to provide you with services and meet legal obligations. When you delete your account, we remove or anonymize your data except for what we are required to keep by law.</p>
   </section>
 
   <section>
-    <h2>8. Cambios a esta Política</h2>
-    <p>Podemos actualizar esta Política de Privacidad. Publicaremos la versión vigente en esta página con su fecha de actualización. El uso continuado de nuestros servicios constituye aceptación de los cambios.</p>
+    <h2 class="es">8. Cambios a esta Política</h2>
+    <h2 class="en">8. Changes to This Policy</h2>
+    <p class="es">Podemos actualizar esta Política de Privacidad. Publicaremos la versión vigente en esta página con su fecha de actualización. El uso continuado de nuestros servicios constituye aceptación de los cambios.</p>
+    <p class="en">We may update this Privacy Policy. We will post the current version on this page along with its update date. Continued use of our services constitutes acceptance of the changes.</p>
   </section>
 
   <div class="contact-box">
-    <h3>¿Preguntas sobre tu privacidad?</h3>
-    <p>Estamos aquí para ayudarte. Contáctanos en:</p>
+    <h3 class="es">¿Preguntas sobre tu privacidad?</h3>
+    <h3 class="en">Questions about your privacy?</h3>
+    <p class="es">Estamos aquí para ayudarte. Contáctanos en:</p>
+    <p class="en">We're here to help. Reach us at:</p>
     <p><a href="mailto:customerservice@wifnix.com">customerservice@wifnix.com</a></p>
-    <p><a href="tel:7873549596">(787) 354-9596</a> · Lun-Vie 8am-6pm · Sáb 9am-1pm</p>
-    <p style="margin-top:12px;font-size:0.75rem;color:var(--gray2)">Wifnix LLC · Puerto Rico · Todos los derechos reservados © 2026</p>
+    <p class="es"><a href="tel:7873549596">(787) 354-9596</a> · Lun-Vie 8am-6pm · Sáb 9am-1pm</p>
+    <p class="en"><a href="tel:7873549596">(787) 354-9596</a> · Mon-Fri 8am-6pm · Sat 9am-1pm</p>
+    <p class="es" style="margin-top:12px;font-size:0.75rem;color:var(--apagado)">Wifnix LLC · Puerto Rico · Todos los derechos reservados © 2026</p>
+    <p class="en" style="margin-top:12px;font-size:0.75rem;color:var(--apagado)">Wifnix LLC · Puerto Rico · All rights reserved © 2026</p>
   </div>
 
 </div>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

@@ -4,106 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Evaluador de Continuidad Operacional — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+/* Del :root original solo sobrevive lo que no es color: la pila de
+   monoespaciada. El color entero lo pone /assets/wifnix.css. */
+:root{--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
-.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--orange);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--ambar);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.1);border-radius:4px;padding:26px;margin-bottom:16px}
-.card-title{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray);margin-bottom:20px}
-.card-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.card{background:var(--panel);border:1px solid rgba(249,115,22,0.1);border-radius:4px;padding:26px;margin-bottom:16px}
+.card-title{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin-bottom:20px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--filo)}
 .field{margin-bottom:14px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
-.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
-input[type=number],select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.12);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-select option{background:var(--navy)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:flex;justify-content:space-between;margin-bottom:6px}
+.field label .val{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--ambar)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ambar);cursor:pointer}
+input[type=number],select{width:100%;background:var(--panel2);border:1px solid rgba(249,115,22,0.12);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--panel2);color:var(--tinta)}
 .chk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:rgba(0,0,0,0.2);border:1px solid rgba(249,115,22,0.08);border-radius:4px;cursor:pointer;transition:all .2s}
+.chk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--fondo2);border:1px solid rgba(249,115,22,0.08);border-radius:4px;cursor:pointer;transition:all .2s}
 .chk-item:hover{border-color:rgba(249,115,22,0.3)}
-.chk-item.sel{border-color:var(--orange);background:rgba(249,115,22,0.06)}
-.chk-item input{accent-color:var(--orange);margin-top:2px;flex-shrink:0;width:14px;height:14px}
-.chk-name{font-size:0.78rem;color:var(--gray);line-height:1.4}
-.chk-item.sel .chk-name{color:var(--white)}
-.chk-sub{font-size:0.65rem;color:var(--gray2);margin-top:2px}
-.score-wrap{display:flex;align-items:center;gap:26px;padding:26px 0;border-top:1px solid rgba(255,255,255,0.1);border-bottom:1px solid rgba(255,255,255,0.1);margin-bottom:4px;flex-wrap:wrap}
-.score-circle{display:flex;flex-direction:column;justify-content:center;flex-shrink:0;min-width:88px;padding-right:26px;border-right:1px solid rgba(255,255,255,0.12)}
+.chk-item.sel{border-color:var(--ambar);background:rgba(249,115,22,0.06)}
+.chk-item input{accent-color:var(--ambar);margin-top:2px;flex-shrink:0;width:14px;height:14px}
+.chk-name{font-size:0.78rem;color:var(--texto);line-height:1.4}
+.chk-item.sel .chk-name{color:var(--tinta)}
+.chk-sub{font-size:0.65rem;color:var(--apagado);margin-top:2px}
+.score-wrap{display:flex;align-items:center;gap:26px;padding:26px 0;border-top:1px solid var(--filo);border-bottom:1px solid var(--filo);margin-bottom:4px;flex-wrap:wrap}
+.score-circle{display:flex;flex-direction:column;justify-content:center;flex-shrink:0;min-width:88px;padding-right:26px;border-right:1px solid var(--filo2)}
 .score-num{font-family:var(--mono);font-size:2.2rem;font-weight:600;line-height:1}
-.score-lbl{font-family:var(--mono);font-size:0.58rem;font-weight:500;color:var(--gray);text-transform:uppercase;letter-spacing:0.16em;margin-top:8px}
+.score-lbl{font-family:var(--mono);font-size:0.58rem;font-weight:500;color:var(--apagado);text-transform:uppercase;letter-spacing:0.16em;margin-top:8px}
 .datalist{margin-bottom:26px}
-.dataline{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.07)}
-.data-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.08em}
-.data-val{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--white)}
-.rec-item{padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.dataline{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid var(--filo)}
+.data-lbl{font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.08em}
+.data-val{font-family:var(--mono);font-size:1.05rem;font-weight:600;color:var(--tinta)}
+.rec-item{padding:18px 0;border-bottom:1px solid var(--filo)}
 .rec-item:last-child{border-bottom:none;padding-bottom:0}
 .rec-tag{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:8px}
-.rec-title{font-size:0.85rem;font-weight:700;color:var(--white);margin-bottom:4px}
-.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.7}
-.rec-price{font-family:var(--mono);font-size:0.72rem;color:var(--orange);margin-top:7px}
-.tip{border-top:1px solid rgba(255,255,255,0.08);padding:18px 0 0;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:22px}
-.tip strong{color:var(--white)}
-.source{font-size:0.65rem;color:var(--gray2);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.6;margin-top:10px}
-.cta{border-top:1px solid rgba(255,255,255,0.08);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
+.rec-title{font-size:0.85rem;font-weight:700;color:var(--tinta);margin-bottom:4px}
+.rec-detail{font-size:0.75rem;color:var(--texto);line-height:1.7}
+.rec-price{font-family:var(--mono);font-size:0.72rem;color:var(--ambar);margin-top:7px}
+.tip{border-top:1px solid var(--filo);padding:18px 0 0;font-size:0.8rem;color:var(--texto);line-height:1.8;margin-bottom:22px}
+.tip strong{color:var(--tinta)}
+.source{font-size:0.65rem;color:var(--apagado);padding-top:10px;border-top:1px solid var(--filo);line-height:1.6;margin-top:10px}
+.cta{border-top:1px solid var(--filo);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--ambar);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,193,7,0.28)}
 @media(max-width:768px){.grid-2,.chk-grid{grid-template-columns:1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
+
   <div class="header">
-    <div class="eyebrow">Continuidad operacional · Calibrado para Puerto Rico</div>
-    <h1>Evaluador de <em>Continuidad Operacional</em></h1>
-    <p>Evalúa tu vulnerabilidad ante apagones e interrupciones de internet en Puerto Rico. Calcula el impacto económico real y obtén un plan de continuidad personalizado con UPS, respaldo de internet y generador ajustado a tu negocio.</p>
+    <div class="eyebrow es">Continuidad operacional · Calibrado para Puerto Rico</div>
+    <div class="eyebrow en">Operational continuity · Calibrated for Puerto Rico</div>
+    <h1 class="es">Evaluador de <em>Continuidad Operacional</em></h1>
+    <h1 class="en"><em>Operational Continuity</em> Assessment</h1>
+    <p class="es">Evalúa tu vulnerabilidad ante apagones e interrupciones de internet en Puerto Rico. Calcula el impacto económico real y obtén un plan de continuidad personalizado con UPS, respaldo de internet y generador ajustado a tu negocio.</p>
+    <p class="en">See how exposed your business is to blackouts and internet outages in Puerto Rico. Calculate the real economic impact and get a continuity plan built for you, with UPS, backup internet and a generator sized for your operation.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Tu operación</div>
+        <div class="card-title es">Tu operación</div>
+        <div class="card-title en">Your operation</div>
         <div class="field">
-          <label>Ingresos por hora de operación ($) <span id="lbl-ingreso">$125</span></label>
+          <label>
+            <span class="es">Ingresos por hora de operación ($)</span>
+            <span class="en">Revenue per operating hour ($)</span>
+            <span class="val" id="lbl-ingreso">$125</span>
+          </label>
           <input type="range" id="sl-ingreso" min="10" max="2000" step="10" value="125" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Ventas mensuales ÷ horas operativas al mes</div>
+          <div style="font-size:0.68rem;color:var(--apagado);margin-top:4px" class="es">Ventas mensuales ÷ horas operativas al mes</div>
+          <div style="font-size:0.68rem;color:var(--apagado);margin-top:4px" class="en">Monthly sales ÷ operating hours per month</div>
         </div>
         <div class="field">
-          <label>Horas de operación al día <span id="lbl-hrs">10</span>h</label>
+          <label>
+            <span class="es">Horas de operación al día</span>
+            <span class="en">Operating hours per day</span>
+            <span class="val" id="lbl-hrs">10</span>h
+          </label>
           <input type="range" id="sl-hrs" min="1" max="24" value="10" oninput="update()">
         </div>
         <div class="field">
-          <label>Empleados que no pueden trabajar sin electricidad <span id="lbl-emp">5</span></label>
+          <label>
+            <span class="es">Empleados que no pueden trabajar sin electricidad</span>
+            <span class="en">Employees who cannot work without power</span>
+            <span class="val" id="lbl-emp">5</span>
+          </label>
           <input type="range" id="sl-emp" min="0" max="50" value="5" oninput="update()">
         </div>
         <div class="field">
-          <label>Costo por empleado/hora ($) <span id="lbl-salario">$12</span></label>
+          <label>
+            <span class="es">Costo por empleado/hora ($)</span>
+            <span class="en">Cost per employee/hour ($)</span>
+            <span class="val" id="lbl-salario">$12</span>
+          </label>
           <input type="range" id="sl-salario" min="7" max="50" value="12" oninput="update()">
         </div>
         <div class="field">
-          <label>Frecuencia de apagones en tu área</label>
+          <label class="es">Frecuencia de apagones en tu área</label>
+          <label class="en">Blackout frequency in your area</label>
           <select id="sel-apagones" onchange="update()">
-            <option value="0.25">Rara vez — menos de 1/mes</option>
-            <option value="2" selected>Ocasional — 1-3 veces/mes</option>
-            <option value="6">Frecuente — 4-8 veces/mes</option>
-            <option value="15">Muy frecuente — 2+ veces/semana</option>
+            <option value="0.25" class="es">Rara vez — menos de 1/mes</option>
+            <option value="0.25" class="en">Rarely — fewer than 1/month</option>
+            <option value="2" class="es" selected>Ocasional — 1-3 veces/mes</option>
+            <option value="2" class="en">Occasional — 1-3 times/month</option>
+            <option value="6" class="es">Frecuente — 4-8 veces/mes</option>
+            <option value="6" class="en">Frequent — 4-8 times/month</option>
+            <option value="15" class="es">Muy frecuente — 2+ veces/semana</option>
+            <option value="15" class="en">Very frequent — 2+ times/week</option>
           </select>
         </div>
         <div class="field">
-          <label>Duración promedio del apagón</label>
+          <label class="es">Duración promedio del apagón</label>
+          <label class="en">Average blackout duration</label>
           <select id="sel-duracion" onchange="update()">
-            <option value="0.5">15-30 minutos</option>
-            <option value="1" selected>Aproximadamente 1 hora</option>
-            <option value="2">2-3 horas</option>
-            <option value="4">4+ horas</option>
-            <option value="12">Todo el día (12+ horas)</option>
+            <option value="0.5" class="es">15-30 minutos</option>
+            <option value="0.5" class="en">15-30 minutes</option>
+            <option value="1" class="es" selected>Aproximadamente 1 hora</option>
+            <option value="1" class="en">About 1 hour</option>
+            <option value="2" class="es">2-3 horas</option>
+            <option value="2" class="en">2-3 hours</option>
+            <option value="4" class="es">4+ horas</option>
+            <option value="4" class="en">4+ hours</option>
+            <option value="12" class="es">Todo el día (12+ horas)</option>
+            <option value="12" class="en">All day (12+ hours)</option>
           </select>
         </div>
       </div>
@@ -111,61 +158,77 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">Sistemas críticos que dependen de electricidad</div>
-        <div style="font-size:0.78rem;color:var(--gray);margin-bottom:12px;line-height:1.6">Selecciona los que son críticos para tu operación:</div>
+        <div class="card-title es">Sistemas críticos que dependen de electricidad</div>
+        <div class="card-title en">Critical systems that depend on power</div>
+        <div style="font-size:0.78rem;color:var(--texto);margin-bottom:12px;line-height:1.6" class="es">Selecciona los que son críticos para tu operación:</div>
+        <div style="font-size:0.78rem;color:var(--texto);margin-bottom:12px;line-height:1.6" class="en">Select the ones that are critical to your operation:</div>
         <div class="chk-grid" id="dep-grid">
           <div class="chk-item" onclick="toggleDep(this,'pos',60)">
-            <input type="checkbox"><div><div class="chk-name">Sistema POS / Cobros</div><div class="chk-sub">Sin cobrar = sin ventas</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Sistema POS / Cobros</div><div class="chk-name en">POS / Payment system</div><div class="chk-sub es">Sin cobrar = sin ventas</div><div class="chk-sub en">No payments = no sales</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'internet',45)">
-            <input type="checkbox"><div><div class="chk-name">Internet para operaciones</div><div class="chk-sub">Pagos, email, apps</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Internet para operaciones</div><div class="chk-name en">Internet for operations</div><div class="chk-sub es">Pagos, email, apps</div><div class="chk-sub en">Payments, email, apps</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'refrigeracion',80)">
-            <input type="checkbox"><div><div class="chk-name">Refrigeración (inventario)</div><div class="chk-sub">Pérdida de productos</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Refrigeración (inventario)</div><div class="chk-name en">Refrigeration (inventory)</div><div class="chk-sub es">Pérdida de productos</div><div class="chk-sub en">Product spoilage</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'cctv',20)">
-            <input type="checkbox"><div><div class="chk-name">Cámaras de seguridad</div><div class="chk-sub">Sin protección activa</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Cámaras de seguridad</div><div class="chk-name en">Security cameras</div><div class="chk-sub es">Sin protección activa</div><div class="chk-sub en">No active protection</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'hvac',35)">
-            <input type="checkbox"><div><div class="chk-name">Aire acondicionado</div><div class="chk-sub">Clientes/empleados incómodos</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Aire acondicionado</div><div class="chk-name en">Air conditioning</div><div class="chk-sub es">Clientes/empleados incómodos</div><div class="chk-sub en">Uncomfortable customers and staff</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'servidores',75)">
-            <input type="checkbox"><div><div class="chk-name">Servidores / Datos</div><div class="chk-sub">Riesgo de corrupción</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Servidores / Datos</div><div class="chk-name en">Servers / Data</div><div class="chk-sub es">Riesgo de corrupción</div><div class="chk-sub en">Risk of data corruption</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'telefonia',30)">
-            <input type="checkbox"><div><div class="chk-name">Telefonía / Comunicaciones</div><div class="chk-sub">VoIP y comunicaciones</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Telefonía / Comunicaciones</div><div class="chk-name en">Phones / Communications</div><div class="chk-sub es">VoIP y comunicaciones</div><div class="chk-sub en">VoIP and communications</div></div>
           </div>
           <div class="chk-item" onclick="toggleDep(this,'produccion',90)">
-            <input type="checkbox"><div><div class="chk-name">Equipos de producción</div><div class="chk-sub">Manufactura / procesos</div></div>
+            <input type="checkbox"><div><div class="chk-name es">Equipos de producción</div><div class="chk-name en">Production equipment</div><div class="chk-sub es">Manufactura / procesos</div><div class="chk-sub en">Manufacturing / processes</div></div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Protección actual</div>
+        <div class="card-title es">Protección actual</div>
+        <div class="card-title en">Current protection</div>
         <div class="field">
-          <label style="margin-bottom:6px">Respaldo eléctrico (UPS)</label>
+          <label style="margin-bottom:6px" class="es">Respaldo eléctrico (UPS)</label>
+          <label style="margin-bottom:6px" class="en">Power backup (UPS)</label>
           <select id="sel-ups" onchange="update()">
-            <option value="0">No tengo UPS</option>
-            <option value="20">UPS básico (protege 1-2 equipos, ~10 min)</option>
-            <option value="50">UPS mediano (equipos críticos, ~30 min)</option>
-            <option value="80">UPS de calidad (todo el local, 2+ horas)</option>
+            <option value="0" class="es">No tengo UPS</option>
+            <option value="0" class="en">I have no UPS</option>
+            <option value="20" class="es">UPS básico (protege 1-2 equipos, ~10 min)</option>
+            <option value="20" class="en">Basic UPS (covers 1-2 devices, ~10 min)</option>
+            <option value="50" class="es">UPS mediano (equipos críticos, ~30 min)</option>
+            <option value="50" class="en">Mid-range UPS (critical devices, ~30 min)</option>
+            <option value="80" class="es">UPS de calidad (todo el local, 2+ horas)</option>
+            <option value="80" class="en">High-grade UPS (whole site, 2+ hours)</option>
           </select>
         </div>
         <div class="field">
-          <label style="margin-bottom:6px">Respaldo de internet</label>
+          <label style="margin-bottom:6px" class="es">Respaldo de internet</label>
+          <label style="margin-bottom:6px" class="en">Internet backup</label>
           <select id="sel-internet" onchange="update()">
-            <option value="0">Sin respaldo de internet</option>
-            <option value="30">Uso datos móviles manual (hotspot)</option>
-            <option value="70">Failover automático 4G/LTE</option>
+            <option value="0" class="es">Sin respaldo de internet</option>
+            <option value="0" class="en">No internet backup</option>
+            <option value="30" class="es">Uso datos móviles manual (hotspot)</option>
+            <option value="30" class="en">Manual mobile data (hotspot)</option>
+            <option value="70" class="es">Failover automático 4G/LTE</option>
+            <option value="70" class="en">Automatic 4G/LTE failover</option>
           </select>
         </div>
         <div class="field">
-          <label style="margin-bottom:6px">Generador eléctrico</label>
+          <label style="margin-bottom:6px" class="es">Generador eléctrico</label>
+          <label style="margin-bottom:6px" class="en">Power generator</label>
           <select id="sel-gen" onchange="update()">
-            <option value="0">Sin generador</option>
-            <option value="40">Generador portátil (manual, limitado)</option>
-            <option value="90">Generador automático (arranca solo)</option>
+            <option value="0" class="es">Sin generador</option>
+            <option value="0" class="en">No generator</option>
+            <option value="40" class="es">Generador portátil (manual, limitado)</option>
+            <option value="40" class="en">Portable generator (manual, limited)</option>
+            <option value="90" class="es">Generador automático (arranca solo)</option>
+            <option value="90" class="en">Automatic generator (starts on its own)</option>
           </select>
         </div>
       </div>
@@ -179,23 +242,28 @@ select option{background:var(--navy)}
       <div class="score-lbl" id="score-lbl">—</div>
     </div>
     <div style="flex:1">
-      <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:6px" id="nivel-txt">Calculando...</div>
-      <div style="font-size:0.82rem;color:var(--gray);line-height:1.6" id="nivel-desc">—</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="nivel-txt">Calculando...</div>
+      <div style="font-size:0.82rem;color:var(--texto);line-height:1.6" id="nivel-desc">—</div>
     </div>
   </div>
 
   <div class="datalist">
-    <div class="dataline"><div class="data-lbl">Pérdida mensual estimada</div><div class="data-val" id="s-perdida-mes">$0</div></div>
-    <div class="dataline"><div class="data-lbl">Pérdida anual estimada</div><div class="data-val" id="s-perdida-ano">$0</div></div>
-    <div class="dataline"><div class="data-lbl">Horas perdidas al mes</div><div class="data-val" id="s-horas">0h</div></div>
+    <div class="dataline"><div class="data-lbl es">Pérdida mensual estimada</div><div class="data-lbl en">Estimated monthly loss</div><div class="data-val" id="s-perdida-mes">$0</div></div>
+    <div class="dataline"><div class="data-lbl es">Pérdida anual estimada</div><div class="data-lbl en">Estimated annual loss</div><div class="data-val" id="s-perdida-ano">$0</div></div>
+    <div class="dataline"><div class="data-lbl es">Horas perdidas al mes</div><div class="data-lbl en">Hours lost per month</div><div class="data-val" id="s-horas">0h</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Plan de continuidad recomendado</div>
+    <div class="card-title es">Plan de continuidad recomendado</div>
+    <div class="card-title en">Recommended continuity plan</div>
     <div id="r-plan"></div>
-    <div class="source">
+    <div class="source es">
       Estadísticas de apagones: PREPA/LUMA Energy · DOE Electricity Reliability Reports 2023 · Post-María Recovery Data.
       Puerto Rico tiene una de las tasas de interrupción eléctrica más altas de EE.UU.: promedio de 4-8 horas de interrupción al mes.
+    </div>
+    <div class="source en">
+      Blackout statistics: PREPA/LUMA Energy · DOE Electricity Reliability Reports 2023 · Post-María Recovery Data.
+      Puerto Rico has one of the highest power interruption rates in the United States: an average of 4-8 hours of outage per month.
     </div>
   </div>
 
@@ -203,14 +271,25 @@ select option{background:var(--navy)}
 
   <div class="cta">
     <div>
-      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">Protege tu negocio de interrupciones</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Diseñamos planes de continuidad para negocios en Puerto Rico. Evaluación gratuita.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="es">Protege tu negocio de interrupciones</div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="en">Protect your business from outages</div>
+      <div style="font-size:0.78rem;color:var(--texto)" class="es">Diseñamos planes de continuidad para negocios en Puerto Rico. Evaluación gratuita.</div>
+      <div style="font-size:0.78rem;color:var(--texto)" class="en">We design continuity plans for businesses in Puerto Rico. Free assessment.</div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Solicitar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Request an assessment</a>
   </div>
 </div>
 
 <script>
+/* Idioma: lo decide el atributo data-idioma del <html>, que ya puso el
+   fragmento en línea del <head>. El veredicto, el plan y los consejos
+   los escribe este script, así que todos pasan por T(). */
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+
 var deps = {};
 
 function toggleDep(el, key, impacto) {
@@ -278,19 +357,34 @@ function update() {
 
   var color, nivel, desc;
   if (score < 25) {
-    color = 'var(--red)'; nivel = 'Crítico — Alto riesgo'; desc = 'Tu negocio es muy vulnerable. Un huracán o apagón prolongado puede dejarte fuera por días sin poder operar ni generar ingresos.';
+    color = 'var(--rojo)';
+    nivel = T('Crítico — Alto riesgo', 'Critical — High risk');
+    desc = T('Tu negocio es muy vulnerable. Un huracán o apagón prolongado puede dejarte fuera por días sin poder operar ni generar ingresos.',
+             'Your business is highly exposed. A hurricane or a long blackout can shut you down for days, with no way to operate or bring in revenue.');
   } else if (score < 50) {
-    color = 'var(--warn)'; nivel = 'Vulnerable — Riesgo moderado-alto'; desc = 'Tienes protección mínima. Los apagones de 2+ horas impactan significativamente tu operación y generan pérdidas considerables.';
+    color = 'var(--ambar)';
+    nivel = T('Vulnerable — Riesgo moderado-alto', 'Vulnerable — Moderate-to-high risk');
+    desc = T('Tienes protección mínima. Los apagones de 2+ horas impactan significativamente tu operación y generan pérdidas considerables.',
+             'You have minimal protection. Blackouts of 2+ hours hit your operation hard and cost you real money.');
   } else if (score < 75) {
-    color = 'var(--orange)'; nivel = 'Moderado — Mejorable'; desc = 'Tienes algo de protección pero hay brechas importantes. Puedes mejorar significativamente con inversiones moderadas.';
+    color = 'var(--azul)';
+    nivel = T('Moderado — Mejorable', 'Moderate — Room to improve');
+    desc = T('Tienes algo de protección pero hay brechas importantes. Puedes mejorar significativamente con inversiones moderadas.',
+             'You have some protection, but there are important gaps. Moderate investments would improve this a great deal.');
   } else {
-    color = 'var(--green)'; nivel = 'Protegido — Buen nivel'; desc = 'Buena continuidad operacional. Mantén tus sistemas actualizados y realiza pruebas periódicas para garantizar que funcionan cuando los necesitas.';
+    color = 'var(--verde)';
+    nivel = T('Protegido — Buen nivel', 'Protected — Good level');
+    desc = T('Buena continuidad operacional. Mantén tus sistemas actualizados y realiza pruebas periódicas para garantizar que funcionan cuando los necesitas.',
+             'Solid operational continuity. Keep your systems up to date and test them regularly so they work when you need them.');
   }
 
   document.getElementById('score-circle').style.borderColor = color;
   document.getElementById('score-num').style.color = color;
   document.getElementById('score-num').textContent = score;
-  document.getElementById('score-lbl').textContent = score < 25 ? 'Crítico' : score < 50 ? 'Vulnerable' : score < 75 ? 'Moderado' : 'Protegido';
+  document.getElementById('score-lbl').textContent = score < 25 ? T('Crítico', 'Critical')
+    : score < 50 ? T('Vulnerable', 'Vulnerable')
+    : score < 75 ? T('Moderado', 'Moderate')
+    : T('Protegido', 'Protected');
   document.getElementById('nivel-txt').textContent = nivel;
   document.getElementById('nivel-desc').textContent = desc;
 
@@ -299,46 +393,56 @@ function update() {
 
   if (protUPS === 0 || protUPS === 20) {
     recs.push({
-      p: 'Prioridad 1', color: 'var(--red)',
-      title: 'UPS / Sistema de baterías de calidad',
-      detail: 'Un UPS de calidad mantiene tus equipos críticos (POS, servidor, router) por 2+ horas. Los UPS básicos solo duran 10-15 minutos — insuficiente para la mayoría de los apagones en PR.',
-      price: 'APC Smart-UPS 1500VA: desde $350 · APC SUA2200: desde $600'
+      p: T('Prioridad 1', 'Priority 1'), color: 'var(--rojo)',
+      title: T('UPS / Sistema de baterías de calidad', 'A proper UPS / battery backup system'),
+      detail: T('Un UPS de calidad mantiene tus equipos críticos (POS, servidor, router) por 2+ horas. Los UPS básicos solo duran 10-15 minutos — insuficiente para la mayoría de los apagones en PR.',
+                'A good UPS keeps your critical gear (POS, server, router) running for 2+ hours. Basic units last only 10-15 minutes — not enough for most blackouts in Puerto Rico.'),
+      price: T('APC Smart-UPS 1500VA: desde $350 · APC SUA2200: desde $600',
+               'APC Smart-UPS 1500VA: from $350 · APC SUA2200: from $600')
     });
   }
 
   if (protInternet === 0) {
     recs.push({
-      p: 'Prioridad 2', color: 'var(--warn)',
-      title: 'Failover automático de internet (4G/LTE)',
-      detail: 'Un router con failover automático detecta cuando falla tu internet principal y cambia a 4G/LTE en segundos sin interrumpir ninguna operación. Crítico para pagos con tarjeta.',
-      price: 'Router con failover: desde $150 · SIM 4G Business Liberty/Claro: $50-80/mes'
+      p: T('Prioridad 2', 'Priority 2'), color: 'var(--ambar)',
+      title: T('Failover automático de internet (4G/LTE)', 'Automatic internet failover (4G/LTE)'),
+      detail: T('Un router con failover automático detecta cuando falla tu internet principal y cambia a 4G/LTE en segundos sin interrumpir ninguna operación. Crítico para pagos con tarjeta.',
+                'A router with automatic failover notices when your main internet drops and switches to 4G/LTE in seconds, with no interruption to your operation. Critical for card payments.'),
+      price: T('Router con failover: desde $150 · SIM 4G Business Liberty/Claro: $50-80/mes',
+               'Router with failover: from $150 · Liberty/Claro 4G Business SIM: $50-80/month')
     });
   }
 
   if (protGen === 0 && apagones >= 2) {
     recs.push({
-      p: 'Prioridad 3', color: 'var(--orange)',
-      title: 'Generador automático (standby)',
-      detail: 'Un generador automático arranca en 10-30 segundos cuando detecta la pérdida de energía. Para PR, donde los apagones post-huracán pueden durar días o semanas, es esencial para negocios críticos.',
-      price: 'Generador 7kW automático: desde $2,500 instalado · 14kW: desde $4,500'
+      p: T('Prioridad 3', 'Priority 3'), color: 'var(--azul)',
+      title: T('Generador automático (standby)', 'Automatic standby generator'),
+      detail: T('Un generador automático arranca en 10-30 segundos cuando detecta la pérdida de energía. Para PR, donde los apagones post-huracán pueden durar días o semanas, es esencial para negocios críticos.',
+                'An automatic generator starts within 10-30 seconds of losing power. In Puerto Rico, where post-hurricane blackouts can last days or weeks, it is essential for businesses that cannot stop.'),
+      price: T('Generador 7kW automático: desde $2,500 instalado · 14kW: desde $4,500',
+               'Automatic 7kW generator: from $2,500 installed · 14kW: from $4,500')
     });
   }
 
   if (deps.refrigeracion && protUPS < 80) {
     recs.push({
-      p: 'Urgente', color: 'var(--red)',
-      title: 'Protección urgente para refrigeración',
-      detail: 'Tienes inventario refrigerado. Un apagón de 4+ horas puede arruinar miles de dólares en productos. Necesitas un generador o UPS dedicado para refrigeración como prioridad inmediata.',
-      price: 'UPS para refrigeración industrial: desde $800 · Generador dedicado: desde $1,500'
+      p: T('Urgente', 'Urgent'), color: 'var(--rojo)',
+      title: T('Protección urgente para refrigeración', 'Urgent protection for refrigeration'),
+      detail: T('Tienes inventario refrigerado. Un apagón de 4+ horas puede arruinar miles de dólares en productos. Necesitas un generador o UPS dedicado para refrigeración como prioridad inmediata.',
+                'You keep refrigerated inventory. A blackout of 4+ hours can ruin thousands of dollars in product. A generator or a UPS dedicated to refrigeration is an immediate priority.'),
+      price: T('UPS para refrigeración industrial: desde $800 · Generador dedicado: desde $1,500',
+               'UPS for commercial refrigeration: from $800 · Dedicated generator: from $1,500')
     });
   }
 
   if (score >= 75 && recs.length === 0) {
     recs.push({
-      p: 'Preventivo', color: 'var(--green)',
-      title: 'Sistema en buen estado — mantenimiento preventivo',
-      detail: 'Realiza pruebas trimestrales de tus sistemas de respaldo. Verifica la batería del UPS (vida útil 3-5 años), el nivel de combustible del generador y la velocidad del failover de internet.',
-      price: 'Plan de mantenimiento preventivo: desde $150/trimestre'
+      p: T('Preventivo', 'Preventive'), color: 'var(--verde)',
+      title: T('Sistema en buen estado — mantenimiento preventivo', 'System in good shape — preventive maintenance'),
+      detail: T('Realiza pruebas trimestrales de tus sistemas de respaldo. Verifica la batería del UPS (vida útil 3-5 años), el nivel de combustible del generador y la velocidad del failover de internet.',
+                'Test your backup systems every quarter. Check the UPS battery (3-5 year service life), the generator fuel level and how fast the internet failover kicks in.'),
+      price: T('Plan de mantenimiento preventivo: desde $150/trimestre',
+               'Preventive maintenance plan: from $150/quarter')
     });
   }
 
@@ -352,15 +456,43 @@ function update() {
   }).join('');
 
   // Tip
-  var tip = '<strong>Impacto real:</strong> Cada mes pierdes aproximadamente $' + Math.round(perdidaMes).toLocaleString() + ' por interrupciones eléctricas. Al año son $' + Math.round(perdidaAno).toLocaleString() + '.<br><br>';
+  var mes = Math.round(perdidaMes).toLocaleString();
+  var ano = Math.round(perdidaAno).toLocaleString();
+  var tip = T(
+    '<strong>Impacto real:</strong> Cada mes pierdes aproximadamente $' + mes + ' por interrupciones eléctricas. Al año son $' + ano + '.<br><br>',
+    '<strong>Real impact:</strong> Power interruptions cost you roughly $' + mes + ' every month. That is $' + ano + ' a year.<br><br>');
   if (apagones >= 6) {
-    tip += '<strong>Alta frecuencia en tu área:</strong> Con ' + apagones + ' apagones al mes, la inversión en continuidad operacional se recupera típicamente en 6-18 meses dependiendo de tu nivel de protección.<br><br>';
+    tip += T(
+      '<strong>Alta frecuencia en tu área:</strong> Con ' + apagones + ' apagones al mes, la inversión en continuidad operacional se recupera típicamente en 6-18 meses dependiendo de tu nivel de protección.<br><br>',
+      '<strong>High frequency in your area:</strong> At ' + apagones + ' blackouts a month, an investment in operational continuity typically pays for itself in 6-18 months, depending on how much protection you add.<br><br>');
   }
-  tip += '<strong>Puerto Rico post-María y Fiona:</strong> La infraestructura eléctrica de PR es vulnerable. Los negocios con generadores automáticos y sistemas de continuidad recuperaron operaciones en horas, mientras los demás tardaron días o semanas. FEMA y SBA ofrecen préstamos a bajo interés para mejoras de resiliencia.';
+  tip += T(
+    '<strong>Puerto Rico post-María y Fiona:</strong> La infraestructura eléctrica de PR es vulnerable. Los negocios con generadores automáticos y sistemas de continuidad recuperaron operaciones en horas, mientras los demás tardaron días o semanas. FEMA y SBA ofrecen préstamos a bajo interés para mejoras de resiliencia.',
+    '<strong>Puerto Rico after María and Fiona:</strong> The island’s electrical infrastructure is fragile. Businesses with automatic generators and continuity systems were back up in hours, while the rest took days or weeks. FEMA and the SBA offer low-interest loans for resilience upgrades.');
   document.getElementById('r-tip').innerHTML = tip;
 }
 
+/* Al cambiar el idioma hay dos cosas que arreglar: la opción elegida de
+   cada <select> es la gemela del idioma anterior (misma value, pero
+   escondida, y entonces el select se ve en blanco), y el veredicto, el
+   plan y los consejos siguen en el idioma anterior. Se hacen las dos aquí. */
+(function () {
+  if (!window.MutationObserver) return;
+  new MutationObserver(function () {
+    var idi = wxIdioma();
+    var sels = document.querySelectorAll('select');
+    for (var i = 0; i < sels.length; i++) {
+      var s = sels[i], v = s.value;
+      for (var j = 0; j < s.options.length; j++) {
+        if (s.options[j].value === v && s.options[j].className === idi) { s.selectedIndex = j; break; }
+      }
+    }
+    update();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+})();
+
 update();
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

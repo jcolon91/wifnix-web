@@ -14,6 +14,7 @@ const multer = require('multer');
 const Anthropic = require('@anthropic-ai/sdk');
 const Stripe = require('stripe');
 require('dotenv').config();
+const oauth = require('./lib/oauth');
 
 const app = express();
 
@@ -42,13 +43,29 @@ const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 // ============================================================
 
 app.use(helmet());
+// Los subdominios se listan uno a uno a propósito. Un comodín tipo
+// *.wifnix.com deja entrar a cualquier subdominio, incluido uno que
+// se cuele por un DNS mal apuntado.
+const ORIGENES = [
+  'https://wifnix.com',
+  'https://www.wifnix.com',
+  'https://portal.wifnix.com',    // de aquí entra la gente
+  'https://rifas.wifnix.com',
+];
+if (process.env.NODE_ENV !== 'production') {
+  // En desarrollo, el servidor estático del repositorio.
+  ORIGENES.push('http://localhost:4190', 'http://localhost:3000');
+}
+
 app.use(cors({
-  origin: [
-    'https://wifnix.com',
-    'https://www.wifnix.com',
-    'http://localhost:3000',
-    'http://localhost:8080',
-  ],
+  origin: function (origen, listo) {
+    // Sin cabecera Origin son peticiones que no vienen de una página:
+    // curl, apps móviles, comprobaciones de estado. No es un navegador,
+    // así que CORS no las protege de nada y no tiene sentido bloquearlas.
+    if (!origen) return listo(null, true);
+    if (ORIGENES.includes(origen)) return listo(null, true);
+    listo(new Error('Origen no permitido'));
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -188,6 +205,10 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Email y contraseña requeridos' });
 
+    // Una cuenta creada con Google no tiene contraseña. Sin esto,
+    // bcrypt.compare contra NULL revienta o —peor— algún día alguien
+    // "arregla" el fallo dejando pasar la comparación.
+
     const { rows } = await db.query(
       `SELECT id, email, password_hash, rol, status, nombre, apellido, foto_url
        FROM usuarios WHERE email = $1`,
@@ -200,6 +221,12 @@ app.post('/api/auth/login', async (req, res) => {
     if (user.status === 'suspendido') return res.status(403).json({ error: 'Cuenta suspendida' });
     if (user.status === 'bloqueado') return res.status(403).json({ error: 'Cuenta bloqueada' });
 
+    if (!user.password_hash) {
+      return res.status(400).json({
+        error: 'Esta cuenta entra con Google, Apple, Microsoft o Facebook. Usa ese botón.',
+        usar_oauth: true,
+      });
+    }
     const valid = await bcrypt.compare(password, user.password_hash);
     if (!valid) return res.status(401).json({ error: 'Credenciales incorrectas' });
 
@@ -371,6 +398,158 @@ app.put('/api/admin/usuarios/:id/verificar', authMiddleware, async (req, res) =>
 
   res.json({ success: true, mensaje: 'Verificación actualizada' });
 });
+
+// ============================================================
+// RUTAS — ENTRAR CON GOOGLE, APPLE, MICROSOFT O FACEBOOK
+// ============================================================
+
+// El navegador nunca toca un secreto ni un token del proveedor. Va,
+// vuelve con un código de un solo uso, y lo cambia por el JWT.
+// El detalle del protocolo vive en lib/oauth.js.
+
+const VIDA_ESTADO = 10 * 60 * 1000;
+
+// Para que el portal sepa qué botones dibujar. Si Wifnix todavía no
+// ha dado de alta una aplicación en Apple, el botón de Apple no sale:
+// mejor eso que un botón que lleva a un error.
+app.get('/api/auth/oauth/proveedores', (req, res) => {
+  res.json({ proveedores: oauth.disponibles() });
+});
+
+// Paso 1: al proveedor.
+app.get('/api/auth/oauth/:proveedor', (req, res) => {
+  const clave = String(req.params.proveedor || '').toLowerCase();
+  if (!oauth.configurado(clave)) {
+    return res.status(404).json({ error: 'Proveedor no disponible' });
+  }
+  // El destino se limita a rutas del propio portal: aceptar una URL
+  // cualquiera convierte esto en un redirector abierto, que es como
+  // se hacen creíbles los correos de phishing.
+  const pedido = String(req.query.destino || '');
+  // Solo rutas del propio portal: ni esquema, ni host, ni doble
+  // barra (que el navegador leería como //host). Sin esto, la ruta
+  // sirve de trampolín para llevar a cualquier sitio con un enlace
+  // que empieza por api.wifnix.com.
+  const limpio = pedido.startsWith('/') &&
+                 !pedido.startsWith('//') &&
+                 !pedido.includes('\\') &&
+                 !/^\/[^/]*:/.test(pedido);
+  const destino = limpio ? pedido : null;
+  res.redirect(oauth.urlDeEntrada(clave, destino));
+});
+
+// Paso 2: la vuelta. Apple contesta por POST; los demás por GET.
+async function volverDelProveedor(req, res) {
+  const clave = String(req.params.proveedor || '').toLowerCase();
+  const fuente = req.method === 'POST' ? req.body : req.query;
+  const irAlPortal = (q) => res.redirect(oauth.PORTAL + '/?' + new URLSearchParams(q).toString());
+
+  try {
+    if (!oauth.configurado(clave)) return irAlPortal({ oauth_error: 'no_disponible' });
+
+    if (fuente.error) {
+      // El usuario pulsó "cancelar". No es un fallo: se vuelve callado.
+      return irAlPortal({ oauth_error: fuente.error === 'access_denied' ? 'cancelado' : 'proveedor' });
+    }
+
+    const estado = oauth.abrirFirmado(fuente.state, VIDA_ESTADO);
+    if (!estado || estado.p !== clave) return irAlPortal({ oauth_error: 'estado' });
+    if (!fuente.code) return irAlPortal({ oauth_error: 'sin_codigo' });
+
+    const perfil = await oauth.perfilDesdeCodigo(clave, fuente.code, estado, fuente);
+    if (!perfil.sujeto) return irAlPortal({ oauth_error: 'sin_identidad' });
+
+    const usuario = await entrarOCrear(clave, perfil, req);
+    if (usuario.bloqueado) return irAlPortal({ oauth_error: usuario.bloqueado });
+
+    const token = signToken({ userId: usuario.id, rol: usuario.rol });
+    const codigo = oauth.guardarCanje({
+      token,
+      user: { id: usuario.id, email: usuario.email, rol: usuario.rol, nombre: usuario.nombre },
+    });
+    const q = { oauth: codigo };
+    if (estado.d) q.destino = estado.d;
+    irAlPortal(q);
+  } catch (err) {
+    console.error('Error OAuth (' + clave + '):', err.message);
+    irAlPortal({ oauth_error: 'fallo' });
+  }
+}
+
+app.get('/api/auth/oauth/:proveedor/callback', volverDelProveedor);
+app.post('/api/auth/oauth/:proveedor/callback',
+  express.urlencoded({ extended: false }), volverDelProveedor);
+
+// Paso 3: el portal cambia el código por el token, con un POST, para
+// que el JWT no quede escrito en la barra de direcciones ni en el
+// historial ni en la cabecera Referer.
+app.post('/api/auth/oauth/intercambiar', (req, res) => {
+  const carga = oauth.usarCanje(String(req.body && req.body.codigo || ''));
+  if (!carga) return res.status(400).json({ error: 'Código inválido o vencido' });
+  res.json(carga);
+});
+
+// Buscar o crear al usuario a partir de lo que dijo el proveedor.
+async function entrarOCrear(proveedor, perfil, req) {
+  // Primero por (proveedor, sujeto). El correo NO identifica.
+  const { rows: yaEnlazado } = await db.query(
+    `SELECT u.* FROM identidades_oauth i
+       JOIN usuarios u ON u.id = i.usuario_id
+      WHERE i.proveedor = $1 AND i.sujeto = $2`,
+    [proveedor, perfil.sujeto]
+  );
+
+  if (yaEnlazado.length) {
+    const u = yaEnlazado[0];
+    if (u.status !== 'activo') return { bloqueado: 'cuenta_' + u.status };
+    await db.query(
+      'UPDATE identidades_oauth SET ultimo_login = NOW(), email = $3 WHERE proveedor = $1 AND sujeto = $2',
+      [proveedor, perfil.sujeto, perfil.email]
+    );
+    await db.query('UPDATE usuarios SET ultimo_login = NOW() WHERE id = $1', [u.id]);
+    return u;
+  }
+
+  // No hay enlace todavía. Si el proveedor no da un correo verificado
+  // no se puede seguir: enlazar por un correo sin verificar es
+  // exactamente como se roban las cuentas ajenas.
+  if (!perfil.email) return { bloqueado: 'sin_correo' };
+  if (!perfil.emailVerificado) return { bloqueado: 'correo_sin_verificar' };
+
+  const { rows: existente } = await db.query(
+    'SELECT * FROM usuarios WHERE lower(email) = $1', [perfil.email]
+  );
+
+  if (existente.length) {
+    // Ya hay cuenta con ese correo y el proveedor lo verificó: se
+    // enlaza. Es seguro precisamente por esa verificación.
+    const u = existente[0];
+    if (u.status !== 'activo') return { bloqueado: 'cuenta_' + u.status };
+    await db.query(
+      'INSERT INTO identidades_oauth (usuario_id, proveedor, sujeto, email, ultimo_login) VALUES ($1,$2,$3,$4,NOW())',
+      [u.id, proveedor, perfil.sujeto, perfil.email]
+    );
+    await db.query('UPDATE usuarios SET ultimo_login = NOW() WHERE id = $1', [u.id]);
+    return u;
+  }
+
+  // Cuenta nueva. Sin contraseña: por eso la columna admite NULL.
+  const partes = String(perfil.nombre || '').trim().split(/\s+/);
+  const nombre = partes.shift() || perfil.email.split('@')[0];
+  const apellido = partes.join(' ') || null;
+
+  const { rows: creado } = await db.query(
+    `INSERT INTO usuarios (email, password_hash, rol, nombre, apellido, verificacion, ip_registro, ultimo_login)
+     VALUES ($1, NULL, 'cliente', $2, $3, 'no_requerida', $4, NOW()) RETURNING *`,
+    [perfil.email, nombre, apellido, req.ip || null]
+  );
+  const u = creado[0];
+  await db.query(
+    'INSERT INTO identidades_oauth (usuario_id, proveedor, sujeto, email, ultimo_login) VALUES ($1,$2,$3,$4,NOW())',
+    [u.id, proveedor, perfil.sujeto, perfil.email]
+  );
+  return u;
+}
 
 // ============================================================
 // RUTAS — RESEÑAS DE GOOGLE

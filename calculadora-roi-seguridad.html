@@ -4,96 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ROI de Seguridad — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
-.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:14px}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--green);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--verde);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(0,229,160,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{background:var(--panel);border:1px solid rgba(0,229,160,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:20px}
 .field{margin-bottom:14px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:6px}
-input[type=number],select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(0,229,160,0.12);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-input[type=number]:focus,select:focus{border-color:var(--green)}
-input[type=number]::placeholder{color:var(--gray2)}
-select option{background:var(--navy)}
-.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:16px}
-.seclabel::after{content:"";flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:block;margin-bottom:6px}
+input[type=number],select{width:100%;background:var(--panel2);border:1px solid rgba(0,229,160,0.12);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+input[type=number]:focus,select:focus{border-color:var(--verde)}
+input[type=number]::placeholder{color:var(--apagado)}
+select option{background:var(--panel2);color:var(--tinta)}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:16px}
+.seclabel::after{content:"";flex:1;height:1px;background:var(--filo)}
 .result-hero{padding:0;margin-bottom:32px}
-.vs-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:26px}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--filo);border-bottom:1px solid var(--filo);margin-bottom:26px}
 .vs-cell{padding:20px 0}
-.vs-cell+.vs-cell{padding-left:26px;border-left:1px solid rgba(255,255,255,0.08)}
-.vs-lbl{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:9px}
+.vs-cell+.vs-cell{padding-left:26px;border-left:1px solid var(--filo)}
+.vs-lbl{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.16em;margin-bottom:9px}
 .vs-num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.55rem;font-weight:600;line-height:1.1}
-.vs-sub{font-size:0.72rem;color:var(--gray2);margin-top:5px}
-.roi-big{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:var(--green);line-height:1}
-.dl{border-top:1px solid rgba(255,255,255,0.08);margin-bottom:32px}
-.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid rgba(255,255,255,0.08)}
-.dl-lbl{font-size:0.66rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.12em}
+.vs-sub{font-size:0.72rem;color:var(--apagado);margin-top:5px}
+.roi-big{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:var(--verde);line-height:1}
+.dl{border-top:1px solid var(--filo);margin-bottom:32px}
+.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid var(--filo)}
+.dl-lbl{font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em}
 .dl-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.95rem;font-weight:600;white-space:nowrap}
-.risk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem}
+.risk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--filo);font-size:0.82rem}
 .risk-row:last-child{border-bottom:none}
-.risk-name{color:var(--gray)}
-.risk-val{color:var(--red);font-weight:600;font-family:'Syne',sans-serif}
-.source{font-size:0.65rem;color:var(--gray2);margin-top:16px;line-height:1.6;padding-top:12px;border-top:1px solid rgba(255,255,255,0.04)}
-.tip{border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;font-size:0.82rem;color:var(--gray);line-height:1.9;margin-bottom:28px}
-.tip strong{color:var(--white)}
-.cta{border-top:1px solid rgba(255,255,255,0.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--green);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.risk-name{color:var(--texto)}
+.risk-val{color:var(--rojo);font-weight:600;font-family:'Syne',sans-serif}
+.source{font-size:0.65rem;color:var(--apagado);margin-top:16px;line-height:1.6;padding-top:12px;border-top:1px solid var(--filo)}
+.tip{border-top:1px solid var(--filo);padding-top:18px;font-size:0.82rem;color:var(--texto);line-height:1.9;margin-bottom:28px}
+.tip strong{color:var(--tinta)}
+.cta{border-top:1px solid var(--filo);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--verde);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
-@media(max-width:768px){.grid-2,.vs-grid{grid-template-columns:1fr}.vs-cell+.vs-cell{padding-left:0;border-left:none;border-top:1px solid rgba(255,255,255,0.08)}}
+@media(max-width:768px){.grid-2,.vs-grid{grid-template-columns:1fr}.vs-cell+.vs-cell{padding-left:0;border-left:none;border-top:1px solid var(--filo)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
+
   <div class="header">
-    <div class="eyebrow">Seguridad y CCTV en Puerto Rico</div>
-    <h1>Costo de <em>no tener seguridad</em></h1>
-    <p>Calcula el retorno de inversión real de un sistema CCTV basado en estadísticas de criminalidad en Puerto Rico y el impacto económico real en negocios locales.</p>
+    <div class="eyebrow es">Seguridad y CCTV en Puerto Rico</div>
+    <div class="eyebrow en">Security and CCTV in Puerto Rico</div>
+    <h1 class="es">Costo de <em>no tener seguridad</em></h1>
+    <h1 class="en">The cost of <em>having no security</em></h1>
+    <p class="es">Calcula el retorno de inversión real de un sistema CCTV basado en estadísticas de criminalidad en Puerto Rico y el impacto económico real en negocios locales.</p>
+    <p class="en">Work out the real return on investment of a CCTV system, based on crime statistics from Puerto Rico and the actual economic impact on local businesses.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Tu negocio</div>
+        <div class="card-title es">Tu negocio</div>
+        <div class="card-title en">Your business</div>
         <div class="field">
-          <label>Tipo de negocio</label>
+          <label class="es">Tipo de negocio</label>
+          <label class="en">Business type</label>
           <select id="tipo" onchange="update()">
-            <option value="retail">Tienda / Retail</option>
-            <option value="restaurante">Restaurante / Cafetería</option>
-            <option value="oficina">Oficina / Empresa de servicios</option>
-            <option value="salon">Salón / Spa / Barbería</option>
-            <option value="farmacia">Farmacia / Clínica</option>
-            <option value="almacen">Almacén / Distribución</option>
-            <option value="gasolinera">Gasolinera / Colmado</option>
+            <option value="retail" class="es">Tienda / Retail</option>
+            <option value="retail" class="en">Store / Retail</option>
+            <option value="restaurante" class="es">Restaurante / Cafetería</option>
+            <option value="restaurante" class="en">Restaurant / Café</option>
+            <option value="oficina" class="es">Oficina / Empresa de servicios</option>
+            <option value="oficina" class="en">Office / Service business</option>
+            <option value="salon" class="es">Salón / Spa / Barbería</option>
+            <option value="salon" class="en">Salon / Spa / Barbershop</option>
+            <option value="farmacia" class="es">Farmacia / Clínica</option>
+            <option value="farmacia" class="en">Pharmacy / Clinic</option>
+            <option value="almacen" class="es">Almacén / Distribución</option>
+            <option value="almacen" class="en">Warehouse / Distribution</option>
+            <option value="gasolinera" class="es">Gasolinera / Colmado</option>
+            <option value="gasolinera" class="en">Gas station / Corner store</option>
           </select>
         </div>
         <div class="field">
-          <label>Ventas mensuales promedio ($)</label>
+          <label class="es">Ventas mensuales promedio ($)</label>
+          <label class="en">Average monthly sales ($)</label>
           <input type="number" id="ventas" value="15000" oninput="update()" placeholder="$15,000">
         </div>
         <div class="field">
-          <label>Valor del inventario en el local ($)</label>
+          <label class="es">Valor del inventario en el local ($)</label>
+          <label class="en">Value of the inventory on site ($)</label>
           <input type="number" id="inventario" value="20000" oninput="update()" placeholder="$20,000">
         </div>
         <div class="field">
-          <label>Valor del equipo / activos ($)</label>
+          <label class="es">Valor del equipo / activos ($)</label>
+          <label class="en">Value of equipment / assets ($)</label>
           <input type="number" id="activos" value="10000" oninput="update()" placeholder="$10,000">
         </div>
         <div class="field">
-          <label>Número de empleados</label>
+          <label class="es">Número de empleados</label>
+          <label class="en">Number of employees</label>
           <input type="number" id="empleados" value="5" min="1" oninput="update()">
         </div>
         <div class="field">
-          <label>Salario promedio por empleado/hora ($)</label>
+          <label class="es">Salario promedio por empleado/hora ($)</label>
+          <label class="en">Average wage per employee/hour ($)</label>
           <input type="number" id="salario" value="12" min="7.25" oninput="update()">
         </div>
       </div>
@@ -101,35 +130,49 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">Historial e inversión</div>
+        <div class="card-title es">Historial e inversión</div>
+        <div class="card-title en">History and investment</div>
         <div class="field">
-          <label>¿Cuántos incidentes de robo en los últimos 3 años?</label>
+          <label class="es">¿Cuántos incidentes de robo en los últimos 3 años?</label>
+          <label class="en">How many theft incidents in the last 3 years?</label>
           <select id="incidentes" onchange="update()">
-            <option value="0">Ninguno</option>
-            <option value="1">1 incidente</option>
-            <option value="2">2 incidentes</option>
-            <option value="4">3-5 incidentes</option>
-            <option value="8">Más de 5 incidentes</option>
+            <option value="0" class="es">Ninguno</option>
+            <option value="0" class="en">None</option>
+            <option value="1" class="es">1 incidente</option>
+            <option value="1" class="en">1 incident</option>
+            <option value="2" class="es">2 incidentes</option>
+            <option value="2" class="en">2 incidents</option>
+            <option value="4" class="es">3-5 incidentes</option>
+            <option value="4" class="en">3-5 incidents</option>
+            <option value="8" class="es">Más de 5 incidentes</option>
+            <option value="8" class="en">More than 5 incidents</option>
           </select>
         </div>
         <div class="field">
-          <label>Pérdida promedio por incidente ($)</label>
+          <label class="es">Pérdida promedio por incidente ($)</label>
+          <label class="en">Average loss per incident ($)</label>
           <input type="number" id="perdida-inc" value="2500" oninput="update()" placeholder="$2,500">
         </div>
         <div class="field">
-          <label>¿Tienes seguro de negocio?</label>
+          <label class="es">¿Tienes seguro de negocio?</label>
+          <label class="en">Do you have business insurance?</label>
           <select id="seguro" onchange="update()">
-            <option value="0">No tengo seguro</option>
-            <option value="0.5">Sí, cubre ~50% de pérdidas</option>
-            <option value="0.8">Sí, cubre ~80% de pérdidas</option>
+            <option value="0" class="es">No tengo seguro</option>
+            <option value="0" class="en">I have no insurance</option>
+            <option value="0.5" class="es">Sí, cubre ~50% de pérdidas</option>
+            <option value="0.5" class="en">Yes, it covers ~50% of losses</option>
+            <option value="0.8" class="es">Sí, cubre ~80% de pérdidas</option>
+            <option value="0.8" class="en">Yes, it covers ~80% of losses</option>
           </select>
         </div>
         <div class="field">
-          <label>Inversión en sistema de seguridad ($)</label>
+          <label class="es">Inversión en sistema de seguridad ($)</label>
+          <label class="en">Investment in the security system ($)</label>
           <input type="number" id="inversion" value="2400" oninput="update()" placeholder="$2,400">
         </div>
         <div class="field">
-          <label>Costo de mantenimiento anual ($)</label>
+          <label class="es">Costo de mantenimiento anual ($)</label>
+          <label class="en">Annual maintenance cost ($)</label>
           <input type="number" id="mantenimiento" value="600" oninput="update()" placeholder="$600">
         </div>
       </div>
@@ -138,37 +181,48 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div class="seclabel">Retorno de inversión del CCTV en 3 años</div>
+    <div class="seclabel es">Retorno de inversión del CCTV en 3 años</div>
+    <div class="seclabel en">CCTV return on investment over 3 years</div>
     <div class="vs-grid">
       <div class="vs-cell">
-        <div class="vs-lbl">Sin seguridad</div>
-        <div class="vs-num" style="color:var(--red)" id="r-sin">$0</div>
-        <div class="vs-sub">pérdida potencial anual</div>
+        <div class="vs-lbl es">Sin seguridad</div>
+        <div class="vs-lbl en">Without security</div>
+        <div class="vs-num" style="color:var(--rojo)" id="r-sin">$0</div>
+        <div class="vs-sub es">pérdida potencial anual</div>
+        <div class="vs-sub en">potential annual loss</div>
       </div>
       <div class="vs-cell">
-        <div class="vs-lbl">Con Wifnix</div>
-        <div class="vs-num" style="color:var(--green)" id="r-con">$0</div>
-        <div class="vs-sub">costo anual total</div>
+        <div class="vs-lbl es">Con Wifnix</div>
+        <div class="vs-lbl en">With Wifnix</div>
+        <div class="vs-num" style="color:var(--verde)" id="r-con">$0</div>
+        <div class="vs-sub es">costo anual total</div>
+        <div class="vs-sub en">total annual cost</div>
       </div>
     </div>
     <div class="roi-big" id="r-roi">ROI: 0%</div>
-    <div style="font-size:0.84rem;color:var(--gray);margin-top:10px" id="r-roi-sub">—</div>
+    <div style="font-size:0.84rem;color:var(--texto);margin-top:10px" id="r-roi-sub">—</div>
   </div>
 
   <div class="dl">
-    <div class="dl-row"><div class="dl-lbl">Riesgo anual estimado</div><div class="dl-val" style="color:var(--red)" id="s-riesgo">$0</div></div>
-    <div class="dl-row"><div class="dl-lbl">La inversión se recupera en</div><div class="dl-val" style="color:var(--warn)" id="s-payback">—</div></div>
-    <div class="dl-row"><div class="dl-lbl">Ahorro neto en 3 años</div><div class="dl-val" style="color:var(--green)" id="s-ahorro3">$0</div></div>
-    <div class="dl-row"><div class="dl-lbl">Reducción de riesgo con CCTV</div><div class="dl-val" style="color:var(--bl)" id="s-reduccion">0%</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Riesgo anual estimado</div><div class="dl-lbl en">Estimated annual risk</div><div class="dl-val" style="color:var(--rojo)" id="s-riesgo">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">La inversión se recupera en</div><div class="dl-lbl en">The investment pays for itself in</div><div class="dl-val" style="color:var(--ambar)" id="s-payback">—</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Ahorro neto en 3 años</div><div class="dl-lbl en">Net savings over 3 years</div><div class="dl-val" style="color:var(--verde)" id="s-ahorro3">$0</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Reducción de riesgo con CCTV</div><div class="dl-lbl en">Risk reduction with CCTV</div><div class="dl-val" style="color:var(--azul)" id="s-reduccion">0%</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Desglose de riesgos sin sistema de seguridad</div>
+    <div class="card-title es">Desglose de riesgos sin sistema de seguridad</div>
+    <div class="card-title en">Risk breakdown without a security system</div>
     <div id="r-riesgos"></div>
-    <div class="source">
+    <div class="source es">
       Fuentes: Departamento de Seguridad Pública de PR (DSP) · FBI Uniform Crime Reports · Insurance Information Institute ·
       National Retail Federation Shrinkage Survey 2023 · Small Business Administration (SBA).
       Los porcentajes de riesgo están ajustados para Puerto Rico basados en tasas de criminalidad locales.
+    </div>
+    <div class="source en">
+      Sources: Puerto Rico Department of Public Safety (DSP) · FBI Uniform Crime Reports · Insurance Information Institute ·
+      National Retail Federation Shrinkage Survey 2023 · Small Business Administration (SBA).
+      The risk percentages are adjusted for Puerto Rico based on local crime rates.
     </div>
   </div>
 
@@ -176,14 +230,26 @@ select option{background:var(--navy)}
 
   <div class="cta">
     <div>
-      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">El costo de no actuar es mayor</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Evaluación de seguridad gratuita para tu negocio en Puerto Rico.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="es">El costo de no actuar es mayor</div>
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="en">Doing nothing costs more</div>
+      <div style="font-size:0.78rem;color:var(--texto)" class="es">Evaluación de seguridad gratuita para tu negocio en Puerto Rico.</div>
+      <div style="font-size:0.78rem;color:var(--texto)" class="en">Free security assessment for your business in Puerto Rico.</div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Proteger mi negocio</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Proteger mi negocio</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Protect my business</a>
   </div>
 </div>
 
 <script>
+/* Idioma: lo decide el atributo data-idioma del <html>, que ya puso el
+   fragmento en línea del <head>. Todo el texto que este script escribe
+   en pantalla pasa por T(), así que habla los dos idiomas igual que el
+   marcado. */
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+
 // Tasas de riesgo por tipo de negocio basadas en estadísticas reales de PR y FBI UCR
 // Probabilidad de incidente por año y factor de pérdida relativo al inventario/ventas
 var RISK_PROFILE = {
@@ -260,47 +326,115 @@ function update() {
   var reduccionTotal = ((totalRiesgoAnual - riesgoConCCTV) / totalRiesgoAnual * 100);
 
   // Update UI
+  var porDolar = (1 + roi / 100).toFixed(2);
   document.getElementById('r-sin').textContent = '$' + Math.round(totalRiesgoAnual).toLocaleString();
   document.getElementById('r-con').textContent = '$' + Math.round(costoAnualSeguridad).toLocaleString();
   document.getElementById('r-roi').textContent = 'ROI: ' + Math.round(roi) + '%';
-  document.getElementById('r-roi-sub').textContent = 'Por cada $1 invertido en seguridad recuperas $' + (1 + roi / 100).toFixed(2) + ' en 3 años';
+  document.getElementById('r-roi-sub').textContent = T(
+    'Por cada $1 invertido en seguridad recuperas $' + porDolar + ' en 3 años',
+    'For every $1 invested in security you get back $' + porDolar + ' over 3 years');
   document.getElementById('s-riesgo').textContent = '$' + Math.round(totalRiesgoAnual).toLocaleString();
-  document.getElementById('s-payback').textContent = paybackMeses < 12 ? Math.round(paybackMeses) + ' meses' : (paybackMeses / 12).toFixed(1) + ' años';
+  document.getElementById('s-payback').textContent = paybackMeses < 12
+    ? Math.round(paybackMeses) + T(' meses', ' months')
+    : (paybackMeses / 12).toFixed(1) + T(' años', ' years');
   document.getElementById('s-ahorro3').textContent = '$' + Math.round(Math.max(0, ahorro3Anos)).toLocaleString();
   document.getElementById('s-reduccion').textContent = Math.round(reduccionTotal) + '%';
 
   // Desglose
+  var pctExt = Math.round(rp.robo_externo * 100);
+  var pctInt = (rp.robo_interno * 100).toFixed(1);
+  var pctVan = Math.round(rp.vandal * 100);
+  var pctFra = (rp.fraude * 100).toFixed(1);
+  var netoInc = Math.round(perdidaInc * (1 - coberturaSeg));
+
   var riesgos = [
-    { name: 'Robo externo — inventario y activos en riesgo', val: riesgoRoboExt, desc: 'Probabilidad ' + Math.round(rp.robo_externo * 100) + '% anual × valor en riesgo' },
-    { name: 'Robo interno / merma interna', val: riesgoRoboInt, desc: 'Basado en NRF: ' + (rp.robo_interno * 100).toFixed(1) + '% de las ventas anuales' },
-    { name: 'Vandalismo y daños a la propiedad', val: riesgoVandal, desc: 'Daños físicos: ' + Math.round(rp.vandal * 100) + '% probabilidad anual' },
-    { name: 'Fraude (devoluciones, cheques, etc.)', val: riesgoFraude, desc: (rp.fraude * 100).toFixed(1) + '% de las ventas anuales' },
-    { name: 'Pérdida de productividad post-incidente', val: riesgoProductividad, desc: empleados + ' empleados × 8h × $' + salario + '/h × 2 días de impacto' },
-    { name: 'Ajuste por historial de incidentes', val: riesgoHistorico, desc: incidentes + ' incidente(s) en 3 años → $' + Math.round(perdidaInc * (1 - coberturaSeg)) + ' neto c/u' }
+    {
+      name: T('Robo externo — inventario y activos en riesgo', 'External theft — inventory and assets at risk'),
+      val: riesgoRoboExt,
+      desc: T('Probabilidad ' + pctExt + '% anual × valor en riesgo', pctExt + '% probability per year × value at risk')
+    },
+    {
+      name: T('Robo interno / merma interna', 'Internal theft / employee shrinkage'),
+      val: riesgoRoboInt,
+      desc: T('Basado en NRF: ' + pctInt + '% de las ventas anuales', 'Based on NRF data: ' + pctInt + '% of annual sales')
+    },
+    {
+      name: T('Vandalismo y daños a la propiedad', 'Vandalism and property damage'),
+      val: riesgoVandal,
+      desc: T('Daños físicos: ' + pctVan + '% probabilidad anual', 'Physical damage: ' + pctVan + '% probability per year')
+    },
+    {
+      name: T('Fraude (devoluciones, cheques, etc.)', 'Fraud (returns, checks, etc.)'),
+      val: riesgoFraude,
+      desc: T(pctFra + '% de las ventas anuales', pctFra + '% of annual sales')
+    },
+    {
+      name: T('Pérdida de productividad post-incidente', 'Lost productivity after an incident'),
+      val: riesgoProductividad,
+      desc: T(empleados + ' empleados × 8h × $' + salario + '/h × 2 días de impacto',
+              empleados + ' employees × 8h × $' + salario + '/hr × 2 days of impact')
+    },
+    {
+      name: T('Ajuste por historial de incidentes', 'Adjustment for incident history'),
+      val: riesgoHistorico,
+      desc: T(incidentes + ' incidente(s) en 3 años → $' + netoInc + ' neto c/u',
+              incidentes + ' incident(s) in 3 years → $' + netoInc + ' net each')
+    }
   ];
 
+  var porAno = T('/año', '/yr');
   document.getElementById('r-riesgos').innerHTML = riesgos.map(function(r) {
     return '<div class="risk-row">' +
-      '<div><div class="risk-name">' + r.name + '</div><div style="font-size:0.7rem;color:var(--gray2);margin-top:2px">' + r.desc + '</div></div>' +
-      '<div class="risk-val">$' + Math.round(r.val).toLocaleString() + '/año</div>' +
+      '<div><div class="risk-name">' + r.name + '</div><div style="font-size:0.7rem;color:var(--apagado);margin-top:2px">' + r.desc + '</div></div>' +
+      '<div class="risk-val">$' + Math.round(r.val).toLocaleString() + porAno + '</div>' +
     '</div>';
   }).join('') +
-  '<div class="risk-row"><div class="risk-name" style="font-family:Syne,sans-serif;font-weight:800;color:var(--white)">Total riesgo anual sin seguridad</div><div class="risk-val" style="font-size:1rem">$' + Math.round(totalRiesgoAnual).toLocaleString() + '</div></div>';
+  '<div class="risk-row"><div class="risk-name" style="font-family:Syne,sans-serif;font-weight:800;color:var(--tinta)">' +
+  T('Total riesgo anual sin seguridad', 'Total annual risk without security') +
+  '</div><div class="risk-val" style="font-size:1rem">$' + Math.round(totalRiesgoAnual).toLocaleString() + '</div></div>';
 
   // Tips
   var tip = '';
   if (incidentes > 0) {
-    tip += '<strong>Historial de incidentes:</strong> Ya experimentaste ' + incidentes + ' incidente(s). La probabilidad de reincidencia sin medidas de seguridad visible es significativamente mayor — los delincuentes vuelven a locales conocidos.<br><br>';
+    tip += T(
+      '<strong>Historial de incidentes:</strong> Ya experimentaste ' + incidentes + ' incidente(s). La probabilidad de reincidencia sin medidas de seguridad visible es significativamente mayor — los delincuentes vuelven a locales conocidos.<br><br>',
+      '<strong>Incident history:</strong> You have already had ' + incidentes + ' incident(s). Without visible security measures the odds of it happening again are much higher — offenders go back to places they already know.<br><br>');
   }
   if (coberturaSeg === 0) {
-    tip += '<strong>Sin seguro de negocio:</strong> Considera contratar un seguro comercial. Combinado con CCTV, muchas aseguradoras en PR ofrecen descuentos del 10-25% en la prima. La evidencia de video también agiliza reclamaciones.<br><br>';
+    tip += T(
+      '<strong>Sin seguro de negocio:</strong> Considera contratar un seguro comercial. Combinado con CCTV, muchas aseguradoras en PR ofrecen descuentos del 10-25% en la prima. La evidencia de video también agiliza reclamaciones.<br><br>',
+      '<strong>No business insurance:</strong> Consider taking out a commercial policy. Combined with CCTV, many insurers in Puerto Rico offer 10-25% off the premium. Video evidence also speeds up claims.<br><br>');
   }
-  tip += '<strong>Estadística PR:</strong> Según el DSP, el 60% de los robos comerciales en PR ocurren entre las 6pm y 2am. Las cámaras con visión nocturna y alertas en tiempo real son esenciales para la protección en esos horarios.<br><br>';
-  tip += '<strong>Efecto disuasivo:</strong> El estudio de la Universidad de Cambridge (2009) demostró que las cámaras de seguridad visibles reducen el crimen en un 51% en áreas comerciales. El solo hecho de que sean visibles es una medida preventiva.';
+  tip += T(
+    '<strong>Estadística PR:</strong> Según el DSP, el 60% de los robos comerciales en PR ocurren entre las 6pm y 2am. Las cámaras con visión nocturna y alertas en tiempo real son esenciales para la protección en esos horarios.<br><br>',
+    '<strong>Puerto Rico statistic:</strong> According to the DSP, 60% of commercial burglaries in Puerto Rico happen between 6pm and 2am. Cameras with night vision and real-time alerts are essential for those hours.<br><br>');
+  tip += T(
+    '<strong>Efecto disuasivo:</strong> El estudio de la Universidad de Cambridge (2009) demostró que las cámaras de seguridad visibles reducen el crimen en un 51% en áreas comerciales. El solo hecho de que sean visibles es una medida preventiva.',
+    '<strong>Deterrent effect:</strong> A University of Cambridge study (2009) found that visible security cameras cut crime by 51% in commercial areas. Simply being visible is itself a preventive measure.');
   document.getElementById('r-tip').innerHTML = tip;
 }
 
+/* Al cambiar el idioma hay dos cosas que arreglar: la opción elegida de
+   cada <select> es la gemela del idioma anterior (misma value, pero
+   escondida, y entonces el select se ve en blanco), y todo el texto que
+   escribe update() está en el idioma anterior. Se hacen las dos aquí. */
+(function () {
+  if (!window.MutationObserver) return;
+  new MutationObserver(function () {
+    var idi = wxIdioma();
+    var sels = document.querySelectorAll('select');
+    for (var i = 0; i < sels.length; i++) {
+      var s = sels[i], v = s.value;
+      for (var j = 0; j < s.options.length; j++) {
+        if (s.options[j].value === v && s.options[j].className === idi) { s.selectedIndex = j; break; }
+      }
+    }
+    update();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+})();
+
 update();
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>
