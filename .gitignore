@@ -1,0 +1,12 @@
+# Dependencias: se reinstalan con npm install
+node_modules/
+
+# Secretos. El .env NUNCA se sube: lleva las llaves de Stripe, de
+# Google y la privada de Apple. Lo que se versiona es .env.example.
+.env
+.env.local
+.env.production
+
+# Archivos de trabajo
+_*.html
+*.log

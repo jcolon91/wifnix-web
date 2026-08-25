@@ -1,0 +1,211 @@
+/* ══════════════════════════════════════════════════════════════
+   WIFNIX — base compartida por todas las páginas del sitio
+
+   Aquí viven dos cosas y nada más: los colores (en claro y en
+   oscuro) y los pocos elementos que se repiten en cada página —
+   el rótulo de sección y los interruptores de idioma y tema.
+
+   Cada página sigue trayendo su propio <style> con su maquetación.
+   Este archivo solo se encarga de que el color y los dos
+   interruptores se comporten igual en todas.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── COLOR ─────────────────────────────────────────────────────
+   Los nombres nuevos (--fondo, --tinta, --filo…) son los que
+   mandan. Debajo quedan los viejos (--black, --white, --card…)
+   como alias, porque el sitio entero está escrito con ellos y
+   renombrarlos en veinte archivos era pedir un accidente. Al ser
+   alias en cascada, cambian solos al cambiar de tema. */
+
+:root,
+:root[data-tema="oscuro"]{
+  --fondo:#070C16;
+  --fondo2:#0A101C;
+  --fondo3:#050910;
+  --panel:#0D1727;
+  --panel2:#132133;
+  --tinta:#EEF3F9;
+  --texto:#8FA5BA;
+  --apagado:#798DA3;
+  --filo:rgba(150,185,225,.11);
+  --filo2:rgba(150,185,225,.20);
+  --azul:#29B6F6;
+  --azul-fuerte:#0A79B0;
+  --azul-tenue:rgba(41,182,246,.10);
+  --verde:#00E5A0;
+  --ambar:#FFC107;
+  --rojo:#FF6B6B;
+  --sombra:0 24px 60px rgba(0,0,0,.45);
+  --velo:rgba(7,12,22,.78);
+  color-scheme:dark;
+}
+
+:root[data-tema="claro"]{
+  /* Papel cálido, no blanco de oficina. */
+  --fondo:#F3F1EB;
+  --fondo2:#EBE8DF;
+  --fondo3:#E4E0D5;
+  --panel:#FBFAF6;
+  --panel2:#FFFFFF;
+  --tinta:#101822;
+  --texto:#485663;
+  /* Sobre papel, el gris del rótulo se queda corto de contraste
+     mucho antes que sobre fondo oscuro: aquí va bastante más
+     oscuro que su equivalente del tema nocturno. */
+  --apagado:#525E6A;
+  --filo:rgba(16,24,34,.11);
+  --filo2:rgba(16,24,34,.20);
+  --azul:#0A6296;
+  --azul-fuerte:#08587F;
+  --azul-tenue:rgba(10,111,166,.08);
+  --verde:#0A7A55;
+  --ambar:#835B00;
+  --rojo:#C0392B;
+  --sombra:0 20px 46px rgba(16,24,34,.10);
+  --velo:rgba(243,241,235,.82);
+  color-scheme:light;
+}
+
+:root{
+  --display:'Syne',system-ui,sans-serif;
+  --cuerpo:'DM Sans',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Consolas,monospace;
+  --curva:cubic-bezier(.22,.61,.36,1);
+
+  /* ── alias heredados ── */
+  --black:var(--fondo);
+  --black2:var(--fondo2);
+  --navy:var(--panel);
+  --bg:var(--fondo);
+  --bg2:var(--fondo2);
+  --card:var(--panel);
+  --card2:var(--panel2);
+  --white:var(--tinta);
+  --text:var(--tinta);
+  --gray:var(--texto);
+  --gray2:var(--apagado);
+  --muted:var(--apagado);
+  --line:var(--filo);
+  --line2:var(--filo2);
+  --border:var(--filo);
+  --blue:var(--azul-fuerte);
+  --blue-light:var(--azul);
+  --blue-glow:var(--azul);
+  --bl:var(--azul);
+  --accent:var(--ambar);
+  --warn:var(--ambar);
+  --success:var(--verde);
+  --green:var(--verde);
+  --error:var(--rojo);
+  --red:var(--rojo);
+}
+
+/* El cambio de tema no debe parecer un parpadeo ni una animación
+   de escaparate: medio segundo largo y solo en lo que pinta fondo. */
+:root.tema-cambiando,
+:root.tema-cambiando *{
+  transition:background-color .45s var(--curva),
+             border-color .45s var(--curva),
+             color .45s var(--curva) !important;
+}
+
+html{color-scheme:dark}
+html[data-tema="claro"]{color-scheme:light}
+body{background:var(--fondo);color:var(--tinta)}
+
+/* ── RÓTULO DE SECCIÓN ────────────────────────────────────────
+   Mono, pequeño, en mayúsculas, y una línea de un píxel que se
+   come el resto del renglón. Es el único sitio donde va el mono. */
+.seclabel{
+  display:flex;align-items:center;gap:16px;
+  font-family:var(--mono);
+  font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--apagado);
+  margin-bottom:20px;
+}
+.seclabel::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,var(--filo2),transparent);
+}
+.seclabel.centrado{justify-content:center}
+.seclabel.centrado::after{display:none}
+
+/* ── INTERRUPTORES DE IDIOMA Y TEMA ───────────────────────────
+   Los dos comparten forma para que se lean como un par. */
+.wx-switches{display:flex;align-items:center;gap:8px}
+
+.wx-lang{
+  display:inline-flex;align-items:center;
+  border:1px solid var(--filo2);border-radius:12px;
+  overflow:hidden;background:transparent;
+}
+.wx-lang button{
+  appearance:none;border:0;background:transparent;
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  letter-spacing:.1em;color:var(--apagado);
+  padding:7px 11px;cursor:pointer;line-height:1;
+  transition:color .25s var(--curva),background .25s var(--curva);
+  min-height:34px;
+}
+.wx-lang button:hover{color:var(--tinta)}
+.wx-lang button[aria-pressed="true"]{color:var(--tinta);background:var(--azul-tenue)}
+
+.wx-tema{
+  appearance:none;display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;padding:0;
+  border:1px solid var(--filo2);border-radius:12px;
+  background:transparent;color:var(--apagado);cursor:pointer;
+  transition:color .25s var(--curva),border-color .25s var(--curva);
+}
+.wx-tema:hover{color:var(--tinta);border-color:var(--filo2)}
+.wx-tema svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* Sol en claro, luna en oscuro: se enseña la que está puesta. */
+.wx-tema .wx-luna{display:block}
+.wx-tema .wx-sol{display:none}
+:root[data-tema="claro"] .wx-tema .wx-luna{display:none}
+:root[data-tema="claro"] .wx-tema .wx-sol{display:block}
+
+.wx-lang button:focus-visible,
+.wx-tema:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+
+/* ── IDIOMA ───────────────────────────────────────────────────
+   Lo decide un atributo en el <html>, puesto por un fragmento en
+   línea antes de que se pinte nada. Ya no se esconde con estilo
+   en línea desde JavaScript: ese era el origen de que el inglés y
+   el español salieran a la vez, y de que hiciera falta una regla
+   con !important para taparlo. */
+html[data-idioma="es"] .en{display:none !important}
+html[data-idioma="en"] .es{display:none !important}
+/* Si el JS no llegó a correr, se queda el español. */
+html:not([data-idioma]) .en{display:none !important}
+
+/* ── GRANO ────────────────────────────────────────────────────
+   Lo que delata a una pagina hecha por una maquina es que es
+   demasiado limpia: degradados perfectos y color plano. Una capa
+   de grano finisimo le devuelve el cuerpo del papel impreso.
+   Es una textura SVG en linea — cero peticiones, cero peso — y
+   como no anima, no cuesta nada de bateria. */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  z-index:9998;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)' opacity='.55'/%3E%3C/svg%3E");
+  opacity:.055;
+}
+/* Sobre papel el grano se ve mas, asi que se baja. */
+:root[data-tema="claro"] body::after{opacity:.032;mix-blend-mode:multiply}
+
+/* ── PARALAJE ────────────────────────────────────────────────
+   La foto del hero baja mas despacio que el texto. Es el unico
+   movimiento de la pagina y va atado a una fotografia de verdad,
+   no a un adorno. El recorte extra evita que asome el borde. */
+.hero-foto img,.aut-foto img{will-change:transform;transform:scale(1.1)}
+@media (prefers-reduced-motion:reduce){
+  .hero-foto img,.aut-foto img{transform:none !important;will-change:auto}
+}
+
+@media (prefers-reduced-motion:reduce){
+  :root.tema-cambiando,
+  :root.tema-cambiando *{transition:none !important}
+}

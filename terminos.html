@@ -4,60 +4,91 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Términos y Condiciones — Wifnix LLC</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh;line-height:1.8}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh;line-height:1.8}
 .page{max-width:800px;margin:0 auto;padding:60px 20px}
-.back{display:inline-flex;align-items:center;gap:8px;color:var(--gray);text-decoration:none;font-size:0.82rem;margin-bottom:32px;transition:color .2s}
-.back:hover{color:var(--white)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--texto);text-decoration:none;font-size:0.82rem;transition:color .2s}
+.back:hover{color:var(--tinta)}
 .back svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .header{margin-bottom:48px}
-.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--white);margin-bottom:8px}
-.header p{font-size:0.85rem;color:var(--gray)}
-.badge{display:inline-block;padding:4px 12px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;font-size:0.68rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px}
+.header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--tinta);margin-bottom:8px}
+.header p{font-size:0.85rem;color:var(--texto)}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.66rem;font-weight:500;color:var(--texto);letter-spacing:0.22em;text-transform:uppercase;margin-bottom:18px}
+.seclabel::after{content:'';flex:1;height:1px;background:var(--filo2)}
 section{margin-bottom:36px}
-h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(11,143,204,0.1)}
-h3{font-size:0.88rem;font-weight:700;color:var(--blue-light);margin:16px 0 8px}
-p{font-size:0.85rem;color:var(--gray);margin-bottom:10px}
+h2{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--filo)}
+h3{font-size:0.88rem;font-weight:700;color:var(--azul);margin:16px 0 8px}
+p{font-size:0.85rem;color:var(--texto);margin-bottom:10px}
 ul{list-style:none;margin-bottom:10px}
-ul li{font-size:0.85rem;color:var(--gray);padding:4px 0 4px 20px;position:relative}
-ul li::before{content:'—';position:absolute;left:0;color:var(--blue-light)}
-.highlight{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:16px 20px;margin:16px 0}
+ul li{font-size:0.85rem;color:var(--texto);padding:4px 0 4px 20px;position:relative}
+ul li::before{content:'—';position:absolute;left:0;color:var(--texto)}
+.highlight{border-left:2px solid var(--azul);padding:2px 0 2px 18px;margin:18px 0}
 .highlight p{margin:0;font-size:0.83rem}
-.warning{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.2);border-radius:10px;padding:16px 20px;margin:16px 0}
-.warning p{margin:0;font-size:0.83rem;color:#FFC107}
-.contact-box{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:24px;margin-top:40px;text-align:center}
-.contact-box h3{color:var(--white);font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px}
-.contact-box p{color:var(--gray);font-size:0.82rem;margin-bottom:4px}
-.contact-box a{color:var(--blue-light);text-decoration:none}
+.warning{border-left:2px solid var(--ambar);padding:2px 0 2px 18px;margin:18px 0}
+.warning p{margin:0;font-size:0.83rem;color:var(--ambar)}
+.contact-box{border-top:1px solid var(--filo);padding-top:26px;margin-top:48px}
+.contact-box h3{color:var(--tinta);font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;margin-bottom:8px}
+.contact-box p{color:var(--texto);font-size:0.82rem;margin-bottom:4px}
+.contact-box a{color:var(--azul);text-decoration:none}
 </style>
 </head>
 <body>
 <div class="page">
 
-  <a href="https://wifnix.com" class="back">
-    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Volver a Wifnix.com
-  </a>
+  <div class="topbar">
+    <a href="https://wifnix.com" class="back es">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver a Wifnix.com
+    </a>
+    <a href="https://wifnix.com" class="back en">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Wifnix.com
+    </a>
+    <span data-wx-switches></span>
+  </div>
 
   <div class="header">
-    <div class="badge">Documento legal</div>
-    <h1>Términos y Condiciones</h1>
-    <p>Última actualización: Mayo 2025 · Aplicable a todos los servicios de Wifnix LLC en Puerto Rico</p>
+    <div class="seclabel es">Documento legal</div>
+    <div class="seclabel en">Legal document</div>
+    <h1 class="es">Términos y Condiciones</h1>
+    <h1 class="en">Terms and Conditions</h1>
+    <p class="es">Última actualización: Mayo 2025 · Aplicable a todos los servicios de Wifnix LLC en Puerto Rico</p>
+    <p class="en">Last updated: May 2025 · Applies to all Wifnix LLC services in Puerto Rico</p>
+  </div>
+
+  <div class="highlight">
+    <p class="es"><strong style="color:var(--tinta)">Aviso:</strong> La versión en español de este documento es la que prevalece legalmente. La traducción al inglés se ofrece únicamente por conveniencia; ante cualquier discrepancia, rige el texto en español.</p>
+    <p class="en"><strong style="color:var(--tinta)">Notice:</strong> The Spanish version of this document is the legally binding version. This English translation is provided for convenience only; in the event of any discrepancy, the Spanish text prevails.</p>
   </div>
 
   <section>
-    <h2>1. Identificación de la Empresa</h2>
-    <p><strong style="color:var(--white)">Wifnix LLC</strong> es una empresa de responsabilidad limitada debidamente organizada bajo las leyes del Estado Libre Asociado de Puerto Rico, dedicada a la instalación, mantenimiento y venta de sistemas de videovigilancia (CCTV), aires acondicionados (HVAC), redes empresariales, continuidad operacional, diseño web e inteligencia artificial.</p>
-    <p>Al contratar cualquier servicio o adquirir productos de Wifnix LLC, el cliente acepta íntegramente los presentes términos y condiciones.</p>
+    <h2 class="es">1. Identificación de la Empresa</h2>
+    <h2 class="en">1. Company Identification</h2>
+    <p class="es"><strong style="color:var(--tinta)">Wifnix LLC</strong> es una empresa de responsabilidad limitada debidamente organizada bajo las leyes del Estado Libre Asociado de Puerto Rico, dedicada a la instalación, mantenimiento y venta de sistemas de videovigilancia (CCTV), aires acondicionados (HVAC), redes empresariales, continuidad operacional, diseño web e inteligencia artificial.</p>
+    <p class="en"><strong style="color:var(--tinta)">Wifnix LLC</strong> is a limited liability company duly organized under the laws of the Commonwealth of Puerto Rico, engaged in the installation, maintenance and sale of video surveillance systems (CCTV), air conditioning systems (HVAC), business networks, business continuity, web design and artificial intelligence.</p>
+    <p class="es">Al contratar cualquier servicio o adquirir productos de Wifnix LLC, el cliente acepta íntegramente los presentes términos y condiciones.</p>
+    <p class="en">By hiring any service or purchasing products from Wifnix LLC, the client fully accepts these terms and conditions.</p>
   </section>
 
   <section>
-    <h2>2. Servicios Ofrecidos</h2>
-    <p>Wifnix LLC ofrece los siguientes servicios en Puerto Rico:</p>
-    <ul>
+    <h2 class="es">2. Servicios Ofrecidos</h2>
+    <h2 class="en">2. Services Offered</h2>
+    <p class="es">Wifnix LLC ofrece los siguientes servicios en Puerto Rico:</p>
+    <p class="en">Wifnix LLC offers the following services in Puerto Rico:</p>
+    <ul class="es">
       <li>Instalación y configuración de sistemas de videovigilancia (CCTV)</li>
       <li>Instalación y mantenimiento de sistemas de aire acondicionado (HVAC)</li>
       <li>Diseño e instalación de redes empresariales y WiFi</li>
@@ -67,148 +98,255 @@ ul li::before{content:'—';position:absolute;left:0;color:var(--blue-light)}
       <li>Implementación de soluciones con inteligencia artificial</li>
       <li>Planes de mantenimiento preventivo y correctivo</li>
     </ul>
+    <ul class="en">
+      <li>Installation and configuration of video surveillance (CCTV) systems</li>
+      <li>Installation and maintenance of air conditioning (HVAC) systems</li>
+      <li>Design and installation of business networks and WiFi</li>
+      <li>Business continuity solutions (UPS, generators, internet backup)</li>
+      <li>Access control and perimeter security</li>
+      <li>Design and development of websites and applications</li>
+      <li>Implementation of artificial intelligence solutions</li>
+      <li>Preventive and corrective maintenance plans</li>
+    </ul>
   </section>
 
   <section>
-    <h2>3. Cotizaciones y Precios</h2>
-    <p>Todos los precios están expresados en dólares estadounidenses (USD) e incluyen mano de obra e instalación salvo indicación contraria.</p>
+    <h2 class="es">3. Cotizaciones y Precios</h2>
+    <h2 class="en">3. Quotes and Pricing</h2>
+    <p class="es">Todos los precios están expresados en dólares estadounidenses (USD) e incluyen mano de obra e instalación salvo indicación contraria.</p>
+    <p class="en">All prices are stated in U.S. dollars (USD) and include labor and installation unless otherwise stated.</p>
     <div class="highlight">
-      <p><strong style="color:var(--white)">IVU:</strong> Todos los productos y servicios están sujetos al Impuesto sobre Ventas y Uso (IVU) del 10.5% vigente en Puerto Rico, según la Ley Núm. 1-2011 y sus enmiendas.</p>
+      <p class="es"><strong style="color:var(--tinta)">IVU:</strong> Todos los productos y servicios están sujetos al Impuesto sobre Ventas y Uso (IVU) del 10.5% vigente en Puerto Rico, según la Ley Núm. 1-2011 y sus enmiendas.</p>
+      <p class="en"><strong style="color:var(--tinta)">IVU (Puerto Rico sales tax):</strong> All products and services are subject to the 10.5% Sales and Use Tax (IVU) in effect in Puerto Rico, under Act No. 1-2011, as amended.</p>
     </div>
-    <ul>
+    <ul class="es">
       <li>Las cotizaciones tienen vigencia de 30 días calendario desde su emisión</li>
       <li>Los precios pueden variar según inspección en sitio y condiciones del proyecto</li>
       <li>Las herramientas de cotización en línea son estimados referenciales y no constituyen una cotización formal vinculante</li>
       <li>Cualquier trabajo adicional no contemplado en la cotización original requiere aprobación escrita del cliente</li>
     </ul>
+    <ul class="en">
+      <li>Quotes are valid for 30 calendar days from the date they are issued</li>
+      <li>Prices may change based on the on-site inspection and the conditions of the project</li>
+      <li>Online quoting tools produce reference estimates only and do not constitute a formal, binding quote</li>
+      <li>Any additional work not covered by the original quote requires the client's written approval</li>
+    </ul>
   </section>
 
   <section>
-    <h2>4. Formas de Pago</h2>
-    <ul>
+    <h2 class="es">4. Formas de Pago</h2>
+    <h2 class="en">4. Payment Methods</h2>
+    <ul class="es">
       <li>Tarjeta de crédito o débito (Visa, Mastercard, American Express)</li>
       <li>ATH Móvil Business</li>
       <li>PayPal</li>
       <li>Transferencia bancaria (ACH)</li>
       <li>Cheque certificado a nombre de Wifnix LLC</li>
     </ul>
-    <p>Para proyectos mayores de $1,000, Wifnix LLC puede requerir un depósito del 50% al momento de la firma del contrato, con el balance a la entrega del servicio.</p>
+    <ul class="en">
+      <li>Credit or debit card (Visa, Mastercard, American Express)</li>
+      <li>ATH Móvil Business</li>
+      <li>PayPal</li>
+      <li>Bank transfer (ACH)</li>
+      <li>Certified check payable to Wifnix LLC</li>
+    </ul>
+    <p class="es">Para proyectos mayores de $1,000, Wifnix LLC puede requerir un depósito del 50% al momento de la firma del contrato, con el balance a la entrega del servicio.</p>
+    <p class="en">For projects over $1,000, Wifnix LLC may require a 50% deposit when the contract is signed, with the balance due upon delivery of the service.</p>
     <div class="warning">
-      <p>Wifnix LLC no acepta pagos en efectivo para proyectos mayores de $500 en cumplimiento con las regulaciones de prevención de lavado de dinero aplicables en Puerto Rico.</p>
+      <p class="es">Wifnix LLC no acepta pagos en efectivo para proyectos mayores de $500 en cumplimiento con las regulaciones de prevención de lavado de dinero aplicables en Puerto Rico.</p>
+      <p class="en">Wifnix LLC does not accept cash payments for projects over $500, in compliance with the anti-money-laundering regulations applicable in Puerto Rico.</p>
     </div>
   </section>
 
   <section>
-    <h2>5. Garantías</h2>
-    <h3>5.1 Garantía de Equipos</h3>
-    <p>Los equipos vendidos por Wifnix LLC están sujetos a la garantía del fabricante según los términos específicos de cada marca. Wifnix LLC actúa como intermediario en reclamaciones de garantía de fabricante (RMA) sin asumir responsabilidad directa por defectos de fabricación.</p>
-    <h3>5.2 Garantía de Mano de Obra e Instalación</h3>
-    <ul>
-      <li><strong style="color:var(--white)">CCTV:</strong> 90 días en mano de obra de instalación</li>
-      <li><strong style="color:var(--white)">HVAC:</strong> 90 días en mano de obra de instalación; 1 año si incluye plan de mantenimiento</li>
-      <li><strong style="color:var(--white)">Redes:</strong> 90 días en configuración y cableado estructurado</li>
-      <li><strong style="color:var(--white)">Diseño web:</strong> 30 días en correcciones de errores funcionales post-entrega</li>
+    <h2 class="es">5. Garantías</h2>
+    <h2 class="en">5. Warranties</h2>
+    <h3 class="es">5.1 Garantía de Equipos</h3>
+    <h3 class="en">5.1 Equipment Warranty</h3>
+    <p class="es">Los equipos vendidos por Wifnix LLC están sujetos a la garantía del fabricante según los términos específicos de cada marca. Wifnix LLC actúa como intermediario en reclamaciones de garantía de fabricante (RMA) sin asumir responsabilidad directa por defectos de fabricación.</p>
+    <p class="en">Equipment sold by Wifnix LLC is covered by the manufacturer's warranty under the specific terms of each brand. Wifnix LLC acts as an intermediary in manufacturer warranty claims (RMA) without assuming direct responsibility for manufacturing defects.</p>
+    <h3 class="es">5.2 Garantía de Mano de Obra e Instalación</h3>
+    <h3 class="en">5.2 Labor and Installation Warranty</h3>
+    <ul class="es">
+      <li><strong style="color:var(--tinta)">CCTV:</strong> 90 días en mano de obra de instalación</li>
+      <li><strong style="color:var(--tinta)">HVAC:</strong> 90 días en mano de obra de instalación; 1 año si incluye plan de mantenimiento</li>
+      <li><strong style="color:var(--tinta)">Redes:</strong> 90 días en configuración y cableado estructurado</li>
+      <li><strong style="color:var(--tinta)">Diseño web:</strong> 30 días en correcciones de errores funcionales post-entrega</li>
+    </ul>
+    <ul class="en">
+      <li><strong style="color:var(--tinta)">CCTV:</strong> 90 days on installation labor</li>
+      <li><strong style="color:var(--tinta)">HVAC:</strong> 90 days on installation labor; 1 year when a maintenance plan is included</li>
+      <li><strong style="color:var(--tinta)">Networks:</strong> 90 days on configuration and structured cabling</li>
+      <li><strong style="color:var(--tinta)">Web design:</strong> 30 days for functional bug fixes after delivery</li>
     </ul>
     <div class="highlight">
-      <p>La garantía de mano de obra cubre defectos atribuibles directamente al trabajo realizado por Wifnix LLC. No cubre daños causados por mal uso, fenómenos naturales, vandalismo, voltajes irregulares, modificaciones realizadas por terceros o falta de mantenimiento preventivo.</p>
+      <p class="es">La garantía de mano de obra cubre defectos atribuibles directamente al trabajo realizado por Wifnix LLC. No cubre daños causados por mal uso, fenómenos naturales, vandalismo, voltajes irregulares, modificaciones realizadas por terceros o falta de mantenimiento preventivo.</p>
+      <p class="en">The labor warranty covers defects directly attributable to work performed by Wifnix LLC. It does not cover damage caused by misuse, natural events, vandalism, irregular voltage, modifications made by third parties, or lack of preventive maintenance.</p>
     </div>
-    <h3>5.3 Exclusiones de Garantía</h3>
-    <ul>
+    <h3 class="es">5.3 Exclusiones de Garantía</h3>
+    <h3 class="en">5.3 Warranty Exclusions</h3>
+    <ul class="es">
       <li>Daños causados por huracanes, inundaciones u otros eventos de fuerza mayor</li>
       <li>Daños por fluctuaciones eléctricas o rayos sin protección adecuada instalada</li>
       <li>Equipos manipulados por personal no autorizado por Wifnix LLC</li>
       <li>Consumibles como filtros, baterías y lámparas</li>
     </ul>
+    <ul class="en">
+      <li>Damage caused by hurricanes, flooding or other force majeure events</li>
+      <li>Damage from electrical fluctuations or lightning without adequate protection installed</li>
+      <li>Equipment handled by personnel not authorized by Wifnix LLC</li>
+      <li>Consumables such as filters, batteries and lamps</li>
+    </ul>
   </section>
 
   <section>
-    <h2>6. Política de Cancelación y Devoluciones</h2>
-    <h3>6.1 Cancelación de Servicios</h3>
-    <ul>
+    <h2 class="es">6. Política de Cancelación y Devoluciones</h2>
+    <h2 class="en">6. Cancellation and Return Policy</h2>
+    <h3 class="es">6.1 Cancelación de Servicios</h3>
+    <h3 class="en">6.1 Service Cancellations</h3>
+    <ul class="es">
       <li>Cancelaciones con más de 48 horas de anticipación: sin cargo</li>
       <li>Cancelaciones con menos de 24 horas: cargo de $75 por visita técnica</li>
       <li>Proyectos en ejecución: se facturará el trabajo realizado hasta la fecha de cancelación</li>
     </ul>
-    <h3>6.2 Devolución de Productos</h3>
-    <p>De conformidad con el Reglamento de DACO (Departamento de Asuntos del Consumidor) de Puerto Rico:</p>
-    <ul>
+    <ul class="en">
+      <li>Cancellations more than 48 hours in advance: no charge</li>
+      <li>Cancellations less than 24 hours in advance: $75 charge per service visit</li>
+      <li>Projects already under way: the work completed through the cancellation date will be billed</li>
+    </ul>
+    <h3 class="es">6.2 Devolución de Productos</h3>
+    <h3 class="en">6.2 Product Returns</h3>
+    <p class="es">De conformidad con el Reglamento de DACO (Departamento de Asuntos del Consumidor) de Puerto Rico:</p>
+    <p class="en">In accordance with the regulations of DACO (the Puerto Rico Department of Consumer Affairs):</p>
+    <ul class="es">
       <li>Productos sin instalar y en su empaque original: 30 días para devolución o cambio</li>
       <li>Productos instalados o con empaque abierto: sujeto a evaluación caso por caso</li>
       <li>Productos especiales o de pedido especial: no aplica devolución salvo defecto de fábrica</li>
       <li>El cliente deberá presentar recibo de compra para cualquier gestión de devolución</li>
     </ul>
+    <ul class="en">
+      <li>Uninstalled products in their original packaging: 30 days to return or exchange</li>
+      <li>Installed products or products with opened packaging: subject to case-by-case review</li>
+      <li>Special or special-order products: no returns except for manufacturing defects</li>
+      <li>The client must present the purchase receipt for any return request</li>
+    </ul>
     <div class="highlight">
-      <p>En cumplimiento con la Ley de Protección al Consumidor de Puerto Rico y los reglamentos de DACO, cualquier reclamación puede ser radicada ante el Departamento de Asuntos del Consumidor llamando al 787-722-7555.</p>
+      <p class="es">En cumplimiento con la Ley de Protección al Consumidor de Puerto Rico y los reglamentos de DACO, cualquier reclamación puede ser radicada ante el Departamento de Asuntos del Consumidor llamando al 787-722-7555.</p>
+      <p class="en">In compliance with the Puerto Rico Consumer Protection Act and DACO regulations, any claim may be filed with the Department of Consumer Affairs by calling 787-722-7555.</p>
     </div>
   </section>
 
   <section>
-    <h2>7. Privacidad y Protección de Datos</h2>
-    <p>Wifnix LLC se compromete a proteger la privacidad de sus clientes de conformidad con las leyes aplicables en Puerto Rico y los Estados Unidos.</p>
-    <h3>7.1 Información que Recopilamos</h3>
-    <ul>
+    <h2 class="es">7. Privacidad y Protección de Datos</h2>
+    <h2 class="en">7. Privacy and Data Protection</h2>
+    <p class="es">Wifnix LLC se compromete a proteger la privacidad de sus clientes de conformidad con las leyes aplicables en Puerto Rico y los Estados Unidos.</p>
+    <p class="en">Wifnix LLC is committed to protecting its clients' privacy in accordance with the laws applicable in Puerto Rico and the United States.</p>
+    <h3 class="es">7.1 Información que Recopilamos</h3>
+    <h3 class="en">7.1 Information We Collect</h3>
+    <ul class="es">
       <li>Nombre, email, teléfono y dirección para prestación de servicios</li>
       <li>Información de pago procesada de forma segura por procesadores certificados</li>
       <li>Datos de equipos instalados para fines de garantía y mantenimiento</li>
       <li>Información de uso del portal web para mejorar la experiencia del usuario</li>
     </ul>
-    <h3>7.2 Uso de la Información</h3>
-    <ul>
+    <ul class="en">
+      <li>Name, email, phone number and address, to deliver our services</li>
+      <li>Payment information, processed securely by certified payment processors</li>
+      <li>Data about installed equipment, for warranty and maintenance purposes</li>
+      <li>Web portal usage information, to improve the user experience</li>
+    </ul>
+    <h3 class="es">7.2 Uso de la Información</h3>
+    <h3 class="en">7.2 How We Use the Information</h3>
+    <ul class="es">
       <li>Prestación y coordinación de servicios contratados</li>
       <li>Comunicación sobre garantías, mantenimientos y actualizaciones</li>
       <li>Mejora continua de nuestros servicios</li>
       <li>Cumplimiento de obligaciones legales y fiscales</li>
     </ul>
+    <ul class="en">
+      <li>Delivering and coordinating the services you hired</li>
+      <li>Communicating about warranties, maintenance and updates</li>
+      <li>Continuously improving our services</li>
+      <li>Meeting our legal and tax obligations</li>
+    </ul>
     <div class="highlight">
-      <p><strong style="color:var(--white)">Wifnix LLC NO vende, alquila ni comparte información personal de sus clientes con terceros con fines comerciales.</strong> La información solo se comparte con proveedores necesarios para la prestación del servicio (procesadores de pago, mensajería) bajo acuerdos de confidencialidad.</p>
+      <p class="es"><strong style="color:var(--tinta)">Wifnix LLC NO vende, alquila ni comparte información personal de sus clientes con terceros con fines comerciales.</strong> La información solo se comparte con proveedores necesarios para la prestación del servicio (procesadores de pago, mensajería) bajo acuerdos de confidencialidad.</p>
+      <p class="en"><strong style="color:var(--tinta)">Wifnix LLC does NOT sell, rent or share its clients' personal information with third parties for commercial purposes.</strong> Information is shared only with the vendors needed to deliver the service (payment processors, messaging) under confidentiality agreements.</p>
     </div>
-    <h3>7.3 Seguridad de Datos</h3>
-    <p>Implementamos medidas técnicas y organizativas para proteger su información, incluyendo encriptación SSL, acceso restringido y monitoreo continuo de seguridad.</p>
-    <h3>7.4 Derechos del Consumidor</h3>
-    <p>El cliente tiene derecho a acceder, corregir o solicitar la eliminación de su información personal contactando a <a href="mailto:customerservice@wifnix.com" style="color:var(--blue-light)">customerservice@wifnix.com</a>.</p>
+    <h3 class="es">7.3 Seguridad de Datos</h3>
+    <h3 class="en">7.3 Data Security</h3>
+    <p class="es">Implementamos medidas técnicas y organizativas para proteger su información, incluyendo encriptación SSL, acceso restringido y monitoreo continuo de seguridad.</p>
+    <p class="en">We apply technical and organizational measures to protect your information, including SSL encryption, restricted access and continuous security monitoring.</p>
+    <h3 class="es">7.4 Derechos del Consumidor</h3>
+    <h3 class="en">7.4 Consumer Rights</h3>
+    <p class="es">El cliente tiene derecho a acceder, corregir o solicitar la eliminación de su información personal contactando a <a href="mailto:customerservice@wifnix.com" style="color:var(--azul)">customerservice@wifnix.com</a>.</p>
+    <p class="en">The client has the right to access, correct or request deletion of their personal information by writing to <a href="mailto:customerservice@wifnix.com" style="color:var(--azul)">customerservice@wifnix.com</a>.</p>
   </section>
 
   <section>
-    <h2>8. Responsabilidad Limitada</h2>
-    <p>Wifnix LLC no será responsable por:</p>
-    <ul>
+    <h2 class="es">8. Responsabilidad Limitada</h2>
+    <h2 class="en">8. Limited Liability</h2>
+    <p class="es">Wifnix LLC no será responsable por:</p>
+    <p class="en">Wifnix LLC will not be liable for:</p>
+    <ul class="es">
       <li>Pérdidas indirectas, incidentales o consecuentes derivadas del uso o falla de los equipos instalados</li>
       <li>Interrupciones de servicio causadas por el proveedor de internet o energía eléctrica</li>
       <li>Pérdida de grabaciones por falla de almacenamiento no cubierta por garantía activa</li>
       <li>Daños a terceros causados por mal uso de los sistemas instalados por parte del cliente</li>
     </ul>
-    <p>La responsabilidad máxima de Wifnix LLC en cualquier caso no excederá el monto pagado por el cliente por el servicio específico en disputa.</p>
+    <ul class="en">
+      <li>Indirect, incidental or consequential losses arising from the use or failure of the installed equipment</li>
+      <li>Service interruptions caused by the internet provider or the electric utility</li>
+      <li>Loss of recordings due to a storage failure not covered by an active warranty</li>
+      <li>Damage to third parties caused by the client's misuse of the installed systems</li>
+    </ul>
+    <p class="es">La responsabilidad máxima de Wifnix LLC en cualquier caso no excederá el monto pagado por el cliente por el servicio específico en disputa.</p>
+    <p class="en">Wifnix LLC's maximum liability in any case will not exceed the amount the client paid for the specific service in dispute.</p>
   </section>
 
   <section>
-    <h2>9. Planes de Mantenimiento</h2>
-    <p>Los planes de mantenimiento son contratos de servicios con renovación automática mensual o anual según lo acordado. El cliente puede cancelar con 30 días de anticipación sin penalidad. Wifnix LLC se reserva el derecho de ajustar los precios de los planes con 60 días de notificación previa.</p>
+    <h2 class="es">9. Planes de Mantenimiento</h2>
+    <h2 class="en">9. Maintenance Plans</h2>
+    <p class="es">Los planes de mantenimiento son contratos de servicios con renovación automática mensual o anual según lo acordado. El cliente puede cancelar con 30 días de anticipación sin penalidad. Wifnix LLC se reserva el derecho de ajustar los precios de los planes con 60 días de notificación previa.</p>
+    <p class="en">Maintenance plans are service contracts that renew automatically on a monthly or annual basis, as agreed. The client may cancel with 30 days' notice at no penalty. Wifnix LLC reserves the right to adjust plan pricing with 60 days' prior notice.</p>
   </section>
 
   <section>
-    <h2>10. Propiedad Intelectual</h2>
-    <p>Todo el contenido del sitio web wifnix.com, incluyendo textos, imágenes, herramientas de cálculo, código y diseño, es propiedad exclusiva de Wifnix LLC y está protegido por las leyes de propiedad intelectual aplicables. Queda prohibida su reproducción sin autorización escrita.</p>
+    <h2 class="es">10. Propiedad Intelectual</h2>
+    <h2 class="en">10. Intellectual Property</h2>
+    <p class="es">Todo el contenido del sitio web wifnix.com, incluyendo textos, imágenes, herramientas de cálculo, código y diseño, es propiedad exclusiva de Wifnix LLC y está protegido por las leyes de propiedad intelectual aplicables. Queda prohibida su reproducción sin autorización escrita.</p>
+    <p class="en">All content on the wifnix.com website, including text, images, calculation tools, code and design, is the exclusive property of Wifnix LLC and is protected by applicable intellectual property laws. Reproduction without written authorization is prohibited.</p>
   </section>
 
   <section>
-    <h2>11. Ley Aplicable y Jurisdicción</h2>
-    <p>Estos términos y condiciones se rigen por las leyes del Estado Libre Asociado de Puerto Rico. Cualquier disputa que no pueda resolverse amigablemente será sometida a la jurisdicción de los tribunales competentes de Puerto Rico.</p>
-    <p>Antes de iniciar cualquier procedimiento legal, las partes acuerdan intentar una resolución mediante mediación ante el Centro de Mediación de Conflictos del Departamento de Justicia de Puerto Rico o ante DACO según corresponda.</p>
+    <h2 class="es">11. Ley Aplicable y Jurisdicción</h2>
+    <h2 class="en">11. Governing Law and Jurisdiction</h2>
+    <p class="es">Estos términos y condiciones se rigen por las leyes del Estado Libre Asociado de Puerto Rico. Cualquier disputa que no pueda resolverse amigablemente será sometida a la jurisdicción de los tribunales competentes de Puerto Rico.</p>
+    <p class="en">These terms and conditions are governed by the laws of the Commonwealth of Puerto Rico. Any dispute that cannot be resolved amicably will be submitted to the jurisdiction of the competent courts of Puerto Rico.</p>
+    <p class="es">Antes de iniciar cualquier procedimiento legal, las partes acuerdan intentar una resolución mediante mediación ante el Centro de Mediación de Conflictos del Departamento de Justicia de Puerto Rico o ante DACO según corresponda.</p>
+    <p class="en">Before starting any legal proceeding, the parties agree to attempt a resolution through mediation before the Conflict Mediation Center of the Puerto Rico Department of Justice or before DACO, as applicable.</p>
   </section>
 
   <section>
-    <h2>12. Modificaciones</h2>
-    <p>Wifnix LLC se reserva el derecho de modificar estos términos en cualquier momento. Los cambios serán publicados en wifnix.com con al menos 30 días de anticipación. El uso continuado del portal o servicios tras la fecha de vigencia de los cambios constituye aceptación de los nuevos términos.</p>
+    <h2 class="es">12. Modificaciones</h2>
+    <h2 class="en">12. Amendments</h2>
+    <p class="es">Wifnix LLC se reserva el derecho de modificar estos términos en cualquier momento. Los cambios serán publicados en wifnix.com con al menos 30 días de anticipación. El uso continuado del portal o servicios tras la fecha de vigencia de los cambios constituye aceptación de los nuevos términos.</p>
+    <p class="en">Wifnix LLC reserves the right to modify these terms at any time. Changes will be posted on wifnix.com at least 30 days in advance. Continued use of the portal or the services after the effective date of the changes constitutes acceptance of the new terms.</p>
   </section>
 
   <div class="contact-box">
-    <h3>¿Tienes preguntas sobre estos términos?</h3>
-    <p>Estamos aquí para ayudarte. Contáctanos en:</p>
+    <h3 class="es">¿Tienes preguntas sobre estos términos?</h3>
+    <h3 class="en">Questions about these terms?</h3>
+    <p class="es">Estamos aquí para ayudarte. Contáctanos en:</p>
+    <p class="en">We're here to help. Reach us at:</p>
     <p><a href="mailto:customerservice@wifnix.com">customerservice@wifnix.com</a></p>
-    <p><a href="tel:7873549596">(787) 354-9596</a> · Lun-Vie 8am-6pm · Sáb 9am-1pm</p>
-    <p style="margin-top:12px;font-size:0.75rem;color:var(--gray2)">Wifnix LLC · Puerto Rico · Todos los derechos reservados © 2025</p>
+    <p class="es"><a href="tel:7873549596">(787) 354-9596</a> · Lun-Vie 8am-6pm · Sáb 9am-1pm</p>
+    <p class="en"><a href="tel:7873549596">(787) 354-9596</a> · Mon-Fri 8am-6pm · Sat 9am-1pm</p>
+    <p class="es" style="margin-top:12px;font-size:0.75rem;color:var(--apagado)">Wifnix LLC · Puerto Rico · Todos los derechos reservados © 2025</p>
+    <p class="en" style="margin-top:12px;font-size:0.75rem;color:var(--apagado)">Wifnix LLC · Puerto Rico · All rights reserved © 2025</p>
   </div>
 
 </div>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

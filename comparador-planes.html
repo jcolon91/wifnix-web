@@ -4,114 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Comparador de Planes — Wifnix</title>
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--purple:#8B5CF6}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:1000px;margin:0 auto;padding:40px 20px}
+.wx-top{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--blue-light)}
+.header h1 .hl{color:var(--azul)}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
+.eyebrow{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
+.seclabel::after{content:'';flex:1;height:1px;background:var(--filo2)}
+.sechint{font-size:0.78rem;color:var(--texto);line-height:1.6;margin:-4px 0 16px}
 .needs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
-.need-card{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);text-align:center}
-.need-card:hover{border-color:rgba(11,143,204,0.35)}
-.need-card.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.need-icon{font-size:1.5rem;margin-bottom:6px}
-.need-name{font-size:0.78rem;font-weight:700;color:var(--gray);transition:color .2s}
-.need-card.sel .need-name{color:var(--white)}
+.need-card{border:1px solid var(--filo);border-radius:2px;padding:14px 12px;cursor:pointer;transition:border-color .2s;background:transparent;text-align:center}
+.need-card:hover{border-color:rgba(11,143,204,0.45)}
+.need-card.sel{border-color:var(--azul)}
+.need-name{font-size:0.78rem;font-weight:600;color:var(--texto);transition:color .2s}
+.need-card.sel .need-name{color:var(--tinta)}
 .plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.plan-card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:24px;position:relative;transition:all .3s}
-.plan-card.featured{border-color:var(--blue);transform:scale(1.02)}
-.plan-card.recommended{border-color:var(--success)}
-.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:4px 12px;border-radius:100px;white-space:nowrap}
-.plan-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:4px;text-align:center}
-.plan-price{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--blue-light);text-align:center;margin:12px 0 4px}
-.plan-period{font-size:0.72rem;color:var(--gray);text-align:center;margin-bottom:16px}
-.plan-features{display:flex;flex-direction:column;gap:8px}
-.plan-feature{display:flex;align-items:flex-start;gap:8px;font-size:0.75rem;color:var(--gray);line-height:1.4}
-.plan-feature.yes::before{content:'✓';color:var(--success);font-weight:800;flex-shrink:0}
-.plan-feature.no{opacity:0.4;text-decoration:line-through}
-.plan-feature.no::before{content:'✗';color:var(--error);font-weight:800;flex-shrink:0}
-.plan-btn{width:100%;margin-top:20px;padding:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
-.plan-btn.primary{background:var(--blue);color:white}.plan-btn.primary:hover{background:var(--blue-light)}
-.plan-btn.outline{background:transparent;color:var(--blue);border:1px solid rgba(11,143,204,0.3)}.plan-btn.outline:hover{background:rgba(11,143,204,0.08)}
-.plan-btn.success-btn{background:var(--success);color:var(--black)}.plan-btn.success-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
-.compare-table{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:14px;overflow:hidden;margin-bottom:20px}
-.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,0.04)}
+.plan-card{border:1px solid var(--filo);border-radius:2px;padding:22px 20px;transition:border-color .2s}
+.plan-card.recommended{border-color:var(--azul)}
+.plan-flag{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.58rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--azul);text-align:center;margin-bottom:10px}
+.plan-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:4px;text-align:center}
+.plan-price{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:var(--azul);text-align:center;margin:12px 0 4px}
+.plan-period{font-size:0.72rem;color:var(--texto);text-align:center;margin-bottom:16px}
+.plan-features{display:block;margin-top:4px}
+.plan-feature{font-size:0.75rem;color:var(--texto);line-height:1.5;padding:7px 0;border-top:1px solid var(--filo)}
+.plan-feature.no{color:var(--apagado);text-decoration:line-through}
+.plan-btn{width:100%;margin-top:20px;padding:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s,border-color .2s}
+.plan-btn.primary{background:var(--azul-fuerte);color:#FFFFFF}.plan-btn.primary:hover{background:var(--azul)}
+.plan-btn.outline{background:transparent;color:var(--azul);border:1px solid rgba(11,143,204,0.35)}.plan-btn.outline:hover{background:rgba(11,143,204,0.08)}
+.compare-table{border-top:1px solid var(--filo2);margin-bottom:28px}
+.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;border-bottom:1px solid var(--filo)}
 .compare-row:last-child{border-bottom:none}
-.compare-row.header-row{background:rgba(11,143,204,0.06)}
-.compare-cell{padding:12px 16px;font-size:0.78rem;color:var(--gray);display:flex;align-items:center}
-.compare-cell.feature-name{color:var(--white);font-weight:500}
+.compare-row.header-row{border-bottom-color:var(--filo2)}
+.compare-cell{padding:12px 14px 12px 0;font-size:0.78rem;color:var(--texto);display:flex;align-items:center}
+.compare-cell.feature-name{color:var(--tinta);font-weight:500}
 .compare-cell.center{justify-content:center;text-align:center}
-.check-yes{color:var(--success);font-size:1rem;font-weight:800}
-.check-no{color:var(--error);opacity:0.5;font-size:1rem}
-.check-partial{color:var(--warn);font-size:0.78rem;font-weight:600}
-.cta-box{background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
+.check-yes{color:var(--azul);font-size:0.95rem;font-weight:700}
+.check-no{color:var(--apagado);font-size:0.95rem}
+.check-partial{color:var(--texto);font-size:0.78rem;font-weight:500}
+.cta-box{border-top:1px solid var(--filo2);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:2px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--azul)}
 @media(max-width:768px){.plans-grid{grid-template-columns:1fr 1fr}.needs-grid{grid-template-columns:repeat(3,1fr)}.compare-row{grid-template-columns:1.5fr 1fr 1fr}.compare-cell:nth-child(4),.compare-cell:nth-child(5){display:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TELÉFONO ──
+   La media query de 768px baja las rejillas a dos columnas, y dos
+   tarjetas no caben en 375px: la página entera se desplazaba de lado.
+   Aquí van a una sola. */
+@media(max-width:560px){
+  .plans-grid,.needs-grid{grid-template-columns:1fr !important}
+  .compare-row{grid-template-columns:1.4fr 1fr !important}
+  .compare-cell:nth-child(3){display:none}
+}
+/* Un titular con una palabra larga empujaba el ancho de toda la
+   página. Que parta antes de desbordar. */
+h1,h2,h3,.card-title,.plan-name{overflow-wrap:break-word;hyphens:auto}
+@media(max-width:560px){
+  h1{font-size:clamp(1.35rem,6vw,1.9rem)}
+}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-top"><span data-wx-switches></span></div>
+
   <div class="header" style="animation:fadeUp .5s ease">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">🎯</span>
-      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">Encuentra tu plan ideal</span>
-    </div>
-    <h1>Comparador de <span>Planes Wifnix</span></h1>
-    <p>Selecciona lo que necesitas y te mostramos el plan que mejor se adapta a tu negocio y presupuesto.</p>
+    <div class="eyebrow">Wifnix LLC · Puerto Rico</div>
+    <h1><span class="es">Comparador de <span class="hl">Planes Wifnix</span></span><span class="en">Compare <span class="hl">Wifnix Plans</span></span></h1>
+    <p><span class="es">Encuentra tu plan ideal: selecciona lo que necesitas en CCTV, redes, HVAC, control de acceso o continuidad operacional y te mostramos el plan que mejor se adapta a tu negocio y a tu presupuesto.</span><span class="en">Find the right plan: pick what you need in CCTV, networking, HVAC, access control or operational continuity and we'll show you the plan that best fits your business and your budget.</span></p>
   </div>
 
-  <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:14px">¿Qué necesitas proteger? <span style="font-size:0.72rem;font-weight:400;color:var(--gray)">(selecciona todo lo que aplique)</span></div>
+  <div class="seclabel"><span class="es">Qué necesitas proteger</span><span class="en">What you need to protect</span></div>
+  <p class="sechint"><span class="es">Selecciona todo lo que aplique. Puedes combinar cámaras CCTV, redes WiFi, HVAC, control de acceso, monitoreo 24/7 y continuidad operacional en un mismo plan.</span><span class="en">Select everything that applies. You can combine CCTV cameras, WiFi networks, HVAC, access control, 24/7 monitoring and operational continuity in a single plan.</span></p>
   <div class="needs-grid">
-    <div class="need-card" onclick="toggleNeed('cctv',this)"><div class="need-icon">📹</div><div class="need-name">Cámaras CCTV</div></div>
-    <div class="need-card" onclick="toggleNeed('hvac',this)"><div class="need-icon">❄️</div><div class="need-name">HVAC</div></div>
-    <div class="need-card" onclick="toggleNeed('redes',this)"><div class="need-icon">🌐</div><div class="need-name">Redes WiFi</div></div>
-    <div class="need-card" onclick="toggleNeed('acceso',this)"><div class="need-icon">🔐</div><div class="need-name">Control Acceso</div></div>
-    <div class="need-card" onclick="toggleNeed('continuidad',this)"><div class="need-icon">⚡</div><div class="need-name">Continuidad</div></div>
-    <div class="need-card" onclick="toggleNeed('monitoreo',this)"><div class="need-icon">👁️</div><div class="need-name">Monitoreo 24/7</div></div>
-    <div class="need-card" onclick="toggleNeed('mantenimiento',this)"><div class="need-icon">🔧</div><div class="need-name">Mantenimiento</div></div>
-    <div class="need-card" onclick="toggleNeed('soporte',this)"><div class="need-icon">🤝</div><div class="need-name">Soporte técnico</div></div>
-    <div class="need-card" onclick="toggleNeed('web',this)"><div class="need-icon">💻</div><div class="need-name">Web / IA</div></div>
+    <div class="need-card" onclick="toggleNeed('cctv',this)"><div class="need-name"><span class="es">Cámaras CCTV</span><span class="en">CCTV Cameras</span></div></div>
+    <div class="need-card" onclick="toggleNeed('hvac',this)"><div class="need-name"><span class="es">HVAC</span><span class="en">HVAC</span></div></div>
+    <div class="need-card" onclick="toggleNeed('redes',this)"><div class="need-name"><span class="es">Redes WiFi</span><span class="en">WiFi Networks</span></div></div>
+    <div class="need-card" onclick="toggleNeed('acceso',this)"><div class="need-name"><span class="es">Control Acceso</span><span class="en">Access Control</span></div></div>
+    <div class="need-card" onclick="toggleNeed('continuidad',this)"><div class="need-name"><span class="es">Continuidad</span><span class="en">Continuity</span></div></div>
+    <div class="need-card" onclick="toggleNeed('monitoreo',this)"><div class="need-name"><span class="es">Monitoreo 24/7</span><span class="en">24/7 Monitoring</span></div></div>
+    <div class="need-card" onclick="toggleNeed('mantenimiento',this)"><div class="need-name"><span class="es">Mantenimiento</span><span class="en">Maintenance</span></div></div>
+    <div class="need-card" onclick="toggleNeed('soporte',this)"><div class="need-name"><span class="es">Soporte técnico</span><span class="en">Tech Support</span></div></div>
+    <div class="need-card" onclick="toggleNeed('web',this)"><div class="need-name"><span class="es">Web / IA</span><span class="en">Web / AI</span></div></div>
   </div>
 
   <div class="plans-grid" id="plans-grid">
     <!-- Filled by JS -->
   </div>
 
-  <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:16px">Comparación detallada</div>
+  <div class="seclabel"><span class="es">Comparación detallada</span><span class="en">Detailed comparison</span></div>
   <div class="compare-table">
     <div class="compare-row header-row">
-      <div class="compare-cell feature-name" style="font-family:'Syne',sans-serif;font-weight:800">Característica</div>
-      <div class="compare-cell center" style="color:var(--blue-light);font-weight:700">Básico</div>
-      <div class="compare-cell center" style="color:var(--blue-light);font-weight:700">Profesional</div>
-      <div class="compare-cell center" style="color:var(--success);font-weight:700">Enterprise</div>
-      <div class="compare-cell center" style="color:#C084FC;font-weight:700">Managed</div>
+      <div class="compare-cell feature-name" style="font-family:'Syne',sans-serif;font-weight:800"><span class="es">Característica</span><span class="en">Feature</span></div>
+      <div class="compare-cell center" style="color:var(--tinta);font-weight:700"><span class="es">Básico</span><span class="en">Basic</span></div>
+      <div class="compare-cell center" style="color:var(--tinta);font-weight:700"><span class="es">Profesional</span><span class="en">Professional</span></div>
+      <div class="compare-cell center" style="color:var(--tinta);font-weight:700"><span class="es">Enterprise</span><span class="en">Enterprise</span></div>
+      <div class="compare-cell center" style="color:var(--tinta);font-weight:700"><span class="es">Managed</span><span class="en">Managed</span></div>
     </div>
-    <div class="compare-row"><div class="compare-cell feature-name">Instalación profesional</div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">CCTV incluido</div><div class="compare-cell center"><span class="check-partial">4 cámaras</span></div><div class="compare-cell center"><span class="check-partial">8 cámaras</span></div><div class="compare-cell center"><span class="check-partial">16+ cámaras</span></div><div class="compare-cell center"><span class="check-partial">Custom</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Resolución de cámaras</div><div class="compare-cell center"><span class="check-partial">1080p</span></div><div class="compare-cell center"><span class="check-partial">4K</span></div><div class="compare-cell center"><span class="check-partial">4K + IA</span></div><div class="compare-cell center"><span class="check-partial">4K + IA</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Acceso remoto app móvil</div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">WiFi empresarial</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Control de acceso</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Opcional</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Monitoreo 24/7</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Mantenimiento preventivo</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Anual</span></div><div class="compare-cell center"><span class="check-partial">Semestral</span></div><div class="compare-cell center"><span class="check-yes">Mensual</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">SLA de soporte</div><div class="compare-cell center"><span class="check-partial">48h</span></div><div class="compare-cell center"><span class="check-partial">24h</span></div><div class="compare-cell center"><span class="check-partial">8h</span></div><div class="compare-cell center"><span class="check-partial">4h</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Garantía de equipos</div><div class="compare-cell center"><span class="check-partial">1 año</span></div><div class="compare-cell center"><span class="check-partial">2 años</span></div><div class="compare-cell center"><span class="check-partial">3 años</span></div><div class="compare-cell center"><span class="check-partial">3 años+</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Backup internet 4G</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Opcional</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Panel de gestión web</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
-    <div class="compare-row"><div class="compare-cell feature-name">Informes y reportes</div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial">Básico</span></div><div class="compare-cell center"><span class="check-partial">Avanzado</span></div><div class="compare-cell center"><span class="check-yes">Completo</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Instalación profesional</span><span class="en">Professional installation</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">CCTV incluido</span><span class="en">CCTV included</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">4 cámaras</span><span class="en">4 cameras</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">8 cámaras</span><span class="en">8 cameras</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">16+ cámaras</span><span class="en">16+ cameras</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Custom</span><span class="en">Custom</span></span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Resolución de cámaras</span><span class="en">Camera resolution</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">1080p</span><span class="en">1080p</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">4K</span><span class="en">4K</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">4K + IA</span><span class="en">4K + AI</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">4K + IA</span><span class="en">4K + AI</span></span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Acceso remoto app móvil</span><span class="en">Remote access from mobile app</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">WiFi empresarial</span><span class="en">Enterprise WiFi</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Control de acceso</span><span class="en">Access control</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Opcional</span><span class="en">Optional</span></span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Monitoreo 24/7</span><span class="en">24/7 monitoring</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Mantenimiento preventivo</span><span class="en">Preventive maintenance</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Anual</span><span class="en">Yearly</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Semestral</span><span class="en">Every 6 months</span></span></div><div class="compare-cell center"><span class="check-yes"><span class="es">Mensual</span><span class="en">Monthly</span></span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">SLA de soporte</span><span class="en">Support SLA</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">48h</span><span class="en">48h</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">24h</span><span class="en">24h</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">8h</span><span class="en">8h</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">4h</span><span class="en">4h</span></span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Garantía de equipos</span><span class="en">Equipment warranty</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">1 año</span><span class="en">1 year</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">2 años</span><span class="en">2 years</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">3 años</span><span class="en">3 years</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">3 años+</span><span class="en">3+ years</span></span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Backup internet 4G</span><span class="en">4G internet backup</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Opcional</span><span class="en">Optional</span></span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Panel de gestión web</span><span class="en">Web management panel</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div><div class="compare-cell center"><span class="check-yes">✓</span></div></div>
+    <div class="compare-row"><div class="compare-cell feature-name"><span class="es">Informes y reportes</span><span class="en">Reports and analytics</span></div><div class="compare-cell center"><span class="check-no">✗</span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Básico</span><span class="en">Basic</span></span></div><div class="compare-cell center"><span class="check-partial"><span class="es">Avanzado</span><span class="en">Advanced</span></span></div><div class="compare-cell center"><span class="check-yes"><span class="es">Completo</span><span class="en">Complete</span></span></div></div>
   </div>
 
   <div class="cta-box">
     <div>
-      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Necesitas un plan personalizado?</h3>
-      <p style="font-size:0.78rem;color:var(--gray)">Creamos soluciones a la medida de tu negocio. Hablemos sin compromiso.</p>
+      <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px"><span class="es">¿Necesitas un plan personalizado?</span><span class="en">Need a custom plan?</span></h3>
+      <p style="font-size:0.78rem;color:var(--texto)"><span class="es">Creamos soluciones a la medida de tu negocio. Hablemos sin compromiso.</span><span class="en">We build solutions tailored to your business. Let's talk, no strings attached.</span></p>
     </div>
-    <a href="#" onclick="openLead(); return false;" class="cta-btn">Hablar con un experto</a>
+    <a href="#" onclick="openLead(); return false;" class="cta-btn"><span class="es">Hablar con un experto</span><span class="en">Talk to an expert</span></a>
   </div>
 </div>
 
@@ -120,38 +149,87 @@ const needs = new Set();
 
 const PLANS = [
   {
-    id:'basico', name:'Básico', price:'Desde $800', period:'pago único',
-    badge:'Para empezar', badgeColor:'rgba(11,143,204,0.2)', badgeTextColor:'var(--blue-light)',
-    features:['4 cámaras Full HD 1080p','DVR 4 canales 1TB','App móvil incluida','Instalación profesional','Garantía 1 año'],
-    noFeatures:['WiFi empresarial','Control de acceso','Monitoreo 24/7','Backup internet'],
+    id:'basico',
+    name:{es:'Básico',en:'Basic'},
+    price:{es:'Desde $800',en:'From $800'},
+    period:{es:'pago único',en:'one-time payment'},
+    features:[
+      {es:'4 cámaras Full HD 1080p',en:'4 Full HD 1080p cameras'},
+      {es:'DVR 4 canales 1TB',en:'4-channel DVR with 1TB'},
+      {es:'App móvil incluida',en:'Mobile app included'},
+      {es:'Instalación profesional',en:'Professional installation'},
+      {es:'Garantía 1 año',en:'1-year warranty'}
+    ],
+    noFeatures:[
+      {es:'WiFi empresarial',en:'Enterprise WiFi'},
+      {es:'Control de acceso',en:'Access control'},
+      {es:'Monitoreo 24/7',en:'24/7 monitoring'},
+      {es:'Backup internet',en:'Internet backup'}
+    ],
     score:{cctv:2,soporte:1},
     btn:'outline'
   },
   {
-    id:'profesional', name:'Profesional', price:'Desde $2,400', period:'pago único',
-    badge:'Más popular', badgeColor:'rgba(11,143,204,0.3)', badgeTextColor:'white',
-    features:['8 cámaras IP 4K','NVR 8ch con 4TB','WiFi empresarial','App + alertas inteligentes','Soporte 24h','Garantía 2 años'],
-    noFeatures:['Monitoreo 24/7','Control de acceso incluido'],
+    id:'profesional',
+    name:{es:'Profesional',en:'Professional'},
+    price:{es:'Desde $2,400',en:'From $2,400'},
+    period:{es:'pago único',en:'one-time payment'},
+    features:[
+      {es:'8 cámaras IP 4K',en:'8 4K IP cameras'},
+      {es:'NVR 8ch con 4TB',en:'8-channel NVR with 4TB'},
+      {es:'WiFi empresarial',en:'Enterprise WiFi'},
+      {es:'App + alertas inteligentes',en:'App + smart alerts'},
+      {es:'Soporte 24h',en:'24h support'},
+      {es:'Garantía 2 años',en:'2-year warranty'}
+    ],
+    noFeatures:[
+      {es:'Monitoreo 24/7',en:'24/7 monitoring'},
+      {es:'Control de acceso incluido',en:'Access control included'}
+    ],
     score:{cctv:3,redes:3,soporte:2,mantenimiento:1},
     btn:'primary'
   },
   {
-    id:'enterprise', name:'Enterprise', price:'Desde $6,000', period:'pago único',
-    badge:'Recomendado', badgeColor:'rgba(0,229,160,0.2)', badgeTextColor:'var(--success)',
-    features:['16-32 cámaras 4K + IA','Red gestionada completa','Control de acceso biométrico','Monitoreo 24/7','Backup internet 4G','Soporte SLA 8h','Garantía 3 años'],
+    id:'enterprise',
+    name:{es:'Enterprise',en:'Enterprise'},
+    price:{es:'Desde $6,000',en:'From $6,000'},
+    period:{es:'pago único',en:'one-time payment'},
+    features:[
+      {es:'16-32 cámaras 4K + IA',en:'16-32 4K cameras with AI'},
+      {es:'Red gestionada completa',en:'Fully managed network'},
+      {es:'Control de acceso biométrico',en:'Biometric access control'},
+      {es:'Monitoreo 24/7',en:'24/7 monitoring'},
+      {es:'Backup internet 4G',en:'4G internet backup'},
+      {es:'Soporte SLA 8h',en:'8h SLA support'},
+      {es:'Garantía 3 años',en:'3-year warranty'}
+    ],
     noFeatures:[],
     score:{cctv:4,redes:4,acceso:4,continuidad:3,monitoreo:4,mantenimiento:3,soporte:3},
     btn:'primary'
   },
   {
-    id:'managed', name:'Managed Services', price:'$299/mes', period:'por mes',
-    badge:'Todo incluido', badgeColor:'rgba(139,92,246,0.2)', badgeTextColor:'#C084FC',
-    features:['Todo el plan Enterprise','Mantenimiento mensual','Monitoreo NOC 24/7','SLA 4 horas garantizado','Reemplazo de equipos','Actualizaciones incluidas','Informes ejecutivos mensuales'],
+    id:'managed',
+    name:{es:'Managed Services',en:'Managed Services'},
+    price:{es:'$299/mes',en:'$299/mo'},
+    period:{es:'por mes',en:'per month'},
+    features:[
+      {es:'Todo el plan Enterprise',en:'Everything in the Enterprise plan'},
+      {es:'Mantenimiento mensual',en:'Monthly maintenance'},
+      {es:'Monitoreo NOC 24/7',en:'24/7 NOC monitoring'},
+      {es:'SLA 4 horas garantizado',en:'Guaranteed 4-hour SLA'},
+      {es:'Reemplazo de equipos',en:'Equipment replacement'},
+      {es:'Actualizaciones incluidas',en:'Updates included'},
+      {es:'Informes ejecutivos mensuales',en:'Monthly executive reports'}
+    ],
     noFeatures:[],
     score:{cctv:4,redes:4,acceso:4,continuidad:4,monitoreo:4,mantenimiento:4,soporte:4,hvac:2,web:2},
-    btn:'success-btn'
+    btn:'primary'
   }
 ];
+
+// Los dos idiomas se pintan a la vez y el CSS compartido enseña el que toca.
+// Así el interruptor de idioma no obliga a volver a dibujar las tarjetas.
+function par(t){ return '<span class="es">'+t.es+'</span><span class="en">'+t.en+'</span>'; }
 
 function toggleNeed(key, el) {
   el.classList.toggle('sel');
@@ -171,15 +249,15 @@ function renderPlans() {
 
   document.getElementById('plans-grid').innerHTML = scored.map(p => `
     <div class="plan-card ${p.id === recommended && needs.size > 0 ? 'recommended' : ''}" style="animation:fadeUp .4s ease">
-      ${p.badge ? `<div class="plan-badge" style="background:${p.badgeColor};color:${p.badgeTextColor}">${p.id === recommended && needs.size > 0 ? '⭐ Ideal para ti' : p.badge}</div>` : ''}
-      <div class="plan-name">${p.name}</div>
-      <div class="plan-price">${p.price}</div>
-      <div class="plan-period">${p.period}</div>
+      ${p.id === recommended && needs.size > 0 ? `<div class="plan-flag">${par({es:'Ideal para ti',en:'Best fit for you'})}</div>` : ''}
+      <div class="plan-name">${par(p.name)}</div>
+      <div class="plan-price">${par(p.price)}</div>
+      <div class="plan-period">${par(p.period)}</div>
       <div class="plan-features">
-        ${p.features.map(f=>`<div class="plan-feature yes">${f}</div>`).join('')}
-        ${p.noFeatures.map(f=>`<div class="plan-feature no">${f}</div>`).join('')}
+        ${p.features.map(f=>`<div class="plan-feature yes">${par(f)}</div>`).join('')}
+        ${p.noFeatures.map(f=>`<div class="plan-feature no">${par(f)}</div>`).join('')}
       </div>
-      <button class="plan-btn ${p.btn}" onclick="openLead()">Solicitar información</button>
+      <button class="plan-btn ${p.btn}" onclick="openLead()">${par({es:'Solicitar información',en:'Request information'})}</button>
     </div>
   `).join('');
 }
@@ -189,97 +267,97 @@ renderPlans();
 
 
 <!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.25);box-shadow:var(--sombra);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
 
     <!-- LOGGED IN STATE -->
     <div id="lead-loggedin" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--azul-fuerte));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#FFFFFF;flex-shrink:0" id="lead-avatar">?</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--tinta)" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:var(--verde)"><span class="es">Cuenta verificada</span><span class="en">Verified account</span></div>
         </div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title-li"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</span><span class="en">Our team will reach out within 24 hours with your custom proposal.</span></div>
+      <div id="lead-summary-li" style="padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7;margin-bottom:16px"></div>
       <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Mensaje adicional (opcional)</span><span class="en">Additional message (optional)</span></div>
+        <textarea id="lead-msg" data-es="Alguna información adicional para el equipo..." data-en="Anything else the team should know..." placeholder="Alguna información adicional para el equipo..." style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer"><span class="es">Enviar solicitud</span><span class="en">Send request</span></button>
+        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer"><span class="es">Cancelar</span><span class="en">Cancel</span></button>
       </div>
     </div>
 
     <!-- GUEST STATE -->
     <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</span><span class="en">Our team will reach out within 24 hours with your proposal.</span></div>
 
       <!-- AUTH OPTIONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
         <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--azul);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)"><span class="es">Continuar como invitado</span><span class="en">Continue as a guest</span></div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px"><span class="es">Solo email, rápido</span><span class="en">Just an email, fast</span></div>
         </div>
         <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--verde);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)"><span class="es">Crear cuenta</span><span class="en">Create an account</span></div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px"><span class="es">Guarda tu historial</span><span class="en">Keeps your history</span></div>
         </div>
       </div>
 
       <!-- GUEST FORM -->
       <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Nombre completo *</span><span class="en">Full name *</span></div>
+            <input type="text" id="lead-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Email *</span><span class="en">Email *</span></div>
+            <input type="email" id="lead-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Teléfono</span><span class="en">Phone</span></div>
+            <input type="tel" id="lead-tel" data-es="(787) 000-0000" data-en="(787) 000-0000" placeholder="(787) 000-0000" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
         </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+          <button onclick="submitLead()" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer"><span class="es">Enviar solicitud</span><span class="en">Send request</span></button>
+          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer"><span class="es">Cancelar</span><span class="en">Cancel</span></button>
         </div>
         <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+          <span style="font-size:0.7rem;color:var(--apagado)"><span class="es">Ya tienes cuenta? </span><span class="en">Already have an account? </span></span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul);text-decoration:none"><span class="es">Inicia sesión</span><span class="en">Sign in</span></a>
         </div>
       </div>
 
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px"><span class="es">Sin compromiso · Tu información es confidencial</span><span class="en">No obligation · Your information stays confidential</span></p>
     </div>
 
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(0,229,160,0.3);box-shadow:var(--sombra);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px"><span class="es">Solicitud enviada</span><span class="en">Request sent</span></div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</span><span class="en">Our team will reach out within 24 hours with your custom proposal.</span></div>
+    <div style="font-size:0.78rem;color:var(--azul);margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px"><span class="es">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</span><span class="en">In the meantime you can create a portal account to track your request.</span></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <button onclick="closeLead()" style="padding:11px 24px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer"><span class="es">Cerrar</span><span class="en">Close</span></button>
+      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none"><span class="es">Crear cuenta</span><span class="en">Create account</span></a>
     </div>
   </div>
 </div>
@@ -287,6 +365,10 @@ renderPlans();
 <script>
 var _leadData = {};
 var _wifnixUser = null;
+
+// El idioma vive en el <html>; el JS lo lee para los mensajes que escribe.
+function _idi(){ return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en){ return _idi() === 'en' ? en : es; }
 
 // Check if user is logged in via portal session
 try {
@@ -342,7 +424,7 @@ function submitLead() {
   var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
     alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.textContent = T('Por favor ingresa tu nombre y email.', 'Please enter your name and email.');
     return;
   }
   sendLead(nombre, email, tel, '');
@@ -374,12 +456,12 @@ function sendLead(nombre, email, tel, msg) {
   .then(function(r) { return r.json(); })
   .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success-email').textContent = T('Confirmación enviada a: ', 'Confirmation sent to: ') + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
     var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
+    if (alertEl) { alertEl.style.display='block'; alertEl.textContent = T('Error. Llámanos al (787) 354-9596', 'Something went wrong. Call us at (787) 354-9596'); }
   });
 }
 
@@ -387,5 +469,6 @@ document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLea
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
 
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

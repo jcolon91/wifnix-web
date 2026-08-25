@@ -4,232 +4,343 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz — ¿Qué sistema necesitas? — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555;--purple:#8B5CF6}
+:root{--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:700px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--purple)}
-.header p{font-size:0.88rem;color:var(--gray);line-height:1.7}
+/* El acento del titular va en EM y no en SPAN: los gemelos .es/.en
+   son spans, y si el color colgara del span se lo llevarían ellos. */
+.header h1 em{color:var(--azul);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);line-height:1.7;max-width:560px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
 .progress-wrap{margin-bottom:32px}
-.progress-top{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray2);margin-bottom:8px}
-.progress{background:rgba(255,255,255,0.06);border-radius:100px;height:6px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--purple),#C084FC);border-radius:100px;transition:width .4s}
-.question-card{background:var(--card);border:1px solid rgba(139,92,246,0.2);border-radius:16px;padding:32px;animation:fadeUp .4s ease}
-.question-num{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--purple);margin-bottom:12px}
-.question-text{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);line-height:1.4;margin-bottom:24px}
+.progress-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:8px}
+.progress{background:var(--filo);height:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--azul);transition:width .4s}
+.question-card{background:var(--panel);border:1px solid rgba(11,143,204,0.22);border-radius:4px;padding:32px;animation:fadeUp .4s ease}
+.question-num{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin-bottom:12px}
+.question-text{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--tinta);line-height:1.4;margin-bottom:24px}
 .options{display:flex;flex-direction:column;gap:10px}
-.opt{border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:16px 20px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:14px}
-.opt:hover{border-color:rgba(139,92,246,0.4);background:rgba(139,92,246,0.06)}
-.opt.sel{border-color:var(--purple);background:rgba(139,92,246,0.12)}
-.opt-icon{font-size:1.4rem;flex-shrink:0;width:36px;text-align:center}
-.opt-text{font-size:0.85rem;font-weight:600;color:var(--gray);transition:color .2s}
-.opt.sel .opt-text{color:var(--white)}
-.opt-sub{font-size:0.7rem;color:var(--gray2);margin-top:2px}
+.opt{border:1px solid var(--filo2);border-radius:4px;padding:15px 18px;cursor:pointer;transition:border-color .2s,box-shadow .2s;display:flex;align-items:center;gap:14px}
+.opt:hover{border-color:rgba(11,143,204,0.45)}
+.opt.sel{border-color:var(--azul);box-shadow:inset 3px 0 0 var(--azul)}
+.opt-text{font-size:0.85rem;font-weight:600;color:var(--texto);transition:color .2s}
+.opt.sel .opt-text{color:var(--tinta)}
+.opt-sub{font-size:0.7rem;color:var(--apagado);margin-top:2px}
 .nav{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
-.btn-next{padding:12px 28px;background:var(--purple);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
-.btn-next:hover{background:#A78BFA;transform:translateY(-1px)}
-.btn-prev{padding:10px 20px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:600;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .2s}
-.btn-prev:hover{border-color:var(--gray);color:var(--white)}
+.btn-next{padding:12px 28px;background:var(--azul);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:4px;border:none;cursor:pointer;transition:all .2s}
+.btn-next:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-prev{padding:10px 20px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:600;font-size:0.78rem;border-radius:4px;border:1px solid var(--filo2);cursor:pointer;transition:all .2s}
+.btn-prev:hover{border-color:var(--apagado);color:var(--tinta)}
 /* RESULTS */
-.result-header{background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(13,26,42,0.9));border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
-.result-plan{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--purple)}
-.pkg-card{background:var(--card);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:20px;margin-bottom:12px}
-.pkg-card.recommended{border-color:var(--purple);background:rgba(139,92,246,0.06)}
-.pkg-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:8px}
-.pkg-price{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--success)}
-.pkg-features{margin-top:12px;display:flex;flex-direction:column;gap:6px}
-.pkg-feature{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--gray)}
-.pkg-feature::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0}
-.cta-box{background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
-.cta-btn{padding:12px 28px;background:var(--purple);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:#A78BFA;transform:translateY(-2px)}
+.result-header{border-top:1px solid var(--filo2);border-bottom:1px solid var(--filo2);padding:30px 0;text-align:center;margin-bottom:6px}
+.result-plan{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--azul)}
+.pkg-card{padding:20px 0;border-bottom:1px solid var(--filo)}
+.pkg-card:last-child{border-bottom:none}
+.plan-tag{font-family:var(--mono);font-size:0.6rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--azul);margin-bottom:9px}
+.pkg-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta)}
+.pkg-price{font-family:var(--mono);font-size:1rem;font-weight:600;color:var(--verde)}
+.pkg-specs{margin-top:10px;font-size:0.78rem;color:var(--texto);line-height:1.7}
+.cta-box{border-top:1px solid var(--filo);padding:24px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:22px}
+.cta-btn{padding:12px 28px;background:var(--azul);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:4px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{filter:brightness(1.08);transform:translateY(-2px)}
+.btn-azul{background:var(--azul-fuerte);color:#FFFFFF}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
+
   <div class="header">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:1rem">🎯</span>
-      <span style="font-size:0.7rem;font-weight:700;color:#C084FC;letter-spacing:0.08em;text-transform:uppercase">Quiz de 8 preguntas</span>
-    </div>
-    <h1>¿Qué sistema <span>necesitas?</span></h1>
-    <p>Responde 8 preguntas rápidas y te decimos exactamente qué solución de seguridad y tecnología se adapta a tu negocio.</p>
+    <div class="eyebrow es">Quiz de 8 preguntas · Seguridad y tecnología</div>
+    <div class="eyebrow en">8-question quiz · Security and technology</div>
+    <h1><span class="es">¿Qué sistema <em>necesitas?</em></span><span class="en">Which system <em>do you need?</em></span></h1>
+    <p class="es">Responde 8 preguntas rápidas y te decimos exactamente qué solución de CCTV, control de acceso, alarmas y redes se adapta a tu negocio en Puerto Rico.</p>
+    <p class="en">Answer 8 quick questions and we will tell you exactly which CCTV, access control, alarm and network solution fits your business in Puerto Rico.</p>
   </div>
 
   <div class="progress-wrap">
-    <div class="progress-top"><span id="q-label">Pregunta 1 de 8</span><span id="q-pct">12%</span></div>
+    <div class="progress-top"><span id="q-label"><span class="es">Pregunta 1 de 8</span><span class="en">Question 1 of 8</span></span><span id="q-pct">12%</span></div>
     <div class="progress"><div class="progress-fill" id="prog" style="width:12%"></div></div>
   </div>
 
   <div id="quiz-section">
     <div class="question-card" id="q-card">
-      <div class="question-num" id="q-num">Pregunta 1</div>
-      <div class="question-text" id="q-text">Cargando...</div>
+      <div class="question-num" id="q-num"><span class="es">Pregunta 1</span><span class="en">Question 1</span></div>
+      <div class="question-text" id="q-text"><span class="es">Cargando...</span><span class="en">Loading...</span></div>
       <div class="options" id="q-opts"></div>
       <div class="nav">
-        <button class="btn-prev" id="btn-prev" onclick="prevQ()" style="visibility:hidden">← Anterior</button>
-        <button class="btn-next" id="btn-next" onclick="nextQ()">Siguiente →</button>
+        <!-- Los rótulos viven dentro del botón: el id es uno solo porque
+             el script le cambia la visibilidad y el texto. -->
+        <button class="btn-prev" id="btn-prev" onclick="prevQ()" style="visibility:hidden"><span class="es">← Anterior</span><span class="en">← Previous</span></button>
+        <button class="btn-next" id="btn-next" onclick="nextQ()"><span class="es">Siguiente →</span><span class="en">Next →</span></button>
       </div>
     </div>
   </div>
 
   <div id="result-section" style="display:none;animation:fadeUp .5s ease">
     <div class="result-header">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C084FC;margin-bottom:10px">Tu solución ideal</div>
+      <div class="eyebrow es" style="margin-bottom:10px">Tu solución ideal</div>
+      <div class="eyebrow en" style="margin-bottom:10px">Your ideal solution</div>
       <div class="result-plan" id="r-plan">—</div>
-      <div style="font-size:0.85rem;color:var(--gray);margin-top:8px;line-height:1.6" id="r-desc">—</div>
+      <div style="font-size:0.85rem;color:var(--texto);margin-top:8px;line-height:1.6" id="r-desc">—</div>
     </div>
     <div id="r-pkgs"></div>
     <div class="cta-box">
       <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Lista para proteger tu negocio?</h3>
-        <p style="font-size:0.78rem;color:var(--gray)">Agenda una evaluación gratuita. Nuestros expertos van a tu local sin costo ni compromiso.</p>
+        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="es">¿Lista para proteger tu negocio?</h3>
+        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px" class="en">Ready to protect your business?</h3>
+        <p style="font-size:0.78rem;color:var(--texto)" class="es">Agenda una evaluación gratuita. Nuestros expertos van a tu local sin costo ni compromiso.</p>
+        <p style="font-size:0.78rem;color:var(--texto)" class="en">Schedule a free assessment. Our experts come to your location at no cost and with no obligation.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <a href="#" onclick="openLead(); return false;" class="cta-btn">Agendar evaluación</a>
-        <button onclick="resetQuiz()" style="padding:9px;background:transparent;color:var(--gray);font-size:0.75rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer">Repetir quiz</button>
+        <a href="#" onclick="openLead(); return false;" class="cta-btn es">Agendar evaluación</a>
+        <a href="#" onclick="openLead(); return false;" class="cta-btn en">Schedule an assessment</a>
+        <button onclick="resetQuiz()" class="es" style="padding:9px;background:transparent;color:var(--texto);font-size:0.75rem;border:1px solid var(--filo2);border-radius:4px;cursor:pointer">Repetir quiz</button>
+        <button onclick="resetQuiz()" class="en" style="padding:9px;background:transparent;color:var(--texto);font-size:0.75rem;border:1px solid var(--filo2);border-radius:4px;cursor:pointer">Retake the quiz</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
+// ── IDIOMA ──
+// El interruptor compartido cambia data-idioma en el <html>. Las
+// preguntas, las respuestas y los paquetes viven dentro de este
+// script, así que todos guardan sus dos versiones y se elige al
+// pintar. Nada de texto suelto en un solo idioma.
+function idi() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return idi() === 'en' ? en : es; }
+function L(par) { return par[idi()]; }
+
 const QUESTIONS = [
   {
-    text: '¿Qué tipo de negocio o espacio tienes?',
+    text: {es:'¿Qué tipo de negocio o espacio tienes?', en:'What kind of business or space do you have?'},
     opts: [
-      {icon:'🏪',text:'Tienda o comercio retail',sub:'Boutique, farmacia, supermercado',val:'comercio'},
-      {icon:'🏢',text:'Oficina o empresa',sub:'Corporativo, coworking, consultorio',val:'oficina'},
-      {icon:'🍽️',text:'Restaurante o cafetería',sub:'Comida, bar, café',val:'restaurante'},
-      {icon:'🏠',text:'Residencia',sub:'Casa, apartamento, villa',val:'residencia'},
-      {icon:'🏭',text:'Almacén o manufactura',sub:'Warehouse, fábrica, taller',val:'industrial'},
-      {icon:'✂️',text:'Salón o spa',sub:'Barbería, salón de belleza, spa',val:'salon'},
+      {text:{es:'Tienda o comercio retail',en:'Retail store or shop'},sub:{es:'Boutique, farmacia, supermercado',en:'Boutique, pharmacy, supermarket'},val:'comercio'},
+      {text:{es:'Oficina o empresa',en:'Office or company'},sub:{es:'Corporativo, coworking, consultorio',en:'Corporate, coworking, medical office'},val:'oficina'},
+      {text:{es:'Restaurante o cafetería',en:'Restaurant or café'},sub:{es:'Comida, bar, café',en:'Food service, bar, coffee shop'},val:'restaurante'},
+      {text:{es:'Residencia',en:'Home'},sub:{es:'Casa, apartamento, villa',en:'House, apartment, villa'},val:'residencia'},
+      {text:{es:'Almacén o manufactura',en:'Warehouse or manufacturing'},sub:{es:'Warehouse, fábrica, taller',en:'Warehouse, plant, workshop'},val:'industrial'},
+      {text:{es:'Salón o spa',en:'Salon or spa'},sub:{es:'Barbería, salón de belleza, spa',en:'Barbershop, beauty salon, spa'},val:'salon'},
     ]
   },
   {
-    text: '¿Cuántas personas trabajan o visitan el espacio diariamente?',
+    text: {es:'¿Cuántas personas trabajan o visitan el espacio diariamente?', en:'How many people work in or visit the space each day?'},
     opts: [
-      {icon:'👤',text:'1-5 personas',sub:'Negocio pequeño o residencia',val:'micro'},
-      {icon:'👥',text:'6-20 personas',sub:'Equipo pequeño o mediano',val:'pequeno'},
-      {icon:'👨‍👩‍👧‍👦',text:'21-50 personas',sub:'Empresa mediana',val:'mediano'},
-      {icon:'🏙️',text:'Más de 50 personas',sub:'Empresa grande o espacio público',val:'grande'},
+      {text:{es:'1-5 personas',en:'1-5 people'},sub:{es:'Negocio pequeño o residencia',en:'Small business or home'},val:'micro'},
+      {text:{es:'6-20 personas',en:'6-20 people'},sub:{es:'Equipo pequeño o mediano',en:'Small or midsize team'},val:'pequeno'},
+      {text:{es:'21-50 personas',en:'21-50 people'},sub:{es:'Empresa mediana',en:'Midsize company'},val:'mediano'},
+      {text:{es:'Más de 50 personas',en:'More than 50 people'},sub:{es:'Empresa grande o espacio público',en:'Large company or public space'},val:'grande'},
     ]
   },
   {
-    text: '¿Cuál es tu mayor preocupación de seguridad?',
+    text: {es:'¿Cuál es tu mayor preocupación de seguridad?', en:'What is your biggest security concern?'},
     opts: [
-      {icon:'🦹',text:'Robos o intrusiones',sub:'Acceso no autorizado, vandalismo',val:'robo'},
-      {icon:'📋',text:'Evidencia y documentación',sub:'Registrar incidentes, disputas, auditorías',val:'evidencia'},
-      {icon:'👷',text:'Seguridad de empleados',sub:'Monitorear trabajo, prevenir accidentes',val:'empleados'},
-      {icon:'🔑',text:'Control de quién entra y sale',sub:'Acceso a áreas restringidas',val:'acceso'},
+      {text:{es:'Robos o intrusiones',en:'Theft or break-ins'},sub:{es:'Acceso no autorizado, vandalismo',en:'Unauthorized access, vandalism'},val:'robo'},
+      {text:{es:'Evidencia y documentación',en:'Evidence and documentation'},sub:{es:'Registrar incidentes, disputas, auditorías',en:'Recording incidents, disputes, audits'},val:'evidencia'},
+      {text:{es:'Seguridad de empleados',en:'Employee safety'},sub:{es:'Monitorear trabajo, prevenir accidentes',en:'Monitoring work, preventing accidents'},val:'empleados'},
+      {text:{es:'Control de quién entra y sale',en:'Controlling who comes and goes'},sub:{es:'Control de acceso a áreas restringidas',en:'Access control for restricted areas'},val:'acceso'},
     ]
   },
   {
-    text: '¿Tienes actualmente algún sistema de seguridad?',
+    text: {es:'¿Tienes actualmente algún sistema de seguridad?', en:'Do you currently have any security system?'},
     opts: [
-      {icon:'❌',text:'No tengo nada',sub:'Empezando desde cero',val:'nada'},
-      {icon:'📷',text:'Cámaras básicas o análogas',sub:'Sistema antiguo o de baja calidad',val:'basico'},
-      {icon:'🔐',text:'Alarma solamente',sub:'Sin cámaras ni control de acceso',val:'alarma'},
-      {icon:'✅',text:'Sistema completo',sub:'Quiero expandirlo o mejorarlo',val:'completo'},
+      {text:{es:'No tengo nada',en:'Nothing at all'},sub:{es:'Empezando desde cero',en:'Starting from scratch'},val:'nada'},
+      {text:{es:'Cámaras básicas o análogas',en:'Basic or analog cameras'},sub:{es:'Sistema de CCTV antiguo o de baja calidad',en:'Old or low-quality CCTV system'},val:'basico'},
+      {text:{es:'Alarma solamente',en:'Alarm only'},sub:{es:'Sin cámaras ni control de acceso',en:'No cameras, no access control'},val:'alarma'},
+      {text:{es:'Sistema completo',en:'A complete system'},sub:{es:'Quiero expandirlo o mejorarlo',en:'I want to expand or upgrade it'},val:'completo'},
     ]
   },
   {
-    text: '¿Cuánto espacio necesitas cubrir?',
+    text: {es:'¿Cuánto espacio necesitas cubrir?', en:'How much space do you need to cover?'},
     opts: [
-      {icon:'🏠',text:'Menos de 500 ft²',sub:'Local pequeño, residencia',val:'xs'},
-      {icon:'🏪',text:'500 - 1,500 ft²',sub:'Tienda o oficina mediana',val:'sm'},
-      {icon:'🏢',text:'1,500 - 5,000 ft²',sub:'Empresa o local grande',val:'md'},
-      {icon:'🏭',text:'Más de 5,000 ft²',sub:'Complejo o múltiples áreas',val:'lg'},
+      {text:{es:'Menos de 500 ft²',en:'Less than 500 ft²'},sub:{es:'Local pequeño, residencia',en:'Small location, home'},val:'xs'},
+      {text:{es:'500 - 1,500 ft²',en:'500 - 1,500 ft²'},sub:{es:'Tienda o oficina mediana',en:'Midsize store or office'},val:'sm'},
+      {text:{es:'1,500 - 5,000 ft²',en:'1,500 - 5,000 ft²'},sub:{es:'Empresa o local grande',en:'Large company or location'},val:'md'},
+      {text:{es:'Más de 5,000 ft²',en:'More than 5,000 ft²'},sub:{es:'Complejo o múltiples áreas',en:'Complex or multiple areas'},val:'lg'},
     ]
   },
   {
-    text: '¿Tienes internet estable en el negocio?',
+    text: {es:'¿Tienes internet estable en el negocio?', en:'Do you have stable internet at the business?'},
     opts: [
-      {icon:'📶',text:'Sí, fibra óptica o cable',sub:'Conexión rápida y estable',val:'fibra'},
-      {icon:'📡',text:'Sí, pero a veces falla',sub:'Interrupciones ocasionales',val:'inestable'},
-      {icon:'📱',text:'Solo celular/4G',sub:'Sin internet fijo',val:'movil'},
-      {icon:'❓',text:'No sé / sin internet',sub:'Sin conectividad',val:'sin_internet'},
+      {text:{es:'Sí, fibra óptica o cable',en:'Yes, fiber or cable'},sub:{es:'Conexión rápida y estable',en:'Fast, stable connection'},val:'fibra'},
+      {text:{es:'Sí, pero a veces falla',en:'Yes, but it drops sometimes'},sub:{es:'Interrupciones ocasionales que afectan el monitoreo',en:'Occasional outages that affect monitoring'},val:'inestable'},
+      {text:{es:'Solo celular/4G',en:'Cellular/4G only'},sub:{es:'Sin internet fijo',en:'No fixed internet'},val:'movil'},
+      {text:{es:'No sé / sin internet',en:'Not sure / no internet'},sub:{es:'Sin conectividad',en:'No connectivity'},val:'sin_internet'},
     ]
   },
   {
-    text: '¿Cuál es tu presupuesto aproximado para inversión inicial?',
+    text: {es:'¿Cuál es tu presupuesto aproximado para inversión inicial?', en:'What is your approximate budget for the initial investment?'},
     opts: [
-      {icon:'💵',text:'Menos de $1,000',sub:'Solución básica y esencial',val:'basico'},
-      {icon:'💰',text:'$1,000 - $3,000',sub:'Buen sistema para la mayoría',val:'medio'},
-      {icon:'💎',text:'$3,000 - $8,000',sub:'Sistema profesional completo',val:'premium'},
-      {icon:'🚀',text:'Más de $8,000',sub:'Enterprise, sin límite de calidad',val:'enterprise'},
+      {text:{es:'Menos de $1,000',en:'Less than $1,000'},sub:{es:'Solución básica y esencial',en:'Basic, essential solution'},val:'basico'},
+      {text:{es:'$1,000 - $3,000',en:'$1,000 - $3,000'},sub:{es:'Buen sistema para la mayoría',en:'A solid system for most cases'},val:'medio'},
+      {text:{es:'$3,000 - $8,000',en:'$3,000 - $8,000'},sub:{es:'Sistema profesional completo',en:'Complete professional system'},val:'premium'},
+      {text:{es:'Más de $8,000',en:'More than $8,000'},sub:{es:'Enterprise, sin límite de calidad',en:'Enterprise, no ceiling on quality'},val:'enterprise'},
     ]
   },
   {
-    text: '¿Qué es más importante para ti en el servicio?',
+    text: {es:'¿Qué es más importante para ti en el servicio?', en:'What matters most to you in the service?'},
     opts: [
-      {icon:'⚡',text:'Instalación rápida',sub:'Lo necesito funcionando ya',val:'rapido'},
-      {icon:'💰',text:'Mejor precio posible',sub:'Maximizar el valor',val:'precio'},
-      {icon:'🛡️',text:'Máxima calidad y garantía',sub:'Equipo de primera, larga vida',val:'calidad'},
-      {icon:'🤝',text:'Soporte y mantenimiento',sub:'Alguien que me respalde siempre',val:'soporte'},
+      {text:{es:'Instalación rápida',en:'Fast installation'},sub:{es:'Lo necesito funcionando ya',en:'I need it running now'},val:'rapido'},
+      {text:{es:'Mejor precio posible',en:'Best possible price'},sub:{es:'Maximizar el valor',en:'Getting the most value'},val:'precio'},
+      {text:{es:'Máxima calidad y garantía',en:'Top quality and warranty'},sub:{es:'Equipo de primera, larga vida',en:'First-rate equipment, long life'},val:'calidad'},
+      {text:{es:'Soporte y mantenimiento preventivo',en:'Support and preventive maintenance'},sub:{es:'Alguien que me respalde siempre',en:'Someone who always has my back'},val:'soporte'},
     ]
   }
 ];
 
 const RESULTS = {
   starter: {
-    plan: 'Paquete Starter',
-    desc: 'Basado en tus respuestas, un sistema básico pero efectivo es todo lo que necesitas para empezar a proteger tu negocio con una inversión mínima.',
+    plan: {es:'Paquete Starter', en:'Starter Package'},
+    desc: {
+      es:'Basado en tus respuestas, un sistema básico pero efectivo es todo lo que necesitas para empezar a proteger tu negocio con una inversión mínima.',
+      en:'Based on your answers, a basic but effective system is all you need to start protecting your business with a minimal investment.'
+    },
     pkgs: [
-      {name:'CCTV Starter — 4 cámaras HD', price:'Desde $800', features:['4 cámaras Full HD 1080p','DVR 4 canales con 1TB','Acceso remoto desde el celular','Instalación profesional incluida','Garantía 1 año'], recommended:true},
-      {name:'Plan Mantenimiento Básico', price:'$99/mes', features:['Revisión trimestral','Soporte remoto','Actualizaciones de firmware'], recommended:false}
+      {
+        name:{es:'CCTV Starter — 4 cámaras HD', en:'CCTV Starter — 4 HD cameras'},
+        price:{es:'Desde $800', en:'From $800'},
+        specs:{
+          es:'Cuatro cámaras Full HD 1080p, DVR de 4 canales con 1TB de almacenamiento, acceso remoto desde el celular, instalación profesional incluida y garantía de 1 año.',
+          en:'Four Full HD 1080p cameras, a 4-channel DVR with 1TB of storage, remote access from your phone, professional installation included and a 1-year warranty.'
+        },
+        recommended:true
+      },
+      {
+        name:{es:'Plan Mantenimiento Básico', en:'Basic Maintenance Plan'},
+        price:{es:'$99/mes', en:'$99/month'},
+        specs:{
+          es:'Revisión trimestral del sistema, soporte remoto y actualizaciones de firmware.',
+          en:'Quarterly system check, remote support and firmware updates.'
+        },
+        recommended:false
+      }
     ]
   },
   profesional: {
-    plan: 'Paquete Profesional',
-    desc: 'Tu negocio necesita una solución robusta. Te recomendamos un sistema completo de CCTV IP con almacenamiento NVR y acceso remoto full HD.',
+    plan: {es:'Paquete Profesional', en:'Professional Package'},
+    desc: {
+      es:'Tu negocio necesita una solución robusta. Te recomendamos un sistema completo de CCTV IP con almacenamiento NVR y acceso remoto full HD.',
+      en:'Your business needs a robust solution. We recommend a complete IP CCTV system with NVR storage and full HD remote access.'
+    },
     pkgs: [
-      {name:'CCTV Profesional — 8 cámaras 4K', price:'Desde $2,400', features:['8 cámaras IP 4K Ultra HD','NVR 8 canales con 4TB','Visión nocturna avanzada','App móvil y alertas inteligentes','Red dedicada PoE'], recommended:true},
-      {name:'Control de Acceso — 2 puertas', price:'+$1,300', features:['Lectores RFID','Control desde app','Registro de entradas/salidas'], recommended:false}
+      {
+        name:{es:'CCTV Profesional — 8 cámaras 4K', en:'CCTV Professional — 8 4K cameras'},
+        price:{es:'Desde $2,400', en:'From $2,400'},
+        specs:{
+          es:'Ocho cámaras IP 4K Ultra HD, NVR de 8 canales con 4TB, visión nocturna avanzada, app móvil con alertas inteligentes y red dedicada PoE.',
+          en:'Eight 4K Ultra HD IP cameras, an 8-channel NVR with 4TB, advanced night vision, a mobile app with smart alerts and a dedicated PoE network.'
+        },
+        recommended:true
+      },
+      {
+        name:{es:'Control de Acceso — 2 puertas', en:'Access Control — 2 doors'},
+        price:{es:'+$1,300', en:'+$1,300'},
+        specs:{
+          es:'Lectores RFID, control desde la app y registro de entradas y salidas.',
+          en:'RFID readers, control from the app and a log of every entry and exit.'
+        },
+        recommended:false
+      }
     ]
   },
   enterprise: {
-    plan: 'Solución Enterprise',
-    desc: 'Tu operación requiere un sistema de nivel corporativo con redundancia, análisis de video inteligente y soporte prioritario 24/7.',
+    plan: {es:'Solución Enterprise', en:'Enterprise Solution'},
+    desc: {
+      es:'Tu operación requiere un sistema de nivel corporativo con redundancia, análisis de video inteligente y soporte prioritario 24/7.',
+      en:'Your operation calls for a corporate-grade system with redundancy, smart video analytics and priority 24/7 support.'
+    },
     pkgs: [
-      {name:'CCTV Enterprise — 16-32 cámaras 4K', price:'Desde $6,000', features:['16-32 cámaras IP 4K','NVR con RAID redundante 16TB+','Análisis de video con IA','Reconocimiento facial y de placas','Monitoreo 24/7 incluido'], recommended:true},
-      {name:'Control de Acceso + Red + HVAC', price:'Cotización personalizada', features:['Control de acceso biométrico','Red empresarial gestionada','HVAC con monitoreo inteligente','Soporte SLA 4 horas'], recommended:false}
+      {
+        name:{es:'CCTV Enterprise — 16-32 cámaras 4K', en:'CCTV Enterprise — 16-32 4K cameras'},
+        price:{es:'Desde $6,000', en:'From $6,000'},
+        specs:{
+          es:'De 16 a 32 cámaras IP 4K, NVR con RAID redundante de 16TB o más, análisis de video con IA, reconocimiento facial y de placas, y monitoreo 24/7 incluido.',
+          en:'16 to 32 4K IP cameras, an NVR with redundant RAID of 16TB or more, AI video analytics, face and license plate recognition, and 24/7 monitoring included.'
+        },
+        recommended:true
+      },
+      {
+        name:{es:'Control de Acceso + Red + HVAC', en:'Access Control + Network + HVAC'},
+        price:{es:'Cotización personalizada', en:'Custom quote'},
+        specs:{
+          es:'Control de acceso biométrico, red empresarial gestionada, HVAC con monitoreo inteligente y soporte con SLA de 4 horas.',
+          en:'Biometric access control, a managed enterprise network, HVAC with smart monitoring and support with a 4-hour SLA.'
+        },
+        recommended:false
+      }
     ]
   },
   mixto: {
-    plan: 'Paquete Integrado',
-    desc: 'Tu situación requiere una combinación de servicios. Te recomendamos un sistema integrado que cubra seguridad, redes y continuidad operacional.',
+    plan: {es:'Paquete Integrado', en:'Integrated Package'},
+    desc: {
+      es:'Tu situación requiere una combinación de servicios. Te recomendamos un sistema integrado que cubra seguridad, redes y continuidad operacional.',
+      en:'Your situation calls for a combination of services. We recommend an integrated system covering security, networking and operational continuity.'
+    },
     pkgs: [
-      {name:'Sistema Integrado Wifnix', price:'Desde $3,500', features:['CCTV 8 cámaras 4K IP','Red WiFi empresarial','UPS y backup de internet','Control de acceso 2 puertas','Plan mantenimiento 1 año'], recommended:true},
-      {name:'Managed Services Plan', price:'$299/mes', features:['Monitoreo remoto 24/7','Soporte prioritario','Actualizaciones y parches','Reemplazo de equipos defectuosos'], recommended:false}
+      {
+        name:{es:'Sistema Integrado Wifnix', en:'Wifnix Integrated System'},
+        price:{es:'Desde $3,500', en:'From $3,500'},
+        specs:{
+          es:'CCTV de 8 cámaras 4K IP, red WiFi empresarial, UPS y respaldo de internet, control de acceso para 2 puertas y plan de mantenimiento preventivo por 1 año.',
+          en:'Eight 4K IP camera CCTV, an enterprise WiFi network, UPS and internet failover, access control for 2 doors and a 1-year preventive maintenance plan.'
+        },
+        recommended:true
+      },
+      {
+        name:{es:'Managed Services Plan', en:'Managed Services Plan'},
+        price:{es:'$299/mes', en:'$299/month'},
+        specs:{
+          es:'Monitoreo remoto 24/7, soporte prioritario, actualizaciones y parches, y reemplazo de equipos defectuosos.',
+          en:'24/7 remote monitoring, priority support, updates and patches, and replacement of faulty equipment.'
+        },
+        recommended:false
+      }
     ]
   }
 };
 
 let currentQ = 0;
 const answers = {};
+// Qué resultado está pintado. Sirve para saber, al cambiar de idioma,
+// si hay que repintar la pregunta o el resultado.
+let resultActual = null;
 
 function renderQ() {
   const q = QUESTIONS[currentQ];
-  document.getElementById('q-num').textContent = 'Pregunta '+(currentQ+1);
-  document.getElementById('q-text').textContent = q.text;
-  document.getElementById('q-label').textContent = 'Pregunta '+(currentQ+1)+' de '+QUESTIONS.length;
+  document.getElementById('q-num').textContent = T('Pregunta ','Question ')+(currentQ+1);
+  document.getElementById('q-text').textContent = L(q.text);
+  document.getElementById('q-label').textContent = T('Pregunta ','Question ')+(currentQ+1)+T(' de ',' of ')+QUESTIONS.length;
   const pct = Math.round(((currentQ+1)/QUESTIONS.length)*100);
   document.getElementById('q-pct').textContent = pct+'%';
   document.getElementById('prog').style.width = pct+'%';
   document.getElementById('btn-prev').style.visibility = currentQ > 0 ? 'visible' : 'hidden';
-  document.getElementById('btn-next').textContent = currentQ === QUESTIONS.length-1 ? 'Ver mi resultado →' : 'Siguiente →';
+  document.getElementById('btn-prev').textContent = T('← Anterior','← Previous');
+  document.getElementById('btn-next').textContent = currentQ === QUESTIONS.length-1 ? T('Ver mi resultado →','See my result →') : T('Siguiente →','Next →');
 
   const sel = answers[currentQ];
   document.getElementById('q-opts').innerHTML = q.opts.map((o,i) => `
     <div class="opt ${sel===i?'sel':''}" onclick="selectOpt(${i})">
-      <div class="opt-icon">${o.icon}</div>
-      <div><div class="opt-text">${o.text}</div><div class="opt-sub">${o.sub}</div></div>
+      <div><div class="opt-text">${L(o.text)}</div><div class="opt-sub">${L(o.sub)}</div></div>
     </div>
   `).join('');
   document.getElementById('q-card').style.animation = 'none';
@@ -243,7 +354,7 @@ function selectOpt(i) {
 
 function nextQ() {
   if (answers[currentQ] === undefined) {
-    document.querySelectorAll('.opt')[0].style.borderColor = 'var(--error)';
+    document.querySelectorAll('.opt')[0].style.borderColor = 'var(--rojo)';
     setTimeout(()=>document.querySelectorAll('.opt').forEach(e=>e.style.borderColor=''),1000);
     return;
   }
@@ -265,128 +376,166 @@ function showResult() {
   else if (presupuesto === 'enterprise' || tamano === 'lg') resultKey = 'enterprise';
   else if (answers[2] !== undefined && QUESTIONS[2].opts[answers[2]]?.val === 'acceso') resultKey = 'mixto';
 
-  const res = RESULTS[resultKey];
+  resultActual = resultKey;
   document.getElementById('result-section').style.display = 'block';
   document.getElementById('quiz-section').style.display = 'none';
-  document.getElementById('r-plan').textContent = res.plan;
-  document.getElementById('r-desc').textContent = res.desc;
+  pintarResultado();
+  window.scrollTo(0,0);
+}
+
+// Pintar el resultado va aparte de calcularlo: al cambiar de idioma se
+// vuelve a pintar el mismo resultado sin recalcular ni saltar arriba.
+function pintarResultado() {
+  const res = RESULTS[resultActual];
+  if (!res) return;
+  document.getElementById('r-plan').textContent = L(res.plan);
+  document.getElementById('r-desc').textContent = L(res.desc);
   document.getElementById('r-pkgs').innerHTML = res.pkgs.map(p => `
-    <div class="pkg-card ${p.recommended?'recommended':''}">
-      ${p.recommended?'<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);margin-bottom:8px">✓ Recomendado para ti</div>':''}
+    <div class="pkg-card">
+      ${p.recommended?'<div class="plan-tag">'+T('Recomendado para ti','Recommended for you')+'</div>':''}
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
-        <div class="pkg-name">${p.name}</div>
-        <div class="pkg-price">${p.price}</div>
+        <div class="pkg-name">${L(p.name)}</div>
+        <div class="pkg-price">${L(p.price)}</div>
       </div>
-      <div class="pkg-features">${p.features.map(f=>`<div class="pkg-feature">${f}</div>`).join('')}</div>
+      <div class="pkg-specs">${L(p.specs)}</div>
     </div>
   `).join('');
-  window.scrollTo(0,0);
 }
 
 function resetQuiz() {
   Object.keys(answers).forEach(k=>delete answers[k]);
   currentQ = 0;
+  resultActual = null;
   document.getElementById('result-section').style.display = 'none';
   document.getElementById('quiz-section').style.display = 'block';
   renderQ();
 }
+
+// Al cambiar el idioma con el interruptor compartido hay que volver a
+// pintar lo que escribe este script: el CSS solo alcanza al marcado.
+new MutationObserver(function () {
+  if (resultActual) pintarResultado(); else renderQ();
+}).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
 
 renderQ();
 </script>
 
 
 <!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
 
     <!-- LOGGED IN STATE -->
     <div id="lead-loggedin" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:var(--azul-fuerte);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#FFFFFF;flex-shrink:0" id="lead-avatar">?</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--tinta)" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="es">Cuenta verificada</div>
+          <div style="font-size:0.68rem;color:var(--verde)" class="en">Verified account</div>
         </div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title-li"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+      <div id="lead-summary-li" style="padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7;margin-bottom:16px"></div>
       <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Mensaje adicional (opcional)</div>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Additional message (optional)</div>
+        <textarea id="lead-msg" data-es="Alguna información adicional para el equipo..." data-en="Anything else the team should know..." placeholder="Alguna información adicional para el equipo..." style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+        <button onclick="submitLeadLoggedIn()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+        <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+        <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
       </div>
     </div>
 
     <!-- GUEST STATE -->
     <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6" class="en">Our team will get back to you within 24 hours with your proposal.</div>
 
       <!-- AUTH OPTIONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
         <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--azul);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="es">Continuar como invitado</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)" class="en">Continue as a guest</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Solo email, rápido</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Just an email, quick</div>
         </div>
         <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--verde);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="es">Crear cuenta</div>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)" class="en">Create an account</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="es">Guarda tu historial</div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px" class="en">Keeps your history</div>
         </div>
       </div>
 
       <!-- GUEST FORM -->
       <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Nombre completo *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Full name *</div>
+            <input type="text" id="lead-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Email *</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Email *</div>
+            <input type="email" id="lead-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="es">Teléfono</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px" class="en">Phone</div>
+            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
         </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+          <button onclick="submitLead()" class="btn-azul es" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Enviar solicitud</button>
+          <button onclick="submitLead()" class="btn-azul en" style="flex:1;padding:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer">Send request</button>
+          <button onclick="closeLead()" class="es" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancelar</button>
+          <button onclick="closeLead()" class="en" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer">Cancel</button>
         </div>
         <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="es">Ya tienes cuenta? </span>
+          <span style="font-size:0.7rem;color:var(--apagado)" class="en">Already have an account? </span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul);text-decoration:none" class="es">Inicia sesión</a>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul);text-decoration:none" class="en">Sign in</a>
         </div>
       </div>
 
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="es">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px" class="en">No obligation · Your information stays confidential</p>
     </div>
 
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="es">Solicitud enviada</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px" class="en">Request sent</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px" class="en">Our team will get back to you within 24 hours with your personalized proposal.</div>
+    <div style="font-size:0.78rem;color:var(--azul);margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="es">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px" class="en">In the meantime you can create a portal account to follow up on your request.</div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <button onclick="closeLead()" class="btn-azul es" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
+      <button onclick="closeLead()" class="btn-azul en" style="padding:11px 24px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Close</button>
+      <a href="https://portal.wifnix.com" class="es" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <a href="https://portal.wifnix.com" class="en" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Create an account</a>
     </div>
   </div>
 </div>
@@ -449,7 +598,7 @@ function submitLead() {
   var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
     alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.textContent = T('Por favor ingresa tu nombre y email.', 'Please enter your name and email.');
     return;
   }
   sendLead(nombre, email, tel, '');
@@ -481,18 +630,20 @@ function sendLead(nombre, email, tel, msg) {
   .then(function(r) { return r.json(); })
   .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success-email').textContent =
+      T('Confirmación enviada a: ', 'Confirmation sent to: ') + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
     var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
+    if (alertEl) { alertEl.style.display='block'; alertEl.textContent = T('Error. Llámanos al (787) 354-9596', 'Something went wrong. Call us at (787) 354-9596'); }
   });
 }
 
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 
 </body>
 </html>

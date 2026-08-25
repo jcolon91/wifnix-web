@@ -4,97 +4,112 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cotización Instantánea — Wifnix</title>
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--blue-light:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--success:#00E5A0;--warn:#FFC107;--error:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-top{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 span{color:var(--blue-light)}
-.header p{font-size:0.88rem;color:var(--gray);max-width:540px;margin:0 auto;line-height:1.7}
-.progress{background:rgba(255,255,255,0.06);border-radius:100px;height:6px;margin-bottom:32px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue-light));border-radius:100px;transition:width .4s}
-.step-label{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--gray2);margin-bottom:8px}
+.header h1 .hl{color:var(--azul)}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
+.eyebrow{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
+.fieldlabel{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--texto);margin-bottom:10px}
+.fieldlabel.mt{margin-top:16px}
+.progress{background:var(--filo2);height:2px;margin-bottom:32px;overflow:hidden}
+.progress-fill{height:100%;background:var(--azul-fuerte);transition:width .4s}
+.step-label{display:flex;justify-content:space-between;font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--texto);margin-bottom:8px}
 .section{display:none}.section.active{display:block;animation:fadeUp .4s ease}
-.card{background:var(--card);border:1px solid rgba(11,143,204,0.15);border-radius:14px;padding:28px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{border-top:1px solid var(--filo2);padding:24px 0 4px;margin-bottom:12px}
+.card-title{display:flex;align-items:center;gap:14px;font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin-bottom:18px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--filo2)}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.svc-card{border:1px solid rgba(11,143,204,0.15);border-radius:12px;padding:18px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);text-align:center}
-.svc-card:hover{border-color:rgba(11,143,204,0.4)}
-.svc-card.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.svc-icon{font-size:2rem;margin-bottom:10px}
-.svc-name{font-size:0.82rem;font-weight:700;color:var(--gray);transition:color .2s}
-.svc-card.sel .svc-name{color:var(--white)}
-.svc-desc{font-size:0.65rem;color:var(--gray2);margin-top:4px;line-height:1.4}
-.svc-price{font-size:0.72rem;color:var(--blue-light);font-weight:600;margin-top:8px}
+.svc-card{border:1px solid var(--filo);border-radius:2px;padding:16px 14px;cursor:pointer;transition:border-color .2s;background:transparent;text-align:center}
+.svc-card:hover{border-color:rgba(11,143,204,0.45)}
+.svc-card.sel{border-color:var(--azul);background:rgba(11,143,204,0.07)}
+.svc-name{font-size:0.85rem;font-weight:600;color:var(--texto);transition:color .2s}
+.svc-card.sel .svc-name{color:var(--tinta)}
+.svc-desc{font-size:0.65rem;color:var(--apagado);margin-top:4px;line-height:1.4}
+.svc-price{font-size:0.72rem;color:var(--azul);font-weight:600;margin-top:8px}
 .opt-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.opt-btn{border:1px solid rgba(11,143,204,0.15);border-radius:10px;padding:14px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:12px}
-.opt-btn:hover{border-color:rgba(11,143,204,0.35)}
-.opt-btn.sel{border-color:var(--blue);background:rgba(11,143,204,0.1)}
-.opt-btn-icon{font-size:1.3rem;flex-shrink:0}
-.opt-btn-name{font-size:0.8rem;font-weight:600;color:var(--gray);transition:color .2s}
-.opt-btn.sel .opt-btn-name{color:var(--white)}
-.opt-btn-detail{font-size:0.65rem;color:var(--gray2);margin-top:2px}
-.qty-row{display:flex;align-items:center;gap:12px;padding:14px;background:rgba(0,0,0,0.2);border-radius:10px;border:1px solid rgba(11,143,204,0.1);margin-bottom:10px}
-.qty-label{flex:1;font-size:0.82rem;color:var(--white);font-weight:600}
-.qty-sub{font-size:0.68rem;color:var(--gray);margin-top:2px}
+.opt-btn{border:1px solid var(--filo);border-radius:2px;padding:13px 14px;cursor:pointer;transition:border-color .2s;background:transparent}
+.opt-btn:hover{border-color:rgba(11,143,204,0.45)}
+.opt-btn.sel{border-color:var(--azul);background:rgba(11,143,204,0.07)}
+.opt-btn-name{font-size:0.8rem;font-weight:600;color:var(--texto);transition:color .2s}
+.opt-btn.sel .opt-btn-name{color:var(--tinta)}
+.opt-btn-detail{font-size:0.65rem;color:var(--apagado);margin-top:2px}
+.qty-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--filo);margin-bottom:4px}
+.qty-label{flex:1;font-size:0.82rem;color:var(--tinta);font-weight:600}
+.qty-sub{font-size:0.68rem;color:var(--texto);margin-top:2px}
 .qty-ctrl{display:flex;align-items:center;gap:10px}
-.qty-btn{width:30px;height:30px;border-radius:6px;background:rgba(11,143,204,0.15);border:1px solid rgba(11,143,204,0.3);color:var(--blue-light);font-size:1.1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.qty-btn{width:30px;height:30px;border-radius:2px;background:transparent;border:1px solid rgba(11,143,204,0.35);color:var(--azul);font-size:1.1rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center}
 .qty-btn:hover{background:rgba(11,143,204,0.3)}
-.qty-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--white);min-width:28px;text-align:center}
+.qty-num{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:1rem;font-weight:600;color:var(--tinta);min-width:28px;text-align:center}
 .f-field{margin-bottom:14px}
-.f-field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:6px}
-.f-field input,.f-field select{background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 14px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color .2s}
-.f-field input:focus,.f-field select:focus{border-color:var(--blue)}
-.f-field input::placeholder{color:var(--gray2)}
-.f-field select option{background:var(--navy)}
+.f-field label{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--texto);display:block;margin-bottom:6px}
+.f-field input,.f-field select{background:var(--panel2);border:1px solid var(--filo2);border-radius:2px;padding:10px 14px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;width:100%;transition:border-color .2s}
+.f-field input:focus,.f-field select:focus{border-color:var(--azul)}
+.f-field input::placeholder{color:var(--apagado)}
+.f-field select option{background:var(--panel)}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .nav-btns{display:flex;gap:12px;justify-content:flex-end;margin-top:16px}
-.btn-next{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s}
-.btn-next:hover{background:var(--blue-light);transform:translateY(-1px)}
-.btn-prev{padding:12px 24px;background:transparent;color:var(--gray);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all .2s}
-.btn-prev:hover{border-color:var(--gray);color:var(--white)}
+.btn-next{padding:12px 28px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--azul)}
+.btn-prev{padding:12px 24px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;border-radius:2px;border:1px solid var(--filo2);cursor:pointer;transition:border-color .2s,color .2s}
+.btn-prev:hover{border-color:var(--texto);color:var(--tinta)}
 /* RESULTS */
-.quote-header{background:linear-gradient(135deg,rgba(11,143,204,0.15),rgba(13,26,42,0.9));border:1px solid rgba(11,143,204,0.3);border-radius:16px;padding:28px;margin-bottom:20px;text-align:center}
-.quote-total{font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:var(--blue-light)}
-.quote-range{font-size:0.85rem;color:var(--gray);margin-top:4px}
-.line-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.quote-header{border-top:1px solid var(--filo2);border-bottom:1px solid var(--filo2);padding:26px 0;margin-bottom:8px}
+.quote-total{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:2.6rem;font-weight:600;letter-spacing:-0.02em;color:var(--azul);line-height:1.1}
+.quote-range{font-size:0.8rem;color:var(--texto);margin-top:8px}
+.line-item{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--filo)}
 .line-item:last-child{border-bottom:none}
-.line-name{font-size:0.85rem;color:var(--white);font-weight:600}
-.line-detail{font-size:0.72rem;color:var(--gray);margin-top:2px}
-.line-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--success)}
-.badge-pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:0.6rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
-.badge-pill.blue{background:rgba(11,143,204,0.15);color:var(--blue-light);border:1px solid rgba(11,143,204,0.3)}
-.extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.extra-item{display:flex;align-items:center;gap:10px;padding:12px;background:rgba(0,0,0,0.2);border:1px solid rgba(11,143,204,0.1);border-radius:8px;cursor:pointer;transition:all .2s}
-.extra-item:hover{border-color:rgba(11,143,204,0.3)}
-.extra-item.sel{border-color:var(--blue);background:rgba(11,143,204,0.08)}
-.extra-item input{accent-color:var(--blue);width:14px;height:14px;flex-shrink:0}
-.extra-name{font-size:0.78rem;color:var(--gray);line-height:1.4}
-.extra-item.sel .extra-name{color:var(--white)}
-.extra-price{font-size:0.7rem;color:var(--blue-light);font-weight:600;margin-top:2px}
-.cta-box{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:12px;padding:22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
-.cta-btn{padding:12px 28px;background:var(--blue);color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:var(--blue-light);transform:translateY(-2px)}
-.disclaimer{font-size:0.7rem;color:var(--gray2);text-align:center;margin-top:16px;line-height:1.6}
+.line-name{font-size:0.85rem;color:var(--tinta);font-weight:600}
+.line-detail{font-size:0.72rem;color:var(--texto);margin-top:2px}
+.line-price{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.9rem;font-weight:600;color:var(--tinta)}
+.q-tags{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--texto);margin-top:12px;line-height:1.8}
+.extras-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;row-gap:0;margin-top:4px}
+.extra-item{display:flex;align-items:center;gap:10px;padding:13px 0;border-bottom:1px solid var(--filo);cursor:pointer;transition:border-color .2s}
+.extra-item:hover{border-bottom-color:rgba(11,143,204,0.35)}
+.extra-item.sel{border-bottom-color:var(--azul)}
+.extra-item input{accent-color:var(--azul);width:14px;height:14px;flex-shrink:0}
+.extra-name{font-size:0.78rem;color:var(--texto);line-height:1.4}
+.extra-item.sel .extra-name{color:var(--tinta)}
+.extra-price{font-size:0.7rem;color:var(--azul);font-weight:600;margin-top:2px}
+.cta-box{border-top:1px solid var(--filo2);padding:22px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+.cta-btn{padding:12px 28px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:2px;border:none;cursor:pointer;transition:background .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{background:var(--azul)}
+.sechint{font-size:0.78rem;color:var(--texto);line-height:1.6;margin:-6px 0 16px}
+.disclaimer{font-size:0.7rem;color:var(--apagado);text-align:center;margin-top:16px;line-height:1.6}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){.services-grid{grid-template-columns:1fr 1fr}.opt-row,.grid-2,.extras-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-top"><span data-wx-switches></span></div>
+
   <div class="header">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px">
-      <span style="font-size:0.7rem;font-weight:700;color:var(--blue-light);letter-spacing:0.08em;text-transform:uppercase">⚡ Estimado en tiempo real</span>
-    </div>
-    <h1>Cotización <span>Instantánea</span></h1>
-    <p>Configura tu sistema Wifnix y obtén un estimado de precio en segundos. Sin compromiso — nuestro equipo te contactará con la cotización formal.</p>
+    <div class="eyebrow">Wifnix LLC · Puerto Rico</div>
+    <h1><span class="es">Cotización <span class="hl">Instantánea</span></span><span class="en">Instant <span class="hl">Quote</span></span></h1>
+    <p><span class="es">Configura tu sistema de CCTV, redes, HVAC, control de acceso o continuidad operacional y obtén un estimado de precio en tiempo real, en segundos. Sin compromiso — nuestro equipo te contactará con la cotización formal.</span><span class="en">Configure your CCTV, networking, HVAC, access control or operational continuity system and get a real-time price estimate in seconds. No obligation — our team will follow up with the formal quote.</span></p>
   </div>
 
   <div class="step-label">
-    <span id="step-text">Paso 1 de 4 — Servicios</span>
+    <span id="step-text"><span class="es">Paso 1 de 4 — Servicios</span><span class="en">Step 1 of 4 — Services</span></span>
     <span id="step-pct">25%</span>
   </div>
   <div class="progress"><div class="progress-fill" id="progress" style="width:25%"></div></div>
@@ -102,48 +117,43 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <!-- STEP 1: SERVICIOS -->
   <div class="section active" id="sec-1">
     <div class="card">
-      <div class="card-title">¿Qué servicios necesitas? <span style="font-size:0.72rem;color:var(--gray);font-weight:400">(selecciona todos los que apliquen)</span></div>
+      <div class="card-title"><span class="es">Qué servicios necesitas</span><span class="en">Which services you need</span></div>
+      <p class="sechint"><span class="es">Selecciona todos los que apliquen. Puedes combinar cámaras CCTV, HVAC, redes, control de acceso, continuidad operacional y desarrollo web en una misma cotización.</span><span class="en">Select everything that applies. You can combine CCTV cameras, HVAC, networking, access control, operational continuity and web development in a single quote.</span></p>
       <div class="services-grid">
         <div class="svc-card" onclick="toggleSvc('cctv',this)">
-          <div class="svc-icon">📹</div>
-          <div class="svc-name">CCTV</div>
-          <div class="svc-desc">Cámaras de seguridad IP o análogas</div>
-          <div class="svc-price">Desde $800</div>
+          <div class="svc-name"><span class="es">CCTV</span><span class="en">CCTV</span></div>
+          <div class="svc-desc"><span class="es">Cámaras de seguridad IP o análogas</span><span class="en">IP or analog security cameras</span></div>
+          <div class="svc-price"><span class="es">Desde $800</span><span class="en">From $800</span></div>
         </div>
         <div class="svc-card" onclick="toggleSvc('hvac',this)">
-          <div class="svc-icon">❄️</div>
-          <div class="svc-name">HVAC</div>
-          <div class="svc-desc">Aire acondicionado e instalación</div>
-          <div class="svc-price">Desde $1,200</div>
+          <div class="svc-name"><span class="es">HVAC</span><span class="en">HVAC</span></div>
+          <div class="svc-desc"><span class="es">Aire acondicionado e instalación</span><span class="en">Air conditioning and installation</span></div>
+          <div class="svc-price"><span class="es">Desde $1,200</span><span class="en">From $1,200</span></div>
         </div>
         <div class="svc-card" onclick="toggleSvc('redes',this)">
-          <div class="svc-icon">🌐</div>
-          <div class="svc-name">Redes</div>
-          <div class="svc-desc">WiFi empresarial, switches, cableado</div>
-          <div class="svc-price">Desde $600</div>
+          <div class="svc-name"><span class="es">Redes</span><span class="en">Networking</span></div>
+          <div class="svc-desc"><span class="es">WiFi empresarial, switches, cableado</span><span class="en">Enterprise WiFi, switches, cabling</span></div>
+          <div class="svc-price"><span class="es">Desde $600</span><span class="en">From $600</span></div>
         </div>
         <div class="svc-card" onclick="toggleSvc('acceso',this)">
-          <div class="svc-icon">🔐</div>
-          <div class="svc-name">Control de Acceso</div>
-          <div class="svc-desc">Tarjetas, biométrico, intercomunicadores</div>
-          <div class="svc-price">Desde $500</div>
+          <div class="svc-name"><span class="es">Control de Acceso</span><span class="en">Access Control</span></div>
+          <div class="svc-desc"><span class="es">Tarjetas, biométrico, intercomunicadores</span><span class="en">Cards, biometrics, intercoms</span></div>
+          <div class="svc-price"><span class="es">Desde $500</span><span class="en">From $500</span></div>
         </div>
         <div class="svc-card" onclick="toggleSvc('continuidad',this)">
-          <div class="svc-icon">⚡</div>
-          <div class="svc-name">Continuidad Operacional</div>
-          <div class="svc-desc">UPS, backup internet, generadores</div>
-          <div class="svc-price">Desde $900</div>
+          <div class="svc-name"><span class="es">Continuidad Operacional</span><span class="en">Operational Continuity</span></div>
+          <div class="svc-desc"><span class="es">UPS, backup internet, generadores</span><span class="en">UPS, internet backup, generators</span></div>
+          <div class="svc-price"><span class="es">Desde $900</span><span class="en">From $900</span></div>
         </div>
         <div class="svc-card" onclick="toggleSvc('web',this)">
-          <div class="svc-icon">💻</div>
-          <div class="svc-name">Diseño Web / IA</div>
-          <div class="svc-desc">Sitios web, apps y soluciones con IA</div>
-          <div class="svc-price">Desde $1,500</div>
+          <div class="svc-name"><span class="es">Diseño Web / IA</span><span class="en">Web Design / AI</span></div>
+          <div class="svc-desc"><span class="es">Sitios web, apps y soluciones con IA</span><span class="en">Websites, apps and AI solutions</span></div>
+          <div class="svc-price"><span class="es">Desde $1,500</span><span class="en">From $1,500</span></div>
         </div>
       </div>
     </div>
     <div class="nav-btns">
-      <button class="btn-next" onclick="goStep(2)">Siguiente →</button>
+      <button class="btn-next" onclick="goStep(2)"><span class="es">Siguiente →</span><span class="en">Next →</span></button>
     </div>
   </div>
 
@@ -151,66 +161,66 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
   <div class="section" id="sec-2">
     <div id="config-cctv" style="display:none">
       <div class="card">
-        <div class="card-title">📹 Configuración CCTV</div>
+        <div class="card-title"><span class="es">Configuración CCTV</span><span class="en">CCTV setup</span></div>
         <div class="qty-row">
-          <div><div class="qty-label">Número de cámaras</div><div class="qty-sub">Exteriores e interiores</div></div>
+          <div><div class="qty-label"><span class="es">Número de cámaras</span><span class="en">Number of cameras</span></div><div class="qty-sub"><span class="es">Exteriores e interiores</span><span class="en">Outdoor and indoor</span></div></div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('cams',-1)">−</button>
             <div class="qty-num" id="val-cams">4</div>
             <button class="qty-btn" onclick="changeQty('cams',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de cámaras</div>
+        <div class="fieldlabel"><span class="es">Tipo de cámaras</span><span class="en">Camera type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('camType','ip',this)"><div class="opt-btn-icon">📡</div><div><div class="opt-btn-name">IP / Digital</div><div class="opt-btn-detail">HD a 4K, PoE, mejor calidad</div></div></div>
-          <div class="opt-btn" onclick="selConfig('camType','analogica',this)"><div class="opt-btn-icon">📷</div><div><div class="opt-btn-name">Análoga HD</div><div class="opt-btn-detail">Económica, buena calidad</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('camType','ip',this)"><div><div class="opt-btn-name"><span class="es">IP / Digital</span><span class="en">IP / Digital</span></div><div class="opt-btn-detail"><span class="es">HD a 4K, PoE, mejor calidad</span><span class="en">HD to 4K, PoE, best quality</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('camType','analogica',this)"><div><div class="opt-btn-name"><span class="es">Análoga HD</span><span class="en">Analog HD</span></div><div class="opt-btn-detail"><span class="es">Económica, buena calidad</span><span class="en">Budget-friendly, good quality</span></div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Resolución</div>
+        <div class="fieldlabel mt"><span class="es">Resolución</span><span class="en">Resolution</span></div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('camRes','hd',this)"><div class="opt-btn-icon">📺</div><div><div class="opt-btn-name">Full HD 1080p</div><div class="opt-btn-detail">Estándar para la mayoría</div></div></div>
-          <div class="opt-btn sel" onclick="selConfig('camRes','4k',this)"><div class="opt-btn-icon">🔍</div><div><div class="opt-btn-name">4K Ultra HD</div><div class="opt-btn-detail">Máximo detalle, identificación facial</div></div></div>
+          <div class="opt-btn" onclick="selConfig('camRes','hd',this)"><div><div class="opt-btn-name"><span class="es">Full HD 1080p</span><span class="en">Full HD 1080p</span></div><div class="opt-btn-detail"><span class="es">Estándar para la mayoría</span><span class="en">Standard for most sites</span></div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('camRes','4k',this)"><div><div class="opt-btn-name"><span class="es">4K Ultra HD</span><span class="en">4K Ultra HD</span></div><div class="opt-btn-detail"><span class="es">Máximo detalle, identificación facial</span><span class="en">Maximum detail, facial identification</span></div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Almacenamiento</div>
+        <div class="fieldlabel mt"><span class="es">Almacenamiento</span><span class="en">Storage</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('storage','nvr',this)"><div class="opt-btn-icon">💾</div><div><div class="opt-btn-name">NVR/DVR local</div><div class="opt-btn-detail">Grabación en sitio</div></div></div>
-          <div class="opt-btn" onclick="selConfig('storage','nube',this)"><div class="opt-btn-icon">☁️</div><div><div class="opt-btn-name">Nube + Local</div><div class="opt-btn-detail">Respaldo remoto incluido</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('storage','nvr',this)"><div><div class="opt-btn-name"><span class="es">NVR/DVR local</span><span class="en">Local NVR/DVR</span></div><div class="opt-btn-detail"><span class="es">Grabación en sitio</span><span class="en">On-site recording</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('storage','nube',this)"><div><div class="opt-btn-name"><span class="es">Nube + Local</span><span class="en">Cloud + Local</span></div><div class="opt-btn-detail"><span class="es">Respaldo remoto incluido</span><span class="en">Remote backup included</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-hvac" style="display:none">
       <div class="card">
-        <div class="card-title">❄️ Configuración HVAC</div>
+        <div class="card-title"><span class="es">Configuración HVAC</span><span class="en">HVAC setup</span></div>
         <div class="qty-row">
-          <div><div class="qty-label">Número de unidades</div><div class="qty-sub">Mini splits o unidades centrales</div></div>
+          <div><div class="qty-label"><span class="es">Número de unidades</span><span class="en">Number of units</span></div><div class="qty-sub"><span class="es">Mini splits o unidades centrales</span><span class="en">Mini splits or central units</span></div></div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('hvac',-1)">−</button>
             <div class="qty-num" id="val-hvac">1</div>
             <button class="qty-btn" onclick="changeQty('hvac',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de sistema</div>
+        <div class="fieldlabel"><span class="es">Tipo de sistema</span><span class="en">System type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('hvacType','minisplit',this)"><div class="opt-btn-icon">🌬️</div><div><div class="opt-btn-name">Mini Split</div><div class="opt-btn-detail">Hasta 36,000 BTU por unidad</div></div></div>
-          <div class="opt-btn" onclick="selConfig('hvacType','central',this)"><div class="opt-btn-icon">🏢</div><div><div class="opt-btn-name">Sistema Central</div><div class="opt-btn-detail">Para espacios grandes con ductos</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('hvacType','minisplit',this)"><div><div class="opt-btn-name"><span class="es">Mini Split</span><span class="en">Mini Split</span></div><div class="opt-btn-detail"><span class="es">Hasta 36,000 BTU por unidad</span><span class="en">Up to 36,000 BTU per unit</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacType','central',this)"><div><div class="opt-btn-name"><span class="es">Sistema Central</span><span class="en">Central System</span></div><div class="opt-btn-detail"><span class="es">Para espacios grandes con ductos</span><span class="en">For large spaces with ductwork</span></div></div></div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin:12px 0 10px">Capacidad por unidad</div>
+        <div class="fieldlabel mt"><span class="es">Capacidad por unidad</span><span class="en">Capacity per unit</span></div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('hvacBtu','18k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">18,000 BTU (1.5 Ton)</div><div class="opt-btn-detail">Hasta 750 ft²</div></div></div>
-          <div class="opt-btn sel" onclick="selConfig('hvacBtu','24k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">24,000 BTU (2 Ton)</div><div class="opt-btn-detail">Hasta 1,000 ft²</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','18k',this)"><div><div class="opt-btn-name"><span class="es">18,000 BTU (1.5 Ton)</span><span class="en">18,000 BTU (1.5 Ton)</span></div><div class="opt-btn-detail"><span class="es">Hasta 750 ft²</span><span class="en">Up to 750 ft²</span></div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('hvacBtu','24k',this)"><div><div class="opt-btn-name"><span class="es">24,000 BTU (2 Ton)</span><span class="en">24,000 BTU (2 Ton)</span></div><div class="opt-btn-detail"><span class="es">Hasta 1,000 ft²</span><span class="en">Up to 1,000 ft²</span></div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('hvacBtu','36k',this)"><div class="opt-btn-icon">❄️</div><div><div class="opt-btn-name">36,000 BTU (3 Ton)</div><div class="opt-btn-detail">Hasta 1,500 ft²</div></div></div>
-          <div class="opt-btn" onclick="selConfig('hvacBtu','60k',this)"><div class="opt-btn-icon">🏭</div><div><div class="opt-btn-name">60,000+ BTU (5+ Ton)</div><div class="opt-btn-detail">Comercial / industrial</div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','36k',this)"><div><div class="opt-btn-name"><span class="es">36,000 BTU (3 Ton)</span><span class="en">36,000 BTU (3 Ton)</span></div><div class="opt-btn-detail"><span class="es">Hasta 1,500 ft²</span><span class="en">Up to 1,500 ft²</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('hvacBtu','60k',this)"><div><div class="opt-btn-name"><span class="es">60,000+ BTU (5+ Ton)</span><span class="en">60,000+ BTU (5+ Ton)</span></div><div class="opt-btn-detail"><span class="es">Comercial / industrial</span><span class="en">Commercial / industrial</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-redes" style="display:none">
       <div class="card">
-        <div class="card-title">🌐 Configuración de Redes</div>
+        <div class="card-title"><span class="es">Configuración de redes</span><span class="en">Network setup</span></div>
         <div class="qty-row">
-          <div><div class="qty-label">Número de puntos de red</div><div class="qty-sub">Conexiones cableadas</div></div>
+          <div><div class="qty-label"><span class="es">Número de puntos de red</span><span class="en">Number of network drops</span></div><div class="qty-sub"><span class="es">Conexiones cableadas</span><span class="en">Wired connections</span></div></div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('puntos',-1)">−</button>
             <div class="qty-num" id="val-puntos">8</div>
@@ -218,161 +228,172 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
           </div>
         </div>
         <div class="qty-row">
-          <div><div class="qty-label">Puntos de WiFi (APs)</div><div class="qty-sub">Access Points para cobertura inalámbrica</div></div>
+          <div><div class="qty-label"><span class="es">Puntos de WiFi (APs)</span><span class="en">WiFi points (APs)</span></div><div class="qty-sub"><span class="es">Access Points para cobertura inalámbrica</span><span class="en">Access Points for wireless coverage</span></div></div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('aps',-1)">−</button>
             <div class="qty-num" id="val-aps">2</div>
             <button class="qty-btn" onclick="changeQty('aps',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de cableado</div>
+        <div class="fieldlabel"><span class="es">Tipo de cableado</span><span class="en">Cabling type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('cable','cat6',this)"><div class="opt-btn-icon">🔌</div><div><div class="opt-btn-name">Cat6 (1 Gbps)</div><div class="opt-btn-detail">Estándar empresarial</div></div></div>
-          <div class="opt-btn" onclick="selConfig('cable','cat6a',this)"><div class="opt-btn-icon">⚡</div><div><div class="opt-btn-name">Cat6A (10 Gbps)</div><div class="opt-btn-detail">Para servidores y alta demanda</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('cable','cat6',this)"><div><div class="opt-btn-name"><span class="es">Cat6 (1 Gbps)</span><span class="en">Cat6 (1 Gbps)</span></div><div class="opt-btn-detail"><span class="es">Estándar empresarial</span><span class="en">Business standard</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('cable','cat6a',this)"><div><div class="opt-btn-name"><span class="es">Cat6A (10 Gbps)</span><span class="en">Cat6A (10 Gbps)</span></div><div class="opt-btn-detail"><span class="es">Para servidores y alta demanda</span><span class="en">For servers and high demand</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-acceso" style="display:none">
       <div class="card">
-        <div class="card-title">🔐 Control de Acceso</div>
+        <div class="card-title"><span class="es">Control de acceso</span><span class="en">Access control</span></div>
         <div class="qty-row">
-          <div><div class="qty-label">Número de puertas / accesos</div><div class="qty-sub">Entradas a controlar</div></div>
+          <div><div class="qty-label"><span class="es">Número de puertas / accesos</span><span class="en">Number of doors / entry points</span></div><div class="qty-sub"><span class="es">Entradas a controlar</span><span class="en">Entrances to control</span></div></div>
           <div class="qty-ctrl">
             <button class="qty-btn" onclick="changeQty('puertas',-1)">−</button>
             <div class="qty-num" id="val-puertas">2</div>
             <button class="qty-btn" onclick="changeQty('puertas',1)">+</button>
           </div>
         </div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de acceso</div>
+        <div class="fieldlabel"><span class="es">Tipo de acceso</span><span class="en">Access type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('accesoType','tarjeta',this)"><div class="opt-btn-icon">💳</div><div><div class="opt-btn-name">Tarjeta RFID</div><div class="opt-btn-detail">Tarjetas y llaveros</div></div></div>
-          <div class="opt-btn" onclick="selConfig('accesoType','biometrico',this)"><div class="opt-btn-icon">👆</div><div><div class="opt-btn-name">Biométrico</div><div class="opt-btn-detail">Huella o reconocimiento facial</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('accesoType','tarjeta',this)"><div><div class="opt-btn-name"><span class="es">Tarjeta RFID</span><span class="en">RFID Card</span></div><div class="opt-btn-detail"><span class="es">Tarjetas y llaveros</span><span class="en">Cards and key fobs</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('accesoType','biometrico',this)"><div><div class="opt-btn-name"><span class="es">Biométrico</span><span class="en">Biometric</span></div><div class="opt-btn-detail"><span class="es">Huella o reconocimiento facial</span><span class="en">Fingerprint or facial recognition</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-continuidad" style="display:none">
       <div class="card">
-        <div class="card-title">⚡ Continuidad Operacional</div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de solución</div>
+        <div class="card-title"><span class="es">Continuidad operacional</span><span class="en">Operational continuity</span></div>
+        <div class="fieldlabel"><span class="es">Tipo de solución</span><span class="en">Solution type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('contType','ups',this)"><div class="opt-btn-icon">🔋</div><div><div class="opt-btn-name">UPS / Baterías</div><div class="opt-btn-detail">Respaldo eléctrico automático</div></div></div>
-          <div class="opt-btn" onclick="selConfig('contType','backup_internet',this)"><div class="opt-btn-icon">📡</div><div><div class="opt-btn-name">Backup de Internet</div><div class="opt-btn-detail">4G/LTE cuando falla el principal</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('contType','ups',this)"><div><div class="opt-btn-name"><span class="es">UPS / Baterías</span><span class="en">UPS / Batteries</span></div><div class="opt-btn-detail"><span class="es">Respaldo eléctrico automático</span><span class="en">Automatic power backup</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','backup_internet',this)"><div><div class="opt-btn-name"><span class="es">Backup de Internet</span><span class="en">Internet Backup</span></div><div class="opt-btn-detail"><span class="es">4G/LTE cuando falla el principal</span><span class="en">4G/LTE when the main line fails</span></div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('contType','ambos',this)"><div class="opt-btn-icon">🛡️</div><div><div class="opt-btn-name">Paquete completo</div><div class="opt-btn-detail">UPS + Backup internet + Monitoreo</div></div></div>
-          <div class="opt-btn" onclick="selConfig('contType','generador',this)"><div class="opt-btn-icon">⚙️</div><div><div class="opt-btn-name">Generador + UPS</div><div class="opt-btn-detail">Continuidad total 24/7</div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','ambos',this)"><div><div class="opt-btn-name"><span class="es">Paquete completo</span><span class="en">Full package</span></div><div class="opt-btn-detail"><span class="es">UPS + Backup internet + Monitoreo</span><span class="en">UPS + internet backup + monitoring</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('contType','generador',this)"><div><div class="opt-btn-name"><span class="es">Generador + UPS</span><span class="en">Generator + UPS</span></div><div class="opt-btn-detail"><span class="es">Continuidad total 24/7</span><span class="en">Total 24/7 continuity</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div id="config-web" style="display:none">
       <div class="card">
-        <div class="card-title">💻 Diseño Web / IA</div>
-        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);margin-bottom:10px">Tipo de proyecto</div>
+        <div class="card-title"><span class="es">Diseño web e IA</span><span class="en">Web design and AI</span></div>
+        <div class="fieldlabel"><span class="es">Tipo de proyecto</span><span class="en">Project type</span></div>
         <div class="opt-row">
-          <div class="opt-btn sel" onclick="selConfig('webType','landing',this)"><div class="opt-btn-icon">🌐</div><div><div class="opt-btn-name">Landing Page</div><div class="opt-btn-detail">Página de presentación profesional</div></div></div>
-          <div class="opt-btn" onclick="selConfig('webType','ecommerce',this)"><div class="opt-btn-icon">🛍️</div><div><div class="opt-btn-name">E-commerce</div><div class="opt-btn-detail">Tienda online con pagos</div></div></div>
+          <div class="opt-btn sel" onclick="selConfig('webType','landing',this)"><div><div class="opt-btn-name"><span class="es">Landing Page</span><span class="en">Landing Page</span></div><div class="opt-btn-detail"><span class="es">Página de presentación profesional</span><span class="en">Professional one-page site</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','ecommerce',this)"><div><div class="opt-btn-name"><span class="es">E-commerce</span><span class="en">E-commerce</span></div><div class="opt-btn-detail"><span class="es">Tienda online con pagos</span><span class="en">Online store with payments</span></div></div></div>
         </div>
         <div class="opt-row">
-          <div class="opt-btn" onclick="selConfig('webType','sistema',this)"><div class="opt-btn-icon">⚙️</div><div><div class="opt-btn-name">Sistema / App</div><div class="opt-btn-detail">Portal, CRM, sistema a medida</div></div></div>
-          <div class="opt-btn" onclick="selConfig('webType','ia',this)"><div class="opt-btn-icon">🤖</div><div><div class="opt-btn-name">Solución con IA</div><div class="opt-btn-detail">Chatbot, automatización, agentes</div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','sistema',this)"><div><div class="opt-btn-name"><span class="es">Sistema / App</span><span class="en">System / App</span></div><div class="opt-btn-detail"><span class="es">Portal, CRM, sistema a medida</span><span class="en">Portal, CRM, custom system</span></div></div></div>
+          <div class="opt-btn" onclick="selConfig('webType','ia',this)"><div><div class="opt-btn-name"><span class="es">Solución con IA</span><span class="en">AI Solution</span></div><div class="opt-btn-detail"><span class="es">Chatbot, automatización, agentes</span><span class="en">Chatbot, automation, agents</span></div></div></div>
         </div>
       </div>
     </div>
 
     <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(1)">← Anterior</button>
-      <button class="btn-next" onclick="goStep(3)">Siguiente →</button>
+      <button class="btn-prev" onclick="goStep(1)"><span class="es">← Anterior</span><span class="en">← Back</span></button>
+      <button class="btn-next" onclick="goStep(3)"><span class="es">Siguiente →</span><span class="en">Next →</span></button>
     </div>
   </div>
 
   <!-- STEP 3: EXTRAS Y CONTACTO -->
   <div class="section" id="sec-3">
     <div class="card">
-      <div class="card-title">Servicios adicionales</div>
+      <div class="card-title"><span class="es">Servicios adicionales</span><span class="en">Add-on services</span></div>
       <div class="extras-grid">
         <div class="extra-item" onclick="toggleExtra(this,'mantenimiento',150)">
-          <input type="checkbox"><div><div class="extra-name">Plan de mantenimiento mensual</div><div class="extra-price">Desde $150/mes</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Plan de mantenimiento mensual</span><span class="en">Monthly maintenance plan</span></div><div class="extra-price"><span class="es">Desde $150/mes</span><span class="en">From $150/mo</span></div></div>
         </div>
         <div class="extra-item" onclick="toggleExtra(this,'monitoreo',99)">
-          <input type="checkbox"><div><div class="extra-name">Monitoreo 24/7 remoto</div><div class="extra-price">Desde $99/mes</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Monitoreo 24/7 remoto</span><span class="en">Remote 24/7 monitoring</span></div><div class="extra-price"><span class="es">Desde $99/mes</span><span class="en">From $99/mo</span></div></div>
         </div>
         <div class="extra-item" onclick="toggleExtra(this,'garantia',200)">
-          <input type="checkbox"><div><div class="extra-name">Garantía extendida 2 años</div><div class="extra-price">+$200</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Garantía extendida 2 años</span><span class="en">2-year extended warranty</span></div><div class="extra-price"><span class="es">+$200</span><span class="en">+$200</span></div></div>
         </div>
         <div class="extra-item" onclick="toggleExtra(this,'capacitacion',300)">
-          <input type="checkbox"><div><div class="extra-name">Capacitación del equipo</div><div class="extra-price">+$300</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Capacitación del equipo</span><span class="en">Team training</span></div><div class="extra-price"><span class="es">+$300</span><span class="en">+$300</span></div></div>
         </div>
         <div class="extra-item" onclick="toggleExtra(this,'soporte',149)">
-          <input type="checkbox"><div><div class="extra-name">Soporte prioritario (SLA 4h)</div><div class="extra-price">Desde $149/mes</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Soporte prioritario (SLA 4h)</span><span class="en">Priority support (4h SLA)</span></div><div class="extra-price"><span class="es">Desde $149/mes</span><span class="en">From $149/mo</span></div></div>
         </div>
         <div class="extra-item" onclick="toggleExtra(this,'instalacion_express',500)">
-          <input type="checkbox"><div><div class="extra-name">Instalación express (48h)</div><div class="extra-price">+$500</div></div>
+          <input type="checkbox"><div><div class="extra-name"><span class="es">Instalación express (48h)</span><span class="en">Express installation (48h)</span></div><div class="extra-price"><span class="es">+$500</span><span class="en">+$500</span></div></div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">Tu información</div>
+      <div class="card-title"><span class="es">Tu información</span><span class="en">Your information</span></div>
       <div class="grid-2">
-        <div class="f-field"><label>Nombre *</label><input type="text" id="ct-nombre" placeholder="Tu nombre"></div>
-        <div class="f-field"><label>Empresa</label><input type="text" id="ct-empresa" placeholder="Nombre de la empresa"></div>
-        <div class="f-field"><label>Email *</label><input type="email" id="ct-email" placeholder="tu@email.com"></div>
-        <div class="f-field"><label>Teléfono</label><input type="tel" id="ct-tel" placeholder="(787) 000-0000"></div>
+        <div class="f-field"><label><span class="es">Nombre *</span><span class="en">Name *</span></label><input type="text" id="ct-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre"></div>
+        <div class="f-field"><label><span class="es">Empresa</span><span class="en">Company</span></label><input type="text" id="ct-empresa" data-es="Nombre de la empresa" data-en="Company name" placeholder="Nombre de la empresa"></div>
+        <div class="f-field"><label><span class="es">Email *</span><span class="en">Email *</span></label><input type="email" id="ct-email" data-es="tu@email.com" data-en="you@email.com" placeholder="tu@email.com"></div>
+        <div class="f-field"><label><span class="es">Teléfono</span><span class="en">Phone</span></label><input type="tel" id="ct-tel" data-es="(787) 000-0000" data-en="(787) 000-0000" placeholder="(787) 000-0000"></div>
       </div>
-      <div class="f-field"><label>¿Cuándo necesitas el servicio?</label>
+      <div class="f-field"><label><span class="es">¿Cuándo necesitas el servicio?</span><span class="en">When do you need the service?</span></label>
         <select id="ct-cuando">
-          <option>Lo antes posible</option>
-          <option>En los próximos 30 días</option>
-          <option>En 1-3 meses</option>
-          <option>Estoy evaluando opciones</option>
+          <option class="es" value="Lo antes posible">Lo antes posible</option>
+          <option class="en" value="Lo antes posible">As soon as possible</option>
+          <option class="es" value="En los próximos 30 días">En los próximos 30 días</option>
+          <option class="en" value="En los próximos 30 días">Within the next 30 days</option>
+          <option class="es" value="En 1-3 meses">En 1-3 meses</option>
+          <option class="en" value="En 1-3 meses">In 1-3 months</option>
+          <option class="es" value="Estoy evaluando opciones">Estoy evaluando opciones</option>
+          <option class="en" value="Estoy evaluando opciones">Just exploring options</option>
         </select>
       </div>
     </div>
 
     <div class="nav-btns">
-      <button class="btn-prev" onclick="goStep(2)">← Anterior</button>
-      <button class="btn-next" onclick="goStep(4)">Ver mi cotización →</button>
+      <button class="btn-prev" onclick="goStep(2)"><span class="es">← Anterior</span><span class="en">← Back</span></button>
+      <button class="btn-next" onclick="goStep(4)"><span class="es">Ver mi cotización →</span><span class="en">See my quote →</span></button>
     </div>
   </div>
 
   <!-- STEP 4: RESULTADO -->
   <div class="section" id="sec-4">
     <div class="quote-header">
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-light);margin-bottom:10px">Estimado para <span id="q-nombre">tu proyecto</span></div>
+      <div class="fieldlabel"><span class="es">Estimado para </span><span class="en">Estimate for </span><span id="q-nombre">tu proyecto</span></div>
       <div class="quote-total" id="q-total">$0</div>
-      <div class="quote-range" id="q-range">Estimado aproximado — la cotización formal puede variar</div>
-      <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="q-tags"></div>
+      <div class="quote-range" id="q-range"><span class="es">Estimado aproximado — la cotización formal puede variar</span><span class="en">Rough estimate — the formal quote may vary</span></div>
+      <div class="q-tags" id="q-tags"></div>
     </div>
 
     <div class="card">
-      <div class="card-title">Desglose de servicios</div>
+      <div class="card-title"><span class="es">Desglose de servicios</span><span class="en">Service breakdown</span></div>
       <div id="q-lines"></div>
       <div style="border-top:1px solid rgba(11,143,204,0.15);margin-top:12px;padding-top:14px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">Subtotal</span><span style="font-weight:700;color:var(--white)" id="q-subtotal">$0</span></div>
-        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--gray)">IVU Puerto Rico (10.5%)</span><span style="color:var(--gray)" id="q-ivu">$0</span></div>
-        <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--white)">Total estimado</span><span style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--success)" id="q-grand">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--texto)"><span class="es">Subtotal</span><span class="en">Subtotal</span></span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.85rem;color:var(--tinta)" id="q-subtotal">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.82rem;color:var(--texto)"><span class="es">IVU Puerto Rico (10.5%)</span><span class="en">IVU (Puerto Rico sales tax) — 10.5%</span></span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:0.85rem;color:var(--texto)" id="q-ivu">$0</span></div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--filo)"><span style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta)"><span class="es">Total estimado</span><span class="en">Estimated total</span></span><span style="font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace;font-size:1.1rem;font-weight:600;color:var(--azul)" id="q-grand">$0</span></div>
       </div>
     </div>
 
     <div class="cta-box">
       <div>
-        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Quieres la cotización formal?</h3>
-        <p style="font-size:0.78rem;color:var(--gray)">Nuestro equipo te contactará en menos de 24 horas con una propuesta detallada y sin compromiso.</p>
+        <h3 style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px"><span class="es">¿Quieres la cotización formal?</span><span class="en">Want the formal quote?</span></h3>
+        <p style="font-size:0.78rem;color:var(--texto)"><span class="es">Nuestro equipo te contactará en menos de 24 horas con una propuesta detallada y sin compromiso.</span><span class="en">Our team will reach out within 24 hours with a detailed, no-obligation proposal.</span></p>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="cta-btn" onclick="openLead('Solicitar cotización formal', '<strong>Herramienta:</strong> Cotización Instantánea<br><strong>Total estimado:</strong> ' + (document.getElementById('q-grand') ? document.getElementById('q-grand').textContent : '—'), {}, document.getElementById('q-grand') ? document.getElementById('q-grand').textContent : '', 'Cotización Instantánea')">Solicitar cotización formal</button>
-        <button onclick="goStep(1)" style="padding:10px;background:transparent;color:var(--gray);font-size:0.75rem;border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer">Recalcular</button>
+        <button class="cta-btn" onclick="pedirFormal()"><span class="es">Solicitar cotización formal</span><span class="en">Request formal quote</span></button>
+        <button onclick="goStep(1)" style="padding:10px;background:transparent;color:var(--texto);font-size:0.75rem;border:1px solid var(--filo2);border-radius:2px;cursor:pointer"><span class="es">Recalcular</span><span class="en">Start over</span></button>
       </div>
     </div>
 
-    <p class="disclaimer">* Este estimado es una referencia aproximada basada en precios promedio del mercado en Puerto Rico. Los precios finales pueden variar según inspección en sitio, materiales específicos y condiciones del proyecto. IVU y permisos pueden aplicar.</p>
+    <p class="disclaimer"><span class="es">* Este estimado es una referencia aproximada basada en precios promedio del mercado en Puerto Rico. Los precios finales pueden variar según inspección en sitio, materiales específicos y condiciones del proyecto. IVU y permisos pueden aplicar.</span><span class="en">* This estimate is an approximate reference based on average market prices in Puerto Rico. Final pricing may vary with the on-site inspection, specific materials and project conditions. IVU (Puerto Rico sales tax) and permits may apply.</span></p>
   </div>
 </div>
 
 <script>
+// El idioma vive en el <html>. El JS lo lee para los mensajes sueltos
+// (alert) y, cuando escribe en la página, pinta los dos idiomas a la vez
+// para que el interruptor siga funcionando sin volver a calcular nada.
+function _idi(){ return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en){ return _idi() === 'en' ? en : es; }
+function par(es, en){ return '<span class="es">'+es+'</span><span class="en">'+en+'</span>'; }
+
 const state = {
   svcs: {},
   config: {camType:'ip',camRes:'4k',storage:'nvr',hvacType:'minisplit',hvacBtu:'24k',cable:'cat6',accesoType:'tarjeta',contType:'ups',webType:'landing'},
@@ -392,6 +413,40 @@ const PRICES = {
   continuidad: {ups:900, backup_internet:600, ambos:1400, generador:3500},
   web: {landing:1500, ecommerce:3500, sistema:5000, ia:4000},
   extras: {mantenimiento:150,monitoreo:99,garantia:200,capacitacion:300,soporte:149,instalacion_express:500}
+};
+
+// Los nombres que la cotización escribe en pantalla, en los dos idiomas.
+const NOMBRES = {
+  camType: {ip:{es:'IP',en:'IP'}, analogica:{es:'análoga',en:'analog'}},
+  accesoType: {tarjeta:{es:'tarjeta',en:'card'}, biometrico:{es:'biométrico',en:'biometric'}},
+  contType: {
+    ups:{es:'UPS y baterías',en:'UPS and batteries'},
+    backup_internet:{es:'Backup de internet 4G',en:'4G internet backup'},
+    ambos:{es:'Paquete continuidad completo',en:'Full continuity package'},
+    generador:{es:'Generador + UPS',en:'Generator + UPS'}
+  },
+  webType: {
+    landing:{es:'Landing page profesional',en:'Professional landing page'},
+    ecommerce:{es:'Tienda online e-commerce',en:'E-commerce online store'},
+    sistema:{es:'Sistema / aplicación a medida',en:'Custom system / application'},
+    ia:{es:'Solución con inteligencia artificial',en:'Artificial intelligence solution'}
+  },
+  extras: {
+    mantenimiento:{es:'Plan mantenimiento/mes',en:'Maintenance plan/mo'},
+    monitoreo:{es:'Monitoreo 24/7/mes',en:'24/7 monitoring/mo'},
+    garantia:{es:'Garantía extendida 2 años',en:'2-year extended warranty'},
+    capacitacion:{es:'Capacitación del equipo',en:'Team training'},
+    soporte:{es:'Soporte prioritario SLA/mes',en:'Priority SLA support/mo'},
+    instalacion_express:{es:'Instalación express 48h',en:'48h express installation'}
+  },
+  svc: {
+    cctv:{es:'CCTV',en:'CCTV'},
+    hvac:{es:'HVAC',en:'HVAC'},
+    redes:{es:'Redes',en:'Networking'},
+    acceso:{es:'Control de acceso',en:'Access control'},
+    continuidad:{es:'Continuidad operacional',en:'Operational continuity'},
+    web:{es:'Web e IA',en:'Web and AI'}
+  }
 };
 
 function toggleSvc(key, el) {
@@ -440,7 +495,12 @@ function calcTotal() {
     const storPrice = PRICES.cctv.storage[stor];
     const total = PRICES.cctv.base + (cams * camPrice) + storPrice;
     subtotal += total;
-    lines.push({name:`CCTV — ${cams} cámaras ${res.toUpperCase()} (${type})`,detail:`${cams} × $${camPrice} + grabador + instalación`,price:total});
+    const t = NOMBRES.camType[type];
+    lines.push({
+      name:{es:`CCTV — ${cams} cámaras ${res.toUpperCase()} (${t.es})`, en:`CCTV — ${cams} ${res.toUpperCase()} cameras (${t.en})`},
+      detail:{es:`${cams} × $${camPrice} + grabador + instalación`, en:`${cams} × $${camPrice} + recorder + installation`},
+      price:total
+    });
   }
 
   if (state.svcs.hvac) {
@@ -450,7 +510,11 @@ function calcTotal() {
     const unitPrice = PRICES.hvac[type][btu];
     const total = units * unitPrice;
     subtotal += total;
-    lines.push({name:`HVAC — ${units} ${type === 'minisplit'?'mini split':'unidad central'} ${btu.replace('k',' 000 BTU')}`,detail:`${units} × $${unitPrice.toLocaleString()} (equipo + instalación)`,price:total});
+    lines.push({
+      name:{es:`HVAC — ${units} ${type === 'minisplit'?'mini split':'unidad central'} ${btu.replace('k',' 000 BTU')}`, en:`HVAC — ${units} ${type === 'minisplit'?'mini split':'central unit'} ${btu.replace('k',' 000 BTU')}`},
+      detail:{es:`${units} × $${unitPrice.toLocaleString()} (equipo + instalación)`, en:`${units} × $${unitPrice.toLocaleString()} (equipment + installation)`},
+      price:total
+    });
   }
 
   if (state.svcs.redes) {
@@ -459,7 +523,11 @@ function calcTotal() {
     const cable = state.config.cable;
     const total = PRICES.redes.base + (puntos * PRICES.redes.perPunto) + (aps * PRICES.redes.perAp) + (puntos * PRICES.redes.cable[cable]);
     subtotal += total;
-    lines.push({name:`Red empresarial — ${puntos} puntos, ${aps} APs WiFi`,detail:`Cableado ${cable.toUpperCase()}, switches, configuración`,price:total});
+    lines.push({
+      name:{es:`Red empresarial — ${puntos} puntos, ${aps} APs WiFi`, en:`Enterprise network — ${puntos} drops, ${aps} WiFi APs`},
+      detail:{es:`Cableado ${cable.toUpperCase()}, switches, configuración`, en:`${cable.toUpperCase()} cabling, switches, configuration`},
+      price:total
+    });
   }
 
   if (state.svcs.acceso) {
@@ -467,28 +535,45 @@ function calcTotal() {
     const type = state.config.accesoType;
     const total = puertas * PRICES.acceso[type];
     subtotal += total;
-    lines.push({name:`Control de acceso — ${puertas} ${puertas===1?'puerta':'puertas'} (${type})`,detail:`Lectores, control, cableado e instalación`,price:total});
+    const t = NOMBRES.accesoType[type];
+    lines.push({
+      name:{es:`Control de acceso — ${puertas} ${puertas===1?'puerta':'puertas'} (${t.es})`, en:`Access control — ${puertas} ${puertas===1?'door':'doors'} (${t.en})`},
+      detail:{es:`Lectores, control, cableado e instalación`, en:`Readers, controller, cabling and installation`},
+      price:total
+    });
   }
 
   if (state.svcs.continuidad) {
     const type = state.config.contType;
     const total = PRICES.continuidad[type];
     subtotal += total;
-    const names = {ups:'UPS y baterías',backup_internet:'Backup de internet 4G',ambos:'Paquete continuidad completo',generador:'Generador + UPS'};
-    lines.push({name:`Continuidad operacional — ${names[type]}`,detail:'Equipos, instalación y configuración',price:total});
+    const n = NOMBRES.contType[type];
+    lines.push({
+      name:{es:`Continuidad operacional — ${n.es}`, en:`Operational continuity — ${n.en}`},
+      detail:{es:'Equipos, instalación y configuración', en:'Equipment, installation and configuration'},
+      price:total
+    });
   }
 
   if (state.svcs.web) {
     const type = state.config.webType;
     const total = PRICES.web[type];
     subtotal += total;
-    const names = {landing:'Landing page profesional',ecommerce:'Tienda online e-commerce',sistema:'Sistema / aplicación a medida',ia:'Solución con inteligencia artificial'};
-    lines.push({name:`Diseño digital — ${names[type]}`,detail:'Diseño, desarrollo, dominio y hosting primer año',price:total});
+    const n = NOMBRES.webType[type];
+    lines.push({
+      name:{es:`Diseño digital — ${n.es}`, en:`Digital design — ${n.en}`},
+      detail:{es:'Diseño, desarrollo, dominio y hosting primer año', en:'Design, development, domain and first-year hosting'},
+      price:total
+    });
   }
 
   Object.entries(state.extras).forEach(([key,price]) => {
-    const names = {mantenimiento:'Plan mantenimiento/mes',monitoreo:'Monitoreo 24/7/mes',garantia:'Garantía extendida 2 años',capacitacion:'Capacitación del equipo',soporte:'Soporte prioritario SLA/mes',instalacion_express:'Instalación express 48h'};
-    lines.push({name:`Extra: ${names[key]}`,detail:'Servicio adicional seleccionado',price});
+    const n = NOMBRES.extras[key];
+    lines.push({
+      name:{es:`Extra: ${n.es}`, en:`Extra: ${n.en}`},
+      detail:{es:'Servicio adicional seleccionado', en:'Selected add-on service'},
+      price
+    });
     subtotal += price;
   });
 
@@ -497,7 +582,7 @@ function calcTotal() {
 
 function goStep(n) {
   if (n === 2 && Object.keys(state.svcs).length === 0) {
-    alert('Selecciona al menos un servicio para continuar.');
+    alert(T('Selecciona al menos un servicio para continuar.', 'Select at least one service to continue.'));
     return;
   }
   document.getElementById('sec-'+currentStep).classList.remove('active');
@@ -507,136 +592,166 @@ function goStep(n) {
   const pct = [25,50,75,100][n-1];
   document.getElementById('progress').style.width = pct+'%';
   document.getElementById('step-pct').textContent = pct+'%';
-  const labels = ['Paso 1 de 4 — Servicios','Paso 2 de 4 — Configuración','Paso 3 de 4 — Extras y contacto','Paso 4 de 4 — Tu cotización'];
-  document.getElementById('step-text').textContent = labels[n-1];
+  const labels = [
+    {es:'Paso 1 de 4 — Servicios', en:'Step 1 of 4 — Services'},
+    {es:'Paso 2 de 4 — Configuración', en:'Step 2 of 4 — Configuration'},
+    {es:'Paso 3 de 4 — Extras y contacto', en:'Step 3 of 4 — Add-ons and contact'},
+    {es:'Paso 4 de 4 — Tu cotización', en:'Step 4 of 4 — Your quote'}
+  ];
+  document.getElementById('step-text').innerHTML = par(labels[n-1].es, labels[n-1].en);
   if (n === 4) renderQuote();
   window.scrollTo(0,0);
 }
 
 function renderQuote() {
   const {subtotal, lines, ivu, total} = calcTotal();
-  const nombre = document.getElementById('ct-nombre').value || 'tu proyecto';
-  document.getElementById('q-nombre').textContent = nombre;
+  const nombre = document.getElementById('ct-nombre').value;
+  const qn = document.getElementById('q-nombre');
+  // El nombre lo escribe el visitante: va como texto, nunca como HTML.
+  if (nombre) qn.textContent = nombre; else qn.innerHTML = par('tu proyecto', 'your project');
   document.getElementById('q-total').textContent = '$'+Math.round(total).toLocaleString();
-  document.getElementById('q-range').textContent = `Estimado: $${Math.round(total*0.9).toLocaleString()} – $${Math.round(total*1.15).toLocaleString()} (varía según inspección)`;
+  const bajo = Math.round(total*0.9).toLocaleString();
+  const alto = Math.round(total*1.15).toLocaleString();
+  document.getElementById('q-range').innerHTML = par(
+    `Estimado: $${bajo} – $${alto} (varía según inspección)`,
+    `Estimate: $${bajo} – $${alto} (varies with the site inspection)`
+  );
   document.getElementById('q-subtotal').textContent = '$'+Math.round(subtotal).toLocaleString();
   document.getElementById('q-ivu').textContent = '$'+Math.round(ivu).toLocaleString();
   document.getElementById('q-grand').textContent = '$'+Math.round(total).toLocaleString();
 
   document.getElementById('q-lines').innerHTML = lines.map(l => `
     <div class="line-item">
-      <div><div class="line-name">${l.name}</div><div class="line-detail">${l.detail}</div></div>
+      <div><div class="line-name">${par(l.name.es, l.name.en)}</div><div class="line-detail">${par(l.detail.es, l.detail.en)}</div></div>
       <div class="line-price">$${Math.round(l.price).toLocaleString()}</div>
     </div>
-  `).join('') || '<p style="color:var(--gray2);font-size:0.82rem;padding:16px 0">No se seleccionaron servicios.</p>';
+  `).join('') || '<p style="color:var(--apagado);font-size:0.82rem;padding:16px 0">'+par('No se seleccionaron servicios.','No services selected.')+'</p>';
 
-  document.getElementById('q-tags').innerHTML = Object.keys(state.svcs).map(s => {
-    const names = {cctv:'CCTV',hvac:'HVAC',redes:'Redes',acceso:'Acceso',continuidad:'Continuidad',web:'Web/IA'};
-    return `<span class="badge-pill blue">${names[s]||s}</span>`;
-  }).join('');
+  const claves = Object.keys(state.svcs);
+  const listaEs = claves.map(k => (NOMBRES.svc[k]||{es:k}).es).join(' · ');
+  const listaEn = claves.map(k => (NOMBRES.svc[k]||{en:k}).en).join(' · ');
+  document.getElementById('q-tags').innerHTML = claves.length ? par('Incluye: ' + listaEs, 'Includes: ' + listaEn) : '';
+}
+
+// El botón de la cotización formal: título y resumen ya vienen en los dos
+// idiomas, así el modal sigue al interruptor igual que el resto de la página.
+function pedirFormal() {
+  const g = document.getElementById('q-grand');
+  const totalTxt = g ? g.textContent : '—';
+  openLead(
+    par('Solicitar cotización formal', 'Request a formal quote'),
+    par('<strong>Herramienta:</strong> Cotización Instantánea<br><strong>Total estimado:</strong> ' + totalTxt,
+        '<strong>Tool:</strong> Instant Quote<br><strong>Estimated total:</strong> ' + totalTxt),
+    {}, totalTxt, 'Cotización Instantánea'
+  );
 }
 
 function enviarCotizacion() {
   const nombre = document.getElementById('ct-nombre').value;
   const email = document.getElementById('ct-email').value;
-  if (!nombre || !email) { alert('Por favor completa tu nombre y email para recibir la cotización.'); return; }
-  alert('¡Gracias '+nombre+'! Hemos recibido tu solicitud. Nuestro equipo te contactará en menos de 24 horas a '+email+' con la cotización formal.');
+  if (!nombre || !email) {
+    alert(T('Por favor completa tu nombre y email para recibir la cotización.',
+            'Please fill in your name and email to receive the quote.'));
+    return;
+  }
+  alert(T('¡Gracias '+nombre+'! Hemos recibido tu solicitud. Nuestro equipo te contactará en menos de 24 horas a '+email+' con la cotización formal.',
+          'Thank you, '+nombre+'! We received your request. Our team will contact you within 24 hours at '+email+' with the formal quote.'));
 }
 </script>
 
 
 <!-- LEAD CAPTURE MODAL -->
-<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(11,143,204,0.25);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
+<div id="lead-overlay" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.25);box-shadow:var(--sombra);border-radius:16px;padding:32px;width:100%;max-width:460px;animation:fadeUp .4s ease">
 
     <!-- LOGGED IN STATE -->
     <div id="lead-loggedin" style="display:none">
       <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;margin-bottom:18px">
-        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#0B8FCC,#0D1526);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:white;flex-shrink:0" id="lead-avatar">?</div>
+        <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--azul-fuerte));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.8rem;color:#FFFFFF;flex-shrink:0" id="lead-avatar">?</div>
         <div>
-          <div style="font-size:0.82rem;font-weight:700;color:#F0F4F8" id="lead-user-name">—</div>
-          <div style="font-size:0.68rem;color:#00E5A0">Cuenta verificada</div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--tinta)" id="lead-user-name">—</div>
+          <div style="font-size:0.68rem;color:var(--verde)"><span class="es">Cuenta verificada</span><span class="en">Verified account</span></div>
         </div>
       </div>
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title-li">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:16px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-      <div id="lead-summary-li" style="padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7;margin-bottom:16px"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title-li"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:16px;line-height:1.6"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</span><span class="en">Our team will reach out within 24 hours with your custom proposal.</span></div>
+      <div id="lead-summary-li" style="padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7;margin-bottom:16px"></div>
       <div style="margin-bottom:12px">
-        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Mensaje adicional (opcional)</div>
-        <textarea id="lead-msg" placeholder="Alguna información adicional para el equipo..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
+        <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Mensaje adicional (opcional)</span><span class="en">Additional message (optional)</span></div>
+        <textarea id="lead-msg" data-es="Alguna información adicional para el equipo..." data-en="Anything else the team should know..." placeholder="Alguna información adicional para el equipo..." style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.82rem;outline:none;resize:vertical;min-height:70px"></textarea>
       </div>
       <div style="display:flex;gap:10px">
-        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+        <button onclick="submitLeadLoggedIn()" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer"><span class="es">Enviar solicitud</span><span class="en">Send request</span></button>
+        <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer"><span class="es">Cancelar</span><span class="en">Cancel</span></button>
       </div>
     </div>
 
     <!-- GUEST STATE -->
     <div id="lead-guest" style="display:none">
-      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px" id="lead-modal-title">Solicitar cotización</div>
-      <div style="font-size:0.78rem;color:#8BA0B4;margin-bottom:18px;line-height:1.6">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--tinta);margin-bottom:6px" id="lead-modal-title"><span class="es">Solicitar cotización</span><span class="en">Request a quote</span></div>
+      <div style="font-size:0.78rem;color:var(--texto);margin-bottom:18px;line-height:1.6"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta.</span><span class="en">Our team will reach out within 24 hours with your proposal.</span></div>
 
       <!-- AUTH OPTIONS -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
         <div onclick="showGuestForm()" id="opt-guest" style="border:1px solid rgba(11,143,204,0.3);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(11,143,204,0.08)">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#29B6F6;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#29B6F6">Continuar como invitado</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Solo email, rápido</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--azul);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--azul)"><span class="es">Continuar como invitado</span><span class="en">Continue as a guest</span></div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px"><span class="es">Solo email, rápido</span><span class="en">Just an email, fast</span></div>
         </div>
         <div onclick="goToPortal()" style="border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:rgba(0,229,160,0.05)" onmouseover="this.style.borderColor='rgba(0,229,160,0.5)'" onmouseout="this.style.borderColor='rgba(0,229,160,0.2)'">
-          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#00E5A0;fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <div style="font-size:0.72rem;font-weight:700;color:#00E5A0">Crear cuenta</div>
-          <div style="font-size:0.6rem;color:#3D5166;margin-top:2px">Guarda tu historial</div>
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--verde);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 6px;display:block"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div style="font-size:0.72rem;font-weight:700;color:var(--verde)"><span class="es">Crear cuenta</span><span class="en">Create an account</span></div>
+          <div style="font-size:0.6rem;color:var(--apagado);margin-top:2px"><span class="es">Guarda tu historial</span><span class="en">Keeps your history</span></div>
         </div>
       </div>
 
       <!-- GUEST FORM -->
       <div id="guest-form" style="display:none">
-        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:#FF5555"></div>
+        <div id="lead-alert" style="display:none;padding:10px 14px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--rojo)"></div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Nombre completo *</div>
-            <input type="text" id="lead-nombre" placeholder="Tu nombre" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Nombre completo *</span><span class="en">Full name *</span></div>
+            <input type="text" id="lead-nombre" data-es="Tu nombre" data-en="Your name" placeholder="Tu nombre" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Email *</div>
-            <input type="email" id="lead-email" placeholder="tu@empresa.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Email *</span><span class="en">Email *</span></div>
+            <input type="email" id="lead-email" data-es="tu@empresa.com" data-en="you@company.com" placeholder="tu@empresa.com" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
           <div>
-            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#8BA0B4;margin-bottom:5px">Teléfono</div>
-            <input type="tel" id="lead-tel" placeholder="(787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:#F0F4F8;font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:5px"><span class="es">Teléfono</span><span class="en">Phone</span></div>
+            <input type="tel" id="lead-tel" data-es="(787) 000-0000" data-en="(787) 000-0000" placeholder="(787) 000-0000" style="width:100%;background:var(--panel2);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none">
           </div>
         </div>
-        <div id="lead-summary" style="margin-top:12px;padding:12px;background:rgba(0,0,0,0.3);border-radius:8px;font-size:0.75rem;color:#8BA0B4;line-height:1.7"></div>
+        <div id="lead-summary" style="margin-top:12px;padding:12px;background:var(--fondo2);border-radius:8px;font-size:0.75rem;color:var(--texto);line-height:1.7"></div>
         <div style="display:flex;gap:10px;margin-top:16px">
-          <button onclick="submitLead()" style="flex:1;padding:12px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer" onmouseover="this.style.background='#29B6F6'" onmouseout="this.style.background='#0B8FCC'">Enviar solicitud</button>
-          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:#8BA0B4;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(255,255,255,0.1);cursor:pointer">Cancelar</button>
+          <button onclick="submitLead()" style="flex:1;padding:12px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer"><span class="es">Enviar solicitud</span><span class="en">Send request</span></button>
+          <button onclick="closeLead()" style="padding:12px 16px;background:transparent;color:var(--texto);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid var(--filo2);cursor:pointer"><span class="es">Cancelar</span><span class="en">Cancel</span></button>
         </div>
         <div style="text-align:center;margin-top:12px">
-          <span style="font-size:0.7rem;color:#3D5166">Ya tienes cuenta? </span>
-          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:#0B8FCC;text-decoration:none">Inicia sesión</a>
+          <span style="font-size:0.7rem;color:var(--apagado)"><span class="es">Ya tienes cuenta? </span><span class="en">Already have an account? </span></span>
+          <a href="https://portal.wifnix.com" style="font-size:0.7rem;color:var(--azul);text-decoration:none"><span class="es">Inicia sesión</span><span class="en">Sign in</span></a>
         </div>
       </div>
 
-      <p style="font-size:0.65rem;color:#3D5166;text-align:center;margin-top:14px">Sin compromiso · Tu información es confidencial</p>
+      <p style="font-size:0.65rem;color:var(--apagado);text-align:center;margin-top:14px"><span class="es">Sin compromiso · Tu información es confidencial</span><span class="en">No obligation · Your information stays confidential</span></p>
     </div>
 
   </div>
 </div>
 
 <!-- SUCCESS -->
-<div id="lead-success" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
-  <div style="background:#0D1A2A;border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
+<div id="lead-success" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--panel);border:1px solid rgba(0,229,160,0.3);box-shadow:var(--sombra);border-radius:16px;padding:40px;width:100%;max-width:420px;text-align:center;animation:fadeUp .4s ease">
     <div style="width:64px;height:64px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
-      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#00E5A0;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--verde);fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
     </div>
-    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">Solicitud enviada</div>
-    <div style="font-size:0.82rem;color:#8BA0B4;line-height:1.7;margin-bottom:6px">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</div>
-    <div style="font-size:0.78rem;color:#29B6F6;margin-bottom:8px" id="lead-success-email"></div>
-    <div style="font-size:0.75rem;color:#3D5166;margin-bottom:22px">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin-bottom:10px"><span class="es">Solicitud enviada</span><span class="en">Request sent</span></div>
+    <div style="font-size:0.82rem;color:var(--texto);line-height:1.7;margin-bottom:6px"><span class="es">Nuestro equipo te contactará en menos de 24 horas con tu propuesta personalizada.</span><span class="en">Our team will reach out within 24 hours with your custom proposal.</span></div>
+    <div style="font-size:0.78rem;color:var(--azul);margin-bottom:8px" id="lead-success-email"></div>
+    <div style="font-size:0.75rem;color:var(--apagado);margin-bottom:22px"><span class="es">Mientras tanto puedes crear una cuenta en el portal para dar seguimiento a tu solicitud.</span><span class="en">In the meantime you can create a portal account to track your request.</span></div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <button onclick="closeLead()" style="padding:11px 24px;background:#0B8FCC;color:white;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer">Cerrar</button>
-      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:#00E5A0;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none">Crear cuenta</a>
+      <button onclick="closeLead()" style="padding:11px 24px;background:var(--azul-fuerte);color:#FFFFFF;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer"><span class="es">Cerrar</span><span class="en">Close</span></button>
+      <a href="https://portal.wifnix.com" style="padding:11px 24px;background:transparent;color:var(--verde);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:1px solid rgba(0,229,160,0.3);text-decoration:none"><span class="es">Crear cuenta</span><span class="en">Create account</span></a>
     </div>
   </div>
 </div>
@@ -662,14 +777,15 @@ function openLead(title, summary, datos, estimado, herramienta) {
     var initials = (_wifnixUser.nombre[0]||'') + (_wifnixUser.apellido ? _wifnixUser.apellido[0] : '');
     document.getElementById('lead-avatar').textContent = initials.toUpperCase();
     document.getElementById('lead-user-name').textContent = _wifnixUser.nombre + ' ' + (_wifnixUser.apellido||'') + ' · ' + (_wifnixUser.email||'');
-    if (title) document.getElementById('lead-modal-title-li').textContent = title;
+    // El título llega con sus dos versiones dentro: va como HTML.
+    if (title) document.getElementById('lead-modal-title-li').innerHTML = title;
     if (summary) document.getElementById('lead-summary-li').innerHTML = summary;
   } else {
     // Guest
     document.getElementById('lead-loggedin').style.display = 'none';
     document.getElementById('lead-guest').style.display = 'block';
     document.getElementById('guest-form').style.display = 'none';
-    if (title) document.getElementById('lead-modal-title').textContent = title;
+    if (title) document.getElementById('lead-modal-title').innerHTML = title;
     if (summary) document.getElementById('lead-summary').innerHTML = summary;
   }
 }
@@ -699,7 +815,7 @@ function submitLead() {
   var alertEl = document.getElementById('lead-alert');
   if (!nombre || !email) {
     alertEl.style.display = 'block';
-    alertEl.textContent = 'Por favor ingresa tu nombre y email.';
+    alertEl.textContent = T('Por favor ingresa tu nombre y email.', 'Please enter your name and email.');
     return;
   }
   sendLead(nombre, email, tel, '');
@@ -731,18 +847,36 @@ function sendLead(nombre, email, tel, msg) {
   .then(function(r) { return r.json(); })
   .then(function() {
     document.getElementById('lead-overlay').style.display = 'none';
-    document.getElementById('lead-success-email').textContent = 'Confirmación enviada a: ' + email;
+    document.getElementById('lead-success-email').textContent = T('Confirmación enviada a: ', 'Confirmation sent to: ') + email;
     document.getElementById('lead-success').style.display = 'flex';
   })
   .catch(function() {
     var alertEl = document.getElementById('lead-alert');
-    if (alertEl) { alertEl.style.display='block'; alertEl.textContent='Error. Llámanos al (787) 354-9596'; }
+    if (alertEl) { alertEl.style.display='block'; alertEl.textContent = T('Error. Llámanos al (787) 354-9596', 'Something went wrong. Call us at (787) 354-9596'); }
   });
 }
+
+// Un <select> cerrado sigue ensenando el texto de la opcion
+// seleccionada aunque el CSS la esconda. Al cambiar de idioma hay
+// que mover la seleccion a su gemela, que es la opcion de al lado.
+function sincronizarSelects() {
+  var lang = document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+  var otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+sincronizarSelects();
+new MutationObserver(sincronizarSelects).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
 
 document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeLead(); });
 document.getElementById('lead-overlay').addEventListener('click', function(e) { if(e.target===this) closeLead(); });
 </script>
 
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

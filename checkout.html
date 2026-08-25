@@ -5,19 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Checkout — Wifnix LLC</title>
 <meta name="description" content="Completa tu compra en Wifnix Puerto Rico.">
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="/assets/auth-shared.js"></script>
 <style>
-:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
-:root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
+/* El color entero (oscuro y claro) vive en /assets/wifnix.css. Aqui
+   solo queda lo que no es color: la fuente mono. */
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
 h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 
-.nav{position:sticky;top:0;background:rgba(13,21,38,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-:root[data-theme="light"] .nav{background:rgba(255,255,255,0.95)}
+.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
 .logo img{height:32px}
 .logo span{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
@@ -25,13 +36,12 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 .layout{display:grid;grid-template-columns:1fr 380px;gap:30px;max-width:1200px;margin:0 auto;padding:30px 20px}
 @media(max-width:900px){.layout{grid-template-columns:1fr}}
 
-.steps-nav{display:flex;gap:0;margin-bottom:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px}
-.step-tab{flex:1;padding:12px;text-align:center;border-radius:8px;font-weight:700;font-size:0.82rem;color:var(--gray);background:transparent;border:none;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
-.step-tab.active{background:var(--blue);color:white}
+.steps-nav{display:flex;gap:0;margin-bottom:24px;border-bottom:1px solid var(--border)}
+.step-tab{flex:1;padding:14px 12px;text-align:center;font-weight:700;font-size:0.82rem;color:var(--gray);background:transparent;border:none;border-bottom:2px solid transparent;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.step-tab.active{color:var(--bl);border-bottom-color:var(--bl)}
 .step-tab.done{color:var(--green)}
-.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800}
-.step-tab.active .step-num{background:rgba(255,255,255,0.25)}
-.step-tab.done .step-num{background:rgba(0,229,160,0.2)}
+.step-num{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.08em;color:var(--gray2)}
+.step-tab.active .step-num,.step-tab.done .step-num{color:currentColor}
 
 .step-content{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;display:none}
 .step-content.active{display:block}
@@ -40,15 +50,15 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 
 .field{margin-bottom:14px}
 .field label{display:block;font-size:0.74rem;font-weight:700;color:var(--gray);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
-.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--white);font-family:inherit;font-size:0.88rem;outline:none}
+.field input,.field select,.field textarea{width:100%;background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--tinta);font-family:inherit;font-size:0.88rem;outline:none}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--bl)}
 .field textarea{min-height:80px;resize:vertical}
 .fields-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:600px){.fields-row{grid-template-columns:1fr}}
 
-.option-card{background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;margin-bottom:10px;transition:all .15s;display:flex;align-items:flex-start;gap:14px}
+.option-card{background:var(--panel2);border:2px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;margin-bottom:10px;transition:all .15s;display:flex;align-items:flex-start;gap:14px}
 .option-card:hover{border-color:rgba(11,143,204,0.3)}
-.option-card.selected{border-color:var(--bl);background:rgba(11,143,204,0.06)}
+.option-card.selected{border-color:var(--bl);background:var(--azul-tenue)}
 .option-card input[type="radio"]{margin-top:3px;accent-color:var(--bl)}
 .option-info{flex:1}
 .option-title{font-weight:700;font-size:0.92rem;margin-bottom:4px}
@@ -58,27 +68,27 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 
 .checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:14px;background:rgba(255,193,7,0.05);border:1px solid rgba(255,193,7,0.2);border-radius:8px;margin:12px 0}
 .checkbox-row input[type="checkbox"]{margin-top:3px;accent-color:var(--warn)}
-.checkbox-row label{font-size:0.85rem;line-height:1.5;cursor:pointer;color:var(--white)}
+.checkbox-row label{font-size:0.85rem;line-height:1.5;cursor:pointer;color:var(--tinta)}
 .checkbox-row small{color:var(--gray);font-size:0.74rem;display:block;margin-top:2px}
 
 .btn-row{display:flex;gap:10px;margin-top:24px}
 .btn{flex:1;padding:14px;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;transition:all .15s}
-.btn-primary{background:var(--blue);color:white}
+.btn-primary{background:var(--blue);color:#FFF}
 .btn-primary:hover{background:var(--bl)}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed}
-.btn-secondary{background:transparent;color:var(--white);border:1px solid var(--border)}
+.btn-secondary{background:transparent;color:var(--tinta);border:1px solid var(--border)}
 
 .sidebar{position:sticky;top:80px;height:fit-content}
 .summary{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
 .summary h3{font-size:1.05rem;font-weight:800;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
 .summary-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.85rem}
 .summary-item:last-of-type{border-bottom:none}
-.item-name{flex:1;color:var(--white)}
+.item-name{flex:1;color:var(--tinta)}
 .item-qty{color:var(--gray);font-size:0.78rem;margin-top:2px}
 .item-total{color:var(--green);font-weight:700;white-space:nowrap}
 
 .totals-row{display:flex;justify-content:space-between;padding:8px 0;font-size:0.85rem;color:var(--gray)}
-.totals-row.total{font-size:1.2rem;font-weight:800;color:var(--white);margin-top:12px;padding-top:14px;border-top:1px solid var(--border)}
+.totals-row.total{font-size:1.2rem;font-weight:800;color:var(--tinta);margin-top:12px;padding-top:14px;border-top:1px solid var(--border)}
 
 .alert{padding:11px 14px;border-radius:8px;font-size:0.82rem;margin-bottom:14px;display:none}
 .alert.show{display:block}
@@ -96,156 +106,205 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
     <img src="/assets/logo-wifnix.png" alt="Wifnix">
     <span>Checkout</span>
   </a>
-  <a href="/tienda.html" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Volver a tienda</a>
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+    <a href="/tienda.html" class="es" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Volver a tienda</a>
+    <a href="/tienda.html" class="en" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Back to store</a>
+    <span data-wx-switches></span>
+  </div>
 </nav>
 
 <div class="layout">
   <main>
     <div class="steps-nav">
-      <button class="step-tab active" id="tab-1"><span class="step-num">1</span> Información</button>
-      <button class="step-tab" id="tab-2"><span class="step-num">2</span> Entrega y Pago</button>
-      <button class="step-tab" id="tab-3"><span class="step-num">3</span> Confirmación</button>
+      <button class="step-tab active" id="tab-1"><span class="step-num">1</span> <span class="es">Información</span><span class="en">Information</span></button>
+      <button class="step-tab" id="tab-2"><span class="step-num">2</span> <span class="es">Entrega y Pago</span><span class="en">Delivery and Payment</span></button>
+      <button class="step-tab" id="tab-3"><span class="step-num">3</span> <span class="es">Confirmación</span><span class="en">Confirmation</span></button>
     </div>
     
     <!-- PASO 1: INFORMACIÓN DE CONTACTO -->
     <div class="step-content active" id="step-1">
-      <h2>Información de contacto</h2>
-      <p class="step-desc">Confirma tus datos para procesar la orden</p>
+      <h2 class="es">Información de contacto</h2>
+      <h2 class="en">Contact information</h2>
+      <p class="step-desc es">Confirma tus datos para procesar la orden</p>
+      <p class="step-desc en">Confirm your details so we can process your order</p>
       
       <div id="login-required" style="display:none">
-        <div class="alert info show">⚠️ Necesitas iniciar sesión para continuar con la compra</div>
+        <div class="alert info show es">⚠️ Necesitas iniciar sesión para continuar con la compra</div>
+        <div class="alert info show en">⚠️ You need to sign in to continue with your purchase</div>
         <div class="btn-row">
-          <a href="https://portal.wifnix.com" class="btn btn-primary" style="text-decoration:none;text-align:center">Iniciar sesión</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary es" style="text-decoration:none;text-align:center">Iniciar sesión</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary en" style="text-decoration:none;text-align:center">Sign in</a>
         </div>
       </div>
       
       <div id="info-form" style="display:none">
         <div class="fields-row">
-          <div class="field"><label>Nombre *</label><input type="text" id="f-nombre" required></div>
-          <div class="field"><label>Apellido *</label><input type="text" id="f-apellido" required></div>
+          <div class="field"><label class="es">Nombre *</label><label class="en">First name *</label><input type="text" id="f-nombre" required></div>
+          <div class="field"><label class="es">Apellido *</label><label class="en">Last name *</label><input type="text" id="f-apellido" required></div>
         </div>
         <div class="fields-row">
-          <div class="field"><label>Email *</label><input type="email" id="f-email" required></div>
-          <div class="field"><label>Teléfono *</label><input type="tel" id="f-telefono" placeholder="(787) 000-0000" required></div>
+          <div class="field"><label class="es">Email *</label><label class="en">Email *</label><input type="email" id="f-email" required></div>
+          <div class="field"><label class="es">Teléfono *</label><label class="en">Phone *</label><input type="tel" id="f-telefono" placeholder="(787) 000-0000" required></div>
         </div>
-        <div class="field"><label>Empresa (opcional)</label><input type="text" id="f-empresa"></div>
+        <div class="field"><label class="es">Empresa (opcional)</label><label class="en">Company (optional)</label><input type="text" id="f-empresa"></div>
         
         <div class="btn-row">
-          <a href="/tienda.html" class="btn btn-secondary" style="text-decoration:none;text-align:center">← Continuar comprando</a>
-          <button class="btn btn-primary" onclick="irPaso(2)">Continuar →</button>
+          <a href="/tienda.html" class="btn btn-secondary es" style="text-decoration:none;text-align:center">← Continuar comprando</a>
+          <a href="/tienda.html" class="btn btn-secondary en" style="text-decoration:none;text-align:center">← Continue shopping</a>
+          <button class="btn btn-primary es" onclick="irPaso(2)">Continuar →</button>
+          <button class="btn btn-primary en" onclick="irPaso(2)">Continue →</button>
         </div>
       </div>
     </div>
     
     <!-- PASO 2: ENTREGA Y PAGO -->
     <div class="step-content" id="step-2">
-      <h2>Método de entrega</h2>
-      <p class="step-desc">Selecciona cómo quieres recibir tu orden</p>
+      <h2 class="es">Método de entrega</h2>
+      <h2 class="en">Delivery method</h2>
+      <p class="step-desc es">Selecciona cómo quieres recibir tu orden</p>
+      <p class="step-desc en">Choose how you want to receive your order</p>
       
       <div class="option-card" onclick="seleccionarEntrega('recoger', this)">
         <input type="radio" name="entrega" id="ent-recoger" value="recoger">
         <div class="option-info">
-          <div class="option-title">🏪 Recoger en tienda</div>
-          <div class="option-desc">HC 06 Box 70500, Caguas PR 00727 · Lun-Sáb 8AM-6PM</div>
-          <div class="option-price free">GRATIS</div>
+          <div class="option-title es">🏪 Recoger en tienda</div>
+          <div class="option-title en">🏪 Store pickup</div>
+          <div class="option-desc es">HC 06 Box 70500, Caguas PR 00727 · Lun-Sáb 8AM-6PM</div>
+          <div class="option-desc en">HC 06 Box 70500, Caguas PR 00727 · Mon-Sat 8AM-6PM</div>
+          <div class="option-price free es">GRATIS</div>
+          <div class="option-price free en">FREE</div>
         </div>
       </div>
       
       <div class="option-card" onclick="seleccionarEntrega('local', this)">
         <input type="radio" name="entrega" id="ent-local" value="local">
         <div class="option-info">
-          <div class="option-title">🚚 Entrega local (Puerto Rico)</div>
-          <div class="option-desc">Pueblos limítrofes gratis con compras >$150. Resto de PR según distancia.</div>
-          <div class="option-price" id="local-price">Calculando...</div>
+          <div class="option-title es">🚚 Entrega local (Puerto Rico)</div>
+          <div class="option-title en">🚚 Local delivery (Puerto Rico)</div>
+          <div class="option-desc es">Pueblos limítrofes gratis con compras >$150. Resto de PR según distancia.</div>
+          <div class="option-desc en">Free to neighboring towns on orders over $150. Rest of Puerto Rico priced by distance.</div>
+          <div class="option-price" id="local-price"><span class="es">Calculando...</span><span class="en">Calculating...</span></div>
         </div>
       </div>
       
       <div class="option-card" onclick="seleccionarEntrega('correo', this)">
         <input type="radio" name="entrega" id="ent-correo" value="correo">
         <div class="option-info">
-          <div class="option-title">📦 Envío por correo postal (USPS)</div>
-          <div class="option-desc">Calculado por peso. Generalmente $8-$25.</div>
-          <div class="option-price" id="correo-price">Calculando...</div>
+          <div class="option-title es">📦 Envío por correo postal (USPS)</div>
+          <div class="option-title en">📦 Shipping by mail (USPS)</div>
+          <div class="option-desc es">Calculado por peso. Generalmente $8-$25.</div>
+          <div class="option-desc en">Calculated by weight. Typically $8-$25.</div>
+          <div class="option-price" id="correo-price"><span class="es">Calculando...</span><span class="en">Calculating...</span></div>
         </div>
       </div>
       
       <!-- Dirección de envío (solo si selecciona local o correo) -->
       <div id="direccion-section" style="display:none;margin-top:18px">
-        <h3 style="font-size:1rem;font-weight:800;margin-bottom:14px">Dirección de envío</h3>
-        <div class="field"><label>Dirección *</label><input type="text" id="f-direccion" placeholder="Calle, número, urbanización/sector"></div>
+        <h3 class="es" style="font-size:1rem;font-weight:800;margin-bottom:14px">Dirección de envío</h3>
+        <h3 class="en" style="font-size:1rem;font-weight:800;margin-bottom:14px">Shipping address</h3>
+        <div class="field"><label class="es">Dirección *</label><label class="en">Address *</label><input type="text" id="f-direccion" placeholder="Calle, número, urbanización/sector" data-es="Calle, número, urbanización/sector" data-en="Street, number, urbanización/sector"></div>
         <div class="fields-row">
-          <div class="field"><label>Pueblo *</label>
+          <div class="field"><label class="es">Pueblo *</label><label class="en">Town *</label>
             <select id="f-pueblo">
-              <option value="">Selecciona pueblo</option>
-              <option value="caguas">Caguas</option>
-              <option value="aguas_buenas">Aguas Buenas</option>
-              <option value="cidra">Cidra</option>
-              <option value="gurabo">Gurabo</option>
-              <option value="san_lorenzo">San Lorenzo</option>
-              <option value="juncos">Juncos</option>
-              <option value="san_juan">San Juan</option>
-              <option value="bayamon">Bayamón</option>
-              <option value="carolina">Carolina</option>
-              <option value="ponce">Ponce</option>
-              <option value="mayaguez">Mayagüez</option>
-              <option value="arecibo">Arecibo</option>
-              <option value="otro">Otro municipio</option>
+              <option value="" class="es">Selecciona pueblo</option>
+              <option value="" class="en">Select town</option>
+              <option value="caguas" class="es">Caguas</option>
+              <option value="caguas" class="en">Caguas</option>
+              <option value="aguas_buenas" class="es">Aguas Buenas</option>
+              <option value="aguas_buenas" class="en">Aguas Buenas</option>
+              <option value="cidra" class="es">Cidra</option>
+              <option value="cidra" class="en">Cidra</option>
+              <option value="gurabo" class="es">Gurabo</option>
+              <option value="gurabo" class="en">Gurabo</option>
+              <option value="san_lorenzo" class="es">San Lorenzo</option>
+              <option value="san_lorenzo" class="en">San Lorenzo</option>
+              <option value="juncos" class="es">Juncos</option>
+              <option value="juncos" class="en">Juncos</option>
+              <option value="san_juan" class="es">San Juan</option>
+              <option value="san_juan" class="en">San Juan</option>
+              <option value="bayamon" class="es">Bayamón</option>
+              <option value="bayamon" class="en">Bayamón</option>
+              <option value="carolina" class="es">Carolina</option>
+              <option value="carolina" class="en">Carolina</option>
+              <option value="ponce" class="es">Ponce</option>
+              <option value="ponce" class="en">Ponce</option>
+              <option value="mayaguez" class="es">Mayagüez</option>
+              <option value="mayaguez" class="en">Mayagüez</option>
+              <option value="arecibo" class="es">Arecibo</option>
+              <option value="arecibo" class="en">Arecibo</option>
+              <option value="otro" class="es">Otro municipio</option>
+              <option value="otro" class="en">Other municipality</option>
             </select>
           </div>
-          <div class="field"><label>Código postal *</label><input type="text" id="f-zip" placeholder="00727" maxlength="5"></div>
+          <div class="field"><label class="es">Código postal *</label><label class="en">ZIP code *</label><input type="text" id="f-zip" placeholder="00727" maxlength="5"></div>
         </div>
-        <div class="field"><label>Instrucciones especiales (opcional)</label><textarea id="f-notas" placeholder="Punto de referencia, horario preferido, etc."></textarea></div>
+        <div class="field"><label class="es">Instrucciones especiales (opcional)</label><label class="en">Special instructions (optional)</label><textarea id="f-notas" placeholder="Punto de referencia, horario preferido, etc." data-es="Punto de referencia, horario preferido, etc." data-en="Landmark, preferred time, etc."></textarea></div>
       </div>
       
       <!-- Checkbox instalación -->
       <div class="checkbox-row">
         <input type="checkbox" id="f-instalacion">
-        <label for="f-instalacion">
+        <label for="f-instalacion" class="es">
           <strong>Necesito instalación profesional</strong>
           <small>Te contactaremos para coordinar una visita técnica y cotización personalizada. La instalación se factura aparte después de la inspección.</small>
         </label>
+        <label for="f-instalacion" class="en">
+          <strong>I need professional installation</strong>
+          <small>We will contact you to schedule a site visit and a custom quote. Installation is billed separately after the inspection.</small>
+        </label>
       </div>
       
-      <h2 style="margin-top:30px">Método de pago</h2>
-      <p class="step-desc">Selecciona cómo deseas pagar</p>
+      <h2 class="es" style="margin-top:30px">Método de pago</h2>
+      <h2 class="en" style="margin-top:30px">Payment method</h2>
+      <p class="step-desc es">Selecciona cómo deseas pagar</p>
+      <p class="step-desc en">Choose how you want to pay</p>
       
       <div class="option-card selected" onclick="seleccionarPago('manual', this)">
         <input type="radio" name="pago" id="pay-manual" value="manual" checked>
         <div class="option-info">
-          <div class="option-title">📝 Reservar orden — Pagar después</div>
-          <div class="option-desc">Confirmamos disponibilidad y te enviamos invoice por email con instrucciones de pago (ATH Móvil, transferencia, tarjeta).</div>
+          <div class="option-title es">📝 Reservar orden — Pagar después</div>
+          <div class="option-title en">📝 Reserve order — Pay later</div>
+          <div class="option-desc es">Confirmamos disponibilidad y te enviamos invoice por email con instrucciones de pago (ATH Móvil, transferencia, tarjeta).</div>
+          <div class="option-desc en">We confirm availability and email you an invoice with payment instructions (ATH Móvil, bank transfer, card).</div>
         </div>
       </div>
       
       <div class="option-card" style="opacity:0.5">
         <input type="radio" name="pago" id="pay-stripe" value="stripe" disabled>
         <div class="option-info">
-          <div class="option-title">💳 Tarjeta de crédito/débito (próximamente)</div>
-          <div class="option-desc">Stripe — Pago inmediato y seguro</div>
+          <div class="option-title es">💳 Tarjeta de crédito/débito (próximamente)</div>
+          <div class="option-title en">💳 Credit/debit card (coming soon)</div>
+          <div class="option-desc es">Stripe — Pago inmediato y seguro</div>
+          <div class="option-desc en">Stripe — Instant, secure payment</div>
         </div>
       </div>
       
       <div class="option-card" style="opacity:0.5">
         <input type="radio" name="pago" id="pay-paypal" value="paypal" disabled>
         <div class="option-info">
-          <div class="option-title">🅿️ PayPal (próximamente)</div>
-          <div class="option-desc">Pago con cuenta PayPal o tarjeta vía PayPal</div>
+          <div class="option-title es">🅿️ PayPal (próximamente)</div>
+          <div class="option-title en">🅿️ PayPal (coming soon)</div>
+          <div class="option-desc es">Pago con cuenta PayPal o tarjeta vía PayPal</div>
+          <div class="option-desc en">Pay with your PayPal account or a card through PayPal</div>
         </div>
       </div>
       
       <div class="option-card" style="opacity:0.5">
         <input type="radio" name="pago" id="pay-ath" value="ath" disabled>
         <div class="option-info">
-          <div class="option-title">📱 ATH Móvil (próximamente)</div>
-          <div class="option-desc">Pago instantáneo desde tu app del banco</div>
+          <div class="option-title es">📱 ATH Móvil (próximamente)</div>
+          <div class="option-title en">📱 ATH Móvil (coming soon)</div>
+          <div class="option-desc es">Pago instantáneo desde tu app del banco</div>
+          <div class="option-desc en">Instant payment from your bank app</div>
         </div>
       </div>
       
       <div class="alert" id="alert-step2"></div>
       
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="irPaso(1)">← Atrás</button>
-        <button class="btn btn-primary" onclick="confirmarOrden()" id="btn-confirmar">Confirmar orden →</button>
+        <button class="btn btn-secondary es" onclick="irPaso(1)">← Atrás</button>
+        <button class="btn btn-secondary en" onclick="irPaso(1)">← Back</button>
+        <button class="btn btn-primary" onclick="confirmarOrden()" id="btn-confirmar"><span class="es">Confirmar orden →</span><span class="en">Confirm order →</span></button>
       </div>
     </div>
     
@@ -253,14 +312,17 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
     <div class="step-content" id="step-3">
       <div class="empty">
         <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <h2 style="color:var(--green);margin-bottom:8px">¡Orden confirmada!</h2>
-        <p style="color:var(--gray);margin-bottom:18px">Número de orden: <strong style="color:var(--white)" id="orden-numero">—</strong></p>
+        <h2 class="es" style="color:var(--green);margin-bottom:8px">¡Orden confirmada!</h2>
+        <h2 class="en" style="color:var(--green);margin-bottom:8px">Order confirmed!</h2>
+        <p style="color:var(--gray);margin-bottom:18px"><span class="es">Número de orden:</span><span class="en">Order number:</span> <strong style="color:var(--tinta)" id="orden-numero">—</strong></p>
         <p style="color:var(--gray);font-size:0.88rem;line-height:1.65;max-width:520px;margin:0 auto 20px">
-          Hemos recibido tu solicitud. Te enviamos un email de confirmación a <strong style="color:var(--white)" id="orden-email">—</strong>. Nuestro equipo te contactará en menos de 24 horas para coordinar el pago y la entrega.
+          <span class="es">Hemos recibido tu solicitud. Te enviamos un email de confirmación a </span><span class="en">We have received your request. A confirmation email is on its way to </span><strong style="color:var(--tinta)" id="orden-email">—</strong><span class="es">. Nuestro equipo te contactará en menos de 24 horas para coordinar el pago y la entrega.</span><span class="en">. Our team will contact you within 24 hours to arrange payment and delivery.</span>
         </p>
         <div class="btn-row" style="max-width:400px;margin:0 auto">
-          <a href="/" class="btn btn-secondary" style="text-decoration:none;text-align:center">Inicio</a>
-          <a href="https://portal.wifnix.com" class="btn btn-primary" style="text-decoration:none;text-align:center">Ver mi cuenta</a>
+          <a href="/" class="btn btn-secondary es" style="text-decoration:none;text-align:center">Inicio</a>
+          <a href="/" class="btn btn-secondary en" style="text-decoration:none;text-align:center">Home</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary es" style="text-decoration:none;text-align:center">Ver mi cuenta</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary en" style="text-decoration:none;text-align:center">View my account</a>
         </div>
       </div>
     </div>
@@ -268,8 +330,9 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
   
   <aside class="sidebar">
     <div class="summary">
-      <h3>Resumen de tu orden</h3>
-      <div id="cart-summary"><p style="text-align:center;color:var(--gray);padding:20px 0">Cargando...</p></div>
+      <h3 class="es">Resumen de tu orden</h3>
+      <h3 class="en">Your order summary</h3>
+      <div id="cart-summary"><p style="text-align:center;color:var(--gray);padding:20px 0"><span class="es">Cargando...</span><span class="en">Loading...</span></p></div>
     </div>
   </aside>
 </div>
@@ -297,6 +360,15 @@ var estadoOrden = {
   direccion: {},
   instalacion: false
 };
+
+// El idioma lo manda el atributo del <html>, puesto antes de pintar.
+// Todo texto que escriba este script pasa por aqui.
+function idiomaActual() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) {
+  return idiomaActual() === 'en' ? en : es;
+}
 
 if (!USER) {
   document.getElementById('login-required').style.display = 'block';
@@ -338,12 +410,12 @@ function calcularEntrega() {
 
 function renderSummary() {
   if (!carrito.length) {
-    document.getElementById('cart-summary').innerHTML = '<p style="text-align:center;color:var(--gray);padding:20px 0">Tu carrito está vacío</p><a href="/tienda.html" style="display:block;text-align:center;color:var(--bl);text-decoration:none;font-weight:700">Ir a la tienda</a>';
+    document.getElementById('cart-summary').innerHTML = '<p style="text-align:center;color:var(--gray);padding:20px 0">' + T('Tu carrito está vacío','Your cart is empty') + '</p><a href="/tienda.html" style="display:block;text-align:center;color:var(--bl);text-decoration:none;font-weight:700">' + T('Ir a la tienda','Go to the store') + '</a>';
     return;
   }
   
   var itemsHTML = carrito.map(function(i) {
-    return '<div class="summary-item"><div><div class="item-name">' + i.nombre + '</div><div class="item-qty">Cantidad: ' + i.cantidad + '</div></div><div class="item-total">$' + (i.precio * i.cantidad).toFixed(2) + '</div></div>';
+    return '<div class="summary-item"><div><div class="item-name">' + i.nombre + '</div><div class="item-qty">' + T('Cantidad: ','Qty: ') + i.cantidad + '</div></div><div class="item-total">$' + (i.precio * i.cantidad).toFixed(2) + '</div></div>';
   }).join('');
   
   var subtotal = calcularSubtotal();
@@ -353,17 +425,17 @@ function renderSummary() {
   
   var totalsHTML = 
     '<div class="totals-row"><span>Subtotal</span><span>$' + subtotal.toFixed(2) + '</span></div>' +
-    '<div class="totals-row"><span>IVU (11.5%)</span><span>$' + ivu.toFixed(2) + '</span></div>' +
-    '<div class="totals-row"><span>Envío</span><span>' + (entrega === 0 ? 'GRATIS' : '$' + entrega.toFixed(2)) + '</span></div>' +
+    '<div class="totals-row"><span>' + T('IVU (11.5%)','Sales tax / IVU (11.5%)') + '</span><span>$' + ivu.toFixed(2) + '</span></div>' +
+    '<div class="totals-row"><span>' + T('Envío','Shipping') + '</span><span>' + (entrega === 0 ? T('GRATIS','FREE') : '$' + entrega.toFixed(2)) + '</span></div>' +
     '<div class="totals-row total"><span>Total</span><span>$' + total.toFixed(2) + '</span></div>';
   
   document.getElementById('cart-summary').innerHTML = itemsHTML + totalsHTML;
   
   // Actualizar precios de entrega en las opciones
-  var localPrice = PUEBLOS_LIMITROFES.indexOf(document.getElementById('f-pueblo')?.value || '') >= 0 && subtotal >= 150 ? 'GRATIS' : 'Desde $15';
-  document.getElementById('local-price').textContent = localPrice;
-  document.getElementById('local-price').className = localPrice === 'GRATIS' ? 'option-price free' : 'option-price';
-  document.getElementById('correo-price').textContent = 'Desde $8.50';
+  var localGratis = PUEBLOS_LIMITROFES.indexOf(document.getElementById('f-pueblo')?.value || '') >= 0 && subtotal >= 150;
+  document.getElementById('local-price').textContent = localGratis ? T('GRATIS','FREE') : T('Desde $15','From $15');
+  document.getElementById('local-price').className = localGratis ? 'option-price free' : 'option-price';
+  document.getElementById('correo-price').textContent = T('Desde $8.50','From $8.50');
 }
 
 function irPaso(n) {
@@ -382,7 +454,7 @@ function validarPaso1() {
   var apellido = document.getElementById('f-apellido').value.trim();
   var email = document.getElementById('f-email').value.trim();
   var tel = document.getElementById('f-telefono').value.trim();
-  if (!nombre || !apellido || !email || !tel) { alert('Completa todos los campos requeridos'); return false; }
+  if (!nombre || !apellido || !email || !tel) { alert(T('Completa todos los campos requeridos','Please fill in all required fields')); return false; }
   return true;
 }
 
@@ -413,7 +485,7 @@ async function confirmarOrden() {
   alert.classList.remove('show', 'error', 'success');
   
   if (!estadoOrden.entrega) {
-    alert.textContent = 'Selecciona un método de entrega';
+    alert.textContent = T('Selecciona un método de entrega','Select a delivery method');
     alert.classList.add('show', 'error');
     return;
   }
@@ -423,7 +495,7 @@ async function confirmarOrden() {
     var pueblo = document.getElementById('f-pueblo').value;
     var zip = document.getElementById('f-zip').value.trim();
     if (!dir || !pueblo || !zip) {
-      alert.textContent = 'Completa la dirección de envío';
+      alert.textContent = T('Completa la dirección de envío','Complete the shipping address');
       alert.classList.add('show', 'error');
       return;
     }
@@ -433,7 +505,7 @@ async function confirmarOrden() {
   estadoOrden.instalacion = document.getElementById('f-instalacion').checked;
   
   var btn = document.getElementById('btn-confirmar');
-  btn.disabled = true; btn.textContent = 'Procesando...';
+  btn.disabled = true; btn.innerHTML = '<span class="es">Procesando...</span><span class="en">Processing...</span>';
   
   var subtotal = calcularSubtotal();
   var entrega = calcularEntrega();
@@ -472,18 +544,45 @@ async function confirmarOrden() {
       localStorage.removeItem('wifnix_carrito');
       irPaso(3);
     } else {
-      alert.textContent = data.error || 'Error procesando orden';
+      alert.textContent = data.error || T('Error procesando orden','Error processing the order');
       alert.classList.add('show', 'error');
-      btn.disabled = false; btn.textContent = 'Confirmar orden →';
+      btn.disabled = false; btn.innerHTML = '<span class="es">Confirmar orden →</span><span class="en">Confirm order →</span>';
     }
   } catch(e) {
-    alert.textContent = 'Error de conexión: ' + e.message;
+    alert.textContent = T('Error de conexión: ','Connection error: ') + e.message;
     alert.classList.add('show', 'error');
-    btn.disabled = false; btn.textContent = 'Confirmar orden →';
+    btn.disabled = false; btn.innerHTML = '<span class="es">Confirmar orden →</span><span class="en">Confirm order →</span>';
   }
 }
 
 renderSummary();
+
+// El <select> de pueblos lleva las dos gemelas, es y en, con el mismo
+// value. Al cambiar de idioma hay que pasar la seleccion a la gemela
+// visible: el value no cambia, asi que el calculo tampoco.
+function sincronizarPueblo() {
+  var s = document.getElementById('f-pueblo');
+  if (!s) return;
+  var v = s.value, idi = idiomaActual();
+  for (var i = 0; i < s.options.length; i++) {
+    if (s.options[i].value === v && s.options[i].classList.contains(idi)) { s.selectedIndex = i; return; }
+  }
+}
+
+// Al arrancar, el desplegable ya tiene que ensenar la gemela del
+// idioma puesto: si no, en ingles se lee "Selecciona pueblo".
+sincronizarPueblo();
+
+// Los interruptores viven en el archivo compartido y no avisan a nadie.
+// Se vigila el atributo del <html> para repintar lo que escribe este
+// script: el resumen, el IVU, el envio y los precios de las opciones.
+if (window.MutationObserver) {
+  new MutationObserver(function () {
+    sincronizarPueblo();
+    renderSummary();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+}
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

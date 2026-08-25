@@ -4,79 +4,114 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Ahorro Eléctrico HVAC — Wifnix</title>
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.wx-bar{display:flex;justify-content:flex-end;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
-.badge span{font-size:0.7rem;font-weight:700;color:var(--green);letter-spacing:0.08em;text-transform:uppercase}
+.eyebrow{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:14px}
 .header h1{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--green);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.header h1 em{color:var(--verde);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(0,229,160,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{background:var(--panel);border:1px solid rgba(0,229,160,0.1);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:20px}
 .field{margin-bottom:16px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
-.field label span{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--green)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--green);cursor:pointer}
-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(0,229,160,0.12);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-select option{background:var(--navy)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:flex;justify-content:space-between;margin-bottom:6px}
+/* Solo el <span> con id lleva el número del deslizador: así los
+   gemelos .es/.en de la etiqueta no heredan ese estilo. */
+.field label span[id]{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:800;color:var(--verde)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--verde);cursor:pointer}
+select{width:100%;background:var(--fondo2);border:1px solid rgba(0,229,160,0.12);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--panel);color:var(--tinta)}
 .seer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.seer-btn{padding:12px 8px;text-align:center;border:1px solid rgba(0,229,160,0.12);border-radius:8px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2)}
+.seer-btn{padding:12px 8px;text-align:center;border:1px solid rgba(0,229,160,0.12);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--fondo2)}
 .seer-btn:hover{border-color:rgba(0,229,160,0.35)}
-.seer-btn.sel{border-color:var(--green);background:rgba(0,229,160,0.08)}
-.seer-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gray);transition:color .2s}
-.seer-btn.sel .seer-val{color:var(--green)}
-.seer-label{font-size:0.6rem;color:var(--gray2);margin-top:3px}
-.result-hero{background:linear-gradient(135deg,rgba(0,229,160,0.1),rgba(13,26,42,0.9));border:1px solid rgba(0,229,160,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
-.saving-num{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--green);line-height:1}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.08);border-radius:10px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.seer-btn.sel{border-color:var(--verde);background:rgba(0,229,160,0.08)}
+.seer-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:var(--texto);transition:color .2s}
+.seer-btn.sel .seer-val{color:var(--verde)}
+.seer-label{font-size:0.6rem;color:var(--apagado);margin-top:3px}
+.seclabel{display:flex;align-items:center;gap:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.62rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--apagado);margin-bottom:16px}
+.seclabel::after{content:"";flex:1;height:1px;background:var(--filo2)}
+.result-hero{padding:0;margin-bottom:32px}
+.saving-num{font-family:'Syne',sans-serif;font-size:3.2rem;font-weight:800;color:var(--verde);line-height:1}
+.dl{border-top:1px solid var(--filo);margin-bottom:32px}
+.dl-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:13px 2px;border-bottom:1px solid var(--filo)}
+.dl-lbl{font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em}
+.dl-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.95rem;font-weight:600;white-space:nowrap}
 .bar-wrap{margin-bottom:16px}
 .bar-label{display:flex;justify-content:space-between;font-size:0.78rem;margin-bottom:6px}
-.bar-track{height:28px;background:rgba(255,255,255,0.04);border-radius:6px;overflow:hidden}
-.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-size:0.72rem;font-weight:700;color:white;transition:width .6s}
-.proj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.proj-item{background:rgba(0,0,0,0.3);border:1px solid rgba(0,229,160,0.08);border-radius:8px;padding:12px;text-align:center}
-.proj-year{font-size:0.6rem;color:var(--gray);text-transform:uppercase;margin-bottom:4px}
-.proj-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
-.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
-.tip strong{color:var(--white)}
-.source{font-size:0.65rem;color:var(--gray2);padding-top:10px;border-top:1px solid rgba(255,255,255,0.04);line-height:1.6;margin-top:10px}
-.cta{background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--green);color:var(--black);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.bar-track{height:26px;background:var(--fondo2);overflow:hidden}
+.bar-fill{height:100%;display:flex;align-items:center;padding:0 12px;font-size:0.72rem;font-weight:600;color:var(--fondo);transition:width .6s}
+.proj-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0 22px}
+.proj-item{border-top:1px solid var(--filo);padding:12px 0}
+.proj-year{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.6rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:5px}
+.proj-val{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:0.92rem;font-weight:600}
+.tip{border-top:1px solid var(--filo);padding-top:18px;font-size:0.82rem;color:var(--texto);line-height:1.9;margin-bottom:28px}
+.tip strong{color:var(--tinta)}
+.source{font-size:0.65rem;color:var(--apagado);padding-top:10px;border-top:1px solid var(--filo);line-height:1.6;margin-top:10px}
+.cta{border-top:1px solid var(--filo);padding-top:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cta-btn{padding:11px 24px;background:var(--verde);color:var(--fondo);font-family:'Syne',sans-serif;font-weight:800;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,229,160,0.3)}
-@media(max-width:768px){.grid-2,.stats,.seer-grid,.proj-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.grid-2,.seer-grid,.proj-grid{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TELÉFONO ──
+   La media query de 768px baja las rejillas a dos columnas, y dos
+   tarjetas no caben en 375px: la página entera se desplazaba de lado.
+   Aquí van a una sola. */
+@media(max-width:560px){
+  .grid-2,.seer-grid,.proj-grid,.datalist{grid-template-columns:1fr !important}
+  .compare-row{grid-template-columns:1.4fr 1fr !important}
+  .compare-cell:nth-child(3){display:none}
+}
+/* Un titular con una palabra larga empujaba el ancho de toda la
+   página. Que parta antes de desbordar. */
+h1,h2,h3,.card-title,.plan-name{overflow-wrap:break-word;hyphens:auto}
+@media(max-width:560px){
+  h1{font-size:clamp(1.35rem,6vw,1.9rem)}
+}
 </style>
 </head>
 <body>
 <div class="page">
+  <div class="wx-bar"><span data-wx-switches></span></div>
   <div class="header">
-    <div class="badge"><span>Fórmula DOE · Tarifa AEE actualizada</span></div>
-    <h1>Calculadora de <em>Ahorro Eléctrico HVAC</em></h1>
-    <p>Calcula exactamente cuánto ahorras al cambiar tu A/C por uno de alta eficiencia usando la fórmula del Departamento de Energía de EE.UU. y la tarifa real de la AEE en Puerto Rico.</p>
+    <div class="eyebrow es">Fórmula DOE · Tarifa AEE actualizada</div>
+    <div class="eyebrow en">DOE formula · Current AEE rate</div>
+    <h1 class="es">Calculadora de <em>Ahorro Eléctrico HVAC</em></h1>
+    <h1 class="en"><em>HVAC Electric Savings</em> Calculator</h1>
+    <p class="es">Calcula exactamente cuánto ahorras al cambiar tu A/C por uno de alta eficiencia usando la fórmula del Departamento de Energía de EE.UU. y la tarifa real de la AEE en Puerto Rico.</p>
+    <p class="en">See exactly how much you save by replacing your A/C with a high-efficiency unit, using the U.S. Department of Energy formula and the real AEE electric rate in Puerto Rico.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Tu sistema actual</div>
+        <div class="card-title es">Tu sistema actual</div>
+        <div class="card-title en">Your current system</div>
         <div class="field">
-          <label>Capacidad del sistema (BTU/hr) <span id="lbl-btu">24,000</span></label>
+          <label><span class="es">Capacidad del sistema (BTU/hr)</span><span class="en">System capacity (BTU/hr)</span> <span id="lbl-btu">24,000</span></label>
           <input type="range" id="sl-btu" min="9000" max="60000" step="3000" value="24000" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>9K (¾T)</span><span>18K (1.5T)</span><span>36K (3T)</span><span>60K (5T)</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px"><span>9K (¾T)</span><span>18K (1.5T)</span><span>36K (3T)</span><span>60K (5T)</span></div>
         </div>
         <div class="field">
-          <label style="margin-bottom:8px">SEER del equipo actual</label>
-          <div style="font-size:0.72rem;color:var(--gray2);margin-bottom:8px;line-height:1.5">SEER = BTU de enfriamiento ÷ Wh de electricidad consumida en temporada</div>
+          <label style="margin-bottom:8px"><span class="es">SEER del equipo actual</span><span class="en">SEER of your current unit</span></label>
+          <div class="es" style="font-size:0.72rem;color:var(--apagado);margin-bottom:8px;line-height:1.5">SEER = BTU de enfriamiento ÷ Wh de electricidad consumida en temporada</div>
+          <div class="en" style="font-size:0.72rem;color:var(--apagado);margin-bottom:8px;line-height:1.5">SEER = cooling BTU ÷ Wh of electricity used over the season</div>
           <div class="seer-grid" id="seer-act-grid">
             <div class="seer-btn sel" onclick="selSeer('act',8,this)"><div class="seer-val">8</div><div class="seer-label">Pre-1992</div></div>
             <div class="seer-btn" onclick="selSeer('act',10,this)"><div class="seer-val">10</div><div class="seer-label">1992-2005</div></div>
@@ -85,18 +120,24 @@ select option{background:var(--navy)}
           </div>
         </div>
         <div class="field">
-          <label>Horas de uso al día <span id="lbl-hrs">12</span>h</label>
+          <label><span class="es">Horas de uso al día</span><span class="en">Hours of use per day</span> <span id="lbl-hrs">12</span>h</label>
           <input type="range" id="sl-hrs" min="1" max="24" value="12" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">En PR: residencias ~10-14h/día, comercios ~10-12h/día</div>
+          <div class="es" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">En PR: residencias ~10-14h/día, comercios ~10-12h/día</div>
+          <div class="en" style="font-size:0.68rem;color:var(--apagado);margin-top:4px">In Puerto Rico: homes ~10-14h/day, businesses ~10-12h/day</div>
         </div>
         <div class="field">
-          <label>Tarifa eléctrica (AEE)</label>
+          <label><span class="es">Tarifa eléctrica (AEE)</span><span class="en">Electric rate (AEE)</span></label>
           <select id="sel-kwh" onchange="update()">
-            <option value="0.22" selected>$0.22/kWh — Residencial (RS) promedio actual</option>
-            <option value="0.24">$0.24/kWh — Residencial alta tarifa</option>
-            <option value="0.26">$0.26/kWh — Comercial pequeño (GS) promedio</option>
-            <option value="0.28">$0.28/kWh — Comercial mediano</option>
-            <option value="0.30">$0.30/kWh — Tarifa alta pico</option>
+            <option value="0.22" selected class="es">$0.22/kWh — Residencial (RS) promedio actual</option>
+            <option value="0.22" selected class="en">$0.22/kWh — Residential (RS), current average</option>
+            <option value="0.24" class="es">$0.24/kWh — Residencial alta tarifa</option>
+            <option value="0.24" class="en">$0.24/kWh — Residential, high rate</option>
+            <option value="0.26" class="es">$0.26/kWh — Comercial pequeño (GS) promedio</option>
+            <option value="0.26" class="en">$0.26/kWh — Small commercial (GS), average</option>
+            <option value="0.28" class="es">$0.28/kWh — Comercial mediano</option>
+            <option value="0.28" class="en">$0.28/kWh — Mid-size commercial</option>
+            <option value="0.30" class="es">$0.30/kWh — Tarifa alta pico</option>
+            <option value="0.30" class="en">$0.30/kWh — High peak rate</option>
           </select>
         </div>
       </div>
@@ -104,41 +145,55 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">Sistema nuevo de alta eficiencia</div>
+        <div class="card-title es">Sistema nuevo de alta eficiencia</div>
+        <div class="card-title en">New high-efficiency system</div>
         <div class="field">
-          <label style="margin-bottom:8px">SEER del equipo nuevo</label>
-          <div style="font-size:0.72rem;color:var(--gray2);margin-bottom:8px;line-height:1.5">Desde 2023, el mínimo federal para equipos nuevos en climas cálidos es SEER 15</div>
+          <label style="margin-bottom:8px"><span class="es">SEER del equipo nuevo</span><span class="en">SEER of the new unit</span></label>
+          <div class="es" style="font-size:0.72rem;color:var(--apagado);margin-bottom:8px;line-height:1.5">Desde 2023, el mínimo federal para equipos nuevos en climas cálidos es SEER 15</div>
+          <div class="en" style="font-size:0.72rem;color:var(--apagado);margin-bottom:8px;line-height:1.5">Since 2023, the federal minimum for new units in hot climates is SEER 15</div>
           <div class="seer-grid" id="seer-new-grid">
-            <div class="seer-btn" onclick="selSeer('new',15,this)"><div class="seer-val">15</div><div class="seer-label">Mínimo 2023</div></div>
-            <div class="seer-btn" onclick="selSeer('new',18,this)"><div class="seer-val">18</div><div class="seer-label">Eficiente</div></div>
-            <div class="seer-btn sel" onclick="selSeer('new',21,this)"><div class="seer-val">21</div><div class="seer-label">Alta efic.</div></div>
+            <div class="seer-btn" onclick="selSeer('new',15,this)"><div class="seer-val">15</div><div class="seer-label es">Mínimo 2023</div><div class="seer-label en">2023 minimum</div></div>
+            <div class="seer-btn" onclick="selSeer('new',18,this)"><div class="seer-val">18</div><div class="seer-label es">Eficiente</div><div class="seer-label en">Efficient</div></div>
+            <div class="seer-btn sel" onclick="selSeer('new',21,this)"><div class="seer-val">21</div><div class="seer-label es">Alta efic.</div><div class="seer-label en">High effic.</div></div>
             <div class="seer-btn" onclick="selSeer('new',25,this)"><div class="seer-val">25</div><div class="seer-label">Premium</div></div>
           </div>
         </div>
         <div class="field">
-          <label style="margin-bottom:8px">Costo del equipo nuevo (instalado)</label>
+          <label style="margin-bottom:8px"><span class="es">Costo del equipo nuevo (instalado)</span><span class="en">Cost of the new unit (installed)</span></label>
           <select id="sel-costo" onchange="update()">
-            <option value="1100">$1,100 — Mini split 9,000 BTU</option>
-            <option value="1400">$1,400 — Mini split 12,000 BTU</option>
-            <option value="1600">$1,600 — Mini split 18,000 BTU</option>
-            <option value="1900" selected>$1,900 — Mini split 24,000 BTU</option>
-            <option value="2600">$2,600 — Mini split 36,000 BTU</option>
-            <option value="4000">$4,000 — Sistema central 3 ton</option>
-            <option value="6000">$6,000 — Sistema central 5 ton</option>
+            <option value="1100" class="es">$1,100 — Mini split 9,000 BTU</option>
+            <option value="1100" class="en">$1,100 — Mini split 9,000 BTU</option>
+            <option value="1400" class="es">$1,400 — Mini split 12,000 BTU</option>
+            <option value="1400" class="en">$1,400 — Mini split 12,000 BTU</option>
+            <option value="1600" class="es">$1,600 — Mini split 18,000 BTU</option>
+            <option value="1600" class="en">$1,600 — Mini split 18,000 BTU</option>
+            <option value="1900" selected class="es">$1,900 — Mini split 24,000 BTU</option>
+            <option value="1900" selected class="en">$1,900 — Mini split 24,000 BTU</option>
+            <option value="2600" class="es">$2,600 — Mini split 36,000 BTU</option>
+            <option value="2600" class="en">$2,600 — Mini split 36,000 BTU</option>
+            <option value="4000" class="es">$4,000 — Sistema central 3 ton</option>
+            <option value="4000" class="en">$4,000 — Central system, 3 ton</option>
+            <option value="6000" class="es">$6,000 — Sistema central 5 ton</option>
+            <option value="6000" class="en">$6,000 — Central system, 5 ton</option>
           </select>
         </div>
         <div class="field">
-          <label style="margin-bottom:8px">Incentivos / créditos disponibles</label>
+          <label style="margin-bottom:8px"><span class="es">Incentivos / créditos disponibles</span><span class="en">Incentives / credits available</span></label>
           <select id="sel-incentivo" onchange="update()">
-            <option value="0">Sin incentivos</option>
-            <option value="300">$300 — Crédito federal Inflation Reduction Act (IRA)</option>
-            <option value="500">$500 — Programa de eficiencia energética local</option>
-            <option value="800">$800 — Combinación IRA + programa local</option>
+            <option value="0" class="es">Sin incentivos</option>
+            <option value="0" class="en">No incentives</option>
+            <option value="300" class="es">$300 — Crédito federal Inflation Reduction Act (IRA)</option>
+            <option value="300" class="en">$300 — Federal Inflation Reduction Act (IRA) credit</option>
+            <option value="500" class="es">$500 — Programa de eficiencia energética local</option>
+            <option value="500" class="en">$500 — Local energy-efficiency program</option>
+            <option value="800" class="es">$800 — Combinación IRA + programa local</option>
+            <option value="800" class="en">$800 — IRA credit plus local program</option>
           </select>
         </div>
-        <div style="background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.2);border-radius:10px;padding:14px;text-align:center">
-          <div style="font-size:0.62rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px">Inversión neta</div>
-          <div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--white)" id="r-inversion">$0</div>
+        <div style="border-top:1px solid var(--filo);padding-top:14px;display:flex;justify-content:space-between;align-items:baseline;gap:16px">
+          <div class="es" style="font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em">Inversión neta</div>
+          <div class="en" style="font-size:0.66rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.12em">Net investment</div>
+          <div style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:1.25rem;font-weight:600;color:var(--tinta)" id="r-inversion">$0</div>
         </div>
       </div>
     </div>
@@ -146,42 +201,49 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px">Ahorro anual en factura eléctrica</div>
+    <div class="seclabel es">Ahorro anual en la factura eléctrica</div>
+    <div class="seclabel en">Annual savings on your electric bill</div>
     <div class="saving-num" id="r-ahorro-anual">$0</div>
-    <div style="font-size:0.88rem;color:var(--gray);margin-top:6px" id="r-payback-txt">—</div>
+    <div style="font-size:0.88rem;color:var(--texto);margin-top:10px" id="r-payback-txt">—</div>
   </div>
 
-  <div class="stats">
-    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-costo-act">$0/año</div><div class="stat-lbl">Gasto actual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--green)" id="s-costo-new">$0/año</div><div class="stat-lbl">Gasto nuevo</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-ahorro-mes">$0/mes</div><div class="stat-lbl">Ahorro mensual</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-reduccion">0%</div><div class="stat-lbl">Reducción consumo</div></div>
+  <div class="dl">
+    <div class="dl-row"><div class="dl-lbl es">Gasto actual del sistema HVAC</div><div class="dl-lbl en">What your HVAC system costs now</div><div class="dl-val" style="color:var(--rojo)" id="s-costo-act">$0/año</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Gasto con el equipo nuevo</div><div class="dl-lbl en">Cost with the new unit</div><div class="dl-val" style="color:var(--verde)" id="s-costo-new">$0/año</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Ahorro mensual</div><div class="dl-lbl en">Monthly savings</div><div class="dl-val" style="color:var(--ambar)" id="s-ahorro-mes">$0/mes</div></div>
+    <div class="dl-row"><div class="dl-lbl es">Reducción de consumo eléctrico</div><div class="dl-lbl en">Reduction in electricity use</div><div class="dl-val" style="color:var(--azul)" id="s-reduccion">0%</div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Comparación de consumo eléctrico</div>
+    <div class="card-title es">Comparación de consumo eléctrico</div>
+    <div class="card-title en">Electricity use compared</div>
     <div class="bar-wrap">
       <div class="bar-label">
-        <span style="color:var(--red)">Sistema actual (SEER <span id="b-seer-act">8</span>)</span>
-        <span style="color:var(--red)" id="b-kwh-act">0 kWh/mes</span>
+        <span style="color:var(--rojo)"><span class="es">Sistema actual (SEER </span><span class="en">Current system (SEER </span><span id="b-seer-act">8</span>)</span>
+        <span style="color:var(--rojo)" id="b-kwh-act">0 kWh/mes</span>
       </div>
-      <div class="bar-track"><div class="bar-fill" id="bar-act" style="background:var(--red);width:100%">100%</div></div>
+      <div class="bar-track"><div class="bar-fill" id="bar-act" style="background:var(--rojo);width:100%">100%</div></div>
     </div>
     <div class="bar-wrap">
       <div class="bar-label">
-        <span style="color:var(--green)">Sistema nuevo (SEER <span id="b-seer-new">21</span>)</span>
-        <span style="color:var(--green)" id="b-kwh-new">0 kWh/mes</span>
+        <span style="color:var(--verde)"><span class="es">Sistema nuevo (SEER </span><span class="en">New system (SEER </span><span id="b-seer-new">21</span>)</span>
+        <span style="color:var(--verde)" id="b-kwh-new">0 kWh/mes</span>
       </div>
-      <div class="bar-track"><div class="bar-fill" id="bar-new" style="background:var(--green);width:50%"><span id="bar-pct">50%</span></div></div>
+      <div class="bar-track"><div class="bar-fill" id="bar-new" style="background:var(--verde);width:50%"><span id="bar-pct">50%</span></div></div>
     </div>
-    <div class="source">
+    <div class="source es">
       Fórmula: Consumo (kWh) = BTU/hr × Horas de uso × Días ÷ (SEER × 1,000).
       Fuente: DOE (Department of Energy, EE.UU.) · ASHRAE Standard 116 · AEE tarifa 2024.
     </div>
+    <div class="source en">
+      Formula: Consumption (kWh) = BTU/hr × hours of use × days ÷ (SEER × 1,000).
+      Source: DOE (U.S. Department of Energy) · ASHRAE Standard 116 · AEE 2024 rate.
+    </div>
   </div>
 
   <div class="card">
-    <div class="card-title">Proyección de ahorro acumulado</div>
+    <div class="card-title es">Proyección de ahorro acumulado</div>
+    <div class="card-title en">Projected cumulative savings</div>
     <div class="proj-grid" id="r-proyeccion"></div>
   </div>
 
@@ -189,16 +251,27 @@ select option{background:var(--navy)}
 
   <div class="cta">
     <div>
-      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">Cambia tu A/C y empieza a ahorrar</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Instalamos sistemas de alta eficiencia Carrier, LG, Daikin, Trane. Evaluación gratis.</div>
+      <div class="es" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">Cambia tu A/C y empieza a ahorrar</div>
+      <div class="en" style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px">Replace your A/C and start saving</div>
+      <div class="es" style="font-size:0.78rem;color:var(--texto)">Instalamos sistemas de alta eficiencia Carrier, LG, Daikin, Trane. Evaluación gratis.</div>
+      <div class="en" style="font-size:0.78rem;color:var(--texto)">We install high-efficiency Carrier, LG, Daikin and Trane systems. Free assessment.</div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Agendar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Agendar evaluación</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Schedule an assessment</a>
   </div>
 </div>
 
 <script>
 var seerAct = 8;
 var seerNew = 21;
+
+// ── IDIOMA ──
+// El interruptor compartido cambia data-idioma en el <html>; todo lo
+// que escribe este script se pinta en el idioma que esté puesto.
+function idi() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return idi() === 'en' ? en : es; }
 
 function selSeer(type, val, el) {
   if (type === 'act') {
@@ -244,11 +317,13 @@ function update() {
   // Update UI
   document.getElementById('r-ahorro-anual').textContent = '$' + Math.round(ahorroAnual).toLocaleString();
   document.getElementById('r-payback-txt').textContent = paybackMeses < 12
-    ? 'La inversión se recupera en ' + Math.round(paybackMeses) + ' meses'
-    : 'La inversión se recupera en ' + (paybackMeses / 12).toFixed(1) + ' años';
-  document.getElementById('s-costo-act').textContent = '$' + Math.round(costoActAnual).toLocaleString() + '/año';
-  document.getElementById('s-costo-new').textContent = '$' + Math.round(costoNewAnual).toLocaleString() + '/año';
-  document.getElementById('s-ahorro-mes').textContent = '$' + Math.round(ahorroMes).toLocaleString() + '/mes';
+    ? T('La inversión se recupera en ' + Math.round(paybackMeses) + ' meses',
+        'The investment pays for itself in ' + Math.round(paybackMeses) + ' months')
+    : T('La inversión se recupera en ' + (paybackMeses / 12).toFixed(1) + ' años',
+        'The investment pays for itself in ' + (paybackMeses / 12).toFixed(1) + ' years');
+  document.getElementById('s-costo-act').textContent = '$' + Math.round(costoActAnual).toLocaleString() + T('/año', '/yr');
+  document.getElementById('s-costo-new').textContent = '$' + Math.round(costoNewAnual).toLocaleString() + T('/año', '/yr');
+  document.getElementById('s-ahorro-mes').textContent = '$' + Math.round(ahorroMes).toLocaleString() + T('/mes', '/mo');
   document.getElementById('s-reduccion').textContent = Math.round(reduccion) + '%';
 
   // Bars
@@ -258,34 +333,60 @@ function update() {
   document.getElementById('bar-pct').textContent = pct + '%';
   document.getElementById('b-seer-act').textContent = seerAct;
   document.getElementById('b-seer-new').textContent = seerNew;
-  document.getElementById('b-kwh-act').textContent = Math.round(kwhActMes).toLocaleString() + ' kWh/mes';
-  document.getElementById('b-kwh-new').textContent = Math.round(kwhNewMes).toLocaleString() + ' kWh/mes';
+  document.getElementById('b-kwh-act').textContent = Math.round(kwhActMes).toLocaleString() + T(' kWh/mes', ' kWh/mo');
+  document.getElementById('b-kwh-new').textContent = Math.round(kwhNewMes).toLocaleString() + T(' kWh/mes', ' kWh/mo');
 
   // Proyección
   var proj = '';
   for (var y = 1; y <= 10; y++) {
     var ahorroAcum = (ahorroAnual * y) - inversionNeta;
-    var color = ahorroAcum >= 0 ? 'var(--green)' : 'var(--red)';
+    var color = ahorroAcum >= 0 ? 'var(--verde)' : 'var(--rojo)';
     var label = ahorroAcum >= 0 ? '+$' + Math.round(ahorroAcum).toLocaleString() : '-$' + Math.round(Math.abs(ahorroAcum)).toLocaleString();
-    proj += '<div class="proj-item"><div class="proj-year">Año ' + y + '</div><div class="proj-val" style="color:' + color + '">' + label + '</div></div>';
+    proj += '<div class="proj-item"><div class="proj-year">' + T('Año ', 'Year ') + y + '</div><div class="proj-val" style="color:' + color + '">' + label + '</div></div>';
   }
   document.getElementById('r-proyeccion').innerHTML = proj;
 
   // Tips
-  var tip = '<strong>Fórmula utilizada (DOE):</strong> Consumo = BTU/hr × Horas/día × 30 días ÷ (SEER × 1,000).<br>';
-  tip += 'Tu equipo actual (SEER ' + seerAct + ') consume ' + Math.round(kwhActMes) + ' kWh/mes. El nuevo (SEER ' + seerNew + ') solo ' + Math.round(kwhNewMes) + ' kWh/mes.<br><br>';
+  var tip = T('<strong>Fórmula utilizada (DOE):</strong> Consumo = BTU/hr × Horas/día × 30 días ÷ (SEER × 1,000).<br>',
+              '<strong>Formula used (DOE):</strong> Consumption = BTU/hr × hours/day × 30 days ÷ (SEER × 1,000).<br>');
+  tip += T('Tu equipo actual (SEER ' + seerAct + ') consume ' + Math.round(kwhActMes) + ' kWh/mes. El nuevo (SEER ' + seerNew + ') solo ' + Math.round(kwhNewMes) + ' kWh/mes.<br><br>',
+           'Your current unit (SEER ' + seerAct + ') uses ' + Math.round(kwhActMes) + ' kWh/mo. The new one (SEER ' + seerNew + ') uses only ' + Math.round(kwhNewMes) + ' kWh/mo.<br><br>');
 
   if (seerAct <= 10) {
-    tip += '<strong>Equipo muy antiguo:</strong> Un A/C con SEER ' + seerAct + ' es significativamente ineficiente. Los equipos nuevos con SEER 21+ usan hasta ' + Math.round(reduccion) + '% menos electricidad con el mismo rendimiento de enfriamiento.<br><br>';
+    tip += T('<strong>Equipo muy antiguo:</strong> Un A/C con SEER ' + seerAct + ' es significativamente ineficiente. Los equipos nuevos con SEER 21+ usan hasta ' + Math.round(reduccion) + '% menos electricidad con el mismo rendimiento de enfriamiento.<br><br>',
+             '<strong>Very old unit:</strong> An A/C at SEER ' + seerAct + ' is significantly inefficient. New units at SEER 21+ use up to ' + Math.round(reduccion) + '% less electricity for the same cooling performance.<br><br>');
   }
   if (seerNew >= 21) {
-    tip += '<strong>Tecnología inverter:</strong> Los equipos SEER 18+ generalmente incluyen tecnología inverter, que ajusta la velocidad del compresor según la demanda. Son más silenciosos, duran más y mantienen temperatura más estable.<br><br>';
+    tip += T('<strong>Tecnología inverter:</strong> Los equipos SEER 18+ generalmente incluyen tecnología inverter, que ajusta la velocidad del compresor según la demanda. Son más silenciosos, duran más y mantienen temperatura más estable.<br><br>',
+             '<strong>Inverter technology:</strong> SEER 18+ units generally include inverter technology, which matches compressor speed to demand. They run quieter, last longer and hold a steadier temperature.<br><br>');
   }
-  tip += '<strong>Tarifa AEE en PR:</strong> La AEE tiene una de las tarifas más altas de EE.UU. (~$0.22-0.30/kWh vs. promedio nacional de $0.12/kWh). Esto hace que la inversión en eficiencia energética se recupere más rápido en PR que en cualquier otro estado.';
+  tip += T('<strong>Tarifa AEE en PR:</strong> La AEE tiene una de las tarifas más altas de EE.UU. (~$0.22-0.30/kWh vs. promedio nacional de $0.12/kWh). Esto hace que la inversión en eficiencia energética se recupere más rápido en PR que en cualquier otro estado.',
+           '<strong>AEE rate in Puerto Rico:</strong> AEE has one of the highest electric rates in the U.S. (~$0.22-0.30/kWh vs. a national average of $0.12/kWh). That makes an investment in energy efficiency pay for itself faster in Puerto Rico than in any state.');
   document.getElementById('r-tip').innerHTML = tip;
 }
 
+// Un <select> cerrado sigue ensenando el texto de la opcion
+// seleccionada aunque el CSS la esconda. Al cambiar de idioma hay
+// que mover la seleccion a su gemela, que es la opcion de al lado.
+function sincronizarSelects() {
+  var lang = document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+  var otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+
+// Al cambiar el idioma hay que volver a pintar lo que escribe el
+// script: el CSS compartido solo alcanza al marcado.
+new MutationObserver(function () { sincronizarSelects(); update(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+
+sincronizarSelects();
 update();
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

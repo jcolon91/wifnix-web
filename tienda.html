@@ -5,136 +5,138 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tienda — Wifnix LLC | Cámaras CCTV, HVAC y Redes en Puerto Rico</title>
 <meta name="description" content="Tienda online Wifnix Puerto Rico. Cámaras Hikvision, mini splits LG y Carrier, equipos Ubiquiti. Precios mayoristas para empresas y resellers.">
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
-:root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
+:root{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Courier New",monospace}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 
 /* NAV */
-.nav{position:sticky;top:0;background:rgba(13,21,38,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-:root[data-theme="light"] .nav{background:rgba(255,255,255,0.95)}
+.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--filo);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
 .nav-left{display:flex;align-items:center;gap:14px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);font-weight:800}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tinta);font-weight:800}
 .logo img{height:32px}
 .nav-search{flex:1;max-width:500px;position:relative}
-.nav-search input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:10px 16px 10px 38px;color:var(--white);font-family:inherit;font-size:0.85rem;outline:none}
-.nav-search input:focus{border-color:var(--blue)}
-.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--gray);fill:none;stroke-width:2}
-.nav-actions{display:flex;align-items:center;gap:8px}
-.btn{padding:8px 16px;border:none;background:var(--blue);color:white;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.78rem;cursor:pointer;letter-spacing:0.03em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.nav-search input{width:100%;background:var(--fondo2);border:1px solid var(--filo);border-radius:8px;padding:10px 16px 10px 38px;color:var(--tinta);font-family:inherit;font-size:0.85rem;outline:none}
+.nav-search input:focus{border-color:var(--azul)}
+.nav-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--texto);fill:none;stroke-width:2}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.btn{padding:8px 16px;border:none;background:var(--azul-fuerte);color:#FFFFFF;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.78rem;cursor:pointer;letter-spacing:0.03em;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(11,143,204,0.3)}
-.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
-.cart-btn{position:relative;background:rgba(11,143,204,0.1);color:var(--bl);border:1px solid rgba(11,143,204,0.25);padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;gap:6px;font-family:inherit}
-.cart-count{background:var(--red);color:white;border-radius:12px;padding:1px 7px;font-size:0.65rem;font-weight:800;min-width:18px;text-align:center}
+.btn-ghost{background:transparent;color:var(--tinta);border:1px solid var(--filo2)}
+.cart-btn{position:relative;background:rgba(11,143,204,0.1);color:var(--azul);border:1px solid rgba(11,143,204,0.25);padding:8px 14px;border-radius:7px;font-weight:700;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;gap:6px;font-family:inherit}
+.cart-count{font-family:var(--mono);font-size:0.72rem;font-weight:700;letter-spacing:0.04em;color:var(--azul)}
 
 /* HERO */
 .hero{padding:30px 20px;text-align:center;background:linear-gradient(135deg,rgba(11,143,204,0.08),transparent)}
 .hero h1{font-size:1.6rem;font-weight:800;margin-bottom:6px}
-.hero p{color:var(--gray);font-size:0.88rem}
+.hero p{color:var(--texto);font-size:0.88rem}
 
 /* LAYOUT */
 .layout{display:grid;grid-template-columns:280px 1fr;gap:24px;padding:24px 20px;max-width:1400px;margin:0 auto}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{display:none}}
 
 /* SIDEBAR */
-.sidebar{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;height:fit-content;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto}
+.sidebar{background:var(--panel);border:1px solid var(--filo);border-radius:12px;padding:16px;height:fit-content;position:sticky;top:80px;max-height:calc(100vh - 100px);overflow-y:auto}
 .sidebar::-webkit-scrollbar{width:5px}
 .sidebar::-webkit-scrollbar-thumb{background:rgba(11,143,204,0.3);border-radius:3px}
 
-.cat-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 14px;background:transparent;border:1px solid transparent;color:var(--white);font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;border-radius:8px;margin-bottom:3px;transition:all .15s}
+.cat-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 14px;background:transparent;border:1px solid transparent;color:var(--tinta);font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;border-radius:8px;margin-bottom:3px;transition:all .15s}
 .cat-btn:hover{background:rgba(11,143,204,0.06)}
-.cat-btn.active{background:rgba(11,143,204,0.12);border-color:rgba(11,143,204,0.25);color:var(--bl)}
+.cat-btn.active{background:rgba(11,143,204,0.12);border-color:rgba(11,143,204,0.25);color:var(--azul)}
 .cat-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .cat-btn .chevron{margin-left:auto;width:14px;height:14px;transition:transform .2s}
 .cat-btn.expanded .chevron{transform:rotate(90deg)}
 
 .subcats{display:none;margin:2px 0 8px 0;padding-left:28px}
 .subcats.open{display:block}
-.subcat-btn{display:block;width:100%;text-align:left;padding:7px 12px;background:transparent;border:none;color:var(--gray);font-family:inherit;font-size:0.78rem;cursor:pointer;border-radius:6px;margin-bottom:2px;transition:all .15s}
-.subcat-btn:hover,.subcat-btn.active{background:rgba(11,143,204,0.08);color:var(--bl)}
+.subcat-btn{display:block;width:100%;text-align:left;padding:7px 12px;background:transparent;border:none;color:var(--texto);font-family:inherit;font-size:0.78rem;cursor:pointer;border-radius:6px;margin-bottom:2px;transition:all .15s}
+.subcat-btn:hover,.subcat-btn.active{background:rgba(11,143,204,0.08);color:var(--azul)}
 
-.sidebar-title{font-size:0.68rem;font-weight:800;letter-spacing:0.15em;text-transform:uppercase;color:var(--gray2);margin:14px 0 8px;padding:0 14px}
+.sidebar-title{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:0.64rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--apagado);margin:16px 0 8px;padding:0 14px}
+.sidebar-title::after{content:"";flex:1;height:1px;background:var(--filo)}
 
 /* MAIN */
 .main-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
 .cat-title{font-size:1.3rem;font-weight:800}
-.cat-subtitle{font-size:0.8rem;color:var(--gray)}
-.sort-select{background:var(--card);border:1px solid var(--border);color:var(--white);font-family:inherit;font-size:0.82rem;padding:8px 14px;border-radius:7px;cursor:pointer;outline:none}
+.cat-subtitle{font-size:0.8rem;color:var(--texto)}
+.sort-select{background:var(--panel);border:1px solid var(--filo);color:var(--tinta);font-family:inherit;font-size:0.82rem;padding:8px 14px;border-radius:7px;cursor:pointer;outline:none}
 
 .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-.product{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:all .25s;position:relative;display:flex;flex-direction:column}
-.product:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.25);border-color:rgba(11,143,204,0.4)}
+.product{background:var(--panel);border:1px solid var(--filo);border-radius:12px;overflow:hidden;transition:all .25s;position:relative;display:flex;flex-direction:column}
+.product:hover{transform:translateY(-3px);box-shadow:var(--sombra);border-color:rgba(11,143,204,0.4)}
 .product-link{display:block;text-decoration:none;color:inherit;cursor:pointer}
-.product-img{aspect-ratio:1;background:linear-gradient(135deg,rgba(11,143,204,0.05),rgba(11,143,204,0.02));display:flex;align-items:center;justify-content:center;color:var(--gray2);padding:30px}
+.product-img{aspect-ratio:1;background:linear-gradient(135deg,rgba(11,143,204,0.05),rgba(11,143,204,0.02));display:flex;align-items:center;justify-content:center;color:var(--apagado);padding:30px}
 .product-img svg{width:80px;height:80px;stroke:rgba(11,143,204,0.3);fill:none;stroke-width:1}
 .product-img img{max-width:90%;max-height:90%;object-fit:contain}
-.product-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap;z-index:2}
-.badge{font-size:0.6rem;font-weight:800;padding:3px 8px;border-radius:10px;letter-spacing:0.05em;text-transform:uppercase}
-.badge-new{background:var(--green);color:#06090F}
-.badge-hot{background:var(--red);color:white}
-.badge-stock{background:rgba(255,193,7,0.15);color:var(--warn);border:1px solid rgba(255,193,7,0.25)}
-.badge-out{background:rgba(255,85,85,0.15);color:var(--red);border:1px solid rgba(255,85,85,0.25)}
 
 .product-body{padding:14px;flex:1;display:flex;flex-direction:column}
-.product-brand{font-size:0.62rem;color:var(--bl);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
-.product-name{font-size:0.88rem;font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.4;min-height:48px}
-.product-rating{display:flex;align-items:center;gap:5px;margin-bottom:8px;font-size:0.72rem;color:var(--gray)}
-.stars{color:#FFC107}
-.product-price{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;color:var(--green);margin-bottom:2px}
-.product-price-old{font-size:0.72rem;color:var(--gray2);text-decoration:line-through}
-.product-suggested{font-size:0.66rem;color:var(--gray);font-weight:500;margin-bottom:6px}
-.product-stock{font-size:0.7rem;color:var(--gray);margin-bottom:10px}
-.product-stock.in{color:var(--green)}
-.product-stock.low{color:var(--warn)}
-.product-stock.out{color:var(--red)}
-.price-locked{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:7px;padding:10px;text-align:center;margin-bottom:10px}
-.price-locked-text{font-size:0.75rem;font-weight:700;color:var(--bl);margin-bottom:2px}
-.price-locked-sub{font-size:0.65rem;color:var(--gray)}
+.product-brand{font-family:var(--mono);font-size:0.6rem;color:var(--azul);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px}
+.product-name{font-size:0.88rem;font-weight:700;color:var(--tinta);margin-bottom:8px;line-height:1.4;min-height:48px}
+.product-rating{display:flex;align-items:center;gap:5px;margin-bottom:8px;font-size:0.72rem;color:var(--texto)}
+.stars{color:var(--ambar)}
+.product-price{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;color:var(--verde);margin-bottom:2px}
+.product-price-old{font-size:0.72rem;color:var(--apagado);text-decoration:line-through}
+.product-suggested{font-size:0.66rem;color:var(--texto);font-weight:500;margin-bottom:6px}
+.product-stock{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--texto);margin-bottom:10px}
+.product-stock.in{color:var(--verde)}
+.product-stock.low{color:var(--ambar)}
+.product-stock.out{color:var(--rojo)}
+.price-locked{border-top:1px solid var(--filo);padding-top:10px;margin-bottom:10px}
+.price-locked-text{font-family:var(--mono);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--azul);margin-bottom:3px}
+.price-locked-sub{font-size:0.72rem;color:var(--texto);line-height:1.5}
 
 .product-actions{display:flex;gap:6px;margin-top:auto}
-.add-btn{flex:1;padding:9px;background:var(--blue);color:white;border:none;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.74rem;cursor:pointer;letter-spacing:0.03em;text-transform:uppercase;transition:all .15s}
-.add-btn:hover{background:var(--bl)}
+.add-btn{flex:1;padding:9px;background:var(--azul-fuerte);color:#FFFFFF;border:none;border-radius:7px;font-family:inherit;font-weight:700;font-size:0.74rem;cursor:pointer;letter-spacing:0.03em;text-transform:uppercase;transition:all .15s}
+.add-btn:hover{background:var(--azul)}
 .add-btn:disabled{opacity:0.5;cursor:not-allowed}
-.view-btn{padding:9px 12px;background:rgba(11,143,204,0.08);color:var(--bl);border:1px solid rgba(11,143,204,0.2);border-radius:7px;font-family:inherit;font-weight:700;font-size:0.74rem;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.view-btn{padding:9px 12px;background:rgba(11,143,204,0.08);color:var(--azul);border:1px solid rgba(11,143,204,0.2);border-radius:7px;font-family:inherit;font-weight:700;font-size:0.74rem;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:center}
 
-.empty{text-align:center;padding:80px 20px;color:var(--gray);grid-column:1/-1}
-.empty svg{width:60px;height:60px;stroke:var(--gray2);fill:none;stroke-width:1.2;margin-bottom:14px}
+.empty{text-align:center;padding:80px 20px;color:var(--texto);grid-column:1/-1}
+.empty svg{width:60px;height:60px;stroke:var(--apagado);fill:none;stroke-width:1.2;margin-bottom:14px}
 .empty p{font-size:0.95rem;margin-bottom:6px}
-.empty span{font-size:0.78rem;color:var(--gray2)}
+.empty span{font-size:0.78rem;color:var(--apagado)}
 
 /* CART DRAWER */
-.cart-drawer{position:fixed;top:0;right:-450px;width:100%;max-width:420px;height:100vh;background:var(--card);border-left:1px solid var(--border);z-index:1000;padding:24px;overflow-y:auto;transition:right .3s;display:flex;flex-direction:column}
+.cart-drawer{position:fixed;top:0;right:-450px;width:100%;max-width:420px;height:100vh;background:var(--panel);border-left:1px solid var(--filo);z-index:1000;padding:24px;overflow-y:auto;transition:right .3s;display:flex;flex-direction:column}
 .cart-drawer.open{right:0}
-.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s}
+.cart-overlay{position:fixed;inset:0;background:rgba(16,24,34,0.55);backdrop-filter:blur(4px);z-index:999;opacity:0;visibility:hidden;transition:all .3s}
 .cart-overlay.open{opacity:1;visibility:visible}
-.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--filo)}
 .cart-header h2{font-size:1.1rem;font-weight:800}
-.cart-close{background:transparent;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px}
+.cart-close{background:transparent;border:none;color:var(--texto);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px}
 
-.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--filo)}
 .cart-item-info{flex:1}
 .cart-item-name{font-size:0.82rem;font-weight:700;margin-bottom:4px;line-height:1.3}
-.cart-item-price{font-size:0.78rem;color:var(--green);font-weight:700}
+.cart-item-price{font-size:0.78rem;color:var(--verde);font-weight:700}
 .cart-qty{display:flex;align-items:center;gap:6px;margin-top:8px}
-.cart-qty button{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--white);width:26px;height:26px;border-radius:5px;cursor:pointer;font-weight:700}
-.cart-qty input{width:42px;text-align:center;background:transparent;border:1px solid var(--border);color:var(--white);border-radius:5px;padding:3px;font-family:inherit}
-.cart-remove{background:transparent;border:none;color:var(--red);font-size:0.7rem;cursor:pointer;margin-top:6px;font-family:inherit;padding:0}
+.cart-qty button{background:var(--fondo2);border:1px solid var(--filo);color:var(--tinta);width:26px;height:26px;border-radius:5px;cursor:pointer;font-weight:700}
+.cart-qty input{width:42px;text-align:center;background:transparent;border:1px solid var(--filo);color:var(--tinta);border-radius:5px;padding:3px;font-family:inherit}
+.cart-remove{background:transparent;border:none;color:var(--rojo);font-size:0.7rem;cursor:pointer;margin-top:6px;font-family:inherit;padding:0}
 
-.cart-totals{margin-top:auto;padding-top:18px;border-top:1px solid var(--border)}
-.cart-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;color:var(--gray)}
-.cart-row.total{font-size:1.15rem;font-weight:800;color:var(--white);margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.cart-totals{margin-top:auto;padding-top:18px;border-top:1px solid var(--filo)}
+.cart-row{display:flex;justify-content:space-between;font-size:0.85rem;margin-bottom:8px;color:var(--texto)}
+.cart-row.total{font-size:1.15rem;font-weight:800;color:var(--tinta);margin-top:12px;padding-top:12px;border-top:1px solid var(--filo)}
 
-.checkout-btn{width:100%;padding:14px;background:var(--green);color:#06090F;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;margin-top:14px}
-
-.theme-toggle{position:fixed;bottom:20px;right:20px;background:var(--card);border:1px solid var(--border);width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:99;color:var(--white)}
+.checkout-btn{width:100%;padding:14px;background:var(--verde);color:var(--fondo);border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.05em;text-transform:uppercase;margin-top:14px}
 
 /* MOBILE CAT TOGGLE */
-.mobile-cat-btn{display:none;background:var(--card);border:1px solid var(--border);color:var(--white);padding:10px 16px;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;margin-bottom:14px;width:100%}
-@media(max-width:900px){.mobile-cat-btn{display:block}.sidebar.mobile-open{display:block;position:fixed;inset:0;background:var(--black);z-index:200;padding:80px 20px 20px;max-height:none;overflow-y:auto;border-radius:0;border:none}}
+.mobile-cat-btn{display:none;background:var(--panel);border:1px solid var(--filo);color:var(--tinta);padding:10px 16px;border-radius:8px;font-family:inherit;font-weight:700;font-size:0.85rem;cursor:pointer;margin-bottom:14px;width:100%}
+@media(max-width:900px){.mobile-cat-btn{display:block}.sidebar.mobile-open{display:block;position:fixed;inset:0;background:var(--fondo);z-index:200;padding:80px 20px 20px;max-height:none;overflow-y:auto;border-radius:0;border:none}}
 </style>
 </head>
 <body>
@@ -142,75 +144,78 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif
   <div class="nav-left">
     <a href="/" class="logo">
       <img src="/assets/logo-wifnix.png" alt="Wifnix">
-      <span>Tienda</span>
+      <span class="es">Tienda</span><span class="en">Store</span>
     </a>
   </div>
   <div class="nav-search">
     <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search" placeholder="Buscar productos, marcas, SKU..." oninput="filtrar()">
+    <input type="text" id="search" placeholder="Buscar productos, marcas, SKU..." data-es="Buscar productos, marcas, SKU..." data-en="Search products, brands, SKU..." oninput="filtrar()">
   </div>
   <div class="nav-actions">
-    <a href="/" class="btn btn-ghost">← Inicio</a>
+    <span data-wx-switches></span>
+    <a href="/" class="btn btn-ghost es">← Inicio</a>
+    <a href="/" class="btn btn-ghost en">← Home</a>
     <button class="cart-btn" onclick="abrirCarrito()">
       🛒 <span class="cart-count" id="cart-count">0</span>
     </button>
-    <a href="https://portal.wifnix.com" class="btn" id="login-btn">Iniciar sesión</a>
+    <a href="https://portal.wifnix.com" class="btn" id="login-btn" data-es="Iniciar sesión" data-en="Sign in">Iniciar sesión</a>
   </div>
 </nav>
 
 <div class="hero">
-  <h1>Tienda Wifnix Puerto Rico</h1>
-  <p>Cámaras, HVAC, redes y accesorios. Precios mayoristas para empresas y resellers.</p>
+  <h1 class="es">Tienda Wifnix Puerto Rico</h1>
+  <h1 class="en">Wifnix Puerto Rico Store</h1>
+  <p class="es">Cámaras, HVAC, redes y accesorios. Precios mayoristas para empresas y resellers.</p>
+  <p class="en">Cameras, HVAC, networking and accessories. Wholesale pricing for businesses and resellers.</p>
 </div>
 
 <div class="layout">
-  <button class="mobile-cat-btn" onclick="toggleSidebarMobile()">☰ Ver categorías</button>
-  
+  <button class="mobile-cat-btn es" onclick="toggleSidebarMobile()">☰ Ver categorías</button>
+  <button class="mobile-cat-btn en" onclick="toggleSidebarMobile()">☰ Browse categories</button>
+
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-title">Categorías</div>
+    <div class="sidebar-title es">Categorías</div>
+    <div class="sidebar-title en">Categories</div>
     <button class="cat-btn active" onclick="filtrarCat('todos', this)">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
-      <span>Todos los productos</span>
+      <span class="es">Todos los productos</span><span class="en">All products</span>
     </button>
     <div id="cat-tree"></div>
   </aside>
-  
+
   <main>
     <div class="main-header">
       <div>
-        <div class="cat-title" id="cat-title">Todos los productos</div>
-        <div class="cat-subtitle" id="cat-subtitle"><span id="count">0</span> productos disponibles</div>
+        <div class="cat-title" id="cat-title"><span class="es">Todos los productos</span><span class="en">All products</span></div>
+        <div class="cat-subtitle"><span id="count">0</span> <span class="es">productos disponibles</span><span class="en">products available</span></div>
       </div>
       <select class="sort-select" id="sort" onchange="filtrar()">
-        <option value="destacado">Destacados primero</option>
-        <option value="nombre">Nombre A-Z</option>
-        <option value="precio-asc">Precio menor</option>
-        <option value="precio-desc">Precio mayor</option>
-        <option value="nuevo">Más nuevos</option>
+        <option value="destacado" data-es="Destacados primero" data-en="Featured first">Destacados primero</option>
+        <option value="nombre" data-es="Nombre A-Z" data-en="Name A-Z">Nombre A-Z</option>
+        <option value="precio-asc" data-es="Precio menor" data-en="Lowest price">Precio menor</option>
+        <option value="precio-desc" data-es="Precio mayor" data-en="Highest price">Precio mayor</option>
+        <option value="nuevo" data-es="Más nuevos" data-en="Newest first">Más nuevos</option>
       </select>
     </div>
-    <div class="products" id="products"><div class="empty"><p>Cargando productos...</p></div></div>
+    <div class="products" id="products"><div class="empty"><p class="es">Cargando productos...</p><p class="en">Loading products...</p></div></div>
   </main>
 </div>
 
 <div class="cart-overlay" id="cart-overlay" onclick="cerrarCarrito()"></div>
 <div class="cart-drawer" id="cart-drawer">
   <div class="cart-header">
-    <h2>Mi Carrito</h2>
+    <h2 class="es">Mi Carrito</h2>
+    <h2 class="en">My Cart</h2>
     <button class="cart-close" onclick="cerrarCarrito()">×</button>
   </div>
-  <div id="cart-items"><p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p></div>
+  <div id="cart-items"><p style="color:var(--texto);text-align:center;padding:40px 0"><span class="es">Tu carrito está vacío</span><span class="en">Your cart is empty</span></p></div>
   <div class="cart-totals" id="cart-totals" style="display:none">
-    <div class="cart-row"><span>Subtotal</span><span id="t-sub">$0.00</span></div>
-    <div class="cart-row"><span>IVU (11.5%)</span><span id="t-ivu">$0.00</span></div>
-    <div class="cart-row total"><span>Total</span><span id="t-tot">$0.00</span></div>
-    <button class="checkout-btn" onclick="alert('Checkout próximamente — Stripe / PayPal / ATH Móvil')">Proceder al pago</button>
+    <div class="cart-row"><span class="es">Subtotal</span><span class="en">Subtotal</span><span id="t-sub">$0.00</span></div>
+    <div class="cart-row"><span class="es">IVU (11.5%)</span><span class="en">IVU (Puerto Rico sales tax) 11.5%</span><span id="t-ivu">$0.00</span></div>
+    <div class="cart-row total"><span class="es">Total</span><span class="en">Total</span><span id="t-tot">$0.00</span></div>
+    <button class="checkout-btn" onclick="irAlPago()"><span class="es">Proceder al pago</span><span class="en">Proceed to payment</span></button>
   </div>
 </div>
-
-<button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-</button>
 
 <script>
 var API = 'https://api.wifnix.com';
@@ -220,7 +225,19 @@ var carrito = JSON.parse(localStorage.getItem('wifnix_carrito') || '[]');
 var productos = [];
 var categorias = [];
 var catActiva = 'todos';
-var catActivaNombre = 'Todos los productos';
+var catActivaNombre = '';
+var cargado = false;
+
+/* ── IDIOMA ──────────────────────────────────────────────────
+   El idioma lo decide el atributo data-idioma del <html>, que ya
+   quedó puesto antes de pintar. Lo que escribe este script en
+   pantalla no lo alcanza el CSS, así que se elige aquí. */
+function idioma() { return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es'; }
+function T(es, en) { return idioma() === 'en' ? en : es; }
+// Si el API trae el nombre en inglés se usa; si no, se queda el español.
+function nom(o) { if (!o) return ''; return (idioma() === 'en' && o.nombre_en) ? o.nombre_en : (o.nombre_es || ''); }
+
+catActivaNombre = T('Todos los productos', 'All products');
 
 // Iconos para categorías top
 var ICONS = {
@@ -247,12 +264,12 @@ var GRUPOS = {
   'accesorios': []
 };
 
-function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('wifnix_theme',n);}catch(e){}}
-(function(){try{var s=localStorage.getItem('wifnix_theme')||'dark';document.documentElement.setAttribute('data-theme',s);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
-
 if (USER) {
-  document.getElementById('login-btn').textContent = 'Mi cuenta';
-  document.getElementById('login-btn').href = 'https://portal.wifnix.com';
+  var lb = document.getElementById('login-btn');
+  lb.setAttribute('data-es', 'Mi cuenta');
+  lb.setAttribute('data-en', 'My account');
+  lb.textContent = T('Mi cuenta', 'My account');
+  lb.href = 'https://portal.wifnix.com';
 }
 
 function getPrecio(p) {
@@ -267,7 +284,7 @@ async function cargarCategorias() {
   } catch(e) {
     // Fallback: derivar de productos
     var slugs = {};
-    productos.forEach(function(p){ if (p.categoria_slug) slugs[p.categoria_slug] = { slug: p.categoria_slug, nombre_es: p.categoria_nombre }; });
+    productos.forEach(function(p){ if (p.categoria_slug) slugs[p.categoria_slug] = { slug: p.categoria_slug, nombre_es: p.categoria_nombre, nombre_en: p.categoria_nombre_en }; });
     categorias = Object.values(slugs);
   }
   renderSidebar();
@@ -276,46 +293,46 @@ async function cargarCategorias() {
 function renderSidebar() {
   var tree = document.getElementById('cat-tree');
   var html = '';
-  
+
   // Agrupar por padre conocido
   Object.keys(GRUPOS).forEach(function(parentSlug) {
     var parent = categorias.find(function(c){ return c.slug === parentSlug; });
     if (!parent) return;
-    
+
     var subs = categorias.filter(function(c){ return GRUPOS[parentSlug].indexOf(c.slug) >= 0; });
     var icon = ICONS[parentSlug] || ICONS.default;
     var hasSubs = subs.length > 0;
-    
+
     html += '<button class="cat-btn" onclick="' + (hasSubs ? 'toggleSubcats(this)' : 'filtrarCat(\'' + parentSlug + '\', this)') + '">' +
-      icon + '<span>' + parent.nombre_es + '</span>' +
+      icon + '<span>' + nom(parent) + '</span>' +
       (hasSubs ? '<svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>' : '') +
     '</button>';
-    
+
     if (hasSubs) {
       html += '<div class="subcats">';
-      html += '<button class="subcat-btn" onclick="filtrarCat(\'' + parent.slug + '\', this, true)">Todos ' + parent.nombre_es + '</button>';
+      html += '<button class="subcat-btn" onclick="filtrarCat(\'' + parent.slug + '\', this, true)">' + T('Todos ', 'All ') + nom(parent) + '</button>';
       subs.forEach(function(s) {
-        html += '<button class="subcat-btn" onclick="filtrarCat(\'' + s.slug + '\', this, true)">' + s.nombre_es + '</button>';
+        html += '<button class="subcat-btn" onclick="filtrarCat(\'' + s.slug + '\', this, true)">' + nom(s) + '</button>';
       });
       html += '</div>';
     }
   });
-  
+
   // Categorías huérfanas (sin grupo definido)
   var orphans = categorias.filter(function(c) {
     if (GRUPOS[c.slug]) return false;
     for (var k in GRUPOS) if (GRUPOS[k].indexOf(c.slug) >= 0) return false;
     return true;
   });
-  
+
   if (orphans.length) {
-    html += '<div class="sidebar-title">Otros</div>';
+    html += '<div class="sidebar-title">' + T('Otros', 'Other') + '</div>';
     orphans.forEach(function(c) {
       var icon = ICONS[c.slug] || ICONS.default;
-      html += '<button class="cat-btn" onclick="filtrarCat(\'' + c.slug + '\', this)">' + icon + '<span>' + c.nombre_es + '</span></button>';
+      html += '<button class="cat-btn" onclick="filtrarCat(\'' + c.slug + '\', this)">' + icon + '<span>' + nom(c) + '</span></button>';
     });
   }
-  
+
   tree.innerHTML = html;
 }
 
@@ -333,16 +350,17 @@ async function cargarProductos() {
     var data = await r.json();
     productos = data.productos || [];
     await cargarCategorias();
+    cargado = true;
     renderProductos();
   } catch(e) {
-    document.getElementById('products').innerHTML = '<div class="empty"><p>Error cargando productos</p><span>' + e.message + '</span></div>';
+    document.getElementById('products').innerHTML = '<div class="empty"><p>' + T('Error cargando productos', 'Error loading products') + '</p><span>' + e.message + '</span></div>';
   }
 }
 
 function renderProductos() {
   var q = (document.getElementById('search').value || '').toLowerCase().trim();
   var sortBy = document.getElementById('sort').value;
-  
+
   var filtrados = productos.filter(function(p) {
     if (catActiva !== 'todos' && p.categoria_slug !== catActiva) return false;
     if (q) {
@@ -351,7 +369,7 @@ function renderProductos() {
     }
     return true;
   });
-  
+
   // Sort
   filtrados.sort(function(a, b) {
     if (sortBy === 'nombre') return a.nombre_es.localeCompare(b.nombre_es);
@@ -360,50 +378,49 @@ function renderProductos() {
     if (sortBy === 'nuevo') return (b.es_nuevo ? 1 : 0) - (a.es_nuevo ? 1 : 0);
     return (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0);
   });
-  
+
   document.getElementById('count').textContent = filtrados.length;
   document.getElementById('cat-title').textContent = catActivaNombre;
-  
+
   if (!filtrados.length) {
-    document.getElementById('products').innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>No hay productos en esta categoría</p><span>Prueba con otra categoría o cambia tu búsqueda</span></div>';
+    document.getElementById('products').innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><p>' +
+      T('No hay productos en esta categoría', 'No products in this category') + '</p><span>' +
+      T('Prueba con otra categoría o cambia tu búsqueda', 'Try another category or change your search') + '</span></div>';
     return;
   }
-  
+
   document.getElementById('products').innerHTML = filtrados.map(function(p) {
     var precioInfo = getPrecio(p);
-    var badges = '';
-    if (p.es_nuevo) badges += '<span class="badge badge-new">Nuevo</span>';
-    if (p.es_hot) badges += '<span class="badge badge-hot">Hot</span>';
-    if (p.stock === 0) badges += '<span class="badge badge-out">Agotado</span>';
-    else if (p.stock < 5) badges += '<span class="badge badge-stock">Solo ' + p.stock + '</span>';
-    
+
     var stockClass = p.stock === 0 ? 'out' : p.stock < 5 ? 'low' : 'in';
-    var stockText = p.stock === 0 ? 'Sin stock' : p.stock < 5 ? 'Stock bajo (' + p.stock + ')' : 'En stock (' + p.stock + ')';
-    
+    var stockText = p.stock === 0 ? T('Sin stock', 'Out of stock') :
+      p.stock < 5 ? T('Stock bajo (' + p.stock + ')', 'Low stock (' + p.stock + ')') :
+      T('En stock (' + p.stock + ')', 'In stock (' + p.stock + ')');
+
     var precioHTML;
     if (precioInfo) {
       precioHTML = '<div class="product-price">$' + parseFloat(precioInfo.precio).toFixed(2) + '</div>';
     } else {
-      precioHTML = '<div class="price-locked"><div class="price-locked-text">🔒 Inicia sesión</div><div class="price-locked-sub">para ver precios</div></div>';
+      precioHTML = '<div class="price-locked"><div class="price-locked-text">' + T('Inicia sesión', 'Sign in') + '</div><div class="price-locked-sub">' +
+        T('para ver precios mayoristas de CCTV, HVAC y redes', 'to see wholesale pricing on CCTV, HVAC and networking') + '</div></div>';
     }
-    
+
     var productHref = '/producto.html?sku=' + encodeURIComponent(p.sku);
-    
+
     return '<article class="product">' +
-      '<div class="product-badges">' + badges + '</div>' +
       '<a href="' + productHref + '" class="product-link">' +
-        '<div class="product-img">' + (p.imagen_principal ? '<img src="' + p.imagen_principal + '" alt="' + p.nombre_es + '">' : '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg>') + '</div>' +
+        '<div class="product-img">' + (p.imagen_principal ? '<img src="' + p.imagen_principal + '" alt="' + nom(p) + '">' : '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/></svg>') + '</div>' +
       '</a>' +
       '<div class="product-body">' +
         '<div class="product-brand">' + (p.marca || '') + '</div>' +
-        '<a href="' + productHref + '" class="product-link"><div class="product-name">' + p.nombre_es + '</div></a>' +
+        '<a href="' + productHref + '" class="product-link"><div class="product-name">' + nom(p) + '</div></a>' +
         precioHTML +
         '<div class="product-stock ' + stockClass + '">' + stockText + '</div>' +
         '<div class="product-actions">' +
-          (USER && precioInfo && p.stock > 0 ? '<button class="add-btn" onclick="agregar(\'' + p.id + '\')">Añadir al carrito</button>' : 
-           !USER ? '<a href="https://portal.wifnix.com" class="add-btn" style="text-align:center;text-decoration:none">Iniciar sesión</a>' :
-           '<button class="add-btn" disabled>Sin stock</button>') +
-          '<a href="' + productHref + '" class="view-btn" title="Ver detalles">→</a>' +
+          (USER && precioInfo && p.stock > 0 ? '<button class="add-btn" onclick="agregar(\'' + p.id + '\')">' + T('Añadir al carrito', 'Add to cart') + '</button>' :
+           !USER ? '<a href="https://portal.wifnix.com" class="add-btn" style="text-align:center;text-decoration:none">' + T('Iniciar sesión', 'Sign in') + '</a>' :
+           '<button class="add-btn" disabled>' + T('Sin stock', 'Out of stock') + '</button>') +
+          '<a href="' + productHref + '" class="view-btn" title="' + T('Ver detalles', 'View details') + '">→</a>' +
         '</div>' +
       '</div>' +
     '</article>';
@@ -414,22 +431,22 @@ function filtrar() { renderProductos(); }
 
 function filtrarCat(slug, btn, isSubcat) {
   catActiva = slug;
-  
+
   // Buscar nombre
   if (slug === 'todos') {
-    catActivaNombre = 'Todos los productos';
+    catActivaNombre = T('Todos los productos', 'All products');
   } else {
     var cat = categorias.find(function(c){ return c.slug === slug; });
-    catActivaNombre = cat ? cat.nombre_es : slug;
+    catActivaNombre = cat ? nom(cat) : slug;
   }
-  
+
   // Update active state
   document.querySelectorAll('.cat-btn, .subcat-btn').forEach(function(b){ b.classList.remove('active'); });
   if (btn) btn.classList.add('active');
-  
+
   // Cerrar sidebar mobile
   document.getElementById('sidebar').classList.remove('mobile-open');
-  
+
   renderProductos();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -438,20 +455,24 @@ function toggleSidebarMobile() {
   document.getElementById('sidebar').classList.toggle('mobile-open');
 }
 
+function irAlPago() {
+  alert(T('Checkout próximamente — Stripe / PayPal / ATH Móvil', 'Checkout coming soon — Stripe / PayPal / ATH Móvil'));
+}
+
 function agregar(id) {
   var p = productos.find(function(x){ return x.id === id; });
   if (!p) return;
   var precioInfo = getPrecio(p);
   if (!precioInfo) { window.location.href = 'https://portal.wifnix.com'; return; }
-  
+
   var item = carrito.find(function(x){ return x.id === id; });
   if (item) {
-    if (item.cantidad >= p.stock) { alert('No hay más stock disponible'); return; }
+    if (item.cantidad >= p.stock) { alert(T('No hay más stock disponible', 'No more stock available')); return; }
     item.cantidad++;
   } else {
     carrito.push({ id: p.id, sku: p.sku, nombre: p.nombre_es, precio: parseFloat(precioInfo.precio), cantidad: 1, stock: p.stock });
   }
-  
+
   localStorage.setItem('wifnix_carrito', JSON.stringify(carrito));
   actualizarCarritoUI();
   abrirCarrito();
@@ -460,13 +481,13 @@ function agregar(id) {
 function actualizarCarritoUI() {
   var count = carrito.reduce(function(a,b){ return a + b.cantidad; }, 0);
   document.getElementById('cart-count').textContent = count;
-  
+
   if (!carrito.length) {
-    document.getElementById('cart-items').innerHTML = '<p style="color:var(--gray);text-align:center;padding:40px 0">Tu carrito está vacío</p>';
+    document.getElementById('cart-items').innerHTML = '<p style="color:var(--texto);text-align:center;padding:40px 0">' + T('Tu carrito está vacío', 'Your cart is empty') + '</p>';
     document.getElementById('cart-totals').style.display = 'none';
     return;
   }
-  
+
   document.getElementById('cart-items').innerHTML = carrito.map(function(item, idx) {
     return '<div class="cart-item">' +
       '<div class="cart-item-info">' +
@@ -477,11 +498,11 @@ function actualizarCarritoUI() {
           '<input type="number" value="' + item.cantidad + '" min="1" onchange="setCant(' + idx + ', this.value)">' +
           '<button onclick="cambiarCant(' + idx + ', 1)">+</button>' +
         '</div>' +
-        '<button class="cart-remove" onclick="quitar(' + idx + ')">Eliminar</button>' +
+        '<button class="cart-remove" onclick="quitar(' + idx + ')">' + T('Eliminar', 'Remove') + '</button>' +
       '</div>' +
     '</div>';
   }).join('');
-  
+
   var subtotal = carrito.reduce(function(a,b){ return a + b.precio * b.cantidad; }, 0);
   var ivu = subtotal * 0.115;
   document.getElementById('t-sub').textContent = '$' + subtotal.toFixed(2);
@@ -494,7 +515,7 @@ function cambiarCant(idx, delta) {
   var item = carrito[idx];
   var nueva = item.cantidad + delta;
   if (nueva < 1) return;
-  if (item.stock && nueva > item.stock) { alert('Stock máximo: ' + item.stock); return; }
+  if (item.stock && nueva > item.stock) { alert(T('Stock máximo: ', 'Maximum stock: ') + item.stock); return; }
   item.cantidad = nueva;
   localStorage.setItem('wifnix_carrito', JSON.stringify(carrito));
   actualizarCarritoUI();
@@ -521,8 +542,48 @@ function cerrarCarrito() {
   document.getElementById('cart-overlay').classList.remove('open');
 }
 
+/* Al cambiar el idioma con el interruptor compartido hay que volver a
+   pintar lo que dibujó este script: el CSS solo alcanza al marcado. */
+function repintarIdioma() {
+  // Mientras el catálogo no haya llegado no hay nada que repintar: se
+  // queda el aviso de "Cargando productos", que ya viene en los dos idiomas.
+  if (!cargado) { actualizarCarritoUI(); return; }
+  // Guardar qué grupos estaban abiertos y cuál categoría estaba activa:
+  // el árbol se vuelve a dibujar igual, solo cambia el texto.
+  var abiertos = [], activos = [];
+  document.querySelectorAll('#cat-tree .subcats').forEach(function(s, i){ if (s.classList.contains('open')) abiertos.push(i); });
+  document.querySelectorAll('#cat-tree .cat-btn, #cat-tree .subcat-btn').forEach(function(b, i){ if (b.classList.contains('active')) activos.push(i); });
+
+  if (catActiva === 'todos') {
+    catActivaNombre = T('Todos los productos', 'All products');
+  } else {
+    var cat = categorias.find(function(c){ return c.slug === catActiva; });
+    catActivaNombre = cat ? nom(cat) : catActiva;
+  }
+
+  renderSidebar();
+
+  var subs = document.querySelectorAll('#cat-tree .subcats');
+  abiertos.forEach(function(i){
+    if (!subs[i]) return;
+    subs[i].classList.add('open');
+    if (subs[i].previousElementSibling) subs[i].previousElementSibling.classList.add('expanded');
+  });
+  var btns = document.querySelectorAll('#cat-tree .cat-btn, #cat-tree .subcat-btn');
+  activos.forEach(function(i){ if (btns[i]) btns[i].classList.add('active'); });
+
+  renderProductos();
+  actualizarCarritoUI();
+}
+
+try {
+  new MutationObserver(function(){ repintarIdioma(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+} catch(e) { /* navegador viejo: se queda en el idioma con el que cargó */ }
+
 cargarProductos();
 actualizarCarritoUI();
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>
