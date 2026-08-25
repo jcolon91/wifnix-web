@@ -23,7 +23,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:5px}
 .field input,.field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color .2s}
 .field input:focus,.field select:focus{border-color:var(--blue)}
-.field input::placeholder{color:var(--gray2)}
+.field input::placeholder{color:var(--apagado)}
 .field select option{background:var(--navy)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 /* ── ENTRAR CON GOOGLE, APPLE, MICROSOFT O FACEBOOK ──
@@ -47,7 +47,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .oauth-o{
   display:flex;align-items:center;gap:12px;
   margin:14px 0 12px;
-  font-size:0.7rem;color:var(--gray2);
+  font-size:0.7rem;color:var(--apagado);
 }
 .oauth-o::before,.oauth-o::after{
   content:'';flex:1;height:1px;background:rgba(11,143,204,0.15);
@@ -89,12 +89,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white)
 .bw{background:rgba(255,193,7,0.12);color:var(--warn);border:1px solid rgba(255,193,7,0.25)}
 .br{background:rgba(255,85,85,0.12);color:var(--red);border:1px solid rgba(255,85,85,0.25)}
 table{width:100%;border-collapse:collapse}
-th{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray2);padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.04)}
+th{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--apagado);padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.04)}
 td{font-size:0.82rem;color:var(--gray);padding:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(11,143,204,0.03);color:var(--white)}
 .bsm{padding:6px 14px;border-radius:6px;font-size:0.72rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
-.empty{text-align:center;padding:40px 20px;color:var(--gray2)}
+.empty{text-align:center;padding:40px 20px;color:var(--apagado)}
 .empty svg{width:40px;height:40px;stroke:var(--gray2);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 12px;display:block}
 .sec{display:none}
 .sec.active{display:block}
@@ -143,7 +143,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
       <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com"></div>
       <div class="field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••"></div>
       <button class="btn" id="login-btn" onclick="doLogin()">Iniciar sesión</button>
-      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">¿No tienes cuenta? <span style="color:var(--bl);cursor:pointer" onclick="showTab('registro')">Créala gratis</span></p>
+      <p style="text-align:center;font-size:0.72rem;color:var(--apagado);margin-top:14px">¿No tienes cuenta? <span style="color:var(--bl);cursor:pointer" onclick="showTab('registro')">Créala gratis</span></p>
     </div>
 
     <!-- 2FA -->
@@ -159,7 +159,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
         <input type="text" id="codigo-2fa" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
       </div>
       <button class="btn" id="btn-2fa" onclick="verificar2FA()">Verificar código</button>
-      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:12px">
+      <p style="text-align:center;font-size:0.72rem;color:var(--apagado);margin-top:12px">
         <span style="color:var(--bl);cursor:pointer" onclick="showTab('login')">Cancelar</span>
       </p>
     </div>
@@ -177,7 +177,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
         <input type="text" id="codigo-verif" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
       </div>
       <button class="btn" id="btn-verif" onclick="confirmarVerif()">Verificar teléfono</button>
-      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:12px">
+      <p style="text-align:center;font-size:0.72rem;color:var(--apagado);margin-top:12px">
         ¿No recibiste el código? <span style="color:var(--bl);cursor:pointer" onclick="reenviarVerif()">Reenviar</span>
       </p>
     </div>
@@ -203,7 +203,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
         <div class="field"><label>EIN / Número patronal</label><input type="text" id="reg-ein" placeholder="00-0000000"></div>
       </div>
       <button class="btn" id="reg-btn" onclick="doRegistro()">Crear cuenta gratis</button>
-      <p style="font-size:0.68rem;color:var(--gray2);text-align:center;margin-top:12px;line-height:1.6">Al crear una cuenta aceptas nuestros <a href="terminos.html" style="color:var(--bl)">Términos y Condiciones</a></p>
+      <p style="font-size:0.68rem;color:var(--apagado);text-align:center;margin-top:12px;line-height:1.6">Al crear una cuenta aceptas nuestros <a href="terminos.html" style="color:var(--bl)">Términos y Condiciones</a></p>
     </div>
 
     <!-- RECUPERAR -->
@@ -221,7 +221,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
         <div class="field"><label>Nueva contraseña</label><input type="password" id="rec-pass1" placeholder="Mínimo 8 caracteres"></div>
         <div class="field"><label>Confirmar contraseña</label><input type="password" id="rec-pass2" placeholder="Repite la contraseña"></div>
         <button class="btn" id="rec-btn2" onclick="doResetPass()">Cambiar contraseña</button>
-        <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:10px">
+        <p style="text-align:center;font-size:0.72rem;color:var(--apagado);margin-top:10px">
           <span style="color:var(--bl);cursor:pointer" onclick="document.getElementById('rec-step1').style.display='block';document.getElementById('rec-step2').style.display='none'">Reenviar código</span>
         </p>
       </div>
@@ -259,7 +259,7 @@ textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,1
       </button>
     </nav>
     <div class="sb-foot">
-      <div style="font-size:0.72rem;color:var(--gray2);margin-bottom:10px">Lun-Vie 8am-6pm · Sáb 9am-1pm</div>
+      <div style="font-size:0.72rem;color:var(--apagado);margin-bottom:10px">Lun-Vie 8am-6pm · Sáb 9am-1pm</div>
       <button onclick="doLogout()" style="width:100%;padding:9px;background:transparent;color:var(--gray);border:1px solid rgba(255,255,255,0.08);border-radius:7px;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cerrar sesión</button>
     </div>
   </div>

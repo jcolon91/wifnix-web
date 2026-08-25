@@ -40,7 +40,7 @@ select option{background:var(--panel);color:var(--tinta)}
 .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .opt{border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:var(--fondo2)}
 .opt:hover{border-color:rgba(11,143,204,0.35)}
-.opt.sel{border-color:var(--azul-fuerte);background:rgba(11,143,204,0.08)}
+.opt.sel{border-color:var(--azul);background:rgba(11,143,204,0.08)}
 .opt-name{font-size:0.78rem;font-weight:700;color:var(--texto)}
 .opt.sel .opt-name{color:var(--tinta)}
 .opt-detail{font-size:0.65rem;color:var(--apagado);margin-top:3px}
@@ -53,7 +53,7 @@ select option{background:var(--panel);color:var(--tinta)}
 .data-num{font-family:var(--mono);font-size:1.02rem;font-weight:600;color:var(--tinta)}
 .hdd-grid{display:grid;grid-template-columns:repeat(3,1fr);column-gap:28px;margin-bottom:16px}
 .hdd-card{border-top:1px solid var(--filo);padding:14px 0}
-.hdd-card.rec{border-top-color:var(--azul-fuerte)}
+.hdd-card.rec{border-top-color:var(--azul)}
 .hdd-size{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--azul);margin-bottom:4px}
 .hdd-days{font-size:0.72rem;color:var(--texto)}
 .hdd-price{font-size:0.78rem;color:var(--verde);font-weight:600;margin-top:6px}
@@ -350,7 +350,7 @@ function renderHDD(tbNecesario, cams) {
     var diasQueAlmacena = Math.floor((o.tb * 1024 * 0.80) / (parseFloat(document.getElementById('s-total-dia').textContent)));
     var esRec = o === recomendada;
     return '<div class="hdd-card ' + (esRec ? 'rec' : '') + '">' +
-      (esRec ? '<div style="font-family:var(--mono);font-size:0.58rem;font-weight:600;color:var(--azul-fuerte);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px">' + T('Recomendado', 'Recommended') + '</div>' : '') +
+      (esRec ? '<div style="font-family:var(--mono);font-size:0.58rem;font-weight:600;color:var(--azul);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:6px">' + T('Recomendado', 'Recommended') + '</div>' : '') +
       '<div class="hdd-size">' + o.size + ' TB</div>' +
       '<div class="hdd-days">' + T('Almacena ~' + diasQueAlmacena + ' días', 'Stores ~' + diasQueAlmacena + ' days') + '</div>' +
       '<div class="hdd-price">' + o.price + T(' aprox.', ' approx.') + '</div>' +
