@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal — Wifnix LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
+:root[data-theme="light"]{--black:#FFFFFF;--navy:#FFFFFF;--blue:#0B8FCC;--bl:#29B6F6;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
+:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-box{background:var(--card);border:1px solid rgba(11,143,204,0.2);border-radius:16px;padding:36px;width:100%;max-width:420px}
+.logo{text-align:center;margin-bottom:24px}
+.logo h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800}
+.logo span{color:var(--bl)}
+.tabs{display:flex;gap:0;margin-bottom:22px;background:rgba(0,0,0,0.3);border-radius:8px;padding:4px}
+.tab{flex:1;padding:9px;text-align:center;font-size:0.78rem;font-weight:700;cursor:pointer;border-radius:6px;transition:all .2s;color:var(--gray);border:none;background:none}
+.tab.active{background:var(--blue);color:white}
+.panel{display:none}
+.panel.active{display:block}
+.field{margin-bottom:14px}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:5px}
+.field input,.field select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus{border-color:var(--blue)}
+.field input::placeholder{color:var(--gray2)}
+.field select option{background:var(--navy)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{width:100%;padding:12px;background:var(--blue);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;border-radius:8px;border:none;cursor:pointer;transition:all .2s;margin-top:4px}
+.btn:hover{background:var(--bl)}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.alert{padding:10px 13px;border-radius:7px;font-size:0.78rem;margin-bottom:14px;display:none}
+.alert.err{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--red)}
+.alert.ok{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--green)}
+/* PORTAL */
+.portal{display:none;min-height:100vh}
+.sidebar{width:240px;background:var(--navy);border-right:1px solid rgba(11,143,204,0.1);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:100}
+.sb-logo{padding:20px;border-bottom:1px solid rgba(11,143,204,0.1)}
+.sb-logo h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800}
+.sb-logo span{color:var(--bl)}
+.sb-user{padding:16px 20px;border-bottom:1px solid rgba(11,143,204,0.1);display:flex;align-items:center;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.85rem;color:white;flex-shrink:0}
+.sb-nav{flex:1;padding:12px 0;overflow-y:auto}
+.nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;cursor:pointer;transition:all .2s;color:var(--gray);font-size:0.82rem;font-weight:500;border-left:2px solid transparent;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{color:var(--white);background:rgba(11,143,204,0.06)}
+.nav-item.active{color:var(--bl);background:rgba(11,143,204,0.08);border-left:2px solid var(--blue)}
+.nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;flex-shrink:0}
+.sb-foot{padding:16px 20px;border-top:1px solid rgba(11,143,204,0.1)}
+.main{margin-left:240px;padding:28px;min-height:100vh}
+.ph{margin-bottom:22px}
+.ph h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.ph p{font-size:0.82rem;color:var(--gray)}
+.card{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:12px;padding:22px;margin-bottom:16px}
+.ct{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+.sc{background:var(--card);border:1px solid rgba(11,143,204,0.12);border-radius:12px;padding:20px}
+.sn{font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;line-height:1;margin-bottom:4px}
+.sl{font-size:0.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.badge{display:inline-block;padding:3px 10px;border-radius:100px;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.bb{background:rgba(11,143,204,0.15);color:var(--bl);border:1px solid rgba(11,143,204,0.25)}
+.bg{background:rgba(0,229,160,0.12);color:var(--green);border:1px solid rgba(0,229,160,0.25)}
+.bw{background:rgba(255,193,7,0.12);color:var(--warn);border:1px solid rgba(255,193,7,0.25)}
+.br{background:rgba(255,85,85,0.12);color:var(--red);border:1px solid rgba(255,85,85,0.25)}
+table{width:100%;border-collapse:collapse}
+th{font-size:0.62rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray2);padding:8px 12px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.04)}
+td{font-size:0.82rem;color:var(--gray);padding:12px;border-bottom:1px solid rgba(255,255,255,0.03)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(11,143,204,0.03);color:var(--white)}
+.bsm{padding:6px 14px;border-radius:6px;font-size:0.72rem;font-weight:700;cursor:pointer;border:none;transition:all .2s}
+.empty{text-align:center;padding:40px 20px;color:var(--gray2)}
+.empty svg{width:40px;height:40px;stroke:var(--gray2);fill:none;stroke-width:1.5;stroke-linecap:round;margin:0 auto 12px;display:block}
+.sec{display:none}
+.sec.active{display:block}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-box{background:var(--navy);border:1px solid rgba(11,143,204,0.2);border-radius:14px;padding:28px;width:100%;max-width:500px}
+textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;resize:vertical;min-height:100px}
+.ham{display:none;position:fixed;top:16px;left:16px;z-index:300;background:var(--navy);border:1px solid rgba(11,143,204,0.2);border-radius:8px;padding:8px;cursor:pointer;flex-direction:column;gap:4px}
+.ham span{display:block;width:20px;height:2px;background:var(--white);border-radius:2px}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);transition:transform .3s}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0;padding:70px 16px 20px}
+  .ham{display:flex}
+  .sg{grid-template-columns:1fr 1fr}
+}
+
+.theme-toggle{margin-left:8px;background:rgba(255,255,255,0.05);border:none;cursor:pointer;padding:6px 10px;border-radius:6px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;height:32px}
+.theme-toggle:hover{background:rgba(11,143,204,0.15)}
+.theme-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;transition:all .2s}
+.theme-toggle .sun-icon,.theme-toggle .moon-icon{display:block}
+:root[data-theme="dark"] .theme-toggle .sun-icon{color:#FFC107;opacity:0.95}
+:root[data-theme="dark"] .theme-toggle .moon-icon{color:var(--gray2);opacity:0.4}
+:root[data-theme="light"] .theme-toggle .moon-icon{color:#0F172A;opacity:0.95}
+:root[data-theme="light"] .theme-toggle .sun-icon{color:var(--gray2);opacity:0.4}
+</style>
+<script src="/assets/auth-shared.js"></script>
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="shortcut icon" href="/assets/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/android-chrome-512x512.png">
+<meta name="theme-color" content="#0B8FCC">
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/assets/wifnix-core.js"></script>
+</head>
+<body>
+<button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" style="position:fixed;top:18px;right:18px;z-index:9999;background:rgba(13,21,38,0.9);border:1px solid rgba(11,143,204,0.2);backdrop-filter:blur(10px)"><svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+
+<!-- AUTH -->
+<div class="auth-wrap" id="auth-wrap">
+  <div class="auth-box">
+    <div class="logo">
+      <h1>Wifnix <span>Portal</span></h1>
+      <p style="font-size:0.78rem;color:var(--gray);margin-top:4px">Accede a tu cuenta para gestionar tus servicios</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" id="tab-btn-login" onclick="showTab('login')">Iniciar sesión</button>
+      <button class="tab" id="tab-btn-registro" onclick="showTab('registro')">Crear cuenta</button>
+      <button class="tab" id="tab-btn-recuperar" onclick="showTab('recuperar')">Recuperar</button>
+    </div>
+    <div id="auth-alert" class="alert"></div>
+
+    <!-- LOGIN -->
+    <div class="panel active" id="panel-login">
+      <div class="field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com"></div>
+      <div class="field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••"></div>
+      <button class="btn" id="login-btn" onclick="doLogin()">Iniciar sesión</button>
+      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:14px">¿No tienes cuenta? <span style="color:var(--bl);cursor:pointer" onclick="showTab('registro')">Créala gratis</span></p>
+    </div>
+
+    <!-- 2FA -->
+    <div class="panel" id="panel-2fa">
+      <div style="text-align:center;margin-bottom:18px">
+        <div style="width:52px;height:52px;background:rgba(11,143,204,0.1);border:1px solid rgba(11,143,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--bl);fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:6px">Verificación en dos pasos</div>
+        <div style="font-size:0.78rem;color:var(--gray);line-height:1.6" id="msg-2fa">Código enviado a tu teléfono</div>
+      </div>
+      <div class="field"><label>Código de 6 dígitos</label>
+        <input type="text" id="codigo-2fa" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
+      </div>
+      <button class="btn" id="btn-2fa" onclick="verificar2FA()">Verificar código</button>
+      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:12px">
+        <span style="color:var(--bl);cursor:pointer" onclick="showTab('login')">Cancelar</span>
+      </p>
+    </div>
+
+    <!-- VERIFICAR TELEFONO (post-registro) -->
+    <div class="panel" id="panel-verif">
+      <div style="text-align:center;margin-bottom:18px">
+        <div style="width:52px;height:52px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+          <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--green);fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 011.07 2.18 2 2 0 013.07 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:6px">Verifica tu teléfono</div>
+        <div style="font-size:0.78rem;color:var(--gray);line-height:1.6" id="msg-verif">Ingresa el código enviado por SMS</div>
+      </div>
+      <div class="field"><label>Código de verificación</label>
+        <input type="text" id="codigo-verif" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
+      </div>
+      <button class="btn" id="btn-verif" onclick="confirmarVerif()">Verificar email</button>
+      <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:12px">
+        ¿No recibiste el código? <span style="color:var(--bl);cursor:pointer" onclick="reenviarVerif()">Reenviar</span>
+      </p>
+    </div>
+
+    <!-- REGISTRO -->
+    <div class="panel" id="panel-registro">
+      <div class="g2">
+        <div class="field"><label>Nombre *</label><input type="text" id="reg-nombre" placeholder="Nombre"></div>
+        <div class="field"><label>Apellido *</label><input type="text" id="reg-apellido" placeholder="Apellido"></div>
+      </div>
+      <div class="field"><label>Email *</label><input type="email" id="reg-email" placeholder="tu@email.com"></div>
+      <div class="field"><label>Teléfono</label><input type="tel" id="reg-tel" placeholder="(787) 000-0000"></div>
+      <div class="field"><label>Contraseña *</label><input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres"></div>
+      <div class="field"><label>Tipo de cuenta</label>
+        <select id="reg-tipo" onchange="toggleEmpresa()">
+          <option value="cliente">Cliente individual</option>
+          <option value="empresa">Empresa</option>
+          <option value="reseller">Revendedor</option>
+        </select>
+      </div>
+      <div id="empresa-fields" style="display:none">
+        <div class="field"><label>Nombre de empresa</label><input type="text" id="reg-empresa" placeholder="Mi Empresa LLC"></div>
+      </div>
+      <div id="reseller-fields" style="display:none;padding:14px;background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.15);border-radius:8px;margin-bottom:12px">
+        <div style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--bl);margin-bottom:10px">Información de revendedor</div>
+        <div class="field"><label>Tipo de empresa *</label>
+          <select id="reg-tipo-emp">
+            <option value="">Selecciona...</option>
+            <option value="LLC">LLC</option>
+            <option value="Corp">Corporation</option>
+            <option value="DBA">DBA</option>
+            <option value="Individual">Individual</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Documento de registro de comerciante *</label>
+          <div style="display:flex;align-items:center;gap:10px">
+            <input type="file" id="reg-doc-file" accept=".pdf,.jpg,.jpeg,.png" onchange="prevDocRegistro(this)" style="display:none">
+            <button type="button" onclick="document.getElementById('reg-doc-file').click()" style="background:rgba(11,143,204,0.12);color:var(--bl);border:1px solid rgba(11,143,204,0.25);border-radius:6px;padding:9px 16px;font-size:0.78rem;font-weight:600;cursor:pointer">Subir documento</button>
+            <span id="reg-doc-status" style="font-size:0.75rem;color:var(--gray2)">Ningún archivo seleccionado</span>
+          </div>
+          <div style="font-size:0.65rem;color:var(--gray2);margin-top:5px">PDF, JPG o PNG · Máximo 5MB</div>
+        </div>
+        <div class="field"><label>Volumen estimado de compras mensuales *</label>
+          <select id="reg-volumen">
+            <option value="">Selecciona...</option>
+            <option value="$0 - $1,000">$0 - $1,000</option>
+            <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+            <option value="$5,000 - $15,000">$5,000 - $15,000</option>
+            <option value="$15,000+">$15,000+</option>
+          </select>
+        </div>
+        <div class="field"><label>Experiencia previa en el rubro *</label><textarea id="reg-experiencia" placeholder="Describe tu experiencia previa vendiendo o instalando estos productos..." rows="3" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--white);font-family:inherit;font-size:0.84rem;outline:none;resize:vertical"></textarea></div>
+        <div style="font-size:0.7rem;color:var(--gray);line-height:1.6;background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:6px;padding:10px">
+          <strong style="color:var(--warn)">Importante:</strong> Tu solicitud será revisada en un plazo de 48 horas. Te notificaremos por email con la decisión.
+        </div>
+      </div>
+      <label style="display:flex;align-items:flex-start;gap:9px;margin:4px 0 14px;cursor:pointer">
+        <input type="checkbox" id="reg-sms-consent" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:var(--bl);cursor:pointer">
+        <span style="font-size:0.7rem;color:var(--gray);line-height:1.5">Acepto recibir mensajes de texto (SMS) de Wifnix LLC: códigos de verificación y notificaciones de cuenta y servicio. Pueden aplicar tarifas de mensajes y datos. Responde STOP para cancelar. Ver <a href="https://wifnix.com/terminos.html" target="_blank" style="color:var(--bl)">Términos</a> y <a href="https://wifnix.com/privacidad.html" target="_blank" style="color:var(--bl)">Privacidad</a>.</span>
+      </label>
+      <button class="btn" id="reg-btn" onclick="doRegistro()">Crear cuenta gratis</button>
+      <p style="font-size:0.68rem;color:var(--gray2);text-align:center;margin-top:12px;line-height:1.6">Al crear una cuenta aceptas nuestros <a href="terminos.html" style="color:var(--bl)">Términos y Condiciones</a></p>
+    </div>
+
+    <!-- RECUPERAR -->
+    <div class="panel" id="panel-recuperar">
+      <div id="rec-step1">
+        <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa tu email y te enviaremos un código para restablecer tu contraseña.</p>
+        <div class="field"><label>Email</label><input type="email" id="rec-email" placeholder="tu@email.com"></div>
+        <button class="btn" id="rec-btn1" onclick="doRecuperar()">Enviar código</button>
+      </div>
+      <div id="rec-step2" style="display:none">
+        <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.6">Ingresa el código que enviamos a tu email y tu nueva contraseña.</p>
+        <div class="field"><label>Código de 6 dígitos</label>
+          <input type="text" id="rec-codigo" placeholder="000000" maxlength="6" style="text-align:center;font-size:1.4rem;font-family:monospace;letter-spacing:0.2em">
+        </div>
+        <div class="field"><label>Nueva contraseña</label><input type="password" id="rec-pass1" placeholder="Mínimo 8 caracteres"></div>
+        <div class="field"><label>Confirmar contraseña</label><input type="password" id="rec-pass2" placeholder="Repite la contraseña"></div>
+        <button class="btn" id="rec-btn2" onclick="doResetPass()">Cambiar contraseña</button>
+        <p style="text-align:center;font-size:0.72rem;color:var(--gray2);margin-top:10px">
+          <span style="color:var(--bl);cursor:pointer" onclick="document.getElementById('rec-step1').style.display='block';document.getElementById('rec-step2').style.display='none'">Reenviar código</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTAL -->
+<div class="portal" id="portal">
+  <button class="ham" onclick="toggleSB()"><span></span><span></span><span></span></button>
+  <div class="sidebar" id="sidebar">
+    <div class="sb-logo"><h2>Wifnix <span>Portal</span></h2></div>
+    <div class="sb-user">
+      <div class="avatar" id="avatar">?</div>
+      <div>
+        <div style="font-size:0.82rem;font-weight:700;color:var(--white)" id="sb-nombre">—</div>
+        <div style="font-size:0.65rem;color:var(--bl)" id="sb-rol">—</div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <button class="nav-item active" onclick="goSec('dashboard',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Resumen
+      </button>
+      <button class="nav-item" onclick="goSec('tickets',this)">
+        <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/></svg>Mis Tickets
+      </button>
+      <button class="nav-item" onclick="goSec('garantias',this)">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>Garantías
+      </button>
+      <button class="nav-item" onclick="goSec('ordenes',this)">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>Mis Órdenes
+      </button>
+      <button class="nav-item" onclick="goSec('citas',this)">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mantenimientos
+      </button>
+      <button class="nav-item" onclick="goSec('perfil',this)">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Mi Perfil
+      </button>
+    </nav>
+    <div class="sb-foot">
+      <div style="font-size:0.72rem;color:var(--gray2);margin-bottom:10px">Lun-Vie 8am-6pm · Sáb 9am-1pm</div>
+      <button onclick="doLogout()" style="width:100%;padding:9px;background:transparent;color:var(--gray);border:1px solid rgba(255,255,255,0.08);border-radius:7px;font-size:0.78rem;cursor:pointer;font-family:'DM Sans',sans-serif">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div class="sec active" id="sec-dashboard">
+      <div class="ph"><h1 id="greeting">Bienvenido</h1><p>¿Qué necesitas hoy?</p></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px">
+        <button onclick="goSec('citas', document.querySelector('[onclick*=\'citas\']'))" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;background:linear-gradient(135deg,rgba(11,143,204,0.15),rgba(11,143,204,0.05));border:1px solid rgba(11,143,204,0.25);border-radius:12px;cursor:pointer;text-align:left;font-family:inherit;transition:transform .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--bl);fill:none;stroke-width:2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <div style="font-size:1rem;font-weight:800;color:var(--white)">Agendar mantenimiento</div>
+          <div style="font-size:0.78rem;color:var(--gray)">Programa una visita técnica</div>
+        </button>
+        <button onclick="goSec('ordenes', document.querySelector('[onclick*=\'ordenes\']'))" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;background:linear-gradient(135deg,rgba(0,229,160,0.15),rgba(0,229,160,0.05));border:1px solid rgba(0,229,160,0.25);border-radius:12px;cursor:pointer;text-align:left;font-family:inherit;transition:transform .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--green);fill:none;stroke-width:2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+          <div style="font-size:1rem;font-weight:800;color:var(--white)">Ver mis compras</div>
+          <div style="font-size:0.78rem;color:var(--gray)">Órdenes, facturas y garantías</div>
+        </button>
+        <button onclick="goSec('tickets', document.querySelector('[onclick*=\'tickets\']'))" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:20px;background:linear-gradient(135deg,rgba(255,193,7,0.15),rgba(255,193,7,0.05));border:1px solid rgba(255,193,7,0.25);border-radius:12px;cursor:pointer;text-align:left;font-family:inherit;transition:transform .15s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+          <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--warn);fill:none;stroke-width:2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <div style="font-size:1rem;font-weight:800;color:var(--white)">Necesito ayuda</div>
+          <div style="font-size:0.78rem;color:var(--gray)">Abre un ticket de soporte</div>
+        </button>
+      </div>
+      <div class="sg" id="dash-stats">
+        <div class="sc"><div class="sn" style="color:var(--bl)" id="st-tickets">—</div><div class="sl">Tickets totales</div></div>
+        <div class="sc"><div class="sn" style="color:var(--warn)" id="st-abiertos">—</div><div class="sl">Tickets abiertos</div></div>
+        <div class="sc"><div class="sn" style="color:var(--green)" id="st-garantias">—</div><div class="sl">Garantías activas</div></div>
+      </div>
+      <div class="card"><div class="ct">Tickets recientes</div><div id="dash-tk"></div></div>
+    </div>
+
+    <!-- TICKETS -->
+    <div class="sec" id="sec-tickets">
+      <div class="ph" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div><h1>Mis Tickets</h1><p>Solicitudes de soporte y servicio</p></div>
+        <button class="bsm" style="background:rgba(11,143,204,0.15);color:var(--bl);border:1px solid rgba(11,143,204,0.25);padding:10px 18px" onclick="openTkModal()">+ Nuevo ticket</button>
+      </div>
+      <div class="card"><div id="tk-list"></div></div>
+    </div>
+
+    <!-- GARANTIAS -->
+    <div class="sec" id="sec-garantias">
+      <div class="ph"><h1>Mis Garantías</h1><p>Estado de garantías de equipos y servicios</p></div>
+      <div class="card"><div id="gar-list"></div></div>
+    </div>
+
+    <!-- ORDENES -->
+    <div class="sec" id="sec-ordenes">
+      <div class="ph"><h1>Mis Órdenes</h1><p>Historial de compras y servicios</p></div>
+      <div class="card"><div id="ord-list"></div></div>
+    </div>
+
+    <!-- CITAS / MANTENIMIENTOS -->
+    <div class="sec" id="sec-citas">
+      <div class="ph" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div><h1>Mantenimientos</h1><p>Programa y gestiona tus servicios de mantenimiento</p></div>
+        <button class="bsm" style="background:rgba(11,143,204,0.15);color:var(--bl);border:1px solid rgba(11,143,204,0.25);padding:10px 18px" onclick="openCitaModal()">+ Solicitar mantenimiento</button>
+      </div>
+      <div class="card"><div id="citas-list"></div></div>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="sec" id="sec-perfil">
+      <div class="ph"><h1>Mi Perfil</h1><p>Actualiza tu información personal</p></div>
+      <div class="card">
+        <div class="ct">Información personal</div>
+        <div id="tel-banner" style="display:none;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:none;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="font-size:0.8rem;color:var(--warn)">Teléfono sin verificar</div>
+          <button onclick="verifTelPerfil()" style="padding:6px 14px;background:rgba(255,193,7,0.15);color:var(--warn);border:1px solid rgba(255,193,7,0.3);border-radius:6px;font-size:0.72rem;font-weight:700;cursor:pointer">Verificar</button>
+        </div>
+        <div class="g2">
+          <div class="field"><label>Nombre</label><input type="text" id="p-nombre"></div>
+          <div class="field"><label>Apellido</label><input type="text" id="p-apellido"></div>
+          <div class="field"><label>Email</label><input type="email" id="p-email" disabled style="opacity:0.5"></div>
+          <div class="field"><label>Teléfono</label><input type="tel" id="p-tel"></div>
+        </div>
+        <div class="field"><label>Empresa</label><input type="text" id="p-empresa"></div>
+        <div class="field"><label>Tipo de empresa</label><input type="text" id="p-etipo" placeholder="Restaurante, oficina, comercio..."></div>
+        <div class="field"><label>EIN</label><input type="text" id="p-ein"></div>
+        <div id="p-alert" class="alert"></div>
+        <button class="btn" onclick="guardarPerfil()" style="margin-top:8px">Guardar cambios</button>
+      </div>
+      <div class="card">
+        <div class="ct">Cambiar contraseña</div>
+        <div class="field"><label>Contraseña actual</label><input type="password" id="pp-actual" placeholder="••••••••"></div>
+        <div class="field"><label>Nueva contraseña</label><input type="password" id="pp-nueva" placeholder="Mínimo 8 caracteres"></div>
+        <div class="field"><label>Confirmar nueva contraseña</label><input type="password" id="pp-confirm" placeholder="Repite la contraseña"></div>
+        <div id="pp-alert" class="alert"></div>
+        <button class="btn" onclick="cambiarPass()" style="margin-top:8px">Cambiar contraseña</button>
+      </div>
+      
+      <div class="card" style="border:1px solid rgba(255,85,85,0.2);background:rgba(255,85,85,0.03)">
+        <div class="ct" style="color:var(--red,#FF5555)">Zona peligrosa</div>
+        <p style="font-size:0.85rem;color:var(--gray);margin-bottom:14px;line-height:1.6">Eliminar tu cuenta es una acción <strong style="color:var(--red,#FF5555)">permanente e irreversible</strong>. Se borrarán todos tus datos personales, tickets, garantías, órdenes e historial. No hay forma de recuperar esta información.</p>
+        <button onclick="abrirEliminarCuenta()" style="background:rgba(255,85,85,0.1);color:var(--red,#FF5555);border:1px solid rgba(255,85,85,0.3);padding:10px 18px;border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer;transition:all .2s" onmouseover="this.style.background='var(--red,#FF5555)';this.style.color='white'" onmouseout="this.style.background='rgba(255,85,85,0.1)';this.style.color='var(--red,#FF5555)'">Eliminar mi cuenta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKET MODAL -->
+<div class="modal" id="tk-modal">
+  <div class="modal-box">
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;margin-bottom:16px">Nuevo Ticket</div>
+    <div id="tk-alert" class="alert"></div>
+    <div class="field"><label>Categoría</label>
+      <select id="tk-cat">
+        <option value="soporte">Soporte técnico</option>
+        <option value="garantia">Garantía</option>
+        <option value="mantenimiento">Mantenimiento</option>
+        <option value="instalacion">Instalación nueva</option>
+        <option value="facturacion">Facturación</option>
+        <option value="general">Consulta general</option>
+      </select>
+    </div>
+    <div class="field"><label>Asunto *</label><input type="text" id="tk-asunto" placeholder="Describe brevemente el problema"></div>
+    <div class="field"><label>Descripción *</label><textarea id="tk-desc" placeholder="Describe el problema en detalle..."></textarea></div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button class="btn" onclick="crearTicket()" style="flex:1">Enviar ticket</button>
+      <button onclick="closeTkModal()" style="padding:12px 18px;background:transparent;color:var(--gray);border:1px solid rgba(255,255,255,0.1);border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var API = 'https://api.wifnix.com';
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function escRow(o){if(!o||typeof o!=='object')return o;var r={};for(var k in o){r[k]=(typeof o[k]==='string')?esc(o[k]):o[k];}return r;}
+var token = localStorage.getItem('wifnix_token');
+var user = null;
+var pending2FA = null;
+var pendingVerif = null;
+var docRegistroB64 = null;
+function prevDocRegistro(input){
+  if(!input.files[0]) return;
+  if(input.files[0].size > 5*1024*1024){ alert('Archivo muy grande. Máximo 5MB'); input.value=''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    docRegistroB64 = e.target.result;
+    document.getElementById('reg-doc-status').textContent = input.files[0].name;
+    document.getElementById('reg-doc-status').style.color = 'var(--green)';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// ── AUTH TABS ──
+function showTab(name) {
+  ['login','2fa','verif','registro','recuperar'].forEach(function(t) {
+    var p = document.getElementById('panel-' + t);
+    if (p) p.className = 'panel' + (t === name ? ' active' : '');
+  });
+  ['login','registro','recuperar'].forEach(function(t) {
+    var b = document.getElementById('tab-btn-' + t);
+    if (b) b.className = 'tab' + (t === name ? ' active' : '');
+  });
+  clearAlert();
+}
+
+function showAlert(msg, type) {
+  var el = document.getElementById('auth-alert');
+  el.className = 'alert ' + (type || 'err');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function clearAlert() {
+  var el = document.getElementById('auth-alert');
+  if (el) el.style.display = 'none';
+}
+
+function toggleEmpresa(){var tipo=document.getElementById('reg-tipo').value;document.getElementById('empresa-fields').style.display=(tipo==='empresa'||tipo==='reseller')?'block':'none';document.getElementById('reseller-fields').style.display=tipo==='reseller'?'block':'none';}
+
+// ── LOGIN ──
+document.getElementById('login-pass').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  if (!email || !pass) { showAlert('Completa todos los campos'); return; }
+  var btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = 'Verificando...';
+  try {
+    var resp = await fetch(API + '/api/auth/login-2fa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, password: pass })
+    });
+    var data = await resp.json();
+    if (data.token && !data.requiere_2fa) {
+      loginSuccess(data.token, data.usuario || data.user);
+    } else if (data.requiere_2fa) {
+      pending2FA = data.usuario_id;
+      document.getElementById('msg-2fa').textContent = data.mensaje || 'Código enviado a tu teléfono';
+      showTab('2fa');
+      setTimeout(function() { document.getElementById('codigo-2fa').focus(); }, 100);
+    } else {
+      showAlert(data.error || 'Credenciales incorrectas');
+    }
+  } catch(e) {
+    showAlert('Error de conexión. Intenta nuevamente.');
+  }
+  btn.disabled = false; btn.textContent = 'Iniciar sesión';
+}
+
+// ── 2FA ──
+document.getElementById('codigo-2fa').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') verificar2FA();
+});
+
+async function verificar2FA() {
+  var codigo = document.getElementById('codigo-2fa').value.trim();
+  if (codigo.length !== 6) { showAlert('Ingresa el código de 6 dígitos'); return; }
+  var btn = document.getElementById('btn-2fa');
+  btn.disabled = true; btn.textContent = 'Verificando...';
+  try {
+    var resp = await fetch(API + '/api/auth/verificar-2fa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usuario_id: pending2FA, codigo: codigo })
+    });
+    var data = await resp.json();
+    if (data.token) {
+      loginSuccess(data.token, data.usuario || data.user);
+    } else {
+      showAlert(data.error || 'Código incorrecto');
+      btn.disabled = false; btn.textContent = 'Verificar código';
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+    btn.disabled = false; btn.textContent = 'Verificar código';
+  }
+}
+
+// ── REGISTRO ──
+async function doRegistro() {
+  var nombre = document.getElementById('reg-nombre').value.trim();
+  var apellido = document.getElementById('reg-apellido').value.trim();
+  var email = document.getElementById('reg-email').value.trim();
+  var tel = document.getElementById('reg-tel').value.trim();
+  var pass = document.getElementById('reg-pass').value;
+  var tipo = document.getElementById('reg-tipo').value;
+  var empresa = document.getElementById('reg-empresa').value.trim();
+  if (!nombre || !apellido || !email || !pass) { showAlert('Completa los campos requeridos'); return; }
+  if (pass.length < 8) { showAlert('La contraseña debe tener al menos 8 caracteres'); return; }
+  if (!document.getElementById('reg-sms-consent').checked) { showAlert('Debes aceptar recibir mensajes SMS para crear la cuenta'); return; }
+  var btn = document.getElementById('reg-btn');
+  btn.disabled = true; btn.textContent = 'Creando cuenta...';
+  try {
+    var resp = await fetch(API + '/api/auth/registro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        nombre: nombre, apellido: apellido, email: email, password: pass, telefono: tel,
+        rol_solicitado: tipo === 'reseller' ? 'empresa_revendedora' : tipo === 'empresa' ? 'empresa_servicios' : tipo === 'tecnico' ? 'tecnico_independiente' : 'cliente',
+        empresa_nombre: empresa 
+      })
+    });
+    var data = await resp.json();
+    if (data.token) {
+      var u = data.usuario || data.user;
+      wifnixGuardarSesion(data.token, u);
+      token = data.token; user = u;
+      // Si seleccionó reseller, enviar solicitud
+      if (tipo === 'reseller') {
+        var tipoEmp = document.getElementById('reg-tipo-emp').value;
+        var volumen = document.getElementById('reg-volumen').value;
+        var experiencia = document.getElementById('reg-experiencia').value.trim();
+        if (!docRegistroB64) { alert('Debes subir el documento de registro de comerciante'); btn.disabled = false; btn.textContent = 'Crear cuenta gratis'; return; }
+        if (tipoEmp && volumen && experiencia) {
+          try {
+            await fetch(API + '/api/reseller/aplicar', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + data.token },
+              body: JSON.stringify({
+                tipo_empresa: tipoEmp,
+                registro_comerciante: 'Ver documento adjunto',
+                experiencia: experiencia,
+                volumen_estimado: volumen,
+                documento_registro: docRegistroB64 || null
+              })
+            });
+          } catch(e) { console.error('Error enviando solicitud reseller:', e); }
+        }
+      }
+      // Por ahora ir directo al portal — la verificación por email es opcional desde el perfil
+      initPortal();
+    } else {
+      showAlert(data.error || 'Error al crear la cuenta');
+    }
+  } catch(e) {
+    showAlert('Error de conexión. Intenta nuevamente.');
+  }
+  btn.disabled = false; btn.textContent = 'Crear cuenta gratis';
+}
+
+// ── VERIFICACION TELEFONO ──
+document.getElementById('codigo-verif').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') confirmarVerif();
+});
+
+async function confirmarVerif() {
+  var codigo = document.getElementById('codigo-verif').value.trim();
+  if (codigo.length !== 6) { showAlert('Ingresa el código de 6 dígitos'); return; }
+  var btn = document.getElementById('btn-verif');
+  btn.disabled = true; btn.textContent = 'Verificando...';
+  try {
+    var resp = await fetch(API + '/api/auth/verificar-registro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usuario_id: pendingVerif, codigo: codigo })
+    });
+    var data = await resp.json();
+    if (data.ok && data.token) {
+      loginSuccess(data.token, data.usuario || data.user);
+    } else {
+      showAlert(data.error || 'Código incorrecto');
+      btn.disabled = false; btn.textContent = 'Verificar email';
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+    btn.disabled = false; btn.textContent = 'Verificar email';
+  }
+}
+
+async function reenviarVerif() {
+  try {
+    var resp = await fetch(API + '/api/auth/enviar-verificacion-registro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usuario_id: pendingVerif })
+    });
+    var data = await resp.json();
+    showAlert(data.mensaje || 'Código reenviado', 'ok');
+    setTimeout(clearAlert, 4000);
+  } catch(e) { showAlert('Error al reenviar'); }
+}
+
+// ── RECUPERAR ──
+async function doRecuperar() {
+  var email = document.getElementById('rec-email').value.trim();
+  if (!email) { showAlert('Ingresa tu email'); return; }
+  var btn = document.getElementById('rec-btn1');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  try {
+    var resp = await fetch(API + '/api/auth/recuperar-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+    var data = await resp.json();
+    if (data.ok) {
+      showAlert('Código enviado a ' + email + '. Revisa tu bandeja de entrada.', 'ok');
+      document.getElementById('rec-step1').style.display = 'none';
+      document.getElementById('rec-step2').style.display = 'block';
+      setTimeout(function() { document.getElementById('rec-codigo').focus(); }, 100);
+    } else {
+      showAlert(data.error || 'Error enviando email');
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+  }
+  btn.disabled = false; btn.textContent = 'Enviar código';
+}
+
+async function doResetPass() {
+  var email = document.getElementById('rec-email').value.trim();
+  var codigo = document.getElementById('rec-codigo').value.trim();
+  var pass1 = document.getElementById('rec-pass1').value;
+  var pass2 = document.getElementById('rec-pass2').value;
+  if (!codigo || codigo.length !== 6) { showAlert('Ingresa el código de 6 dígitos'); return; }
+  if (!pass1 || !pass2) { showAlert('Ingresa tu nueva contraseña'); return; }
+  if (pass1 !== pass2) { showAlert('Las contraseñas no coinciden'); return; }
+  if (pass1.length < 8) { showAlert('Mínimo 8 caracteres'); return; }
+  var btn = document.getElementById('rec-btn2');
+  btn.disabled = true; btn.textContent = 'Cambiando...';
+  try {
+    var resp = await fetch(API + '/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, codigo: codigo, nueva_password: pass1 })
+    });
+    var data = await resp.json();
+    if (data.ok) {
+      showAlert('Contraseña actualizada. Ya puedes iniciar sesión.', 'ok');
+      setTimeout(function() { showTab('login'); }, 2500);
+    } else {
+      showAlert(data.error || 'Error al cambiar contraseña');
+      btn.disabled = false; btn.textContent = 'Cambiar contraseña';
+    }
+  } catch(e) {
+    showAlert('Error de conexión');
+    btn.disabled = false; btn.textContent = 'Cambiar contraseña';
+  }
+}
+
+// ── PORTAL ──
+function loginSuccess(tk, u) {
+  wifnixGuardarSesion(tk, u);
+  token = tk; user = u;
+  initPortal();
+}
+
+function initPortal() {
+  document.getElementById('auth-wrap').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+  var n = user.nombre || 'Usuario';
+  document.getElementById('avatar').textContent = n[0].toUpperCase();
+  document.getElementById('sb-nombre').textContent = n + ' ' + (user.apellido || '');
+  var roles = { cliente: 'Cliente', empresa: 'Empresa', reseller: 'Reseller', super_admin: 'Administrador', admin: 'Admin' };
+  document.getElementById('sb-rol').textContent = roles[user.rol] || user.rol;
+  document.getElementById('greeting').textContent = 'Hola, ' + n;
+  loadDashboard();
+  loadPerfil();
+}
+
+function doLogout() {
+  wifnixCerrarSesion();
+  token = null; user = null;
+  location.reload();
+}
+
+function toggleSB() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function goSec(id, el) {
+  document.querySelectorAll('.sec').forEach(function(s) { s.className = 'sec'; });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.className = 'nav-item'; });
+  document.getElementById('sec-' + id).className = 'sec active';
+  if (el) el.className = 'nav-item active';
+  document.getElementById('sidebar').classList.remove('open');
+  if (id === 'tickets') loadTickets();
+  if (id === 'garantias') loadGarantias();
+  if (id === 'ordenes') loadOrdenes();
+  if (id === 'citas') loadCitas();
+}
+
+async function api(path, opts) {
+  // Migrado a Wifnix.api() — fix de JSON y 401 centralizados
+  return window.Wifnix.api(path, opts);
+}
+
+// ── DASHBOARD ──
+async function loadDashboard() {
+  try {
+    var data = await api('/api/mi-dashboard');
+    document.getElementById('st-tickets').textContent = data.tickets ? data.tickets.total : '0';
+    document.getElementById('st-abiertos').textContent = data.tickets ? data.tickets.abiertos : '0';
+    document.getElementById('st-garantias').textContent = data.garantias ? data.garantias.activas : '0';
+    var tks = await api('/api/mis-tickets');
+    renderTkTable(tks.slice(0, 5), 'dash-tk');
+  } catch(e) { console.error(e); }
+}
+
+// ── TICKETS ──
+async function loadTickets() {
+  var data = await api('/api/mis-tickets');
+  renderTkTable(data, 'tk-list');
+}
+
+function renderTkTable(tks, targetId) {
+  var el = document.getElementById(targetId);
+  if (!tks || tks.length === 0) {
+    el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg><p>No tienes tickets aún</p></div>';
+    return;
+  }
+  var colors = { abierto: 'bb', en_progreso: 'bw', resuelto: 'bg', cerrado: 'br' };
+  var labels = { abierto: 'Abierto', en_progreso: 'En progreso', resuelto: 'Resuelto', cerrado: 'Cerrado' };
+  var html = '<table><thead><tr><th>#</th><th>Asunto</th><th>Categoría</th><th>Estado</th><th>Fecha</th><th></th></tr></thead><tbody>';
+  tks.forEach(function(t) {
+    t = escRow(t);
+    var canCancel = t.status !== 'resuelto' && t.status !== 'cerrado';
+    html += '<tr>';
+    html += '<td style="color:var(--white);font-weight:600">#' + t.numero + '</td>';
+    html += '<td style="color:var(--white)">' + t.asunto + '</td>';
+    html += '<td>' + (t.categoria || '—') + '</td>';
+    html += '<td><span class="badge ' + (colors[t.status] || 'bb') + '">' + (labels[t.status] || t.status) + '</span></td>';
+    html += '<td>' + new Date(t.creado_en).toLocaleDateString('es-PR') + '</td>';
+    html += '<td>' + (canCancel ? '<button class="bsm" style="background:rgba(255,85,85,0.1);color:var(--red);border:1px solid rgba(255,85,85,0.25)" onclick="cancelTk(\'' + t.id + '\')">Cancelar</button>' : '—') + '</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+}
+
+async function cancelTk(id) {
+  if (!confirm('¿Cancelar este ticket?')) return;
+  var r = await api('/api/mis-tickets/' + id + '/cancelar', { method: 'PUT' });
+  if (r.ok) { loadTickets(); loadDashboard(); }
+  else alert(r.error || 'Error al cancelar');
+}
+
+function openTkModal() { document.getElementById('tk-modal').style.display = 'flex'; }
+function closeTkModal() { document.getElementById('tk-modal').style.display = 'none'; document.getElementById('tk-alert').style.display = 'none'; }
+
+async function crearTicket() {
+  var asunto = document.getElementById('tk-asunto').value.trim();
+  var desc = document.getElementById('tk-desc').value.trim();
+  var cat = document.getElementById('tk-cat').value;
+  var al = document.getElementById('tk-alert');
+  if (!asunto || !desc) { al.className = 'alert err'; al.textContent = 'Completa asunto y descripción'; al.style.display = 'block'; return; }
+  var r = await api('/api/mis-tickets', { method: 'POST', body: JSON.stringify({ asunto: asunto, descripcion: desc, categoria: cat }) });
+  if (r.id || r.numero) {
+    closeTkModal();
+    document.getElementById('tk-asunto').value = '';
+    document.getElementById('tk-desc').value = '';
+    loadTickets(); loadDashboard();
+  } else { al.className = 'alert err'; al.textContent = r.error || 'Error al crear ticket'; al.style.display = 'block'; }
+}
+
+// ── GARANTIAS ──
+async function loadGarantias() {
+  var data = await api('/api/mis-garantias');
+  var el = document.getElementById('gar-list');
+  if (!data || data.length === 0) { el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><p>No tienes garantías registradas</p></div>'; return; }
+  var html = '<table><thead><tr><th>Producto</th><th>Serial</th><th>Instalación</th><th>Vencimiento</th><th>Estado</th></tr></thead><tbody>';
+  data.forEach(function(g) {
+    g = escRow(g);
+    var vencida = g.fecha_vencimiento && new Date(g.fecha_vencimiento) < new Date();
+    html += '<tr><td style="color:var(--white);font-weight:600">' + g.producto_nombre + '</td><td>' + (g.producto_serial || '—') + '</td>';
+    html += '<td>' + (g.fecha_instalacion ? new Date(g.fecha_instalacion).toLocaleDateString('es-PR') : '—') + '</td>';
+    html += '<td>' + (g.fecha_vencimiento ? new Date(g.fecha_vencimiento).toLocaleDateString('es-PR') : '—') + '</td>';
+    html += '<td><span class="badge ' + (vencida ? 'br' : 'bg') + '">' + (vencida ? 'Vencida' : 'Activa') + '</span></td></tr>';
+  });
+  el.innerHTML = html + '</tbody></table>';
+}
+
+// ── ORDENES ──
+async function loadOrdenes() {
+  var data = await api('/api/mis-ordenes');
+  var el = document.getElementById('ord-list');
+  if (!data || data.length === 0) { el.innerHTML = '<div class="empty"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg><p>No tienes órdenes aún</p></div>'; return; }
+  var html = '<table><thead><tr><th>Orden</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>';
+  data.forEach(function(o) {
+    o = escRow(o);
+    var numero = o.numero ? window.Wifnix.numOrden(o.numero) : 'WFX-' + o.id.slice(0,4).toUpperCase();
+    var est = window.Wifnix.estadoOrden(o.status);
+    html += '<tr><td style="color:var(--white);font-weight:600">' + numero + '</td>';
+    html += '<td style="color:var(--green)">' + window.Wifnix.money(o.total) + '</td>';
+    html += '<td><span style="display:inline-block;padding:3px 10px;background:' + est.color + '22;color:' + est.color + ';border:1px solid ' + est.color + '44;border-radius:5px;font-size:0.72rem;font-weight:700">' + est.label + '</span></td>';
+    html += '<td>' + window.Wifnix.fechaPR(o.creado_en) + '</td>';
+    html += '<td><a href="https://api.wifnix.com/api/ordenes/' + o.id + '/pdf?token=' + (localStorage.getItem('wifnix_token')||'') + '" target="_blank" style="padding:5px 10px;background:rgba(11,143,204,0.12);color:var(--bl);border:1px solid rgba(11,143,204,0.25);border-radius:5px;font-size:0.72rem;text-decoration:none;font-weight:700">📄 PDF</a></td>';
+    html += '</tr>';
+  });
+  el.innerHTML = html + '</tbody></table>';
+}
+
+// ── PERFIL ──
+async function loadPerfil() {
+  try {
+    var stored = localStorage.getItem('wifnix_user');
+    if (stored) {
+      var u = JSON.parse(stored);
+      fillPerfil(u);
+    }
+    var data = await api('/api/auth/me');
+    var u = data.usuario || data.user || data;
+    if (u && u.email) {
+      fillPerfil(u);
+      wifnixGuardarSesion(localStorage.getItem('wifnix_token'), u);
+      if (u.telefono && !u.telefono_verificado) {
+        document.getElementById('tel-banner').style.display = 'flex';
+      }
+    }
+  } catch(e) {}
+}
+
+function fillPerfil(u) {
+  document.getElementById('p-nombre').value = u.nombre || '';
+  document.getElementById('p-apellido').value = u.apellido || '';
+  document.getElementById('p-email').value = u.email || '';
+  document.getElementById('p-tel').value = u.telefono || '';
+  document.getElementById('p-empresa').value = u.empresa_nombre || '';
+  document.getElementById('p-etipo').value = u.empresa_tipo || '';
+  document.getElementById('p-ein').value = u.empresa_ein || '';
+}
+
+async function guardarPerfil() {
+  var al = document.getElementById('p-alert');
+  var btn = document.querySelector('#sec-perfil .card:first-child .btn');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  try {
+    var r = await api('/api/mi-perfil', { method: 'PUT', body: JSON.stringify({
+      nombre: document.getElementById('p-nombre').value,
+      apellido: document.getElementById('p-apellido').value,
+      telefono: document.getElementById('p-tel').value,
+      empresa_nombre: document.getElementById('p-empresa').value,
+      empresa_tipo: document.getElementById('p-etipo').value,
+      empresa_ein: document.getElementById('p-ein').value
+    })});
+    al.className = r.ok ? 'alert ok' : 'alert err';
+    al.textContent = r.ok ? 'Perfil actualizado correctamente' : (r.error || 'Error al guardar');
+    al.style.display = 'block';
+    setTimeout(function() { al.style.display = 'none'; }, 3000);
+  } catch(e) { al.className = 'alert err'; al.textContent = 'Error de conexión'; al.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = 'Guardar cambios';
+}
+
+async function cambiarPass() {
+  var actual = document.getElementById('pp-actual').value;
+  var nueva = document.getElementById('pp-nueva').value;
+  var confirm = document.getElementById('pp-confirm').value;
+  var al = document.getElementById('pp-alert');
+  if (!actual || !nueva || !confirm) { al.className='alert err'; al.textContent='Completa todos los campos'; al.style.display='block'; return; }
+  if (nueva !== confirm) { al.className='alert err'; al.textContent='Las contraseñas no coinciden'; al.style.display='block'; return; }
+  if (nueva.length < 8) { al.className='alert err'; al.textContent='Mínimo 8 caracteres'; al.style.display='block'; return; }
+  var btn = document.querySelector('#sec-perfil .card:last-child .btn');
+  btn.disabled=true; btn.textContent='Cambiando...';
+  try {
+    var r = await api('/api/auth/cambiar-password', { method:'PUT', body: JSON.stringify({ password_actual: actual, password_nuevo: nueva }) });
+    al.className = r.ok ? 'alert ok' : 'alert err';
+    al.textContent = r.ok ? 'Contraseña actualizada' : (r.error || 'Error');
+    al.style.display = 'block';
+    if (r.ok) { document.getElementById('pp-actual').value=''; document.getElementById('pp-nueva').value=''; document.getElementById('pp-confirm').value=''; }
+    setTimeout(function() { al.style.display='none'; }, 3000);
+  } catch(e) { al.className='alert err'; al.textContent='Error de conexión'; al.style.display='block'; }
+  btn.disabled=false; btn.textContent='Cambiar contraseña';
+}
+
+async function verifTelPerfil() {
+  try {
+    var r = await api('/api/auth/enviar-verificacion-email', { method: 'POST' });
+    if (r.ok) {
+      var codigo = prompt(r.mensaje + '\nIngresa el código de 6 dígitos:');
+      if (!codigo) return;
+      var r2 = await api('/api/auth/verificar-email', { method: 'POST', body: JSON.stringify({ codigo: codigo.trim() }) });
+      if (r2.ok) { alert('Teléfono verificado correctamente'); document.getElementById('tel-banner').style.display = 'none'; }
+      else alert(r2.error || 'Código incorrecto');
+    } else alert(r.error || 'Error enviando SMS');
+  } catch(e) { alert('Error de conexión'); }
+}
+
+document.getElementById('tk-modal').addEventListener('click', function(e) { if (e.target === this) closeTkModal(); });
+
+// ── INIT ──
+if (token) {
+  try {
+    var stored = localStorage.getItem('wifnix_user');
+    if (stored) { user = JSON.parse(stored); initPortal(); }
+    else wifnixCerrarSesion({reload: false});
+  } catch(e) { wifnixCerrarSesion({reload: false}); }
+}
+</script>
+<script>
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('wifnix_theme',n);}catch(e){}}
+(function(){try{var s=localStorage.getItem('wifnix_theme')||'dark';document.documentElement.setAttribute('data-theme',s);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
+
+<div id="modal-eliminar-cuenta" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:var(--navy,#0D1526);border:1px solid rgba(255,85,85,0.3);border-radius:14px;padding:28px;width:100%;max-width:440px;max-height:88vh;overflow-y:auto">
+    <div style="background:rgba(255,85,85,0.06);border:1px solid rgba(255,85,85,0.2);border-radius:10px;padding:18px;margin-bottom:18px;text-align:center">
+      <div style="width:54px;height:54px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+        <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--red,#FF5555);fill:none;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:800;color:var(--red,#FF5555);margin-bottom:10px">Acción permanente e irreversible</div>
+      <div style="font-size:0.82rem;color:var(--gray,#8BA0B4);line-height:1.7">Toda tu información será borrada permanentemente — perfil, tickets, garantías, órdenes e historial. <strong style="color:var(--white,#F0F4F8)">No hay manera de recuperarla.</strong> Si quieres volver a usar Wifnix tendrás que crear una cuenta nueva.</div>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray,#8BA0B4);display:block;margin-bottom:6px">Para confirmar escribe: <strong style="color:var(--red,#FF5555)">ELIMINAR MI CUENTA</strong></label>
+      <input type="text" id="ec-confirm" placeholder="ELIMINAR MI CUENTA" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 13px;color:var(--white,#F0F4F8);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none">
+    </div>
+    <div id="ec-alert" class="alert" style="display:none;padding:10px 13px;border-radius:7px;font-size:0.78rem;margin-bottom:12px;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);color:var(--red,#FF5555)"></div>
+    <div style="display:flex;gap:10px">
+      <button onclick="confirmarEliminarCuenta()" style="flex:1;padding:12px;background:var(--red,#FF5555);color:white;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer">Eliminar permanentemente</button>
+      <button onclick="document.getElementById('modal-eliminar-cuenta').style.display='none'" style="padding:12px 18px;background:transparent;color:var(--gray,#8BA0B4);border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.82rem;cursor:pointer">Cancelar</button>
+    </div>
+  </div>
+</div>
+<script>
+function abrirEliminarCuenta(){
+  document.getElementById('ec-confirm').value='';
+  document.getElementById('ec-alert').style.display='none';
+  document.getElementById('modal-eliminar-cuenta').style.display='flex';
+}
+async function confirmarEliminarCuenta(){
+  var conf=document.getElementById('ec-confirm').value.trim();
+  var alertEl=document.getElementById('ec-alert');
+  if(conf!=='ELIMINAR MI CUENTA'){
+    alertEl.textContent='Debes escribir exactamente: ELIMINAR MI CUENTA';
+    alertEl.style.display='block';
+    return;
+  }
+  try{
+    var r=await fetch(API+'/api/auth/mi-cuenta',{
+      method:'DELETE',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({confirmacion:'ELIMINAR MI CUENTA'})
+    });
+    var d=await r.json();
+    if(d.ok){
+      wifnixCerrarSesion();
+      alert('Tu cuenta ha sido eliminada permanentemente. Serás redirigido al inicio.');
+      window.location.href='https://wifnix.com';
+    }else{
+      alertEl.textContent=d.error||'Error al eliminar la cuenta';
+      alertEl.style.display='block';
+    }
+  }catch(e){
+    alertEl.textContent='Error de conexión';
+    alertEl.style.display='block';
+  }
+}
+
+
+// ════════════════════════════════════════════════
+// CITAS DE MANTENIMIENTO
+// ════════════════════════════════════════════════
+var TIPOS_SERVICIO_CITA = ['Mantenimiento de aire acondicionado','Limpieza de cámaras CCTV','Revisión de redes/WiFi','Mantenimiento de servidores','Inspección de cableado','Otro servicio'];
+var slotSeleccionado = null;
+var citaLat = null, citaLng = null;
+
+async function loadCitas() {
+  var el = document.getElementById('citas-list');
+  el.innerHTML = '<div class="loading" style="padding:20px;text-align:center;color:var(--gray)">Cargando...</div>';
+  try {
+    var data = await api('/api/citas/mis-citas');
+    if (data && data.length) data = data.filter(function(c){ return c.status !== 'cancelada'; });
+    if (!data || !data.length) {
+      el.innerHTML = '<div class="empty" style="padding:40px;text-align:center"><svg viewBox="0 0 24 24" style="width:48px;height:48px;stroke:var(--gray2);fill:none;stroke-width:1.2;margin-bottom:12px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><p style="color:var(--gray)">No tienes mantenimientos programados</p><button class="bsm" style="background:var(--bl);color:#06090F;border:none;padding:10px 20px;margin-top:14px;border-radius:7px;font-weight:700;cursor:pointer" onclick="openCitaModal()">Solicitar tu primer mantenimiento</button></div>';
+      return;
+    }
+    var statusInfo = {
+      'solicitada': { label: 'Solicitada', color: '#FFC107' },
+      'aprobada': { label: 'Aprobada - paga tu depósito', color: '#0B8FCC' },
+      'confirmada': { label: 'Confirmada', color: '#00E5A0' },
+      'reprogramada': { label: 'Reprogramada', color: '#0B8FCC' },
+      'en_proceso': { label: 'En proceso', color: '#8B5CF6' },
+      'completada': { label: 'Completada', color: '#059669' },
+      'cancelada': { label: 'Cancelada', color: '#EF4444' },
+      'no_show': { label: 'No asistió', color: '#6B7280' }
+    };
+    el.innerHTML = data.map(function(c) {
+      var si = statusInfo[c.status] || statusInfo['solicitada'];
+      var fecha = new Date(c.fecha + 'T12:00:00').toLocaleDateString('es-PR', {weekday:'long',year:'numeric',month:'long',day:'numeric'});
+      var puedeModificar = ['solicitada','aprobada','confirmada','reprogramada'].includes(c.status);
+      return '<div style="background:rgba(255,255,255,0.02);border:1px solid ' + si.color + '33;border-radius:10px;padding:18px;margin-bottom:12px">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:12px">' +
+          '<div style="flex:1"><div style="font-weight:700;font-size:1rem;color:var(--white);margin-bottom:4px">' + c.tipo_servicio + '</div>' +
+          '<div style="font-size:0.8rem;color:var(--gray)">CIT-' + String(c.numero).padStart(4,'0') + '</div></div>' +
+          '<span style="display:inline-block;padding:4px 12px;background:' + si.color + '22;color:' + si.color + ';border:1px solid ' + si.color + '44;border-radius:5px;font-size:0.72rem;font-weight:700">' + si.label + '</span>' +
+        '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;font-size:0.82rem;color:var(--gray);margin-bottom:' + (puedeModificar ? '14px' : '0') + '">' +
+          '<div>📅 <strong style="color:var(--white)">' + fecha + '</strong></div>' +
+          '<div>🕐 ' + c.slot + (c.es_fin_semana ? ' <span style="color:var(--warn)">(fin de semana)</span>' : '') + '</div>' +
+          (c.tecnico_nombre ? '<div>👷 ' + c.tecnico_nombre + '</div>' : '') +
+          (c.deposito_pagado ? '<div style="color:var(--green)">✓ Depósito pagado</div>' : '<div style="color:var(--warn)">⚠ Depósito pendiente ($' + parseFloat(c.deposito_monto).toFixed(2) + ')</div>') +
+          (c.recurrencia_activa && c.frecuencia_meses ? '<div style="color:#8B5CF6">🔄 Recurrente cada ' + c.frecuencia_meses + ' mes' + (c.frecuencia_meses>1?'es':'') + '</div>' : '') +
+        '</div>' +
+        (c.recurrencia_activa && c.frecuencia_meses ? '<div style="padding:8px 12px;background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:6px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-size:0.74rem;color:#8B5CF6">🔄 Mantenimiento recurrente activo</span><button onclick="cancelarRecurrencia(\'' + c.id + '\')" style="padding:5px 10px;background:transparent;color:#8BA0B4;border:1px solid rgba(255,255,255,0.1);border-radius:5px;font-size:0.7rem;cursor:pointer;font-family:inherit;font-weight:600">Cancelar recurrencia</button></div>' : '') +
+        (c.status === 'completada' ? '<div id="completada-' + c.id + '" style="padding-top:12px;border-top:1px solid rgba(255,255,255,0.05)"><div style="font-size:0.76rem;color:var(--gray)">Cargando detalles del servicio...</div></div>' : '') +
+        (puedeModificar ? '<div style="display:flex;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);flex-wrap:wrap">' +
+          (!c.deposito_pagado ? (c.status === 'aprobada' ? '<button onclick="pagarDeposito(\'' + c.id + '\', ' + parseFloat(c.deposito_monto) + ')" style="padding:7px 14px;background:rgba(0,229,160,0.15);color:#00E5A0;border:1px solid rgba(0,229,160,0.3);border-radius:6px;font-size:0.76rem;cursor:pointer;font-family:inherit;font-weight:700">💳 Pagar depósito $' + parseFloat(c.deposito_monto).toFixed(2) + '</button>' : '<button disabled style="padding:7px 14px;background:rgba(255,255,255,0.04);color:var(--gray);border:1px solid rgba(255,255,255,0.08);border-radius:6px;font-size:0.76rem;cursor:not-allowed;font-family:inherit;font-weight:600">⏳ Pendiente de aprobación</button>') : '') +
+          '<button onclick="reprogramarCita(\'' + c.id + '\', \'' + c.fecha.split("T")[0] + '\', \'' + c.slot + '\')" style="padding:7px 14px;background:rgba(11,143,204,0.12);color:var(--bl);border:1px solid rgba(11,143,204,0.25);border-radius:6px;font-size:0.76rem;cursor:pointer;font-family:inherit;font-weight:700">📅 Reprogramar</button>' +
+          '<button onclick="cancelarCita(\'' + c.id + '\')" style="padding:7px 14px;background:rgba(255,85,85,0.12);color:#FF5555;border:1px solid rgba(255,85,85,0.25);border-radius:6px;font-size:0.76rem;cursor:pointer;font-family:inherit;font-weight:700">Cancelar</button></div>' : '') +
+      '</div>';
+    }).join('');
+    data.filter(function(c){ return c.status === 'completada'; }).forEach(function(c){ cargarCompletada(c); });
+  } catch(e) {
+    el.innerHTML = '<div style="padding:20px;color:var(--red)">Error: ' + e.message + '</div>';
+  }
+}
+
+async function cargarCompletada(c) {
+  var cont = document.getElementById('completada-' + c.id);
+  if (!cont) return;
+  try {
+    var fotos = await api('/api/citas/' + c.id + '/fotos') || [];
+    var antes = fotos.filter(function(f){ return f.tipo === 'antes'; });
+    var despues = fotos.filter(function(f){ return f.tipo === 'despues'; });
+    var html = '';
+    if (fotos.length) {
+      html += '<div style="font-size:0.78rem;font-weight:700;color:var(--white);margin-bottom:8px">Fotos del servicio</div>';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">';
+      function col(arr, label) {
+        var inner = '<div style="font-size:0.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.04em;font-weight:700;margin-bottom:5px">' + label + '</div>';
+        if (arr.length) {
+          inner += arr.map(function(f){ return '<img src="' + f.url + '" onclick="window.open(\'' + f.url + '\',\'_blank\')" style="width:100%;border-radius:8px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(255,255,255,0.08)">'; }).join('');
+        } else {
+          inner += '<div style="font-size:0.72rem;color:var(--gray2);padding:10px;text-align:center;background:rgba(255,255,255,0.02);border-radius:8px">Sin foto</div>';
+        }
+        return '<div>' + inner + '</div>';
+      }
+      html += col(antes, 'Antes') + col(despues, 'Despues');
+      html += '</div>';
+    }
+    if (c.notas_tecnico) {
+      html += '<div style="background:rgba(11,143,204,0.05);border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:10px 12px;margin-bottom:14px"><div style="font-size:0.68rem;color:var(--bl);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;margin-bottom:3px">Notas del tecnico</div><div style="font-size:0.82rem;color:var(--white)">' + c.notas_tecnico + '</div></div>';
+    }
+    var val = null;
+    try { val = await api('/api/citas/' + c.id + '/valoracion'); } catch(e) {}
+    if (val && val.rating) {
+      var estrellas = '';
+      for (var i=1;i<=5;i++) estrellas += '<span style="color:' + (i<=val.rating?'#FFC107':'#3a4a5c') + ';font-size:1.1rem">*</span>';
+      html += '<div style="padding:10px 12px;background:rgba(255,193,7,0.05);border:1px solid rgba(255,193,7,0.15);border-radius:8px"><div style="font-size:0.72rem;color:var(--gray);margin-bottom:4px">Tu valoracion</div><div>' + estrellas + '</div>' + (val.comentario ? '<div style="font-size:0.78rem;color:var(--white);margin-top:5px;font-style:italic">"' + val.comentario + '"</div>' : '') + '</div>';
+    } else if (c.tecnico_nombre) {
+      html += '<button onclick="abrirValoracion(\'' + c.id + '\')" style="width:100%;padding:11px;background:rgba(255,193,7,0.12);color:#FFC107;border:1px solid rgba(255,193,7,0.3);border-radius:8px;font-size:0.84rem;font-weight:700;cursor:pointer;font-family:inherit">Valorar el servicio</button>';
+    }
+    cont.innerHTML = html || '<div style="font-size:0.76rem;color:var(--gray)">Servicio completado</div>';
+  } catch(e) {
+    cont.innerHTML = '<div style="font-size:0.76rem;color:var(--gray)">Servicio completado</div>';
+  }
+}
+
+
+async function cancelarRecurrencia(citaId) {
+  if (!confirm('¿Desactivar el mantenimiento recurrente? No se programarán más citas automáticas. Las citas ya agendadas se mantienen.')) return;
+  try {
+    var r = await api('/api/citas/' + citaId + '/cancelar-recurrencia', { method: 'POST' });
+    if (r && r.ok) { alert('Recurrencia desactivada.'); loadCitas(); }
+    else { alert((r && r.error) || 'No se pudo desactivar'); }
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+function openCitaModal() {
+  var hoy = new Date();
+  var minDate = new Date(hoy.getTime() + 24*60*60*1000).toISOString().split('T')[0];
+  var maxDate = new Date(hoy.getTime() + 30*24*60*60*1000).toISOString().split('T')[0];
+  citaLat = null; citaLng = null; slotSeleccionado = null;
+  
+  var modal = document.createElement('div');
+  modal.id = 'modal-cita';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto';
+  
+  var tiposOpts = '<option value="" style="background:#0D1A2A">Selecciona un servicio...</option>' + TIPOS_SERVICIO_CITA.map(function(t){ return '<option value="' + t + '" style="background:#0D1A2A">' + t + '</option>'; }).join('');
+  
+  modal.innerHTML = '<div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:28px;width:100%;max-width:520px;margin:auto;position:relative">' +
+    '<button onclick="document.getElementById(\'modal-cita\').remove()" style="position:absolute;top:14px;right:14px;background:transparent;border:none;color:#8BA0B4;font-size:1.6rem;cursor:pointer">×</button>' +
+    '<h2 style="font-size:1.25rem;font-weight:800;margin-bottom:6px;color:#F0F4F8">Solicitar mantenimiento</h2>' +
+    '<p style="font-size:0.82rem;color:#8BA0B4;margin-bottom:20px">Selecciona el servicio, fecha y horario</p>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Tipo de servicio *</label>' +
+    '<select id="cita-tipo" onchange="toggleUnidadesAC()" style="width:100%;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem">' + tiposOpts + '</select></div>' +
+    '<div id="cita-unidades-wrap" style="display:none;margin-bottom:14px;background:rgba(11,143,204,0.04);border:1px solid rgba(11,143,204,0.12);border-radius:8px;padding:14px">' +
+    '<label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:8px;text-transform:uppercase">Unidades a dar mantenimiento</label>' +
+    '<div id="cita-unidades-list"></div>' +
+    '<button type="button" onclick="agregarUnidadAC()" style="width:100%;padding:9px;background:rgba(11,143,204,0.1);color:#29B6F6;border:1px dashed rgba(11,143,204,0.3);border-radius:7px;font-family:inherit;font-size:0.8rem;font-weight:700;cursor:pointer;margin-top:6px">+ Añadir otra unidad</button>' +
+    '<div id="cita-deposito-info" style="font-size:0.76rem;color:#FFC107;margin-top:8px;text-align:center"></div>' +
+    '</div>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Fecha *</label>' +
+    '<input type="date" id="cita-fecha" min="' + minDate + '" max="' + maxDate + '" style="width:100%;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem"></div>' +
+    '<div id="cita-slots-wrap" style="margin-bottom:14px;display:none"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Horario *</label>' +
+    '<div id="cita-slots" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px"></div>' +
+    '<div id="cita-slot-msg" style="font-size:0.76rem;color:#FFC107;margin-top:8px"></div></div>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Dirección del servicio *</label>' +
+    '<input type="text" id="cita-direccion" placeholder="Calle, número, urbanización" style="width:100%;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem"></div>' +
+    '<div style="margin-bottom:14px"><button type="button" id="cita-gps-btn" onclick="capturarUbicacion()" style="width:100%;padding:11px;background:rgba(0,229,160,0.1);color:#00E5A0;border:1px solid rgba(0,229,160,0.25);border-radius:8px;font-family:inherit;font-size:0.84rem;font-weight:700;cursor:pointer">📍 Usar mi ubicación actual</button>' +
+    '<div id="cita-gps-status" style="font-size:0.76rem;margin-top:6px;text-align:center"></div></div>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Detalles adicionales</label>' +
+    '<textarea id="cita-notas" placeholder="Describe lo que necesitas..." style="width:100%;min-height:70px;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem;resize:vertical"></textarea></div>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">¿Repetir mantenimiento?</label>' +
+    '<select id="cita-frecuencia" style="width:100%;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem">' +
+      '<option value="" style="background:#0D1A2A">Una sola vez</option>' +
+      '<option value="1" style="background:#0D1A2A">Cada 1 mes</option>' +
+      '<option value="3" style="background:#0D1A2A">Cada 3 meses</option>' +
+      '<option value="4" style="background:#0D1A2A">Cada 4 meses</option>' +
+      '<option value="6" style="background:#0D1A2A">Cada 6 meses</option>' +
+    '</select>' +
+    '<div style="font-size:0.72rem;color:#8BA0B4;margin-top:5px">Si eliges una frecuencia, al completar cada cita se programará la próxima automáticamente. Puedes cancelar la recurrencia cuando quieras.</div></div>' +
+    
+    '<div style="background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:12px;margin-bottom:18px;font-size:0.78rem;color:#8BA0B4;line-height:1.5">💳 <strong style="color:#F0F4F8">Depósito de $35</strong> requerido para confirmar. Se descuenta del total. Cancelaciones <24h no son reembolsables.</div>' +
+    '<div id="cita-error" style="font-size:0.8rem;color:#FF5555;margin-bottom:12px;min-height:16px"></div>' +
+    '<div style="display:flex;gap:10px">' +
+      '<button onclick="document.getElementById(\'modal-cita\').remove()" style="flex:1;padding:13px;background:transparent;color:#F0F4F8;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
+      '<button id="cita-submit" onclick="enviarCita()" style="flex:2;padding:13px;background:#29B6F6;color:#06090F;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit">Solicitar cita</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('cita-fecha').addEventListener('change', cargarSlotsCita);
+}
+
+var TIPOS_AC = ['Split (mini split)','Central','Ventana','Cassette (techo)','Piso-techo','Otro'];
+
+function toggleUnidadesAC() {
+  var tipo = document.getElementById('cita-tipo').value;
+  var wrap = document.getElementById('cita-unidades-wrap');
+  if (tipo === 'Mantenimiento de aire acondicionado') {
+    wrap.style.display = 'block';
+    if (!document.getElementById('cita-unidades-list').children.length) agregarUnidadAC();
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function agregarUnidadAC() {
+  var list = document.getElementById('cita-unidades-list');
+  var idx = list.children.length;
+  var div = document.createElement('div');
+  div.className = 'unidad-ac-row';
+  div.style.cssText = 'display:flex;gap:8px;margin-bottom:8px;align-items:center';
+  var opts = TIPOS_AC.map(function(t){ return '<option value="' + t + '" style="background:#0D1A2A">' + t + '</option>'; }).join('');
+  div.innerHTML = '<select class="ac-tipo" onchange="calcularDepositoAC()" style="flex:2;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:9px;border-radius:7px;font-family:inherit;font-size:0.82rem">' + opts + '</select>' +
+    '<input type="number" class="ac-cant" min="1" value="1" onchange="calcularDepositoAC()" oninput="calcularDepositoAC()" style="width:70px;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:9px;border-radius:7px;font-family:inherit;font-size:0.82rem;text-align:center">' +
+    (idx > 0 ? '<button type="button" onclick="this.parentElement.remove();calcularDepositoAC()" style="background:rgba(255,85,85,0.12);color:#FF5555;border:1px solid rgba(255,85,85,0.25);border-radius:6px;width:32px;height:32px;cursor:pointer;font-size:1rem;flex-shrink:0">×</button>' : '<div style="width:32px;flex-shrink:0"></div>');
+  list.appendChild(div);
+  calcularDepositoAC();
+}
+
+function calcularDepositoAC() {
+  var total = 0;
+  document.querySelectorAll('#cita-unidades-list .unidad-ac-row').forEach(function(row){
+    var cant = parseInt(row.querySelector('.ac-cant').value) || 0;
+    total += cant;
+  });
+  var info = document.getElementById('cita-deposito-info');
+  if (total > 5) {
+    info.innerHTML = 'Total: ' + total + ' unidades · Depósito: <strong style="color:#00E5A0">$80.00</strong> (más de 5 unidades)';
+  } else {
+    info.innerHTML = 'Total: ' + total + ' unidades · Depósito: <strong style="color:#00E5A0">$35.00</strong>';
+  }
+}
+
+function recolectarUnidadesAC() {
+  var unidades = [];
+  document.querySelectorAll('#cita-unidades-list .unidad-ac-row').forEach(function(row){
+    var tipo = row.querySelector('.ac-tipo').value;
+    var cant = parseInt(row.querySelector('.ac-cant').value) || 1;
+    if (tipo && cant > 0) unidades.push({ tipo_unidad: tipo, cantidad: cant });
+  });
+  return unidades;
+}
+
+async function cargarSlotsCita() {
+  var fecha = document.getElementById('cita-fecha').value;
+  if (!fecha) return;
+  slotSeleccionado = null;
+  var wrap = document.getElementById('cita-slots-wrap');
+  var cont = document.getElementById('cita-slots');
+  var msg = document.getElementById('cita-slot-msg');
+  wrap.style.display = 'block';
+  cont.innerHTML = '<div style="grid-column:1/-1;color:#8BA0B4;font-size:0.8rem">Cargando...</div>';
+  try {
+    var data = await api('/api/citas/disponibilidad?fecha=' + fecha);
+    msg.textContent = data.mensaje || '';
+    if (!data.slots || !data.slots.length) {
+      cont.innerHTML = '<div style="grid-column:1/-1;color:#FFC107;font-size:0.82rem">' + (data.mensaje || 'No hay horarios') + '</div>';
+      return;
+    }
+    cont.innerHTML = data.slots.map(function(s) {
+      if (s.lleno) return '<button disabled style="padding:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:7px;color:#3D5166;font-size:0.78rem;cursor:not-allowed;text-decoration:line-through;font-family:inherit">' + s.slot + '</button>';
+      return '<button class="slot-btn" onclick="seleccionarSlot(this, \'' + s.slot + '\')" style="padding:10px;background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:7px;color:#29B6F6;font-size:0.78rem;cursor:pointer;font-family:inherit;font-weight:600">' + s.slot + '</button>';
+    }).join('');
+  } catch(e) {
+    cont.innerHTML = '<div style="grid-column:1/-1;color:#FF5555;font-size:0.8rem">Error: ' + e.message + '</div>';
+  }
+}
+
+function seleccionarSlot(btn, slot) {
+  slotSeleccionado = slot;
+  document.querySelectorAll('.slot-btn').forEach(function(b){ b.style.background = 'rgba(11,143,204,0.08)'; b.style.borderColor = 'rgba(11,143,204,0.2)'; b.style.color = '#29B6F6'; });
+  btn.style.background = '#29B6F6'; btn.style.borderColor = '#29B6F6'; btn.style.color = '#06090F';
+}
+
+function capturarUbicacion() {
+  var btn = document.getElementById('cita-gps-btn');
+  var status = document.getElementById('cita-gps-status');
+  if (!navigator.geolocation) { status.innerHTML = '<span style="color:#FF5555">No soportado</span>'; return; }
+  btn.disabled = true;
+  status.innerHTML = '<span style="color:#8BA0B4">Obteniendo ubicación...</span>';
+  navigator.geolocation.getCurrentPosition(
+    function(pos) {
+      citaLat = pos.coords.latitude; citaLng = pos.coords.longitude;
+      btn.style.background = 'rgba(0,229,160,0.2)';
+      btn.innerHTML = '✓ Ubicación capturada';
+      status.innerHTML = '<a href="https://maps.google.com/?q=' + citaLat + ',' + citaLng + '" target="_blank" style="color:#29B6F6">Ver en mapa</a>';
+      btn.disabled = false;
+    },
+    function(err) {
+      btn.disabled = false;
+      status.innerHTML = '<span style="color:#FFC107">' + (err.code === 1 ? 'Permiso denegado' : 'No se pudo obtener') + '</span>';
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+async function enviarCita() {
+  var tipo = document.getElementById('cita-tipo').value;
+  var fecha = document.getElementById('cita-fecha').value;
+  var direccion = document.getElementById('cita-direccion').value.trim();
+  var notas = document.getElementById('cita-notas').value.trim();
+  var err = document.getElementById('cita-error');
+  if (!tipo) { err.textContent = 'Selecciona un tipo de servicio'; return; }
+  if (!fecha) { err.textContent = 'Selecciona una fecha'; return; }
+  if (!slotSeleccionado) { err.textContent = 'Selecciona un horario'; return; }
+  if (!direccion) { err.textContent = 'Ingresa la dirección'; return; }
+  var btn = document.getElementById('cita-submit');
+  btn.disabled = true; btn.textContent = 'Enviando...';
+  err.textContent = '';
+  try {
+    var r = await api('/api/citas/crear', { method: 'POST', body: { tipo_servicio: tipo, fecha: fecha, slot: slotSeleccionado, direccion: direccion, notas_cliente: notas, latitud: citaLat, longitud: citaLng, frecuencia_meses: document.getElementById('cita-frecuencia').value || null, unidades: (tipo === 'Mantenimiento de aire acondicionado' ? recolectarUnidadesAC() : []) } });
+    if (r.ok) {
+      document.getElementById('modal-cita').remove();
+      alert('✓ Cita solicitada (CIT-' + String(r.numero).padStart(4,'0') + '). Te contactaremos para confirmar.');
+      loadCitas();
+    } else {
+      err.textContent = r.error || 'Error'; btn.disabled = false; btn.textContent = 'Solicitar cita';
+    }
+  } catch(e) { err.textContent = e.message; btn.disabled = false; btn.textContent = 'Solicitar cita'; }
+}
+
+function cancelarCita(id) {
+  var modal = document.createElement('div');
+  modal.id = 'modal-cancelar';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = '<div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:26px;width:100%;max-width:400px;text-align:center">' +
+    '<div style="font-size:2rem;margin-bottom:12px">⚠️</div>' +
+    '<h3 style="font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:10px">¿Cancelar esta cita?</h3>' +
+    '<p style="font-size:0.84rem;color:#8BA0B4;line-height:1.5;margin-bottom:20px">Si la cita es con menos de 24 horas, el depósito no es reembolsable.</p>' +
+    '<div id="cancelar-err" style="font-size:0.8rem;color:#FF5555;margin-bottom:12px;min-height:14px"></div>' +
+    '<div style="display:flex;gap:10px">' +
+      '<button id="cancelar-no" style="flex:1;padding:12px;background:transparent;color:#F0F4F8;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">No, volver</button>' +
+      '<button id="cancelar-si" style="flex:1;padding:12px;background:#FF5555;color:white;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit">Sí, cancelar</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  
+  document.getElementById('cancelar-no').onclick = function() { modal.remove(); };
+  document.getElementById('cancelar-si').onclick = async function() {
+    var btn = this;
+    btn.disabled = true; btn.textContent = 'Cancelando...';
+    try {
+      var r = await api('/api/citas/' + id + '/cliente', { method: 'PUT', body: { accion: 'cancelar' } });
+      if (r.ok) {
+        modal.remove();
+        alert(r.depositoPerdido ? 'Cita cancelada. Depósito no reembolsable (<24h).' : 'Cita cancelada.');
+        loadCitas();
+      } else {
+        document.getElementById('cancelar-err').textContent = r.error || 'Error al cancelar';
+        btn.disabled = false; btn.textContent = 'Sí, cancelar';
+      }
+    } catch(e) {
+      document.getElementById('cancelar-err').textContent = e.message;
+      btn.disabled = false; btn.textContent = 'Sí, cancelar';
+    }
+  };
+}
+
+
+
+// PAGO DE DEPOSITO DE CITA
+var stripeDepInstance = null;
+
+function pagarDeposito(citaId, monto) {
+  var modal = document.createElement('div');
+  modal.id = 'modal-deposito';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = '<div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:26px;width:100%;max-width:420px;position:relative">' +
+    '<button onclick="document.getElementById(\'modal-deposito\').remove()" style="position:absolute;top:16px;right:16px;background:transparent;border:none;color:#8BA0B4;font-size:1.5rem;cursor:pointer">×</button>' +
+    '<h3 style="font-size:1.15rem;font-weight:800;color:#F0F4F8;margin-bottom:6px;text-align:center">Pagar deposito</h3>' +
+    '<p style="font-size:0.85rem;color:#8BA0B4;text-align:center;margin-bottom:20px">Monto: <strong style="color:#00E5A0">$' + monto.toFixed(2) + '</strong></p>' +
+    '<button onclick="depositoStripe(\'' + citaId + '\', ' + monto + ')" style="width:100%;padding:14px;background:#29B6F6;color:#06090F;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px;font-size:0.88rem">Tarjeta credito/debito</button>' +
+    '<button onclick="depositoATH(\'' + citaId + '\', ' + monto + ')" style="width:100%;padding:14px;background:rgba(255,255,255,0.06);color:#F0F4F8;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;font-size:0.88rem">ATH Movil</button>' +
+    '<div id="deposito-status" style="font-size:0.8rem;text-align:center;margin-top:14px;min-height:16px"></div>' +
+  '</div>';
+  document.body.appendChild(modal);
+}
+
+async function depositoStripe(citaId, monto) {
+  var status = document.getElementById('deposito-status');
+  status.innerHTML = '<span style="color:#8BA0B4">Cargando pago...</span>';
+  try {
+    var d = await api('/api/stripe/crear-intento', { method: 'POST', body: { total: monto } });
+    if (!d.ok) { status.innerHTML = '<span style="color:#FF5555">' + (d.error || 'Error') + '</span>'; return; }
+    var box = document.querySelector('#modal-deposito > div');
+    box.innerHTML = '<h3 style="font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:14px;text-align:center">Pago con tarjeta $' + monto.toFixed(2) + '</h3>' +
+      '<div id="dep-card" style="background:white;padding:14px;border-radius:8px;margin-bottom:14px"></div>' +
+      '<div id="dep-card-err" style="font-size:0.8rem;color:#FF5555;margin-bottom:12px;min-height:14px"></div>' +
+      '<div style="display:flex;gap:10px">' +
+        '<button onclick="document.getElementById(\'modal-deposito\').remove()" style="flex:1;padding:12px;background:transparent;color:#F0F4F8;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
+        '<button id="dep-pay-btn" style="flex:2;padding:12px;background:#29B6F6;color:#06090F;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit">Pagar $' + monto.toFixed(2) + '</button>' +
+      '</div>';
+    if (!stripeDepInstance) stripeDepInstance = Stripe(d.publishableKey);
+    var elements = stripeDepInstance.elements();
+    var card = elements.create('card', { style: { base: { fontSize: '16px', color: '#0F172A' } } });
+    card.mount('#dep-card');
+    document.getElementById('dep-pay-btn').onclick = async function() {
+      var btn = this; btn.disabled = true; btn.textContent = 'Procesando...';
+      var result = await stripeDepInstance.confirmCardPayment(d.clientSecret, { payment_method: { card: card, billing_details: { email: (user ? user.email : '') } } });
+      if (result.error) {
+        document.getElementById('dep-card-err').textContent = result.error.message;
+        btn.disabled = false; btn.textContent = 'Pagar $' + monto.toFixed(2);
+      } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        await api('/api/citas/' + citaId + '/pagar-deposito', { method: 'POST', body: { pago_tipo: 'stripe', referencia: result.paymentIntent.id } });
+        document.getElementById('modal-deposito').remove();
+        alert('Deposito pagado. Tu cita esta confirmada.');
+        loadCitas();
+      }
+    };
+  } catch(e) { status.innerHTML = '<span style="color:#FF5555">' + e.message + '</span>'; }
+}
+
+async function depositoATH(citaId, monto) {
+  var status = document.getElementById('deposito-status');
+  var tel = prompt('Ingresa tu numero ATH Movil (10 digitos):');
+  if (!tel) return;
+  tel = tel.replace(/[^0-9]/g, '');
+  if (tel.length !== 10) { status.innerHTML = '<span style="color:#FF5555">Telefono invalido</span>'; return; }
+  status.innerHTML = '<span style="color:#8BA0B4">Conectando...</span>';
+  try {
+    var d1 = await api('/api/ath/payment', { method: 'POST', body: { total: monto, subtotal: monto, tax: 0, items: [{nombre:'Deposito mantenimiento', sku:'DEP', precio: monto, cantidad: 1}], phoneNumber: tel, metadata2: 'deposito' } });
+    if (d1.status !== 'success') { status.innerHTML = '<span style="color:#FF5555">' + (d1.message || 'Error') + '</span>'; return; }
+    var ecommerceId = d1.data.ecommerceId, authToken = d1.data.auth_token;
+    status.innerHTML = 'Abre tu app ATH Movil y confirma el pago.';
+    var intentos = 0;
+    var poll = setInterval(async function() {
+      intentos++;
+      if (intentos > 200) { clearInterval(poll); status.innerHTML = '<span style="color:#FFC107">Tiempo agotado</span>'; return; }
+      try {
+        var d2 = await api('/api/ath/find-payment', { method: 'POST', body: { ecommerceId: ecommerceId } });
+        if (d2.data && d2.data.ecommerceStatus === 'CONFIRM') {
+          clearInterval(poll);
+          status.innerHTML = 'Autorizando...';
+          var d3 = await api('/api/ath/authorization', { method: 'POST', body: { authToken: authToken } });
+          if (d3.data && d3.data.ecommerceStatus === 'COMPLETED') {
+            await api('/api/citas/' + citaId + '/pagar-deposito', { method: 'POST', body: { pago_tipo: 'ath', referencia: d3.data.referenceNumber } });
+            document.getElementById('modal-deposito').remove();
+            alert('Deposito pagado. Tu cita esta confirmada.');
+            loadCitas();
+          }
+        } else if (d2.data && d2.data.ecommerceStatus === 'CANCEL') {
+          clearInterval(poll); status.innerHTML = '<span style="color:#FF5555">Pago cancelado</span>';
+        }
+      } catch(e) {}
+    }, 3000);
+  } catch(e) { status.innerHTML = '<span style="color:#FF5555">' + e.message + '</span>'; }
+}
+
+
+
+var repCitaId = null, repSlotSel = null;
+function reprogramarCita(citaId, fechaActual, slotActual) {
+  repCitaId = citaId;
+  repSlotSel = null;
+  var hoy = new Date();
+  var minDate = new Date(hoy.getTime() + 24*60*60*1000).toISOString().split('T')[0];
+  var maxDate = new Date(hoy.getTime() + 30*24*60*60*1000).toISOString().split('T')[0];
+  var modal = document.createElement('div');
+  modal.id = 'modal-reprog';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto';
+  modal.innerHTML = '<div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:26px;width:100%;max-width:480px;margin:auto;position:relative">' +
+    '<button onclick="document.getElementById(\'modal-reprog\').remove()" style="position:absolute;top:14px;right:14px;background:transparent;border:none;color:#8BA0B4;font-size:1.6rem;cursor:pointer">×</button>' +
+    '<h3 style="font-size:1.1rem;font-weight:800;color:#F0F4F8;margin-bottom:6px">Reprogramar cita</h3>' +
+    '<p style="font-size:0.82rem;color:#8BA0B4;margin-bottom:16px">Fecha actual: <strong style="color:#F0F4F8">' + fechaActual + ' (' + slotActual + ')</strong></p>' +
+    '<div style="background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.2);border-radius:8px;padding:10px;margin-bottom:16px;font-size:0.76rem;color:#8BA0B4">Solo puedes reprogramar con mas de 24h de anticipacion. Tu deposito se mantiene.</div>' +
+    '<div style="margin-bottom:14px"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Nueva fecha</label>' +
+    '<input type="date" id="rep-fecha" min="' + minDate + '" max="' + maxDate + '" style="width:100%;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:#F0F4F8;padding:11px;border-radius:8px;font-family:inherit;font-size:0.88rem"></div>' +
+    '<div id="rep-slots-wrap" style="margin-bottom:14px;display:none"><label style="display:block;font-size:0.72rem;font-weight:700;color:#8BA0B4;margin-bottom:6px;text-transform:uppercase">Nuevo horario</label>' +
+    '<div id="rep-slots" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px"></div>' +
+    '<div id="rep-slot-msg" style="font-size:0.76rem;color:#FFC107;margin-top:8px"></div></div>' +
+    '<div id="rep-error" style="font-size:0.8rem;color:#FF5555;margin-bottom:12px;min-height:14px"></div>' +
+    '<div style="display:flex;gap:10px">' +
+      '<button onclick="document.getElementById(\'modal-reprog\').remove()" style="flex:1;padding:12px;background:transparent;color:#F0F4F8;border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
+      '<button id="rep-submit" onclick="confirmarReprogramacion()" style="flex:2;padding:12px;background:#29B6F6;color:#06090F;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit">Confirmar reprogramacion</button>' +
+    '</div></div>';
+  document.body.appendChild(modal);
+  document.getElementById('rep-fecha').addEventListener('change', cargarSlotsReprog);
+}
+
+async function cargarSlotsReprog() {
+  var fecha = document.getElementById('rep-fecha').value;
+  if (!fecha) return;
+  repSlotSel = null;
+  var wrap = document.getElementById('rep-slots-wrap');
+  var cont = document.getElementById('rep-slots');
+  var msg = document.getElementById('rep-slot-msg');
+  wrap.style.display = 'block';
+  cont.innerHTML = '<div style="grid-column:1/-1;color:#8BA0B4;font-size:0.8rem">Cargando...</div>';
+  try {
+    var data = await api('/api/citas/disponibilidad?fecha=' + fecha);
+    msg.textContent = data.mensaje || '';
+    if (!data.slots || !data.slots.length) {
+      cont.innerHTML = '<div style="grid-column:1/-1;color:#FFC107;font-size:0.82rem">' + (data.mensaje || 'No hay horarios') + '</div>';
+      return;
+    }
+    cont.innerHTML = data.slots.map(function(s) {
+      if (s.lleno) return '<button disabled style="padding:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:7px;color:#3D5166;font-size:0.78rem;cursor:not-allowed;text-decoration:line-through;font-family:inherit">' + s.slot + '</button>';
+      return '<button class="rep-slot-btn" onclick="seleccionarSlotRep(this, \'' + s.slot + '\')" style="padding:10px;background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.2);border-radius:7px;color:#29B6F6;font-size:0.78rem;cursor:pointer;font-family:inherit;font-weight:600">' + s.slot + '</button>';
+    }).join('');
+  } catch(e) { cont.innerHTML = '<div style="grid-column:1/-1;color:#FF5555;font-size:0.8rem">Error: ' + e.message + '</div>'; }
+}
+
+function seleccionarSlotRep(btn, slot) {
+  repSlotSel = slot;
+  document.querySelectorAll('.rep-slot-btn').forEach(function(b){ b.style.background = 'rgba(11,143,204,0.08)'; b.style.borderColor = 'rgba(11,143,204,0.2)'; b.style.color = '#29B6F6'; });
+  btn.style.background = '#29B6F6'; btn.style.borderColor = '#29B6F6'; btn.style.color = '#06090F';
+}
+
+async function confirmarReprogramacion() {
+  var fecha = document.getElementById('rep-fecha').value;
+  var err = document.getElementById('rep-error');
+  if (!fecha) { err.textContent = 'Selecciona una fecha'; return; }
+  if (!repSlotSel) { err.textContent = 'Selecciona un horario'; return; }
+  var btn = document.getElementById('rep-submit');
+  btn.disabled = true; btn.textContent = 'Procesando...';
+  err.textContent = '';
+  try {
+    var r = await api('/api/citas/' + repCitaId + '/cliente', { method: 'PUT', body: { accion: 'reprogramar', nueva_fecha: fecha, nuevo_slot: repSlotSel } });
+    if (r.ok) {
+      document.getElementById('modal-reprog').remove();
+      alert('Cita reprogramada para ' + fecha + ' (' + repSlotSel + ').');
+      loadCitas();
+    } else { err.textContent = r.error || 'Error'; btn.disabled = false; btn.textContent = 'Confirmar reprogramacion'; }
+  } catch(e) { err.textContent = e.message; btn.disabled = false; btn.textContent = 'Confirmar reprogramacion'; }
+}
+
+
+// ---- VALORACIÓN ----
+var _valCitaId = null;
+var _valRating = 0;
+function abrirValoracion(citaId) {
+  _valCitaId = citaId;
+  _valRating = 0;
+  document.querySelectorAll('#estrellas-input span').forEach(function(s){ s.style.color = '#3a4a5c'; });
+  document.getElementById('val-comentario').value = '';
+  document.getElementById('valoracionModal').style.display = 'flex';
+}
+function cerrarValoracion() {
+  document.getElementById('valoracionModal').style.display = 'none';
+  _valCitaId = null;
+}
+function setRating(n) {
+  _valRating = n;
+  document.querySelectorAll('#estrellas-input span').forEach(function(s){
+    var star = parseInt(s.getAttribute('data-star'));
+    s.style.color = star <= n ? '#FFC107' : '#3a4a5c';
+  });
+}
+async function enviarValoracion() {
+  if (!_valRating) { alert('Selecciona una calificación de estrellas'); return; }
+  var comentario = document.getElementById('val-comentario').value.trim();
+  try {
+    var r = await api('/api/citas/' + _valCitaId + '/valorar', { method:'POST', body:{ rating:_valRating, comentario:comentario } });
+    if (r && r.ok) {
+      cerrarValoracion();
+      loadCitas();
+    } else {
+      alert((r && r.error) || 'No se pudo enviar la valoración');
+    }
+  } catch(e) { alert('Error: ' + e.message); }
+}
+
+
+
+</script>
+
+
+<!-- MODAL VALORACIÓN -->
+<div id="valoracionModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;width:100%;max-width:420px">
+    <h3 style="color:var(--white);font-size:1.1rem;font-weight:800;margin-bottom:6px">Valora el servicio</h3>
+    <p style="color:var(--gray);font-size:0.85rem;margin-bottom:18px">¿Cómo estuvo el trabajo del técnico?</p>
+    <div id="estrellas-input" style="display:flex;gap:8px;justify-content:center;margin-bottom:18px">
+      <span onclick="setRating(1)" data-star="1" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(2)" data-star="2" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(3)" data-star="3" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(4)" data-star="4" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(5)" data-star="5" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span>
+    </div>
+    <textarea id="val-comentario" placeholder="Comentario (opcional)..." style="width:100%;min-height:80px;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:var(--white);border-radius:10px;padding:12px;font-size:0.9rem;font-family:inherit;resize:vertical;margin-bottom:16px"></textarea>
+    <div style="display:flex;gap:10px">
+      <button onclick="cerrarValoracion()" style="flex:1;padding:12px;background:rgba(255,255,255,0.06);color:var(--white);border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>
+      <button onclick="enviarValoracion()" id="btn-enviar-val" style="flex:1;padding:12px;background:var(--bl);color:#06090F;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit">Enviar</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL VALORACIÓN -->
+<div id="valoracionModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0D1A2A;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:24px;width:100%;max-width:420px">
+    <h3 style="color:var(--white);font-size:1.1rem;font-weight:800;margin-bottom:6px">Valora el servicio</h3>
+    <p style="color:var(--gray);font-size:0.85rem;margin-bottom:18px">¿Cómo estuvo el trabajo del técnico?</p>
+    <div id="estrellas-input" style="display:flex;gap:8px;justify-content:center;margin-bottom:18px">
+      <span onclick="setRating(1)" data-star="1" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(2)" data-star="2" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(3)" data-star="3" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(4)" data-star="4" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span><span onclick="setRating(5)" data-star="5" style="font-size:2.2rem;cursor:pointer;color:#3a4a5c;transition:color .1s">★</span>
+    </div>
+    <textarea id="val-comentario" placeholder="Comentario (opcional)..." style="width:100%;min-height:80px;background:#06090F;border:1px solid rgba(255,255,255,0.1);color:var(--white);border-radius:10px;padding:12px;font-size:0.9rem;font-family:inherit;resize:vertical;margin-bottom:16px"></textarea>
+    <div style="display:flex;gap:10px">
+      <button onclick="cerrarValoracion()" style="flex:1;padding:12px;background:rgba(255,255,255,0.06);color:var(--white);border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>
+      <button onclick="enviarValoracion()" id="btn-enviar-val" style="flex:1;padding:12px;background:var(--bl);color:#06090F;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit">Enviar</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
