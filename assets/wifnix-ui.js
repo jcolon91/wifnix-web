@@ -52,7 +52,36 @@
     }
     var t = document.querySelector('title[data-es][data-en]');
     if (t) document.title = t.getAttribute('data-' + idioma);
+    sincronizarSelects(idioma);
     actualizarBotones();
+  }
+
+  // Un <select> cerrado enseña el rótulo de la opción elegida AUNQUE el
+  // CSS la esconda con display:none. Así que si la elegida quedó siendo
+  // la gemela del otro idioma, el desplegable cerrado miente: en español
+  // se leía "Select a town".
+  //
+  // Las páginas que traían su propio sincronizador solo lo disparaban al
+  // CAMBIAR de idioma, no al cargar, y en la primera pintura salía mal.
+  // Hacerlo aquí lo arregla en todas a la vez.
+  function sincronizarSelects(idioma) {
+    var otro = idioma === 'es' ? 'en' : 'es';
+    var selects = document.getElementsByTagName('select');
+    for (var i = 0; i < selects.length; i++) {
+      var s = selects[i];
+      var elegida = s.options[s.selectedIndex];
+      // Solo se toca si la elegida es una gemela del idioma contrario.
+      if (!elegida || !elegida.classList.contains(otro)) continue;
+      for (var j = 0; j < s.options.length; j++) {
+        if (s.options[j].value === elegida.value &&
+            s.options[j].classList.contains(idioma)) {
+          // selectedIndex no dispara 'change': no se desencadenan
+          // recálculos ni peticiones por esto.
+          s.selectedIndex = j;
+          break;
+        }
+      }
+    }
   }
 
   function actualizarBotones() {

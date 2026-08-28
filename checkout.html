@@ -3,92 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout — Wifnix LLC</title>
+<title data-es="Checkout — Wifnix LLC" data-en="Checkout — Wifnix LLC">Checkout — Wifnix LLC</title>
 <meta name="description" content="Completa tu compra en Wifnix Puerto Rico.">
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/assets/wifnix.css">
+
+<script>/* El texto que escribe el JavaScript no lo alcanza el CSS: aqui se elige idioma. */
+function wxIdioma(){return document.documentElement.getAttribute('data-idioma')==='en'?'en':'es';}
+function T(es,en){return wxIdioma()==='en'?en:es;}</script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="/assets/auth-shared.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
-:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--border:rgba(11,143,204,0.15)}
-:root[data-theme="light"]{--black:#FFFFFF;--navy:#F8FAFC;--blue:#0B8FCC;--bl:#0B8FCC;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#059669;--warn:#D97706;--red:#DC2626;--border:rgba(100,116,139,0.25)}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 
-.nav{position:sticky;top:0;background:rgba(13,21,38,0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-:root[data-theme="light"] .nav{background:rgba(255,255,255,0.95)}
-.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--white)}
+.nav{position:sticky;top:0;background:var(--velo);backdrop-filter:blur(10px);border-bottom:1px solid var(--filo);z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--tinta)}
 .logo img{height:32px}
 .logo span{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:800}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-back{color:var(--texto);text-decoration:none;font-size:0.85rem}
+.nav-back:hover{color:var(--tinta)}
 
 .layout{display:grid;grid-template-columns:1fr 380px;gap:30px;max-width:1200px;margin:0 auto;padding:30px 20px}
 @media(max-width:900px){.layout{grid-template-columns:1fr}}
 
-.steps-nav{display:flex;gap:0;margin-bottom:24px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:6px}
-.step-tab{flex:1;padding:12px;text-align:center;border-radius:8px;font-weight:700;font-size:0.82rem;color:var(--gray);background:transparent;border:none;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
-.step-tab.active{background:var(--blue);color:white}
-.step-tab.done{color:var(--green)}
-.step-num{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.08);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800}
-.step-tab.active .step-num{background:rgba(255,255,255,0.25)}
+.steps-nav{display:flex;gap:0;margin-bottom:24px;background:var(--panel);border:1px solid var(--filo);border-radius:12px;padding:6px}
+.step-tab{flex:1;padding:12px;text-align:center;border-radius:8px;font-weight:700;font-size:0.82rem;color:var(--texto);background:transparent;border:none;cursor:default;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.step-tab.active{background:var(--azul-fuerte);color:#fff}
+.step-tab.done{color:var(--verde)}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--filo2);display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800}
+/* El velo del numero del paso activo oscurece en vez de aclarar: el #fff
+   sobre el azul aclarado se quedaba en 3.13:1 (oscuro) y 4.25:1 (claro),
+   los dos por debajo del minimo. Oscureciendo sube a 7.03:1 y 10.6:1. */
+.step-tab.active .step-num{background:rgba(0,0,0,0.22)}
 .step-tab.done .step-num{background:rgba(0,229,160,0.2)}
 
-.step-content{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;display:none}
+.step-content{background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;display:none}
 .step-content.active{display:block}
 .step-content h2{font-size:1.3rem;font-weight:800;margin-bottom:6px}
-.step-desc{font-size:0.85rem;color:var(--gray);margin-bottom:24px}
+.step-desc{font-size:0.85rem;color:var(--texto);margin-bottom:24px}
 
 .field{margin-bottom:14px}
-.field label{display:block;font-size:0.74rem;font-weight:700;color:var(--gray);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
-.field input,.field select,.field textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:11px 14px;color:var(--white);font-family:inherit;font-size:0.88rem;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--bl)}
+.field label{display:block;font-size:0.74rem;font-weight:700;color:var(--texto);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase}
+.field input,.field select,.field textarea{width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:8px;padding:11px 14px;color:var(--tinta);font-family:inherit;font-size:0.88rem;outline:none}
+.field input::placeholder,.field textarea::placeholder{color:var(--apagado)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--azul)}
 .field textarea{min-height:80px;resize:vertical}
 .fields-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:600px){.fields-row{grid-template-columns:1fr}}
 
-.option-card{background:rgba(255,255,255,0.03);border:2px solid var(--border);border-radius:10px;padding:16px 18px;cursor:pointer;margin-bottom:10px;transition:all .15s;display:flex;align-items:flex-start;gap:14px}
-.option-card:hover{border-color:rgba(11,143,204,0.3)}
-.option-card.selected{border-color:var(--bl);background:rgba(11,143,204,0.06)}
-.option-card input[type="radio"]{margin-top:3px;accent-color:var(--bl)}
+.option-card{background:var(--panel2);border:2px solid var(--filo);border-radius:10px;padding:16px 18px;cursor:pointer;margin-bottom:10px;transition:all .15s;display:flex;align-items:flex-start;gap:14px}
+.option-card:hover{border-color:var(--filo2)}
+.option-card.selected{border-color:var(--azul);background:var(--azul-tenue)}
+.option-card input[type="radio"]{margin-top:3px;accent-color:var(--azul)}
 .option-info{flex:1}
 .option-title{font-weight:700;font-size:0.92rem;margin-bottom:4px}
-.option-desc{font-size:0.78rem;color:var(--gray);line-height:1.5}
-.option-price{font-weight:800;font-size:0.95rem;color:var(--green);margin-top:6px}
-.option-price.free{color:var(--bl)}
+.option-desc{font-size:0.78rem;color:var(--texto);line-height:1.5}
+.option-price{font-weight:800;font-size:0.95rem;color:var(--verde);margin-top:6px}
+.option-price.free{color:var(--azul)}
 
-.checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:14px;background:rgba(255,193,7,0.05);border:1px solid rgba(255,193,7,0.2);border-radius:8px;margin:12px 0}
-.checkbox-row input[type="checkbox"]{margin-top:3px;accent-color:var(--warn)}
-.checkbox-row label{font-size:0.85rem;line-height:1.5;cursor:pointer;color:var(--white)}
-.checkbox-row small{color:var(--gray);font-size:0.74rem;display:block;margin-top:2px}
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;padding:14px;background:rgba(255,193,7,0.07);border:1px solid rgba(255,193,7,0.28);border-radius:8px;margin:12px 0}
+.checkbox-row input[type="checkbox"]{margin-top:3px;accent-color:var(--ambar)}
+.checkbox-row label{font-size:0.85rem;line-height:1.5;cursor:pointer;color:var(--tinta)}
+.checkbox-row small{color:var(--texto);font-size:0.74rem;display:block;margin-top:2px}
 
 .btn-row{display:flex;gap:10px;margin-top:24px}
 .btn{flex:1;padding:14px;border:none;border-radius:8px;font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;letter-spacing:0.04em;text-transform:uppercase;transition:all .15s}
-.btn-primary{background:var(--blue);color:white}
-.btn-primary:hover{background:var(--bl)}
+.btn-primary{background:var(--azul-fuerte);color:#fff}
+/* El hover NO aclara el azul: #fff sobre --azul-fuerte ya va justo de
+   contraste en el tema oscuro (4.8:1) y aclararlo lo tira por debajo
+   del minimo. Oscurecer un punto se ve igual de vivo y aguanta los dos temas. */
+.btn-primary:hover{filter:brightness(.92)}
 .btn-primary:disabled{opacity:0.5;cursor:not-allowed}
-.btn-secondary{background:transparent;color:var(--white);border:1px solid var(--border)}
+.btn-secondary{background:transparent;color:var(--tinta);border:1px solid var(--filo2)}
 
 .sidebar{position:sticky;top:80px;height:fit-content}
-.summary{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
-.summary h3{font-size:1.05rem;font-weight:800;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
-.summary-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:0.85rem}
+.summary{background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:24px}
+.summary h3{font-size:1.05rem;font-weight:800;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--filo)}
+.summary-item{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--filo);font-size:0.85rem}
 .summary-item:last-of-type{border-bottom:none}
-.item-name{flex:1;color:var(--white)}
-.item-qty{color:var(--gray);font-size:0.78rem;margin-top:2px}
-.item-total{color:var(--green);font-weight:700;white-space:nowrap}
+.item-name{flex:1;color:var(--tinta)}
+.item-qty{color:var(--texto);font-size:0.78rem;margin-top:2px}
+.item-total{color:var(--verde);font-weight:700;white-space:nowrap}
 
-.totals-row{display:flex;justify-content:space-between;padding:8px 0;font-size:0.85rem;color:var(--gray)}
-.totals-row.total{font-size:1.2rem;font-weight:800;color:var(--white);margin-top:12px;padding-top:14px;border-top:1px solid var(--border)}
+.totals-row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;font-size:0.85rem;color:var(--texto)}
+.totals-row.total{font-size:1.2rem;font-weight:800;color:var(--tinta);margin-top:12px;padding-top:14px;border-top:1px solid var(--filo)}
 
 .alert{padding:11px 14px;border-radius:8px;font-size:0.82rem;margin-bottom:14px;display:none}
 .alert.show{display:block}
-.alert.error{background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.3);color:var(--red)}
-.alert.success{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);color:var(--green)}
-.alert.info{background:rgba(11,143,204,0.08);border:1px solid rgba(11,143,204,0.25);color:var(--bl)}
+.alert.error{background:rgba(255,85,85,0.10);border:1px solid rgba(255,85,85,0.30);color:var(--rojo)}
+.alert.success{background:rgba(0,229,160,0.10);border:1px solid rgba(0,229,160,0.30);color:var(--verde)}
+.alert.info{background:var(--azul-tenue);border:1px solid rgba(41,182,246,0.28);color:var(--azul)}
 
 .empty{text-align:center;padding:60px 20px}
-.empty svg{width:60px;height:60px;stroke:var(--gray2);fill:none;stroke-width:1.2;margin-bottom:14px}
+.empty svg{width:60px;height:60px;stroke:var(--apagado);fill:none;stroke-width:1.2;margin-bottom:14px}
 </style>
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -96,7 +118,6 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/android-chrome-192x192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/android-chrome-512x512.png">
-<meta name="theme-color" content="#0B8FCC">
 <script src="/assets/wifnix-core.js"></script>
 </head>
 <body>
@@ -105,194 +126,234 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
     <img src="/assets/logo-wifnix.png" alt="Wifnix">
     <span>Checkout</span>
   </a>
-  <a href="/tienda.html" style="color:var(--gray);text-decoration:none;font-size:0.85rem">← Volver a tienda</a>
+  <div class="nav-right">
+    <a href="/tienda.html" class="nav-back es">← Volver a tienda</a>
+    <a href="/tienda.html" class="nav-back en">← Back to store</a>
+    <span data-wx-switches></span>
+  </div>
 </nav>
 
 <div class="layout">
   <main>
     <div class="steps-nav">
-      <button class="step-tab active" id="tab-1"><span class="step-num">1</span> Información</button>
-      <button class="step-tab" id="tab-2"><span class="step-num">2</span> Entrega y Pago</button>
-      <button class="step-tab" id="tab-3"><span class="step-num">3</span> Confirmación</button>
+      <button class="step-tab active" id="tab-1"><span class="step-num">1</span> <span class="es">Información</span><span class="en">Information</span></button>
+      <button class="step-tab" id="tab-2"><span class="step-num">2</span> <span class="es">Entrega y pago</span><span class="en">Delivery &amp; payment</span></button>
+      <button class="step-tab" id="tab-3"><span class="step-num">3</span> <span class="es">Confirmación</span><span class="en">Confirmation</span></button>
     </div>
-    
+
     <!-- PASO 1: INFORMACIÓN DE CONTACTO -->
     <div class="step-content active" id="step-1">
-      <h2>Información de contacto</h2>
-      <p class="step-desc">Confirma tus datos para procesar la orden</p>
-      
+      <h2><span class="es">Información de contacto</span><span class="en">Contact information</span></h2>
+      <p class="step-desc"><span class="es">Confirma tus datos para procesar la orden</span><span class="en">Confirm your details so we can process the order</span></p>
+
       <div id="login-required" style="display:none">
-        <div class="alert info show">⚠️ Necesitas iniciar sesión para continuar con la compra</div>
+        <div class="alert info show"><span class="es">⚠️ Necesitas iniciar sesión para continuar con la compra</span><span class="en">⚠️ You need to sign in to continue with your purchase</span></div>
         <div class="btn-row">
-          <a href="https://portal.wifnix.com" class="btn btn-primary" style="text-decoration:none;text-align:center">Iniciar sesión</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary es" style="text-decoration:none;text-align:center">Iniciar sesión</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary en" style="text-decoration:none;text-align:center">Sign in</a>
         </div>
       </div>
-      
+
       <div id="info-form" style="display:none">
         <div class="fields-row">
-          <div class="field"><label>Nombre *</label><input type="text" id="f-nombre" required></div>
-          <div class="field"><label>Apellido *</label><input type="text" id="f-apellido" required></div>
+          <div class="field"><label for="f-nombre"><span class="es">Nombre *</span><span class="en">First name *</span></label><input type="text" id="f-nombre" required></div>
+          <div class="field"><label for="f-apellido"><span class="es">Apellido *</span><span class="en">Last name *</span></label><input type="text" id="f-apellido" required></div>
         </div>
         <div class="fields-row">
-          <div class="field"><label>Email *</label><input type="email" id="f-email" required></div>
-          <div class="field"><label>Teléfono *</label><input type="tel" id="f-telefono" placeholder="(787) 000-0000" required></div>
+          <div class="field"><label for="f-email"><span class="es">Email *</span><span class="en">Email *</span></label><input type="email" id="f-email" required></div>
+          <div class="field"><label for="f-telefono"><span class="es">Teléfono *</span><span class="en">Phone *</span></label><input type="tel" id="f-telefono" placeholder="(787) 000-0000" required></div>
         </div>
-        <div class="field"><label>Empresa (opcional)</label><input type="text" id="f-empresa"></div>
-        
+        <div class="field"><label for="f-empresa"><span class="es">Empresa (opcional)</span><span class="en">Company (optional)</span></label><input type="text" id="f-empresa"></div>
+
         <div class="btn-row">
-          <a href="/tienda.html" class="btn btn-secondary" style="text-decoration:none;text-align:center">← Continuar comprando</a>
-          <button class="btn btn-primary" onclick="irPaso(2)">Continuar →</button>
+          <a href="/tienda.html" class="btn btn-secondary es" style="text-decoration:none;text-align:center">← Continuar comprando</a>
+          <a href="/tienda.html" class="btn btn-secondary en" style="text-decoration:none;text-align:center">← Keep shopping</a>
+          <button class="btn btn-primary" onclick="irPaso(2)"><span class="es">Continuar →</span><span class="en">Continue →</span></button>
         </div>
       </div>
     </div>
-    
+
     <!-- PASO 2: ENTREGA Y PAGO -->
     <div class="step-content" id="step-2">
-      <h2>Método de entrega</h2>
-      <p class="step-desc">Selecciona cómo quieres recibir tu orden</p>
-      
+      <h2><span class="es">Método de entrega</span><span class="en">Delivery method</span></h2>
+      <p class="step-desc"><span class="es">Selecciona cómo quieres recibir tu orden</span><span class="en">Choose how you want to receive your order</span></p>
+
       <div class="option-card" onclick="seleccionarEntrega('recoger', this)">
         <input type="radio" name="entrega" id="ent-recoger" value="recoger">
         <div class="option-info">
-          <div class="option-title">🏪 Recoger en tienda</div>
-          <div class="option-desc">HC 06 Box 70500, Caguas PR 00727 · Lun-Sáb 8AM-6PM</div>
-          <div class="option-price free">GRATIS</div>
+          <div class="option-title es">🏪 Recoger en tienda</div>
+          <div class="option-title en">🏪 Store pickup</div>
+          <div class="option-desc es">HC 06 Box 70500, Caguas PR 00727 · Lun-Sáb 8AM-6PM</div>
+          <div class="option-desc en">HC 06 Box 70500, Caguas PR 00727 · Mon-Sat 8AM-6PM</div>
+          <div class="option-price free es">GRATIS</div>
+          <div class="option-price free en">FREE</div>
         </div>
       </div>
-      
+
       <div class="option-card" onclick="seleccionarEntrega('local', this)">
         <input type="radio" name="entrega" id="ent-local" value="local">
         <div class="option-info">
-          <div class="option-title">🚚 Entrega local (Puerto Rico)</div>
-          <div class="option-desc">Pueblos limítrofes gratis con compras >$150. Resto de PR según distancia.</div>
-          <div class="option-price" id="local-price">Calculando...</div>
+          <div class="option-title es">🚚 Entrega local (Puerto Rico)</div>
+          <div class="option-title en">🚚 Local delivery (Puerto Rico)</div>
+          <div class="option-desc es">Pueblos limítrofes gratis con compras &gt;$150. Resto de PR según distancia.</div>
+          <div class="option-desc en">Free in neighboring towns on orders over $150. Rest of PR priced by distance.</div>
+          <div class="option-price" id="local-price" data-es="Calculando..." data-en="Calculating...">Calculando...</div>
         </div>
       </div>
-      
+
       <div class="option-card" onclick="seleccionarEntrega('correo', this)">
         <input type="radio" name="entrega" id="ent-correo" value="correo">
         <div class="option-info">
-          <div class="option-title">📦 Envío por correo postal (USPS)</div>
-          <div class="option-desc">Calculado por peso. Generalmente $8-$25.</div>
-          <div class="option-price" id="correo-price">Calculando...</div>
+          <div class="option-title es">📦 Envío por correo postal (USPS)</div>
+          <div class="option-title en">📦 Mail shipping (USPS)</div>
+          <div class="option-desc es">Calculado por peso. Generalmente $8-$25.</div>
+          <div class="option-desc en">Calculated by weight. Usually $8-$25.</div>
+          <div class="option-price" id="correo-price" data-es="Calculando..." data-en="Calculating...">Calculando...</div>
         </div>
       </div>
-      
+
       <!-- Dirección de envío (solo si selecciona local o correo) -->
       <div id="direccion-section" style="display:none;margin-top:18px">
-        <h3 style="font-size:1rem;font-weight:800;margin-bottom:14px">Dirección de envío</h3>
-        <div class="field"><label>Dirección *</label><input type="text" id="f-direccion" placeholder="Calle, número, urbanización/sector"></div>
+        <h3 style="font-size:1rem;font-weight:800;margin-bottom:14px"><span class="es">Dirección de envío</span><span class="en">Shipping address</span></h3>
+        <div class="field"><label for="f-direccion"><span class="es">Dirección *</span><span class="en">Address *</span></label><input type="text" id="f-direccion" placeholder="Calle, número, urbanización/sector" data-es="Calle, número, urbanización/sector" data-en="Street, number, urbanización/sector"></div>
         <div class="fields-row">
-          <div class="field"><label>Pueblo *</label>
+          <div class="field"><label for="f-pueblo"><span class="es">Pueblo *</span><span class="en">Town *</span></label>
             <select id="f-pueblo">
-              <option value="">Selecciona pueblo</option>
-              <option value="caguas">Caguas</option>
-              <option value="aguas_buenas">Aguas Buenas</option>
-              <option value="cidra">Cidra</option>
-              <option value="gurabo">Gurabo</option>
-              <option value="san_lorenzo">San Lorenzo</option>
-              <option value="juncos">Juncos</option>
-              <option value="san_juan">San Juan</option>
-              <option value="bayamon">Bayamón</option>
-              <option value="carolina">Carolina</option>
-              <option value="ponce">Ponce</option>
-              <option value="mayaguez">Mayagüez</option>
-              <option value="arecibo">Arecibo</option>
-              <option value="otro">Otro municipio</option>
+              <option value="" class="es">Selecciona pueblo</option>
+              <option value="" class="en">Select a town</option>
+              <option value="caguas" class="es">Caguas</option>
+              <option value="caguas" class="en">Caguas</option>
+              <option value="aguas_buenas" class="es">Aguas Buenas</option>
+              <option value="aguas_buenas" class="en">Aguas Buenas</option>
+              <option value="cidra" class="es">Cidra</option>
+              <option value="cidra" class="en">Cidra</option>
+              <option value="gurabo" class="es">Gurabo</option>
+              <option value="gurabo" class="en">Gurabo</option>
+              <option value="san_lorenzo" class="es">San Lorenzo</option>
+              <option value="san_lorenzo" class="en">San Lorenzo</option>
+              <option value="juncos" class="es">Juncos</option>
+              <option value="juncos" class="en">Juncos</option>
+              <option value="san_juan" class="es">San Juan</option>
+              <option value="san_juan" class="en">San Juan</option>
+              <option value="bayamon" class="es">Bayamón</option>
+              <option value="bayamon" class="en">Bayamón</option>
+              <option value="carolina" class="es">Carolina</option>
+              <option value="carolina" class="en">Carolina</option>
+              <option value="ponce" class="es">Ponce</option>
+              <option value="ponce" class="en">Ponce</option>
+              <option value="mayaguez" class="es">Mayagüez</option>
+              <option value="mayaguez" class="en">Mayagüez</option>
+              <option value="arecibo" class="es">Arecibo</option>
+              <option value="arecibo" class="en">Arecibo</option>
+              <option value="otro" class="es">Otro municipio</option>
+              <option value="otro" class="en">Another municipality</option>
             </select>
           </div>
-          <div class="field"><label>Código postal *</label><input type="text" id="f-zip" placeholder="00727" maxlength="5"></div>
+          <div class="field"><label for="f-zip"><span class="es">Código postal *</span><span class="en">ZIP code *</span></label><input type="text" id="f-zip" placeholder="00727" maxlength="5"></div>
         </div>
-        <div class="field"><label>Instrucciones especiales (opcional)</label><textarea id="f-notas" placeholder="Punto de referencia, horario preferido, etc."></textarea></div>
+        <div class="field"><label for="f-notas"><span class="es">Instrucciones especiales (opcional)</span><span class="en">Special instructions (optional)</span></label><textarea id="f-notas" placeholder="Punto de referencia, horario preferido, etc." data-es="Punto de referencia, horario preferido, etc." data-en="Landmark, preferred time, etc."></textarea></div>
       </div>
-      
+
       <!-- Checkbox instalación -->
       <div class="checkbox-row">
         <input type="checkbox" id="f-instalacion">
-        <label for="f-instalacion">
+        <label for="f-instalacion" class="es">
           <strong>Necesito instalación profesional</strong>
           <small>Te contactaremos para coordinar una visita técnica y cotización personalizada. La instalación se factura aparte después de la inspección.</small>
         </label>
+        <label for="f-instalacion" class="en">
+          <strong>I need professional installation</strong>
+          <small>We will reach out to schedule a site visit and put together a custom quote. Installation is billed separately after the inspection.</small>
+        </label>
       </div>
-      
-      <h2 style="margin-top:30px">Método de pago</h2>
-      <p class="step-desc">Selecciona cómo deseas pagar</p>
-      
+
+      <h2 style="margin-top:30px"><span class="es">Método de pago</span><span class="en">Payment method</span></h2>
+      <p class="step-desc"><span class="es">Selecciona cómo deseas pagar</span><span class="en">Choose how you want to pay</span></p>
+
       <div class="option-card selected" onclick="seleccionarPago('manual', this)">
         <input type="radio" name="pago" id="pay-manual" value="manual" checked>
         <div class="option-info">
-          <div class="option-title">📝 Reservar orden — Pagar después</div>
-          <div class="option-desc">Confirmamos disponibilidad y te enviamos invoice por email con instrucciones de pago (ATH Móvil, transferencia, tarjeta).</div>
+          <div class="option-title es">📝 Reservar orden — Pagar después</div>
+          <div class="option-title en">📝 Reserve the order — Pay later</div>
+          <div class="option-desc es">Confirmamos disponibilidad y te enviamos invoice por email con instrucciones de pago (ATH Móvil, transferencia, tarjeta).</div>
+          <div class="option-desc en">We confirm availability and email you an invoice with payment instructions (ATH Móvil, bank transfer, card).</div>
         </div>
       </div>
-      
+
       <div class="option-card" onclick="seleccionarPago('stripe', this)">
         <input type="radio" name="pago" id="pay-stripe" value="stripe">
         <div class="option-info">
-          <div class="option-title">💳 Tarjeta de crédito / débito</div>
-          <div class="option-desc">Pago inmediato y seguro procesado por Stripe. Visa, Mastercard, Amex, Discover.</div>
-          <div style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--green);font-weight:700">✓ Confirmación instantánea  ✓ Encriptado SSL</div>
+          <div class="option-title es">💳 Tarjeta de crédito / débito</div>
+          <div class="option-title en">💳 Credit / debit card</div>
+          <div class="option-desc es">Pago inmediato y seguro procesado por Stripe. Visa, Mastercard, Amex, Discover.</div>
+          <div class="option-desc en">Immediate, secure payment processed by Stripe. Visa, Mastercard, Amex, Discover.</div>
+          <div class="es" style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--verde);font-weight:700">✓ Confirmación instantánea  ✓ Encriptado SSL</div>
+          <div class="en" style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--verde);font-weight:700">✓ Instant confirmation  ✓ SSL encrypted</div>
         </div>
       </div>
-      
+
       <div class="option-card" style="opacity:0.5">
         <input type="radio" name="pago" id="pay-paypal" value="paypal" disabled>
         <div class="option-info">
-          <div class="option-title">🅿️ PayPal (próximamente)</div>
-          <div class="option-desc">Pago con cuenta PayPal o tarjeta vía PayPal</div>
+          <div class="option-title es">🅿️ PayPal (próximamente)</div>
+          <div class="option-title en">🅿️ PayPal (coming soon)</div>
+          <div class="option-desc es">Pago con cuenta PayPal o tarjeta vía PayPal</div>
+          <div class="option-desc en">Pay with a PayPal account or a card through PayPal</div>
         </div>
       </div>
-      
+
       <div class="option-card" onclick="seleccionarPago('ath', this)">
         <input type="radio" name="pago" id="pay-ath" value="ath">
         <div class="option-info">
-          <div class="option-title">📱 ATH Móvil — Pago instantáneo</div>
-          <div class="option-desc">Paga al instante desde la app de tu banco. Confirmación inmediata. Límite: $1,500.</div>
-          <div style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--green);font-weight:700">✓ Confirmación instantánea  ✓ Sin tarjeta</div>
+          <div class="option-title es">📱 ATH Móvil — Pago instantáneo</div>
+          <div class="option-title en">📱 ATH Móvil — Instant payment</div>
+          <div class="option-desc es">Paga al instante desde la app de tu banco. Confirmación inmediata. Límite: $1,500.</div>
+          <div class="option-desc en">Pay instantly from your bank's app. Immediate confirmation. Limit: $1,500.</div>
+          <div class="es" style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--verde);font-weight:700">✓ Confirmación instantánea  ✓ Sin tarjeta</div>
+          <div class="en" style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--verde);font-weight:700">✓ Instant confirmation  ✓ No card needed</div>
         </div>
       </div>
-      
+
       <div class="alert" id="alert-step2"></div>
-      
+
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="irPaso(1)">← Atrás</button>
-        <button class="btn btn-primary" onclick="confirmarOrden()" id="btn-confirmar">Confirmar orden →</button>
+        <button class="btn btn-secondary" onclick="irPaso(1)"><span class="es">← Atrás</span><span class="en">← Back</span></button>
+        <button class="btn btn-primary" onclick="confirmarOrden()" id="btn-confirmar" data-es="Confirmar orden →" data-en="Confirm order →">Confirmar orden →</button>
       </div>
     </div>
-    
+
     <!-- PASO 3: CONFIRMACIÓN -->
     <div class="step-content" id="step-3">
       <div class="empty">
         <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <h2 style="color:var(--green);margin-bottom:8px">¡Orden confirmada!</h2>
-        <p style="color:var(--gray);margin-bottom:18px">Número de orden: <strong style="color:var(--white)" id="orden-numero">—</strong></p>
-        <p style="color:var(--gray);font-size:0.88rem;line-height:1.65;max-width:520px;margin:0 auto 20px">
-          Hemos recibido tu solicitud. Te enviamos un email de confirmación a <strong style="color:var(--white)" id="orden-email">—</strong>. Nuestro equipo te contactará en menos de 24 horas para coordinar el pago y la entrega.
+        <h2 style="color:var(--verde);margin-bottom:8px"><span class="es">¡Orden confirmada!</span><span class="en">Order confirmed!</span></h2>
+        <p style="color:var(--texto);margin-bottom:18px"><span class="es">Número de orden:</span><span class="en">Order number:</span> <strong style="color:var(--tinta)" id="orden-numero">—</strong></p>
+        <p style="color:var(--texto);font-size:0.88rem;line-height:1.65;max-width:520px;margin:0 auto 20px">
+          <span class="es">Hemos recibido tu solicitud. Te enviamos un email de confirmación a </span>
+          <span class="en">We received your request. We sent a confirmation email to </span>
+          <strong style="color:var(--tinta)" id="orden-email">—</strong>
+          <span class="es">. Nuestro equipo te contactará en menos de 24 horas para coordinar el pago y la entrega.</span>
+          <span class="en">. Our team will contact you within 24 hours to arrange payment and delivery.</span>
         </p>
         <div class="btn-row" style="max-width:400px;margin:0 auto">
-          <a href="/" class="btn btn-secondary" style="text-decoration:none;text-align:center">Inicio</a>
-          <a href="https://portal.wifnix.com" class="btn btn-primary" style="text-decoration:none;text-align:center">Ver mi cuenta</a>
+          <a href="/" class="btn btn-secondary es" style="text-decoration:none;text-align:center">Inicio</a>
+          <a href="/" class="btn btn-secondary en" style="text-decoration:none;text-align:center">Home</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary es" style="text-decoration:none;text-align:center">Ver mi cuenta</a>
+          <a href="https://portal.wifnix.com" class="btn btn-primary en" style="text-decoration:none;text-align:center">View my account</a>
         </div>
       </div>
     </div>
   </main>
-  
+
   <aside class="sidebar">
     <div class="summary">
-      <h3>Resumen de tu orden</h3>
-      <div id="cart-summary"><p style="text-align:center;color:var(--gray);padding:20px 0">Cargando...</p></div>
+      <h3><span class="es">Resumen de tu orden</span><span class="en">Your order summary</span></h3>
+      <div id="cart-summary"><p class="es" style="text-align:center;color:var(--texto);padding:20px 0">Cargando...</p><p class="en" style="text-align:center;color:var(--texto);padding:20px 0">Loading...</p></div>
     </div>
   </aside>
 </div>
 
-<button class="theme-toggle" onclick="toggleTheme()" style="position:fixed;bottom:20px;right:20px;background:var(--card);border:1px solid var(--border);width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:99;color:var(--white)" title="Cambiar tema">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-</button>
-
 <script>
-(function(){try{var s=localStorage.getItem('wifnix_theme')||'dark';document.documentElement.setAttribute('data-theme',s);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
-function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('wifnix_theme',n);}catch(e){}}
-
 var API = 'https://api.wifnix.com';
 var TOKEN = localStorage.getItem('wifnix_token');
 var USER = TOKEN ? JSON.parse(localStorage.getItem('wifnix_user') || 'null') : null;
@@ -333,16 +394,16 @@ function calcularSubtotal() {
 function calcularEntrega() {
   if (!estadoOrden.entrega) return 0;
   if (estadoOrden.entrega === 'recoger') return 0;
-  
+
   var subtotal = calcularSubtotal();
-  
+
   if (estadoOrden.entrega === 'local') {
     var pueblo = document.getElementById('f-pueblo').value;
     if (PUEBLOS_LIMITROFES.indexOf(pueblo) >= 0 && subtotal >= 150) return 0;
     if (PUEBLOS_LIMITROFES.indexOf(pueblo) >= 0) return 15;
     return TARIFAS_LOCAL[pueblo] !== undefined ? TARIFAS_LOCAL[pueblo] : 35;
   }
-  
+
   if (estadoOrden.entrega === 'correo') {
     // TODO: reemplazar con USPS API real
     var peso = carrito.length; // estimado básico
@@ -350,38 +411,40 @@ function calcularEntrega() {
     if (peso <= 5) return 15;
     return 25;
   }
-  
+
   return 0;
 }
 
 function renderSummary() {
   if (!carrito.length) {
-    document.getElementById('cart-summary').innerHTML = '<p style="text-align:center;color:var(--gray);padding:20px 0">Tu carrito está vacío</p><a href="/tienda.html" style="display:block;text-align:center;color:var(--bl);text-decoration:none;font-weight:700">Ir a la tienda</a>';
+    document.getElementById('cart-summary').innerHTML = '<p style="text-align:center;color:var(--texto);padding:20px 0">' + T('Tu carrito está vacío','Your cart is empty') + '</p><a href="/tienda.html" style="display:block;text-align:center;color:var(--azul);text-decoration:none;font-weight:700">' + T('Ir a la tienda','Go to the store') + '</a>';
     return;
   }
-  
+
   var itemsHTML = carrito.map(function(i) {
-    return '<div class="summary-item"><div><div class="item-name">' + i.nombre + '</div><div class="item-qty">Cantidad: ' + i.cantidad + '</div></div><div class="item-total">$' + (i.precio * i.cantidad).toFixed(2) + '</div></div>';
+    return '<div class="summary-item"><div><div class="item-name">' + i.nombre + '</div><div class="item-qty">' + T('Cantidad: ','Qty: ') + i.cantidad + '</div></div><div class="item-total">$' + (i.precio * i.cantidad).toFixed(2) + '</div></div>';
   }).join('');
-  
+
   var subtotal = calcularSubtotal();
   var entrega = calcularEntrega();
   var ivu = subtotal * 0.115;
   var total = subtotal + ivu + entrega;
-  
-  var totalsHTML = 
-    '<div class="totals-row"><span>Subtotal</span><span>$' + subtotal.toFixed(2) + '</span></div>' +
-    '<div class="totals-row"><span>IVU (11.5%)</span><span>$' + ivu.toFixed(2) + '</span></div>' +
-    '<div class="totals-row"><span>Envío</span><span>' + (entrega === 0 ? 'GRATIS' : '$' + entrega.toFixed(2)) + '</span></div>' +
-    '<div class="totals-row total"><span>Total</span><span>$' + total.toFixed(2) + '</span></div>';
-  
+
+  var totalsHTML =
+    '<div class="totals-row"><span>' + T('Subtotal','Subtotal') + '</span><span>$' + subtotal.toFixed(2) + '</span></div>' +
+    '<div class="totals-row"><span>' + T('IVU (11.5%)','IVU — Puerto Rico sales tax (11.5%)') + '</span><span>$' + ivu.toFixed(2) + '</span></div>' +
+    '<div class="totals-row"><span>' + T('Envío','Shipping') + '</span><span>' + (entrega === 0 ? T('GRATIS','FREE') : '$' + entrega.toFixed(2)) + '</span></div>' +
+    '<div class="totals-row total"><span>' + T('Total','Total') + '</span><span>$' + total.toFixed(2) + '</span></div>';
+
   document.getElementById('cart-summary').innerHTML = itemsHTML + totalsHTML;
-  
+
   // Actualizar precios de entrega en las opciones
-  var localPrice = PUEBLOS_LIMITROFES.indexOf(document.getElementById('f-pueblo')?.value || '') >= 0 && subtotal >= 150 ? 'GRATIS' : 'Desde $15';
-  document.getElementById('local-price').textContent = localPrice;
-  document.getElementById('local-price').className = localPrice === 'GRATIS' ? 'option-price free' : 'option-price';
-  document.getElementById('correo-price').textContent = 'Desde $8.50';
+  // (la condición es la misma de siempre; solo se guarda aparte para que el
+  //  color de la etiqueta no dependa de comparar un texto ya traducido)
+  var localGratis = PUEBLOS_LIMITROFES.indexOf(document.getElementById('f-pueblo')?.value || '') >= 0 && subtotal >= 150;
+  document.getElementById('local-price').textContent = localGratis ? T('GRATIS','FREE') : T('Desde $15','From $15');
+  document.getElementById('local-price').className = localGratis ? 'option-price free' : 'option-price';
+  document.getElementById('correo-price').textContent = T('Desde $8.50','From $8.50');
 }
 
 function irPaso(n) {
@@ -400,7 +463,7 @@ function validarPaso1() {
   var apellido = document.getElementById('f-apellido').value.trim();
   var email = document.getElementById('f-email').value.trim();
   var tel = document.getElementById('f-telefono').value.trim();
-  if (!nombre || !apellido || !email || !tel) { alert('Completa todos los campos requeridos'); return false; }
+  if (!nombre || !apellido || !email || !tel) { alert(T('Completa todos los campos requeridos','Please fill in every required field')); return false; }
   return true;
 }
 
@@ -412,38 +475,38 @@ function seleccionarEntrega(tipo, card) {
   card.classList.add('selected');
   card.querySelector('input').checked = true;
   document.getElementById('direccion-section').style.display = tipo === 'recoger' ? 'none' : 'block';
-  
+
 function procesarPagoATH(subtotal, ivu, entrega, total) {
   // Mostrar modal pidiendo teléfono ATH
   var phone = document.getElementById('f-telefono').value.trim().replace(/[^0-9]/g, '');
   if (phone.length < 10) phone = '';
-  
+
   var modal = document.createElement('div');
   modal.id = 'modal-ath';
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-  modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:440px;text-align:center">' +
+  modal.innerHTML = '<div style="background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;width:100%;max-width:440px;text-align:center">' +
     '<div style="width:56px;height:56px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem">📱</div>' +
-    '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;color:var(--white)">Pagar con ATH Móvil</h2>' +
-    '<p style="font-size:0.85rem;color:var(--gray);margin-bottom:20px;line-height:1.5">Confirma tu número registrado en ATH Móvil. Recibirás una notificación push para autorizar el pago de <strong style="color:var(--green)">$' + total.toFixed(2) + '</strong>.</p>' +
-    '<div style="margin-bottom:18px"><label style="display:block;font-size:0.72rem;font-weight:700;color:var(--gray);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase">Teléfono ATH Móvil</label>' +
-    '<input type="tel" id="ath-phone" value="' + phone + '" placeholder="7873549596" maxlength="10" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--white);padding:13px;border-radius:8px;font-size:1.1rem;font-family:inherit;text-align:center;letter-spacing:0.05em"></div>' +
-    '<div id="ath-status" style="font-size:0.82rem;color:var(--gray);margin-bottom:18px;min-height:20px"></div>' +
+    '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;color:var(--tinta)">' + T('Pagar con ATH Móvil','Pay with ATH Móvil') + '</h2>' +
+    '<p style="font-size:0.85rem;color:var(--texto);margin-bottom:20px;line-height:1.5">' + T('Confirma tu número registrado en ATH Móvil. Recibirás una notificación push para autorizar el pago de <strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong>.', 'Confirm the phone number registered with ATH Móvil. You will get a push notification to authorize the <strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong> payment.') + '</p>' +
+    '<div style="margin-bottom:18px"><label style="display:block;font-size:0.72rem;font-weight:700;color:var(--texto);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase">' + T('Teléfono ATH Móvil','ATH Móvil phone number') + '</label>' +
+    '<input type="tel" id="ath-phone" value="' + phone + '" placeholder="7873549596" maxlength="10" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);color:var(--tinta);padding:13px;border-radius:8px;font-size:1.1rem;font-family:inherit;text-align:center;letter-spacing:0.05em"></div>' +
+    '<div id="ath-status" style="font-size:0.82rem;color:var(--texto);margin-bottom:18px;min-height:20px"></div>' +
     '<div style="display:flex;gap:10px">' +
-      '<button id="ath-cancel" style="flex:1;padding:13px;background:transparent;color:var(--white);border:1px solid var(--border);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
-      '<button id="ath-pay" style="flex:1;padding:13px;background:var(--blue);color:white;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">Continuar</button>' +
+      '<button id="ath-cancel" style="flex:1;padding:13px;background:transparent;color:var(--tinta);border:1px solid var(--filo2);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">' + T('Cancelar','Cancel') + '</button>' +
+      '<button id="ath-pay" style="flex:1;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">' + T('Continuar','Continue') + '</button>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);
-  
+
   document.getElementById('ath-cancel').onclick = function() { modal.remove(); };
   document.getElementById('ath-pay').onclick = async function() {
     var tel = document.getElementById('ath-phone').value.replace(/[^0-9]/g, '');
-    if (tel.length !== 10) { document.getElementById('ath-status').textContent = '⚠️ Teléfono inválido (10 dígitos)'; return; }
-    
+    if (tel.length !== 10) { document.getElementById('ath-status').textContent = T('⚠️ Teléfono inválido (10 dígitos)','⚠️ Invalid phone number (10 digits)'); return; }
+
     document.getElementById('ath-pay').disabled = true;
-    document.getElementById('ath-pay').textContent = 'Creando...';
-    document.getElementById('ath-status').textContent = 'Conectando con ATH Móvil...';
-    
+    document.getElementById('ath-pay').textContent = T('Creando...','Creating...');
+    document.getElementById('ath-status').textContent = T('Conectando con ATH Móvil...','Connecting to ATH Móvil...');
+
     try {
       // Paso 1: crear pago
       var r1 = await fetch(API + '/api/ath/payment', {
@@ -457,20 +520,20 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
         })
       });
       var d1 = await r1.json();
-      
+
       if (d1.status !== 'success') {
-        document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">' + (d1.message || 'Error') + '</span>';
+        document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + (d1.message || T('Error','Error')) + '</span>';
         document.getElementById('ath-pay').disabled = false;
-        document.getElementById('ath-pay').textContent = 'Reintentar';
+        document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
         return;
       }
-      
+
       var ecommerceId = d1.data.ecommerceId;
       var authToken = d1.data.auth_token;
-      
-      document.getElementById('ath-pay').textContent = '⏳ Esperando confirmación...';
-      document.getElementById('ath-status').innerHTML = '📱 <strong>Abre tu app ATH Móvil</strong> y confirma el pago.<br><small>Tienes 10 minutos.</small>';
-      
+
+      document.getElementById('ath-pay').textContent = T('⏳ Esperando confirmación...','⏳ Waiting for confirmation...');
+      document.getElementById('ath-status').innerHTML = T('📱 <strong>Abre tu app ATH Móvil</strong> y confirma el pago.<br><small>Tienes 10 minutos.</small>','📱 <strong>Open your ATH Móvil app</strong> and confirm the payment.<br><small>You have 10 minutes.</small>');
+
       // Paso 2: polling cada 3 segundos
       var intentos = 0;
       var maxIntentos = 200; // 10 min
@@ -478,12 +541,12 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
         intentos++;
         if (intentos > maxIntentos) {
           clearInterval(poll);
-          document.getElementById('ath-status').innerHTML = '<span style="color:#FFC107">⏰ Tiempo agotado</span>';
+          document.getElementById('ath-status').innerHTML = '<span style="color:var(--ambar)">' + T('⏰ Tiempo agotado','⏰ Time expired') + '</span>';
           document.getElementById('ath-pay').disabled = false;
-          document.getElementById('ath-pay').textContent = 'Reintentar';
+          document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
           return;
         }
-        
+
         try {
           var r2 = await fetch(API + '/api/ath/find-payment', {
             method: 'POST',
@@ -491,11 +554,11 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
             body: JSON.stringify({ ecommerceId: ecommerceId })
           });
           var d2 = await r2.json();
-          
+
           if (d2.data && d2.data.ecommerceStatus === 'CONFIRM') {
             clearInterval(poll);
-            document.getElementById('ath-status').innerHTML = '✓ Autorizando...';
-            
+            document.getElementById('ath-status').innerHTML = T('✓ Autorizando...','✓ Authorizing...');
+
             // Paso 3: authorize
             var r3 = await fetch(API + '/api/ath/authorization', {
               method: 'POST',
@@ -503,28 +566,28 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
               body: JSON.stringify({ authToken: authToken })
             });
             var d3 = await r3.json();
-            
+
             if (d3.data && d3.data.ecommerceStatus === 'COMPLETED') {
-              document.getElementById('ath-status').innerHTML = '<span style="color:#00E5A0">✓ Pago confirmado</span>';
+              document.getElementById('ath-status').innerHTML = '<span style="color:var(--verde)">' + T('✓ Pago confirmado','✓ Payment confirmed') + '</span>';
               setTimeout(function() {
                 modal.remove();
                 crearOrdenPagada({ referenceNumber: d3.data.referenceNumber, ecommerceId: ecommerceId }, subtotal, ivu, entrega, total);
               }, 800);
             } else {
-              document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">Error al autorizar</span>';
+              document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + T('Error al autorizar','Authorization failed') + '</span>';
             }
           } else if (d2.data && d2.data.ecommerceStatus === 'CANCEL') {
             clearInterval(poll);
-            document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">Pago cancelado</span>';
+            document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + T('Pago cancelado','Payment canceled') + '</span>';
             document.getElementById('ath-pay').disabled = false;
-            document.getElementById('ath-pay').textContent = 'Reintentar';
+            document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
           }
         } catch(e) { console.error('Polling error:', e); }
       }, 3000);
     } catch(e) {
-      document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">' + e.message + '</span>';
+      document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + e.message + '</span>';
       document.getElementById('ath-pay').disabled = false;
-      document.getElementById('ath-pay').textContent = 'Reintentar';
+      document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
     }
   };
 }
@@ -539,24 +602,24 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
   var modal = document.createElement('div');
   modal.id = 'modal-stripe';
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-  modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:440px">' +
+  modal.innerHTML = '<div style="background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;width:100%;max-width:440px">' +
     '<div style="text-align:center;margin-bottom:20px">' +
       '<div style="width:56px;height:56px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.8rem">💳</div>' +
-      '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:6px;color:var(--white)">Pago con tarjeta</h2>' +
-      '<p style="font-size:0.85rem;color:var(--gray)">Total a pagar: <strong style="color:var(--green)">$' + total.toFixed(2) + '</strong></p>' +
+      '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:6px;color:var(--tinta)">' + T('Pago con tarjeta','Card payment') + '</h2>' +
+      '<p style="font-size:0.85rem;color:var(--texto)">' + T('Total a pagar: ','Amount due: ') + '<strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong></p>' +
     '</div>' +
-    '<div id="stripe-card-element" style="background:white;padding:14px;border-radius:8px;margin-bottom:14px"></div>' +
-    '<div id="stripe-error" style="font-size:0.8rem;color:var(--red);margin-bottom:14px;min-height:18px"></div>' +
+    '<div id="stripe-card-element" style="background:#fff;padding:14px;border-radius:8px;margin-bottom:14px"></div>' +
+    '<div id="stripe-error" style="font-size:0.8rem;color:var(--rojo);margin-bottom:14px;min-height:18px"></div>' +
     '<div style="display:flex;gap:10px">' +
-      '<button id="stripe-cancel" style="flex:1;padding:13px;background:transparent;color:var(--white);border:1px solid var(--border);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
-      '<button id="stripe-pay" style="flex:2;padding:13px;background:var(--blue);color:white;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">Pagar $' + total.toFixed(2) + '</button>' +
+      '<button id="stripe-cancel" style="flex:1;padding:13px;background:transparent;color:var(--tinta);border:1px solid var(--filo2);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">' + T('Cancelar','Cancel') + '</button>' +
+      '<button id="stripe-pay" style="flex:2;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">' + T('Pagar $','Pay $') + total.toFixed(2) + '</button>' +
     '</div>' +
-    '<div style="text-align:center;margin-top:14px;font-size:0.7rem;color:var(--gray)">🔒 Pago seguro encriptado por Stripe</div>' +
+    '<div style="text-align:center;margin-top:14px;font-size:0.7rem;color:var(--texto)">' + T('🔒 Pago seguro encriptado por Stripe','🔒 Secure payment encrypted by Stripe') + '</div>' +
   '</div>';
   document.body.appendChild(modal);
-  
+
   document.getElementById('stripe-cancel').onclick = function() { modal.remove(); };
-  
+
   try {
     // 1. Crear payment intent en backend
     var r = await fetch(API + '/api/stripe/crear-intento', {
@@ -565,14 +628,14 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
       body: JSON.stringify({ total: total })
     });
     var d = await r.json();
-    
+
     if (!d.ok) {
-      document.getElementById('stripe-error').textContent = d.error || 'Error al iniciar pago';
+      document.getElementById('stripe-error').textContent = d.error || T('Error al iniciar pago','Could not start the payment');
       return;
     }
-    
+
     var clientSecret = d.clientSecret;
-    
+
     // 2. Inicializar Stripe Elements
     if (!stripeInstance) stripeInstance = Stripe(d.publishableKey);
     stripeElements = stripeInstance.elements();
@@ -580,13 +643,13 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
       style: { base: { fontSize: '16px', color: '#0F172A', '::placeholder': { color: '#94A3B8' } } }
     });
     stripeCardElement.mount('#stripe-card-element');
-    
+
     // 3. Manejar el pago
     document.getElementById('stripe-pay').onclick = async function() {
       var payBtn = document.getElementById('stripe-pay');
-      payBtn.disabled = true; payBtn.textContent = 'Procesando...';
+      payBtn.disabled = true; payBtn.textContent = T('Procesando...','Processing...');
       document.getElementById('stripe-error').textContent = '';
-      
+
       var result = await stripeInstance.confirmCardPayment(clientSecret, {
         payment_method: {
           card: stripeCardElement,
@@ -596,12 +659,12 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
           }
         }
       });
-      
+
       if (result.error) {
         document.getElementById('stripe-error').textContent = result.error.message;
-        payBtn.disabled = false; payBtn.textContent = 'Pagar $' + total.toFixed(2);
+        payBtn.disabled = false; payBtn.textContent = T('Pagar $','Pay $') + total.toFixed(2);
       } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-        payBtn.textContent = '✓ Pago exitoso';
+        payBtn.textContent = T('✓ Pago exitoso','✓ Payment successful');
         setTimeout(function() {
           modal.remove();
           crearOrdenPagada({ referenceNumber: result.paymentIntent.id, stripe: true }, subtotal, ivu, entrega, total);
@@ -644,10 +707,10 @@ async function crearOrdenPagada(athResponse, subtotal, ivu, entrega, total) {
       localStorage.removeItem('wifnix_carrito');
       irPaso(3);
     } else {
-      alert('Pago recibido pero hubo error guardando la orden. Contacta a customerservice@wifnix.com con referencia: ' + (athResponse.referenceNumber || 'N/A'));
+      alert(T('Pago recibido pero hubo error guardando la orden. Contacta a customerservice@wifnix.com con referencia: ','Payment received, but there was an error saving the order. Please contact customerservice@wifnix.com with reference: ') + (athResponse.referenceNumber || 'N/A'));
     }
   } catch(e) {
-    alert('Pago recibido pero error de conexión. Contacta a customerservice@wifnix.com con referencia: ' + (athResponse.referenceNumber || 'N/A'));
+    alert(T('Pago recibido pero error de conexión. Contacta a customerservice@wifnix.com con referencia: ','Payment received, but there was a connection error. Please contact customerservice@wifnix.com with reference: ') + (athResponse.referenceNumber || 'N/A'));
   }
 }
 
@@ -668,60 +731,60 @@ document.getElementById('f-pueblo')?.addEventListener('change', renderSummary);
 async function confirmarOrden() {
   var alert = document.getElementById('alert-step2');
   alert.classList.remove('show', 'error', 'success');
-  
+
   if (!estadoOrden.entrega) {
-    alert.textContent = 'Selecciona un método de entrega';
+    alert.textContent = T('Selecciona un método de entrega','Choose a delivery method');
     alert.classList.add('show', 'error');
     return;
   }
-  
+
   // Validar límite ATH Móvil
   var subtotal = calcularSubtotal();
   var entrega = calcularEntrega();
   var ivu = subtotal * 0.115;
   var total = subtotal + ivu + entrega;
-  
+
   if (estadoOrden.pago === 'ath' && total > 3500) {
-    alert.textContent = 'ATH Móvil tiene un límite de $3,500. Tu total es $' + total.toFixed(2) + '. Selecciona otro método de pago.';
+    alert.textContent = T('ATH Móvil tiene un límite de $3,500. Tu total es $' + total.toFixed(2) + '. Selecciona otro método de pago.','ATH Móvil has a $3,500 limit. Your total is $' + total.toFixed(2) + '. Please choose another payment method.');
     alert.classList.add('show', 'error');
     return;
   }
-  
+
   if (estadoOrden.entrega !== 'recoger') {
     var dir = document.getElementById('f-direccion').value.trim();
     var pueblo = document.getElementById('f-pueblo').value;
     var zip = document.getElementById('f-zip').value.trim();
     if (!dir || !pueblo || !zip) {
-      alert.textContent = 'Completa la dirección de envío';
+      alert.textContent = T('Completa la dirección de envío','Complete the shipping address');
       alert.classList.add('show', 'error');
       return;
     }
     estadoOrden.direccion = { direccion: dir, pueblo: pueblo, zip: zip, notas: document.getElementById('f-notas').value.trim() };
   }
-  
+
   estadoOrden.instalacion = document.getElementById('f-instalacion').checked;
-  
+
   var btn = document.getElementById('btn-confirmar');
-  btn.disabled = true; btn.textContent = 'Procesando...';
-  
+  btn.disabled = true; btn.textContent = T('Procesando...','Processing...');
+
   var subtotal = calcularSubtotal();
   var entrega = calcularEntrega();
   var ivu = subtotal * 0.115;
   var total = subtotal + ivu + entrega;
-  
+
   // Si es ATH Móvil, abrir modal de pago ANTES de crear orden
   if (estadoOrden.pago === 'ath') {
-    btn.disabled = false; btn.textContent = 'Confirmar orden →';
+    btn.disabled = false; btn.textContent = T('Confirmar orden →','Confirm order →');
     procesarPagoATH(subtotal, ivu, entrega, total);
     return;
   }
-  
+
   if (estadoOrden.pago === 'stripe') {
-    btn.disabled = false; btn.textContent = 'Confirmar orden →';
+    btn.disabled = false; btn.textContent = T('Confirmar orden →','Confirm order →');
     procesarPagoStripe(subtotal, ivu, entrega, total);
     return;
   }
-  
+
   try {
     var r = await fetch(API + '/api/ordenes/crear', {
       method: 'POST',
@@ -744,9 +807,9 @@ async function confirmarOrden() {
         pago_tipo: estadoOrden.pago
       })
     });
-    
+
     var data = await r.json();
-    
+
     if (data.ok) {
       document.getElementById('orden-numero').textContent = '#' + data.numero;
       document.getElementById('orden-email').textContent = document.getElementById('f-email').value.trim();
@@ -754,14 +817,14 @@ async function confirmarOrden() {
       localStorage.removeItem('wifnix_carrito');
       irPaso(3);
     } else {
-      alert.textContent = data.error || 'Error procesando orden';
+      alert.textContent = data.error || T('Error procesando orden','Error processing the order');
       alert.classList.add('show', 'error');
-      btn.disabled = false; btn.textContent = 'Confirmar orden →';
+      btn.disabled = false; btn.textContent = T('Confirmar orden →','Confirm order →');
     }
   } catch(e) {
-    alert.textContent = 'Error de conexión: ' + e.message;
+    alert.textContent = T('Error de conexión: ','Connection error: ') + e.message;
     alert.classList.add('show', 'error');
-    btn.disabled = false; btn.textContent = 'Confirmar orden →';
+    btn.disabled = false; btn.textContent = T('Confirmar orden →','Confirm order →');
   }
 }
 
@@ -770,33 +833,33 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
   // Mostrar modal pidiendo teléfono ATH
   var phone = document.getElementById('f-telefono').value.trim().replace(/[^0-9]/g, '');
   if (phone.length < 10) phone = '';
-  
+
   var modal = document.createElement('div');
   modal.id = 'modal-ath';
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-  modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:440px;text-align:center">' +
+  modal.innerHTML = '<div style="background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;width:100%;max-width:440px;text-align:center">' +
     '<div style="width:56px;height:56px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem">📱</div>' +
-    '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;color:var(--white)">Pagar con ATH Móvil</h2>' +
-    '<p style="font-size:0.85rem;color:var(--gray);margin-bottom:20px;line-height:1.5">Confirma tu número registrado en ATH Móvil. Recibirás una notificación push para autorizar el pago de <strong style="color:var(--green)">$' + total.toFixed(2) + '</strong>.</p>' +
-    '<div style="margin-bottom:18px"><label style="display:block;font-size:0.72rem;font-weight:700;color:var(--gray);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase">Teléfono ATH Móvil</label>' +
-    '<input type="tel" id="ath-phone" value="' + phone + '" placeholder="7873549596" maxlength="10" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--white);padding:13px;border-radius:8px;font-size:1.1rem;font-family:inherit;text-align:center;letter-spacing:0.05em"></div>' +
-    '<div id="ath-status" style="font-size:0.82rem;color:var(--gray);margin-bottom:18px;min-height:20px"></div>' +
+    '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:8px;color:var(--tinta)">' + T('Pagar con ATH Móvil','Pay with ATH Móvil') + '</h2>' +
+    '<p style="font-size:0.85rem;color:var(--texto);margin-bottom:20px;line-height:1.5">' + T('Confirma tu número registrado en ATH Móvil. Recibirás una notificación push para autorizar el pago de <strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong>.', 'Confirm the phone number registered with ATH Móvil. You will get a push notification to authorize the <strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong> payment.') + '</p>' +
+    '<div style="margin-bottom:18px"><label style="display:block;font-size:0.72rem;font-weight:700;color:var(--texto);margin-bottom:6px;letter-spacing:0.04em;text-transform:uppercase">' + T('Teléfono ATH Móvil','ATH Móvil phone number') + '</label>' +
+    '<input type="tel" id="ath-phone" value="' + phone + '" placeholder="7873549596" maxlength="10" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);color:var(--tinta);padding:13px;border-radius:8px;font-size:1.1rem;font-family:inherit;text-align:center;letter-spacing:0.05em"></div>' +
+    '<div id="ath-status" style="font-size:0.82rem;color:var(--texto);margin-bottom:18px;min-height:20px"></div>' +
     '<div style="display:flex;gap:10px">' +
-      '<button id="ath-cancel" style="flex:1;padding:13px;background:transparent;color:var(--white);border:1px solid var(--border);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
-      '<button id="ath-pay" style="flex:1;padding:13px;background:var(--blue);color:white;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">Continuar</button>' +
+      '<button id="ath-cancel" style="flex:1;padding:13px;background:transparent;color:var(--tinta);border:1px solid var(--filo2);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">' + T('Cancelar','Cancel') + '</button>' +
+      '<button id="ath-pay" style="flex:1;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">' + T('Continuar','Continue') + '</button>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);
-  
+
   document.getElementById('ath-cancel').onclick = function() { modal.remove(); };
   document.getElementById('ath-pay').onclick = async function() {
     var tel = document.getElementById('ath-phone').value.replace(/[^0-9]/g, '');
-    if (tel.length !== 10) { document.getElementById('ath-status').textContent = '⚠️ Teléfono inválido (10 dígitos)'; return; }
-    
+    if (tel.length !== 10) { document.getElementById('ath-status').textContent = T('⚠️ Teléfono inválido (10 dígitos)','⚠️ Invalid phone number (10 digits)'); return; }
+
     document.getElementById('ath-pay').disabled = true;
-    document.getElementById('ath-pay').textContent = 'Creando...';
-    document.getElementById('ath-status').textContent = 'Conectando con ATH Móvil...';
-    
+    document.getElementById('ath-pay').textContent = T('Creando...','Creating...');
+    document.getElementById('ath-status').textContent = T('Conectando con ATH Móvil...','Connecting to ATH Móvil...');
+
     try {
       // Paso 1: crear pago
       var r1 = await fetch(API + '/api/ath/payment', {
@@ -810,20 +873,20 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
         })
       });
       var d1 = await r1.json();
-      
+
       if (d1.status !== 'success') {
-        document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">' + (d1.message || 'Error') + '</span>';
+        document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + (d1.message || T('Error','Error')) + '</span>';
         document.getElementById('ath-pay').disabled = false;
-        document.getElementById('ath-pay').textContent = 'Reintentar';
+        document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
         return;
       }
-      
+
       var ecommerceId = d1.data.ecommerceId;
       var authToken = d1.data.auth_token;
-      
-      document.getElementById('ath-pay').textContent = '⏳ Esperando confirmación...';
-      document.getElementById('ath-status').innerHTML = '📱 <strong>Abre tu app ATH Móvil</strong> y confirma el pago.<br><small>Tienes 10 minutos.</small>';
-      
+
+      document.getElementById('ath-pay').textContent = T('⏳ Esperando confirmación...','⏳ Waiting for confirmation...');
+      document.getElementById('ath-status').innerHTML = T('📱 <strong>Abre tu app ATH Móvil</strong> y confirma el pago.<br><small>Tienes 10 minutos.</small>','📱 <strong>Open your ATH Móvil app</strong> and confirm the payment.<br><small>You have 10 minutes.</small>');
+
       // Paso 2: polling cada 3 segundos
       var intentos = 0;
       var maxIntentos = 200; // 10 min
@@ -831,12 +894,12 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
         intentos++;
         if (intentos > maxIntentos) {
           clearInterval(poll);
-          document.getElementById('ath-status').innerHTML = '<span style="color:#FFC107">⏰ Tiempo agotado</span>';
+          document.getElementById('ath-status').innerHTML = '<span style="color:var(--ambar)">' + T('⏰ Tiempo agotado','⏰ Time expired') + '</span>';
           document.getElementById('ath-pay').disabled = false;
-          document.getElementById('ath-pay').textContent = 'Reintentar';
+          document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
           return;
         }
-        
+
         try {
           var r2 = await fetch(API + '/api/ath/find-payment', {
             method: 'POST',
@@ -844,11 +907,11 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
             body: JSON.stringify({ ecommerceId: ecommerceId })
           });
           var d2 = await r2.json();
-          
+
           if (d2.data && d2.data.ecommerceStatus === 'CONFIRM') {
             clearInterval(poll);
-            document.getElementById('ath-status').innerHTML = '✓ Autorizando...';
-            
+            document.getElementById('ath-status').innerHTML = T('✓ Autorizando...','✓ Authorizing...');
+
             // Paso 3: authorize
             var r3 = await fetch(API + '/api/ath/authorization', {
               method: 'POST',
@@ -856,28 +919,28 @@ function procesarPagoATH(subtotal, ivu, entrega, total) {
               body: JSON.stringify({ authToken: authToken })
             });
             var d3 = await r3.json();
-            
+
             if (d3.data && d3.data.ecommerceStatus === 'COMPLETED') {
-              document.getElementById('ath-status').innerHTML = '<span style="color:#00E5A0">✓ Pago confirmado</span>';
+              document.getElementById('ath-status').innerHTML = '<span style="color:var(--verde)">' + T('✓ Pago confirmado','✓ Payment confirmed') + '</span>';
               setTimeout(function() {
                 modal.remove();
                 crearOrdenPagada({ referenceNumber: d3.data.referenceNumber, ecommerceId: ecommerceId }, subtotal, ivu, entrega, total);
               }, 800);
             } else {
-              document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">Error al autorizar</span>';
+              document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + T('Error al autorizar','Authorization failed') + '</span>';
             }
           } else if (d2.data && d2.data.ecommerceStatus === 'CANCEL') {
             clearInterval(poll);
-            document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">Pago cancelado</span>';
+            document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + T('Pago cancelado','Payment canceled') + '</span>';
             document.getElementById('ath-pay').disabled = false;
-            document.getElementById('ath-pay').textContent = 'Reintentar';
+            document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
           }
         } catch(e) { console.error('Polling error:', e); }
       }, 3000);
     } catch(e) {
-      document.getElementById('ath-status').innerHTML = '<span style="color:#FF5555">' + e.message + '</span>';
+      document.getElementById('ath-status').innerHTML = '<span style="color:var(--rojo)">' + e.message + '</span>';
       document.getElementById('ath-pay').disabled = false;
-      document.getElementById('ath-pay').textContent = 'Reintentar';
+      document.getElementById('ath-pay').textContent = T('Reintentar','Try again');
     }
   };
 }
@@ -892,24 +955,24 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
   var modal = document.createElement('div');
   modal.id = 'modal-stripe';
   modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
-  modal.innerHTML = '<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;width:100%;max-width:440px">' +
+  modal.innerHTML = '<div style="background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:28px;width:100%;max-width:440px">' +
     '<div style="text-align:center;margin-bottom:20px">' +
       '<div style="width:56px;height:56px;background:rgba(11,143,204,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.8rem">💳</div>' +
-      '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:6px;color:var(--white)">Pago con tarjeta</h2>' +
-      '<p style="font-size:0.85rem;color:var(--gray)">Total a pagar: <strong style="color:var(--green)">$' + total.toFixed(2) + '</strong></p>' +
+      '<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:6px;color:var(--tinta)">' + T('Pago con tarjeta','Card payment') + '</h2>' +
+      '<p style="font-size:0.85rem;color:var(--texto)">' + T('Total a pagar: ','Amount due: ') + '<strong style="color:var(--verde)">$' + total.toFixed(2) + '</strong></p>' +
     '</div>' +
-    '<div id="stripe-card-element" style="background:white;padding:14px;border-radius:8px;margin-bottom:14px"></div>' +
-    '<div id="stripe-error" style="font-size:0.8rem;color:var(--red);margin-bottom:14px;min-height:18px"></div>' +
+    '<div id="stripe-card-element" style="background:#fff;padding:14px;border-radius:8px;margin-bottom:14px"></div>' +
+    '<div id="stripe-error" style="font-size:0.8rem;color:var(--rojo);margin-bottom:14px;min-height:18px"></div>' +
     '<div style="display:flex;gap:10px">' +
-      '<button id="stripe-cancel" style="flex:1;padding:13px;background:transparent;color:var(--white);border:1px solid var(--border);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">Cancelar</button>' +
-      '<button id="stripe-pay" style="flex:2;padding:13px;background:var(--blue);color:white;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">Pagar $' + total.toFixed(2) + '</button>' +
+      '<button id="stripe-cancel" style="flex:1;padding:13px;background:transparent;color:var(--tinta);border:1px solid var(--filo2);border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit">' + T('Cancelar','Cancel') + '</button>' +
+      '<button id="stripe-pay" style="flex:2;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:0.03em">' + T('Pagar $','Pay $') + total.toFixed(2) + '</button>' +
     '</div>' +
-    '<div style="text-align:center;margin-top:14px;font-size:0.7rem;color:var(--gray)">🔒 Pago seguro encriptado por Stripe</div>' +
+    '<div style="text-align:center;margin-top:14px;font-size:0.7rem;color:var(--texto)">' + T('🔒 Pago seguro encriptado por Stripe','🔒 Secure payment encrypted by Stripe') + '</div>' +
   '</div>';
   document.body.appendChild(modal);
-  
+
   document.getElementById('stripe-cancel').onclick = function() { modal.remove(); };
-  
+
   try {
     // 1. Crear payment intent en backend
     var r = await fetch(API + '/api/stripe/crear-intento', {
@@ -918,14 +981,14 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
       body: JSON.stringify({ total: total })
     });
     var d = await r.json();
-    
+
     if (!d.ok) {
-      document.getElementById('stripe-error').textContent = d.error || 'Error al iniciar pago';
+      document.getElementById('stripe-error').textContent = d.error || T('Error al iniciar pago','Could not start the payment');
       return;
     }
-    
+
     var clientSecret = d.clientSecret;
-    
+
     // 2. Inicializar Stripe Elements
     if (!stripeInstance) stripeInstance = Stripe(d.publishableKey);
     stripeElements = stripeInstance.elements();
@@ -933,13 +996,13 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
       style: { base: { fontSize: '16px', color: '#0F172A', '::placeholder': { color: '#94A3B8' } } }
     });
     stripeCardElement.mount('#stripe-card-element');
-    
+
     // 3. Manejar el pago
     document.getElementById('stripe-pay').onclick = async function() {
       var payBtn = document.getElementById('stripe-pay');
-      payBtn.disabled = true; payBtn.textContent = 'Procesando...';
+      payBtn.disabled = true; payBtn.textContent = T('Procesando...','Processing...');
       document.getElementById('stripe-error').textContent = '';
-      
+
       var result = await stripeInstance.confirmCardPayment(clientSecret, {
         payment_method: {
           card: stripeCardElement,
@@ -949,12 +1012,12 @@ async function procesarPagoStripe(subtotal, ivu, entrega, total) {
           }
         }
       });
-      
+
       if (result.error) {
         document.getElementById('stripe-error').textContent = result.error.message;
-        payBtn.disabled = false; payBtn.textContent = 'Pagar $' + total.toFixed(2);
+        payBtn.disabled = false; payBtn.textContent = T('Pagar $','Pay $') + total.toFixed(2);
       } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-        payBtn.textContent = '✓ Pago exitoso';
+        payBtn.textContent = T('✓ Pago exitoso','✓ Payment successful');
         setTimeout(function() {
           modal.remove();
           crearOrdenPagada({ referenceNumber: result.paymentIntent.id, stripe: true }, subtotal, ivu, entrega, total);
@@ -997,14 +1060,37 @@ async function crearOrdenPagada(athResponse, subtotal, ivu, entrega, total) {
       localStorage.removeItem('wifnix_carrito');
       irPaso(3);
     } else {
-      alert('Pago recibido pero hubo error guardando la orden. Contacta a customerservice@wifnix.com con referencia: ' + (athResponse.referenceNumber || 'N/A'));
+      alert(T('Pago recibido pero hubo error guardando la orden. Contacta a customerservice@wifnix.com con referencia: ','Payment received, but there was an error saving the order. Please contact customerservice@wifnix.com with reference: ') + (athResponse.referenceNumber || 'N/A'));
     }
   } catch(e) {
-    alert('Pago recibido pero error de conexión. Contacta a customerservice@wifnix.com con referencia: ' + (athResponse.referenceNumber || 'N/A'));
+    alert(T('Pago recibido pero error de conexión. Contacta a customerservice@wifnix.com con referencia: ','Payment received, but there was a connection error. Please contact customerservice@wifnix.com with reference: ') + (athResponse.referenceNumber || 'N/A'));
   }
 }
 
 renderSummary();
+
+// Un <select> cerrado sigue ensenando el texto de la opcion seleccionada
+// aunque el CSS la esconda. Al cambiar de idioma hay que mover la
+// seleccion a su gemela, que es la opcion de al lado. Las gemelas
+// comparten el mismo value, asi que el calculo no se entera.
+function sincronizarSelects() {
+  var lang = wxIdioma(), otro = lang === 'en' ? 'es' : 'en';
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], o = sel.options[sel.selectedIndex];
+    if (!o || !o.classList.contains(otro)) continue;
+    var gemela = lang === 'en' ? sel.options[sel.selectedIndex + 1] : sel.options[sel.selectedIndex - 1];
+    if (gemela && gemela.classList.contains(lang)) sel.selectedIndex = gemela.index;
+  }
+}
+sincronizarSelects();
+
+// El resumen y los precios de entrega los escribe el JavaScript, asi que
+// al cambiar de idioma hay que volver a pintarlos. Solo redibuja: no
+// recalcula nada distinto.
+new MutationObserver(function(){ sincronizarSelects(); renderSummary(); })
+  .observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
 </script>
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>

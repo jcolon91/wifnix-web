@@ -3,127 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora BTU — Wifnix</title>
+<title data-es="Calculadora BTU — Wifnix" data-en="BTU Calculator — Wifnix">Calculadora BTU — Wifnix</title>
+<meta name="theme-color" content="#070C16">
+
+<script>/* Antes de pintar: sin esto se ve el parpadeo de blanco y los dos idiomas juntos. */
+(function(){try{var d=document.documentElement,g=localStorage,t=g.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);
+var i=g.getItem('wx-idioma')||'es';
+d.setAttribute('data-idioma',i==='en'?'en':'es');d.lang=i==='en'?'en':'es';
+}catch(e){document.documentElement.setAttribute('data-idioma','es')}})();</script>
+
+<link rel="stylesheet" href="/assets/wifnix.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root[data-theme="dark"]{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
-:root[data-theme="light"]{--black:#FFFFFF;--navy:#FFFFFF;--blue:#0B8FCC;--bl:#29B6F6;--white:#0F172A;--gray:#475569;--gray2:#64748B;--card:#FFFFFF;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
-:root{--black:#06090F;--navy:#0D1526;--blue:#0B8FCC;--bl:#29B6F6;--white:#F0F4F8;--gray:#8BA0B4;--gray2:#3D5166;--card:#0D1A2A;--green:#00E5A0;--warn:#FFC107;--red:#FF5555;--orange:#F97316}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh}
 .page{max-width:900px;margin:0 auto;padding:40px 20px}
+.topbar{display:flex;justify-content:flex-end;align-items:center;margin-bottom:18px}
 .header{text-align:center;margin-bottom:40px}
-.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
-.badge span{font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:0.08em;text-transform:uppercase}
-.header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;margin-bottom:8px}
-.header h1 em{color:var(--orange);font-style:normal}
-.header p{font-size:0.88rem;color:var(--gray);max-width:560px;margin:0 auto;line-height:1.7}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,193,7,0.10);border:1px solid rgba(255,193,7,0.25);border-radius:100px;padding:6px 16px;margin-bottom:16px}
+.badge span{font-size:0.7rem;font-weight:700;color:var(--ambar);letter-spacing:0.08em;text-transform:uppercase}
+.header h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;color:var(--tinta);margin-bottom:8px}
+.header h1 em{color:var(--ambar);font-style:normal}
+.header p{font-size:0.88rem;color:var(--texto);max-width:560px;margin:0 auto;line-height:1.7}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid rgba(249,115,22,0.12);border-radius:14px;padding:26px;margin-bottom:16px}
-.card-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:20px}
+.card{background:var(--panel);border:1px solid var(--filo);border-radius:14px;padding:26px;margin-bottom:16px}
+.card-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:20px}
 .field{margin-bottom:16px}
-.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray);display:flex;justify-content:space-between;margin-bottom:6px}
-.field label span{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--orange)}
-input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:rgba(255,255,255,0.08);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer}
-select{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(249,115,22,0.15);border-radius:7px;padding:9px 12px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
-select option{background:var(--navy)}
+.field label{font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);display:flex;justify-content:space-between;margin-bottom:6px}
+/* Solo el <span> con id lleva el número del deslizador: así los
+   gemelos .es/.en de la etiqueta no heredan ese estilo. */
+.field label span[id]{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.88rem;font-weight:800;color:var(--ambar)}
+.nota{font-size:0.68rem;color:var(--apagado);margin-top:4px}
+.escala{display:flex;justify-content:space-between;font-size:0.62rem;color:var(--apagado);margin-top:4px}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--filo2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--azul-fuerte);cursor:pointer}
+select{width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:9px 12px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.84rem;outline:none}
+select option{background:var(--panel);color:var(--tinta)}
 .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.opt{border:1px solid rgba(249,115,22,0.12);border-radius:8px;padding:12px;cursor:pointer;transition:all .2s;background:rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px}
-.opt:hover{border-color:rgba(249,115,22,0.35)}
-.opt.sel{border-color:var(--orange);background:rgba(249,115,22,0.08)}
-.opt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;flex-shrink:0;color:var(--gray)}
-.opt.sel svg{color:var(--orange)}
-.opt-text{font-size:0.78rem;color:var(--gray);line-height:1.3}
-.opt.sel .opt-text{color:var(--white)}
-.opt-sub{font-size:0.65rem;color:var(--gray2);margin-top:2px}
+/* Sin `transition:all` aquí. En producción el fondo era un literal
+   —rgba(0,0,0,.2)— y no se enteraba del cambio de tema; ahora sale de
+   var(--fondo2), y una transición propia sobre un color que viene de
+   una variable se queda clavada en el valor viejo al cambiar de tema:
+   estas fichas se quedaban negras sobre papel, con el texto encima.
+   El cambio de tema ya lo anima .tema-cambiando de wifnix.css. */
+.opt{border:1px solid var(--filo);border-radius:8px;padding:12px;cursor:pointer;background:var(--fondo2);display:flex;align-items:center;gap:10px}
+.opt:hover{border-color:rgba(255,193,7,0.35)}
+.opt.sel{border-color:var(--ambar);background:rgba(255,193,7,0.10)}
+.opt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;flex-shrink:0;color:var(--texto)}
+.opt.sel svg{color:var(--ambar)}
+.opt-text{font-size:0.78rem;color:var(--texto);line-height:1.3}
+.opt.sel .opt-text{color:var(--tinta)}
+/* --apagado sobre la superficie levantada de .opt se queda en 4.37:1 en
+   el tema oscuro. Aquí manda --texto; la jerarquía la lleva el tamaño. */
+.opt-sub{font-size:0.65rem;color:var(--texto);margin-top:2px}
 /* RESULTS */
-.result-hero{background:linear-gradient(135deg,rgba(249,115,22,0.12),rgba(13,26,42,0.9));border:1px solid rgba(249,115,22,0.3);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
-.btu-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:3.5rem;font-weight:800;color:var(--orange);line-height:1}
+.result-hero{background:linear-gradient(135deg,rgba(255,193,7,0.12),var(--panel));border:1px solid rgba(255,193,7,0.30);border-radius:16px;padding:32px;text-align:center;margin-bottom:20px}
+.btu-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:3.5rem;font-weight:800;color:var(--ambar);line-height:1}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat{background:rgba(0,0,0,0.3);border:1px solid rgba(249,115,22,0.1);border-radius:10px;padding:14px;text-align:center}
+.stat{background:var(--panel);border:1px solid var(--filo);border-radius:10px;padding:14px;text-align:center}
 .stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:4px}
-.stat-lbl{font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em}
+.stat-lbl{font-size:0.6rem;color:var(--apagado);text-transform:uppercase;letter-spacing:0.06em}
 .breakdown{margin-bottom:16px}
-.bk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem}
+.bk-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--filo);font-size:0.82rem}
 .bk-row:last-child{border-bottom:none;padding-top:14px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.95rem}
-.bk-name{color:var(--gray)}
-.bk-val{color:var(--orange);font-weight:600}
-.rec-card{background:rgba(0,0,0,0.25);border:1px solid rgba(249,115,22,0.15);border-radius:10px;padding:16px;margin-bottom:10px}
-.rec-card.top{border-color:var(--orange)}
-.rec-name{font-weight:700;color:var(--white);font-size:0.88rem;margin-bottom:4px}
-.rec-detail{font-size:0.75rem;color:var(--gray);line-height:1.5}
-.rec-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--green);margin-top:6px}
-.tip{background:rgba(0,0,0,0.3);border-left:3px solid var(--orange);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--gray);line-height:1.8;margin-bottom:16px}
-.tip strong{color:var(--white)}
-.cta{background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.cta-btn{padding:11px 24px;background:var(--orange);color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.cta-btn:hover{background:#FD8A4B;transform:translateY(-2px)}
+.bk-name{color:var(--texto)}
+.bk-val{color:var(--ambar);font-weight:600}
+.rec-card{background:var(--panel2);border:1px solid var(--filo);border-radius:10px;padding:16px;margin-bottom:10px}
+.rec-card.top{border-color:var(--ambar)}
+.rec-name{font-weight:700;color:var(--tinta);font-size:0.88rem;margin-bottom:4px}
+.rec-detail{font-size:0.75rem;color:var(--texto);line-height:1.5}
+.rec-price{font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--verde);margin-top:6px}
+.tip{background:var(--fondo2);border-left:3px solid var(--ambar);border-radius:0 8px 8px 0;padding:14px 16px;font-size:0.8rem;color:var(--texto);line-height:1.8;margin-bottom:16px}
+.tip strong{color:var(--tinta)}
+.cta{background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.20);border-radius:12px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+/* El azul de marca va de FONDO con texto blanco encima: es el único
+   par que aguanta el contraste en los dos temas. */
+.cta-btn{padding:11px 24px;background:var(--azul-fuerte);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;border-radius:8px;border:none;cursor:pointer;transition:filter .2s,transform .2s;text-decoration:none;display:inline-block}
+.cta-btn:hover{filter:brightness(1.15);transform:translateY(-2px)}
 @media(max-width:768px){.grid-2,.stats,.opt-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.stats{grid-template-columns:1fr 1fr}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-.theme-toggle{margin-left:8px;background:rgba(255,255,255,0.05);border:none;cursor:pointer;padding:6px 10px;border-radius:6px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;height:32px}
-.theme-toggle:hover{background:rgba(11,143,204,0.15)}
-.theme-toggle svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;transition:all .2s}
-.theme-toggle .sun-icon,.theme-toggle .moon-icon{display:block}
-:root[data-theme="dark"] .theme-toggle .sun-icon{color:#FFC107;opacity:0.95}
-:root[data-theme="dark"] .theme-toggle .moon-icon{color:var(--gray2);opacity:0.4}
-:root[data-theme="light"] .theme-toggle .moon-icon{color:#0F172A;opacity:0.95}
-:root[data-theme="light"] .theme-toggle .sun-icon{color:var(--gray2);opacity:0.4}
 </style>
 </head>
 <body>
-<button class="theme-toggle" onclick="toggleTheme()" title="Cambiar tema" style="position:fixed;top:18px;right:18px;z-index:9999;background:rgba(13,21,38,0.9);border:1px solid rgba(11,143,204,0.2);backdrop-filter:blur(10px)"><svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg><svg class="moon-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
 <div class="page">
+
+  <div class="topbar">
+    <span data-wx-switches></span>
+  </div>
+
   <div class="header">
-    <div class="badge"><span>Fórmula ASHRAE verificada</span></div>
-    <h1>Calculadora <em>BTU / HVAC</em></h1>
-    <p>Calcula la capacidad exacta de aire acondicionado que necesitas usando la fórmula estándar de la industria (ASHRAE), calibrada para el clima de Puerto Rico.</p>
+    <div class="badge"><span class="es">Fórmula ASHRAE verificada</span><span class="en">Verified ASHRAE formula</span></div>
+    <h1><span class="es">Calculadora <em>BTU / HVAC</em></span><span class="en">HVAC <em>BTU Calculator</em></span></h1>
+    <p class="es">Calcula la capacidad exacta de aire acondicionado que necesitas usando la fórmula estándar de la industria (ASHRAE), calibrada para el clima de Puerto Rico.</p>
+    <p class="en">Work out the exact air conditioning capacity you need using the industry-standard ASHRAE formula, calibrated for the Puerto Rico climate.</p>
   </div>
 
   <div class="grid-2">
     <div>
       <div class="card">
-        <div class="card-title">Dimensiones del espacio</div>
+        <div class="card-title"><span class="es">Dimensiones del espacio</span><span class="en">Room dimensions</span></div>
         <div class="field">
-          <label>Largo (pies) <span id="lbl-largo">20</span></label>
+          <label><span class="es">Largo (pies)</span><span class="en">Length (feet)</span> <span id="lbl-largo">20</span></label>
           <input type="range" id="sl-largo" min="8" max="100" value="20" oninput="update()">
         </div>
         <div class="field">
-          <label>Ancho (pies) <span id="lbl-ancho">15</span></label>
+          <label><span class="es">Ancho (pies)</span><span class="en">Width (feet)</span> <span id="lbl-ancho">15</span></label>
           <input type="range" id="sl-ancho" min="8" max="100" value="15" oninput="update()">
         </div>
         <div class="field">
-          <label>Alto del techo (pies) <span id="lbl-alto">9</span></label>
+          <label><span class="es">Alto del techo (pies)</span><span class="en">Ceiling height (feet)</span> <span id="lbl-alto">9</span></label>
           <input type="range" id="sl-alto" min="7" max="20" value="9" oninput="update()">
-          <div style="display:flex;justify-content:space-between;font-size:0.62rem;color:var(--gray2);margin-top:4px"><span>7 pies</span><span>10 pies</span><span>15 pies</span><span>20 pies</span></div>
+          <div class="escala es"><span>7 pies</span><span>10 pies</span><span>15 pies</span><span>20 pies</span></div>
+          <div class="escala en"><span>7 ft</span><span>10 ft</span><span>15 ft</span><span>20 ft</span></div>
         </div>
         <div class="field">
-          <label>Número de personas <span id="lbl-personas">3</span></label>
+          <label><span class="es">Número de personas</span><span class="en">Number of people</span> <span id="lbl-personas">3</span></label>
           <input type="range" id="sl-personas" min="1" max="50" value="3" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">Cada persona genera ~600 BTU</div>
+          <div class="nota es">Cada persona genera ~600 BTU</div>
+          <div class="nota en">Each person gives off about 600 BTU</div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Exposición solar</div>
+        <div class="card-title"><span class="es">Exposición solar</span><span class="en">Sun exposure</span></div>
         <div class="opt-grid">
           <div class="opt sel" onclick="selOpt('solar','bajo',this)">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-            <div><div class="opt-text">Sombra / norte</div><div class="opt-sub">Poco sol directo</div></div>
+            <div><div class="opt-text es">Sombra / norte</div><div class="opt-text en">Shade / north facing</div><div class="opt-sub es">Poco sol directo</div><div class="opt-sub en">Little direct sun</div></div>
           </div>
           <div class="opt" onclick="selOpt('solar','medio',this)">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-            <div><div class="opt-text">Solar moderado</div><div class="opt-sub">Este u oeste</div></div>
+            <div><div class="opt-text es">Solar moderado</div><div class="opt-text en">Moderate sun</div><div class="opt-sub es">Este u oeste</div><div class="opt-sub en">East or west facing</div></div>
           </div>
           <div class="opt" onclick="selOpt('solar','alto',this)">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-            <div><div class="opt-text">Sol directo sur</div><div class="opt-sub">Mucho calor solar</div></div>
+            <div><div class="opt-text es">Sol directo sur</div><div class="opt-text en">Direct south sun</div><div class="opt-sub es">Mucho calor solar</div><div class="opt-sub en">Heavy solar heat gain</div></div>
           </div>
           <div class="opt" onclick="selOpt('solar','extremo',this)">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-            <div><div class="opt-text">Techo caliente</div><div class="opt-sub">Sin aislamiento</div></div>
+            <div><div class="opt-text es">Techo caliente</div><div class="opt-text en">Hot roof</div><div class="opt-sub es">Sin aislamiento</div><div class="opt-sub en">No insulation</div></div>
           </div>
         </div>
       </div>
@@ -131,58 +152,69 @@ select option{background:var(--navy)}
 
     <div>
       <div class="card">
-        <div class="card-title">Tipo de espacio</div>
+        <div class="card-title"><span class="es">Tipo de espacio</span><span class="en">Type of space</span></div>
         <div class="opt-grid">
           <div class="opt sel" onclick="selOpt('tipo','dormitorio',this)">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <div><div class="opt-text">Dormitorio</div><div class="opt-sub">Carga baja</div></div>
+            <div><div class="opt-text es">Dormitorio</div><div class="opt-text en">Bedroom</div><div class="opt-sub es">Carga baja</div><div class="opt-sub en">Low load</div></div>
           </div>
           <div class="opt" onclick="selOpt('tipo','sala',this)">
             <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-            <div><div class="opt-text">Sala / comedor</div><div class="opt-sub">Carga media</div></div>
+            <div><div class="opt-text es">Sala / comedor</div><div class="opt-text en">Living / dining room</div><div class="opt-sub es">Carga media</div><div class="opt-sub en">Medium load</div></div>
           </div>
           <div class="opt" onclick="selOpt('tipo','oficina',this)">
             <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <div><div class="opt-text">Oficina</div><div class="opt-sub">Equipos + personas</div></div>
+            <div><div class="opt-text es">Oficina</div><div class="opt-text en">Office</div><div class="opt-sub es">Equipos + personas</div><div class="opt-sub en">Equipment plus people</div></div>
           </div>
           <div class="opt" onclick="selOpt('tipo','cocina',this)">
             <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
-            <div><div class="opt-text">Cocina / restaurante</div><div class="opt-sub">Carga muy alta</div></div>
+            <div><div class="opt-text es">Cocina / restaurante</div><div class="opt-text en">Kitchen / restaurant</div><div class="opt-sub es">Carga muy alta</div><div class="opt-sub en">Very high load</div></div>
           </div>
           <div class="opt" onclick="selOpt('tipo','comercio',this)">
             <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            <div><div class="opt-text">Comercio / tienda</div><div class="opt-sub">Alta ocupación</div></div>
+            <div><div class="opt-text es">Comercio / tienda</div><div class="opt-text en">Retail / storefront</div><div class="opt-sub es">Alta ocupación</div><div class="opt-sub en">High occupancy</div></div>
           </div>
           <div class="opt" onclick="selOpt('tipo','servidor',this)">
             <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-            <div><div class="opt-text">Cuarto de servidores</div><div class="opt-sub">Carga extrema</div></div>
+            <div><div class="opt-text es">Cuarto de servidores</div><div class="opt-text en">Server room</div><div class="opt-sub es">Carga extrema</div><div class="opt-sub en">Extreme load</div></div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Equipos que generan calor</div>
+        <div class="card-title"><span class="es">Equipos que generan calor</span><span class="en">Heat-generating equipment</span></div>
         <div class="field">
-          <label>Computadoras / estaciones <span id="lbl-pcs">2</span></label>
+          <label><span class="es">Computadoras / estaciones</span><span class="en">Computers / workstations</span> <span id="lbl-pcs">2</span></label>
           <input type="range" id="sl-pcs" min="0" max="30" value="2" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~400 BTU por equipo de escritorio</div>
+          <div class="nota es">~400 BTU por equipo de escritorio</div>
+          <div class="nota en">About 400 BTU per desktop machine</div>
         </div>
         <div class="field">
-          <label>Televisores / pantallas <span id="lbl-tvs">1</span></label>
+          <label><span class="es">Televisores / pantallas</span><span class="en">TVs / displays</span> <span id="lbl-tvs">1</span></label>
           <input type="range" id="sl-tvs" min="0" max="20" value="1" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~350 BTU por TV 55"</div>
+          <div class="nota es">~350 BTU por TV 55"</div>
+          <div class="nota en">About 350 BTU per 55" TV</div>
         </div>
         <div class="field">
-          <label>Equipos de cocina (freidoras, planchas) <span id="lbl-cocina">0</span></label>
+          <label><span class="es">Equipos de cocina (freidoras, planchas)</span><span class="en">Kitchen equipment (fryers, griddles)</span> <span id="lbl-cocina">0</span></label>
           <input type="range" id="sl-cocina" min="0" max="10" value="0" oninput="update()">
-          <div style="font-size:0.68rem;color:var(--gray2);margin-top:4px">~8,500 BTU por freidora industrial</div>
+          <div class="nota es">~8,500 BTU por freidora industrial</div>
+          <div class="nota en">About 8,500 BTU per commercial fryer</div>
         </div>
         <div class="field">
-          <label>Aislamiento del techo</label>
+          <label><span class="es">Aislamiento del techo</span><span class="en">Roof insulation</span></label>
+          <!-- Gemelas por idioma. El "selected" va SOLO en la española:
+               si lo llevan las dos, el navegador se queda con la última y
+               el desplegable cerrado enseña el idioma equivocado. Al
+               cambiar de idioma, sincronizarSelects() mueve la selección
+               a la gemela del mismo value. -->
           <select id="sel-aislamiento" onchange="update()">
-            <option value="bueno">Bueno — aislamiento moderno, techo fresco</option>
-            <option value="regular" selected>Regular — aislamiento básico</option>
-            <option value="malo">Malo — sin aislamiento, techo caliente</option>
+            <option value="bueno" class="es">Bueno — aislamiento moderno, techo fresco</option>
+            <option value="bueno" class="en">Good — modern insulation, cool roof</option>
+            <option value="regular" selected class="es">Regular — aislamiento básico</option>
+            <option value="regular" class="en">Average — basic insulation</option>
+            <option value="malo" class="es">Malo — sin aislamiento, techo caliente</option>
+            <option value="malo" class="en">Poor — no insulation, hot roof</option>
           </select>
         </div>
       </div>
@@ -191,69 +223,71 @@ select option{background:var(--navy)}
 
   <!-- RESULTS -->
   <div class="result-hero">
-    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px">Capacidad calculada</div>
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ambar);margin-bottom:10px"><span class="es">Capacidad calculada</span><span class="en">Calculated capacity</span></div>
     <div class="btu-num" id="r-btu">0 BTU</div>
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-top:8px" id="r-tons">0 Toneladas</div>
-    <div style="font-size:0.82rem;color:var(--gray);margin-top:6px" id="r-area">Para un área de 0 ft²</div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:700;color:var(--tinta);margin-top:8px" id="r-tons">0 Toneladas</div>
+    <div style="font-size:0.82rem;color:var(--texto);margin-top:6px" id="r-area">Para un área de 0 ft²</div>
   </div>
 
   <div id="opciones-hvac" style="display:none;margin:20px 0">
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--bl);margin-bottom:14px;text-align:center">Opciones de equipo según tus necesidades</div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--azul);margin-bottom:14px;text-align:center"><span class="es">Opciones de equipo según tus necesidades</span><span class="en">Equipment options for your needs</span></div>
     <div style="display:grid;grid-template-columns:1fr;gap:12px;max-width:780px;margin:0 auto">
-      <div class="opt-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(100,116,139,0.25);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div class="opt-card" style="background:var(--panel);border:1px solid var(--filo2);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray2);margin-bottom:3px">Opción ajustada</div>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white)" id="opt-min">12,000 BTU</div>
-          <div style="font-size:0.78rem;color:var(--gray);margin-top:2px">Cubre tu necesidad actual exacta</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:3px"><span class="es">Opción ajustada</span><span class="en">Tight fit option</span></div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tinta)" id="opt-min">12,000 BTU</div>
+          <div style="font-size:0.78rem;color:var(--texto);margin-top:2px"><span class="es">Cubre tu necesidad actual exacta</span><span class="en">Covers exactly what you need today</span></div>
         </div>
-        <div style="font-size:0.72rem;color:var(--gray2);background:rgba(11,143,204,0.08);padding:6px 12px;border-radius:6px;border:1px solid rgba(11,143,204,0.15)" id="opt-min-tons">1.0 Toneladas</div>
+        <div style="font-size:0.72rem;color:var(--texto);background:var(--azul-tenue);padding:6px 12px;border-radius:6px;border:1px solid var(--filo2)" id="opt-min-tons">1.0 Toneladas</div>
       </div>
 
-      <div class="opt-card opt-recommended" style="background:rgba(0,229,160,0.06);border:2px solid rgba(0,229,160,0.4);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative">
-        <div style="position:absolute;top:-9px;right:14px;background:#00E5A0;color:#06090F;font-size:0.6rem;font-weight:800;padding:3px 10px;border-radius:10px;letter-spacing:0.05em">RECOMENDADO</div>
+      <div class="opt-card opt-recommended" style="background:var(--panel);border:2px solid var(--verde);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;position:relative">
+        <div style="position:absolute;top:-9px;right:14px;background:var(--panel);border:1px solid var(--verde);color:var(--verde);font-size:0.6rem;font-weight:800;padding:3px 10px;border-radius:10px;letter-spacing:0.05em"><span class="es">RECOMENDADO</span><span class="en">RECOMMENDED</span></div>
         <div style="flex:1;min-width:200px">
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#00E5A0;margin-bottom:3px">Opción recomendada</div>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.7rem;font-weight:800;color:var(--white)" id="opt-rec">18,000 BTU</div>
-          <div style="font-size:0.78rem;color:var(--gray);margin-top:2px">Operación eficiente y mayor vida útil del equipo</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--verde);margin-bottom:3px"><span class="es">Opción recomendada</span><span class="en">Recommended option</span></div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.7rem;font-weight:800;color:var(--tinta)" id="opt-rec">18,000 BTU</div>
+          <div style="font-size:0.78rem;color:var(--texto);margin-top:2px"><span class="es">Operación eficiente y mayor vida útil del equipo</span><span class="en">Efficient operation and a longer service life</span></div>
         </div>
-        <div style="font-size:0.72rem;color:#00E5A0;background:rgba(0,229,160,0.12);padding:6px 12px;border-radius:6px;border:1px solid rgba(0,229,160,0.25)" id="opt-rec-tons">1.5 Toneladas</div>
+        <div style="font-size:0.72rem;color:var(--verde);background:var(--panel2);padding:6px 12px;border-radius:6px;border:1px solid var(--filo2)" id="opt-rec-tons">1.5 Toneladas</div>
       </div>
 
-      <div class="opt-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(100,116,139,0.25);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div class="opt-card" style="background:var(--panel);border:1px solid var(--filo2);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
         <div style="flex:1;min-width:200px">
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray2);margin-bottom:3px">Opción crecimiento</div>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--white)" id="opt-max">24,000 BTU</div>
-          <div style="font-size:0.78rem;color:var(--gray);margin-top:2px">Si planeas añadir personas, equipos o ampliar el espacio</div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--apagado);margin-bottom:3px"><span class="es">Opción crecimiento</span><span class="en">Room to grow option</span></div>
+          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--tinta)" id="opt-max">24,000 BTU</div>
+          <div style="font-size:0.78rem;color:var(--texto);margin-top:2px"><span class="es">Si planeas añadir personas, equipos o ampliar el espacio</span><span class="en">If you plan to add people or equipment, or enlarge the space</span></div>
         </div>
-        <div style="font-size:0.72rem;color:var(--gray2);background:rgba(11,143,204,0.08);padding:6px 12px;border-radius:6px;border:1px solid rgba(11,143,204,0.15)" id="opt-max-tons">2.0 Toneladas</div>
+        <div style="font-size:0.72rem;color:var(--texto);background:var(--azul-tenue);padding:6px 12px;border-radius:6px;border:1px solid var(--filo2)" id="opt-max-tons">2.0 Toneladas</div>
       </div>
     </div>
-    
-    <div id="premium-cta-card" style="display:none;margin-top:24px;background:linear-gradient(135deg,rgba(11,143,204,0.12),rgba(11,143,204,0.04));border:1.5px solid rgba(11,143,204,0.3);border-radius:14px;padding:28px;text-align:center;max-width:780px;margin-left:auto;margin-right:auto">
-      <div style="width:56px;height:56px;background:rgba(11,143,204,0.15);border:1px solid rgba(11,143,204,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-        <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--bl);fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+
+    <div id="premium-cta-card" style="display:none;margin-top:24px;background:var(--azul-tenue);border:1.5px solid var(--filo2);border-radius:14px;padding:28px;text-align:center;max-width:780px;margin-left:auto;margin-right:auto">
+      <div style="width:56px;height:56px;background:var(--azul-tenue);border:1px solid var(--filo2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+        <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--azul);fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:var(--white);margin:0 0 10px">Desbloquea el reporte completo</h3>
-      <p style="font-size:0.85rem;color:var(--gray);line-height:1.6;margin:0 0 18px;max-width:480px;margin-left:auto;margin-right:auto">Crea tu cuenta gratis para ver desglose detallado, equipos recomendados, plan de ahorro energético y descargar tu cotización en PDF.</p>
-      <button onclick="abrirPremiumModal()" style="padding:14px 32px;background:var(--bl);color:#06090F;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 16px rgba(11,143,204,0.3)">Ver reporte completo →</button>
-      <div style="margin-top:14px;font-size:0.72rem;color:var(--gray2)">100% gratis · Sin tarjeta de crédito</div>
+      <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:var(--tinta);margin:0 0 10px"><span class="es">Desbloquea el reporte completo</span><span class="en">Unlock the full report</span></h3>
+      <p class="es" style="font-size:0.85rem;color:var(--texto);line-height:1.6;margin:0 auto 18px;max-width:480px">Crea tu cuenta gratis para ver desglose detallado, equipos recomendados, plan de ahorro energético y descargar tu cotización en PDF.</p>
+      <p class="en" style="font-size:0.85rem;color:var(--texto);line-height:1.6;margin:0 auto 18px;max-width:480px">Create your free account to see the detailed breakdown, recommended equipment, an energy savings plan, and to download your quote as a PDF.</p>
+      <button onclick="abrirPremiumModal()" class="es" style="padding:14px 32px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Ver reporte completo →</button>
+      <button onclick="abrirPremiumModal()" class="en" style="padding:14px 32px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">See the full report →</button>
+      <div style="margin-top:14px;font-size:0.72rem;color:var(--apagado)"><span class="es">100% gratis · Sin tarjeta de crédito</span><span class="en">100% free · No credit card</span></div>
     </div>
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-num" style="color:var(--orange)" id="s-base">0</div><div class="stat-lbl">BTU base (área)</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--warn)" id="s-solar">0</div><div class="stat-lbl">BTU solar</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--red)" id="s-equipos">0</div><div class="stat-lbl">BTU equipos</div></div>
-    <div class="stat"><div class="stat-num" style="color:var(--bl)" id="s-personas">0</div><div class="stat-lbl">BTU personas</div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--tinta)" id="s-base">0</div><div class="stat-lbl"><span class="es">BTU base (área)</span><span class="en">Base BTU (area)</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--ambar)" id="s-solar">0</div><div class="stat-lbl"><span class="es">BTU solar</span><span class="en">Solar BTU</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--rojo)" id="s-equipos">0</div><div class="stat-lbl"><span class="es">BTU equipos</span><span class="en">Equipment BTU</span></div></div>
+    <div class="stat"><div class="stat-num" style="color:var(--azul)" id="s-personas">0</div><div class="stat-lbl"><span class="es">BTU personas</span><span class="en">People BTU</span></div></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Desglose del cálculo</div>
+    <div class="card-title"><span class="es">Desglose del cálculo</span><span class="en">How the number is built</span></div>
     <div class="breakdown" id="r-breakdown"></div>
   </div>
 
   <div class="card">
-    <div class="card-title">Equipo recomendado</div>
+    <div class="card-title"><span class="es">Equipo recomendado</span><span class="en">Recommended equipment</span></div>
     <div id="r-equipo"></div>
   </div>
 
@@ -261,16 +295,52 @@ select option{background:var(--navy)}
 
   <div class="cta">
     <div>
-      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--white);margin-bottom:4px">¿Quieres una evaluación profesional?</div>
-      <div style="font-size:0.78rem;color:var(--gray)">Nuestros técnicos certificados evalúan tu espacio sin costo.</div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.95rem;font-weight:800;color:var(--tinta);margin-bottom:4px"><span class="es">¿Quieres una evaluación profesional?</span><span class="en">Want a professional assessment?</span></div>
+      <div style="font-size:0.78rem;color:var(--texto)"><span class="es">Nuestros técnicos certificados evalúan tu espacio sin costo.</span><span class="en">Our certified technicians assess your space at no cost.</span></div>
     </div>
-    <a href="https://portal.wifnix.com" class="cta-btn">Solicitar evaluación gratis</a>
+    <a href="https://portal.wifnix.com" class="cta-btn es">Solicitar evaluación gratis</a>
+    <a href="https://portal.wifnix.com" class="cta-btn en">Request a free assessment</a>
   </div>
 </div>
 
 <script>
 function tieneToken(){return !!localStorage.getItem('wifnix_token');}
 var snapshotPendiente = null;
+
+/* Todo texto que escribe este script habla los dos idiomas. El idioma
+   vive en el <html>, lo puso el fragmento del <head>. */
+function wxIdioma() {
+  return document.documentElement.getAttribute('data-idioma') === 'en' ? 'en' : 'es';
+}
+function T(es, en) { return wxIdioma() === 'en' ? en : es; }
+
+/* Las <option> son gemelas .es/.en con el mismo value. El "selected"
+   sólo lo lleva la española, así que al cambiar de idioma hay que mover
+   la selección a la gemela: si no, el desplegable cerrado enseña el
+   idioma que ya no toca. El value no cambia — el cálculo no se entera. */
+function sincronizarSelects() {
+  var idi = wxIdioma();
+  var selects = document.querySelectorAll('select');
+  for (var s = 0; s < selects.length; s++) {
+    var sel = selects[s], v = sel.value, ops = sel.options;
+    for (var i = 0; i < ops.length; i++) {
+      if (ops[i].value === v && ops[i].classList.contains(idi)) { sel.selectedIndex = i; break; }
+    }
+  }
+}
+
+// Etiquetas de la ganancia solar, para el desglose.
+var NOMBRE_SOLAR = {
+  bajo:    { es: 'sombra / norte',   en: 'shade / north facing' },
+  medio:   { es: 'solar moderado',   en: 'moderate sun' },
+  alto:    { es: 'sol directo sur',  en: 'direct south sun' },
+  extremo: { es: 'techo caliente',   en: 'hot roof' }
+};
+
+/* Cuando update() corre sólo para reescribir los textos en el otro
+   idioma, no se vuelve a guardar el snapshot: sería una llamada a la
+   API —y un registro duplicado— por cada toque del interruptor. */
+var repintandoIdioma = false;
 
 // Estado
 var cfg = { solar: 'bajo', tipo: 'dormitorio' };
@@ -368,7 +438,7 @@ function update() {
 
   // Actualizar UI
   document.getElementById('r-btu').textContent = btuFinal.toLocaleString() + ' BTU';
-  document.getElementById('r-tons').textContent = tons.toFixed(2) + ' Toneladas (' + (tons / 0.5).toFixed(1) + ' HP)';
+  document.getElementById('r-tons').textContent = tons.toFixed(2) + T(' Toneladas (', ' Tons (') + (tons / 0.5).toFixed(1) + ' HP)';
   
   // Calcular las 3 opciones de equipo según tamaños comerciales
   var tamComerciales = [9000, 12000, 18000, 24000, 30000, 36000, 48000, 60000];
@@ -403,21 +473,27 @@ function update() {
   
   if (btuFinal > 60000) {
     // CAPACIDAD EXCEDE - mostrar mensaje de cotización especial
-    opcionesHvac.innerHTML = '<div style="background:linear-gradient(135deg,rgba(255,193,7,0.08),rgba(11,143,204,0.08));border:1.5px solid rgba(255,193,7,0.35);border-radius:14px;padding:28px;text-align:center;max-width:780px;margin:0 auto">' +
+    opcionesHvac.innerHTML = '<div style="background:var(--panel);border:1.5px solid rgba(255,193,7,0.35);border-radius:14px;padding:28px;text-align:center;max-width:780px;margin:0 auto">' +
       '<div style="width:56px;height:56px;background:rgba(255,193,7,0.18);border:1px solid rgba(255,193,7,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">' +
-        '<svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#FFC107;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
+        '<svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:var(--ambar);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>' +
       '</div>' +
-      '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin:0 0 10px">Capacidad excede los parámetros estándar</h3>' +
-      '<p style="font-size:0.92rem;color:var(--gray);line-height:1.65;margin:0 0 8px;max-width:560px;margin-left:auto;margin-right:auto">Tu cálculo arroja <strong style="color:var(--bl)">' + btuFinal.toLocaleString() + ' BTU</strong>, lo cual requiere un sistema comercial o industrial diseñado a medida.</p>' +
-      '<p style="font-size:0.85rem;color:var(--gray);line-height:1.6;margin:0 0 22px;max-width:560px;margin-left:auto;margin-right:auto">Para garantizar eficiencia y cumplimiento normativo, necesitamos realizar una <strong>evaluación técnica en sitio</strong> y diseñar un sistema dividido o de techo (Rooftop / VRF) adecuado.</p>' +
+      '<h3 style="font-family:\'Plus Jakarta Sans\',sans-serif;font-size:1.3rem;font-weight:800;color:var(--tinta);margin:0 0 10px">' + T('Capacidad excede los parámetros estándar', 'Capacity is beyond the standard range') + '</h3>' +
+      '<p style="font-size:0.92rem;color:var(--texto);line-height:1.65;margin:0 auto 8px;max-width:560px">' + T(
+        'Tu cálculo arroja <strong style="color:var(--azul)">' + btuFinal.toLocaleString() + ' BTU</strong>, lo cual requiere un sistema comercial o industrial diseñado a medida.',
+        'Your calculation comes to <strong style="color:var(--azul)">' + btuFinal.toLocaleString() + ' BTU</strong>, which calls for a custom-designed commercial or industrial system.'
+      ) + '</p>' +
+      '<p style="font-size:0.85rem;color:var(--texto);line-height:1.6;margin:0 auto 22px;max-width:560px">' + T(
+        'Para garantizar eficiencia y cumplimiento normativo, necesitamos realizar una <strong>evaluación técnica en sitio</strong> y diseñar un sistema dividido o de techo (Rooftop / VRF) adecuado.',
+        'To guarantee efficiency and code compliance, we need to run an <strong>on-site technical assessment</strong> and design the right split or rooftop system (Rooftop / VRF).'
+      ) + '</p>' +
       '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
-        (tieneToken() ? 
-          '<a href="cotizacion-instantanea.html?tipo=hvac-comercial&btu=' + btuFinal + '" style="padding:14px 28px;background:var(--bl);color:#06090F;border:none;border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block">Solicitar evaluación técnica</a>' :
-          '<button onclick="abrirPremiumModal()" style="padding:14px 28px;background:var(--bl);color:#06090F;border:none;border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Crear cuenta y solicitar evaluación</button>'
+        (tieneToken() ?
+          '<a href="cotizacion-instantanea.html?tipo=hvac-comercial&btu=' + btuFinal + '" style="padding:14px 28px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block">' + T('Solicitar evaluación técnica', 'Request a technical assessment') + '</a>' :
+          '<button onclick="abrirPremiumModal()" style="padding:14px 28px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">' + T('Crear cuenta y solicitar evaluación', 'Create an account and request an assessment') + '</button>'
         ) +
-        '<a href="tel:+17873549596" style="padding:14px 28px;background:transparent;color:var(--bl);border:1px solid rgba(11,143,204,0.4);border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px">📞 (787) 354-9596</a>' +
+        '<a href="tel:+17873549596" style="padding:14px 28px;background:transparent;color:var(--azul);border:1px solid var(--filo2);border-radius:8px;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:700;font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px">(787) 354-9596</a>' +
       '</div>' +
-      '<div style="margin-top:14px;font-size:0.7rem;color:var(--gray2)">Te respondemos en menos de 24 horas</div>' +
+      '<div style="margin-top:14px;font-size:0.7rem;color:var(--apagado)">' + T('Te respondemos en menos de 24 horas', 'We get back to you in under 24 hours') + '</div>' +
     '</div>';
     
     optAjustado = btuFinal;
@@ -437,38 +513,44 @@ function update() {
     
     if (document.getElementById('opt-min')) {
       document.getElementById('opt-min').textContent = optAjustado.toLocaleString() + ' BTU';
-      document.getElementById('opt-min-tons').textContent = (optAjustado / 12000).toFixed(1) + ' Toneladas';
+      document.getElementById('opt-min-tons').textContent = (optAjustado / 12000).toFixed(1) + T(' Toneladas', ' Tons');
       document.getElementById('opt-rec').textContent = optRecomendado.toLocaleString() + ' BTU';
-      document.getElementById('opt-rec-tons').textContent = (optRecomendado / 12000).toFixed(1) + ' Toneladas';
+      document.getElementById('opt-rec-tons').textContent = (optRecomendado / 12000).toFixed(1) + T(' Toneladas', ' Tons');
       document.getElementById('opt-max').textContent = optCrecimiento.toLocaleString() + ' BTU';
-      document.getElementById('opt-max-tons').textContent = (optCrecimiento / 12000).toFixed(1) + ' Toneladas';
+      document.getElementById('opt-max-tons').textContent = (optCrecimiento / 12000).toFixed(1) + T(' Toneladas', ' Tons');
     }
   }
-  
+
   opcionesHvac.style.display = 'block';
-  document.getElementById('r-area').textContent = 'Para un área de ' + area.toLocaleString() + ' ft² con techo de ' + alto + ' pies';
+  document.getElementById('r-area').textContent = T(
+    'Para un área de ' + area.toLocaleString() + ' ft² con techo de ' + alto + ' pies',
+    'For a ' + area.toLocaleString() + ' ft² space with a ' + alto + ' ft ceiling'
+  );
   document.getElementById('s-base').textContent = Math.round(btuBase).toLocaleString();
   document.getElementById('s-solar').textContent = Math.round(btuSolar).toLocaleString();
   document.getElementById('s-equipos').textContent = Math.round(btuEquipos).toLocaleString();
   document.getElementById('s-personas').textContent = Math.round(btuPersonas).toLocaleString();
 
   // Desglose
+  var nomSolar = (NOMBRE_SOLAR[cfg.solar] || {})[wxIdioma()] || cfg.solar;
   var rows = [
-    { name: 'Carga base del espacio (' + volumen + ' ft³ × ' + (factorBase[cfg.tipo] || 10) + ' BTU/ft³)', val: Math.round(btuBase) },
-    { name: 'Carga por techo alto (' + alto + ' pies)', val: Math.round(btuTecho) },
-    { name: 'Ganancia solar (' + cfg.solar + ')', val: Math.round(btuSolar) },
-    { name: 'Personas (' + personas + ' × 600 BTU)', val: Math.round(btuPersonas) },
-    { name: 'Equipos electrónicos (' + pcs + ' PCs, ' + tvs + ' TVs, ' + cocina + ' equipos cocina)', val: Math.round(btuEquipos) },
-    { name: 'Subtotal', val: Math.round(btuTotal / 1.10) },
-    { name: 'Factor humedad PR (+10%)', val: Math.round(btuTotal - btuTotal / 1.10) },
-    { name: 'Margen de seguridad (+10%)', val: Math.round(btuFinal - btuTotal) },
-    { name: 'TOTAL RECOMENDADO', val: btuFinal }
+    { name: T('Carga base del espacio (' + volumen + ' ft³ × ' + (factorBase[cfg.tipo] || 10) + ' BTU/ft³)',
+              'Base load of the space (' + volumen + ' ft³ × ' + (factorBase[cfg.tipo] || 10) + ' BTU/ft³)'), val: Math.round(btuBase) },
+    { name: T('Carga por techo alto (' + alto + ' pies)', 'High ceiling load (' + alto + ' ft)'), val: Math.round(btuTecho) },
+    { name: T('Ganancia solar (' + nomSolar + ')', 'Solar heat gain (' + nomSolar + ')'), val: Math.round(btuSolar) },
+    { name: T('Personas (' + personas + ' × 600 BTU)', 'People (' + personas + ' × 600 BTU)'), val: Math.round(btuPersonas) },
+    { name: T('Equipos electrónicos (' + pcs + ' PCs, ' + tvs + ' TVs, ' + cocina + ' equipos cocina)',
+              'Electronics (' + pcs + ' PCs, ' + tvs + ' TVs, ' + cocina + ' kitchen units)'), val: Math.round(btuEquipos) },
+    { name: T('Subtotal', 'Subtotal'), val: Math.round(btuTotal / 1.10) },
+    { name: T('Factor humedad PR (+10%)', 'Puerto Rico humidity factor (+10%)'), val: Math.round(btuTotal - btuTotal / 1.10) },
+    { name: T('Margen de seguridad (+10%)', 'Safety margin (+10%)'), val: Math.round(btuFinal - btuTotal) },
+    { name: T('TOTAL RECOMENDADO', 'RECOMMENDED TOTAL'), val: btuFinal }
   ];
 
   document.getElementById('r-breakdown').innerHTML = rows.map(function(r, i) {
     var isTotal = i === rows.length - 1;
     return '<div class="bk-row">' +
-      '<div class="bk-name" style="' + (isTotal ? 'color:var(--white)' : '') + '">' + r.name + '</div>' +
+      '<div class="bk-name" style="' + (isTotal ? 'color:var(--tinta)' : '') + '">' + r.name + '</div>' +
       '<div class="bk-val" style="' + (isTotal ? 'font-size:1.1rem' : '') + '">' + r.val.toLocaleString() + ' BTU</div>' +
       '</div>';
   }).join('');
@@ -510,7 +592,7 @@ function update() {
     // Mostrar el CTA card si no está visible
     var ctaCard = document.getElementById('premium-cta-card');
     if (ctaCard) ctaCard.style.display = 'block';
-  } else {
+  } else if (!repintandoIdioma) {
     // Usuario logueado — guardar snapshot automáticamente
     var token = localStorage.getItem('wifnix_token');
     fetch('https://api.wifnix.com/api/snapshots/crear', {
@@ -541,34 +623,34 @@ function renderEquipo(btu, tons) {
 
   if (btu <= 9000) {
     // Calculado es muy poco pero el minimo disponible es 9,000
-    equipos.push({ top: true, name: 'Mini Split 9,000 BTU (3/4 Ton)', detail: 'Tu espacio requiere poco enfriamiento. El de 9,000 BTU cubre la carga calculada, aunque en PR es poco comun — la mayoria de instaladores prefieren el 12,000 BTU para que el equipo trabaje sin esfuerzo y dure mas.', price: 'Solicitar cotización', seer: 'SEER 18-25', badge: 'Minimo requerido' });
-    equipos.push({ top: false, name: 'Recomendado: Mini Split 12,000 BTU (1 Ton)', detail: 'Aunque tu calculo da menos de 9,000 BTU, el 12,000 BTU es el mas comun en PR. Trabaja menos forzado, es mas silencioso, dura mas y mantiene mejor la temperatura en dias de calor extremo.', price: 'Desde $750 instalado', seer: 'SEER 18-25', badge: 'Mejor opcion' });
+    equipos.push({ top: true, name: T('Mini Split 9,000 BTU (3/4 Ton)', 'Mini Split 9,000 BTU (3/4 Ton)'), detail: T('Tu espacio requiere poco enfriamiento. El de 9,000 BTU cubre la carga calculada, aunque en PR es poco comun — la mayoria de instaladores prefieren el 12,000 BTU para que el equipo trabaje sin esfuerzo y dure mas.', 'Your space needs very little cooling. A 9,000 BTU unit covers the calculated load, though it is uncommon in Puerto Rico — most installers prefer the 12,000 BTU so the unit runs easy and lasts longer.'), price: T('Solicitar cotización', 'Request a quote'), seer: 'SEER 18-25', badge: T('Minimo requerido', 'Minimum required') });
+    equipos.push({ top: false, name: T('Recomendado: Mini Split 12,000 BTU (1 Ton)', 'Recommended: Mini Split 12,000 BTU (1 Ton)'), detail: T('Aunque tu calculo da menos de 9,000 BTU, el 12,000 BTU es el mas comun en PR. Trabaja menos forzado, es mas silencioso, dura mas y mantiene mejor la temperatura en dias de calor extremo.', 'Even though your calculation lands under 9,000 BTU, the 12,000 BTU is the most common size in Puerto Rico. It works less hard, runs quieter, lasts longer and holds temperature better on the hottest days.'), price: T('Desde $750 instalado', 'From $750 installed'), seer: 'SEER 18-25', badge: T('Mejor opcion', 'Best choice') });
   } else if (btu <= 12000) {
-    equipos.push({ top: true, name: 'Mini Split 12,000 BTU (1 Ton)', detail: 'El mas popular en PR para cuartos y oficinas pequenas. Cubre tu carga calculada con margen suficiente para trabajar sin esfuerzo.', price: 'Desde $750 instalado', seer: 'SEER 18-25', badge: 'Recomendado' });
-    equipos.push({ top: false, name: 'Opcion: 18,000 BTU si quieres mas margen', detail: 'Si el espacio tiene mucha entrada de sol o quieres que trabaje mas descansado, el 18,000 BTU da un margen extra de comodidad.', price: 'Desde $1,100 instalado', seer: 'SEER 17-23', badge: 'Con mas margen' });
+    equipos.push({ top: true, name: T('Mini Split 12,000 BTU (1 Ton)', 'Mini Split 12,000 BTU (1 Ton)'), detail: T('El mas popular en PR para cuartos y oficinas pequenas. Cubre tu carga calculada con margen suficiente para trabajar sin esfuerzo.', 'The most popular size in Puerto Rico for bedrooms and small offices. It covers your calculated load with enough margin to run without straining.'), price: T('Desde $750 instalado', 'From $750 installed'), seer: 'SEER 18-25', badge: T('Recomendado', 'Recommended') });
+    equipos.push({ top: false, name: T('Opcion: 18,000 BTU si quieres mas margen', 'Option: 18,000 BTU if you want more headroom'), detail: T('Si el espacio tiene mucha entrada de sol o quieres que trabaje mas descansado, el 18,000 BTU da un margen extra de comodidad.', 'If the space takes a lot of sun, or you want the unit to work easier, the 18,000 BTU gives you extra comfort margin.'), price: T('Desde $1,100 instalado', 'From $1,100 installed'), seer: 'SEER 17-23', badge: T('Con mas margen', 'More headroom') });
   } else if (btu <= 18000) {
-    equipos.push({ top: true, name: 'Mini Split 18,000 BTU (1.5 Ton)', detail: 'El tamano correcto para tu espacio. Muy popular en salas, comedores y oficinas medianas en PR.', price: 'Desde $1,100 instalado', seer: 'SEER 17-23', badge: 'Recomendado' });
-    equipos.push({ top: false, name: 'Opcion: 24,000 BTU para mayor confort', detail: 'Si el area tiene mucha actividad, equipos adicionales o exposicion solar alta, el 24,000 BTU trabaja mas descansado y mantiene la temperatura mas rapido.', price: 'Desde $1,450 instalado', seer: 'SEER 16-22', badge: 'Con mas margen' });
+    equipos.push({ top: true, name: T('Mini Split 18,000 BTU (1.5 Ton)', 'Mini Split 18,000 BTU (1.5 Ton)'), detail: T('El tamano correcto para tu espacio. Muy popular en salas, comedores y oficinas medianas en PR.', 'The right size for your space. Very common in living rooms, dining rooms and mid-size offices across Puerto Rico.'), price: T('Desde $1,100 instalado', 'From $1,100 installed'), seer: 'SEER 17-23', badge: T('Recomendado', 'Recommended') });
+    equipos.push({ top: false, name: T('Opcion: 24,000 BTU para mayor confort', 'Option: 24,000 BTU for more comfort'), detail: T('Si el area tiene mucha actividad, equipos adicionales o exposicion solar alta, el 24,000 BTU trabaja mas descansado y mantiene la temperatura mas rapido.', 'If the area sees heavy activity, extra equipment or strong sun exposure, the 24,000 BTU runs easier and pulls the temperature down faster.'), price: T('Desde $1,450 instalado', 'From $1,450 installed'), seer: 'SEER 16-22', badge: T('Con mas margen', 'More headroom') });
   } else if (btu <= 24000) {
-    equipos.push({ top: true, name: 'Mini Split 24,000 BTU (2 Ton)', detail: 'El tamano ideal para tu espacio. Cubre la carga calculada con el margen adecuado para trabajar eficientemente en el clima de PR.', price: 'Desde $1,450 instalado', seer: 'SEER 16-22', badge: 'Recomendado' });
-    equipos.push({ top: false, name: 'Opcion: 36,000 BTU si tiene alta carga termica', detail: 'Para locales con muchos equipos, personas o exposicion solar directa, el 36,000 BTU garantiza confort incluso en los dias mas calurosos.', price: 'Desde $2,250 instalado', seer: 'SEER 16-21', badge: 'Alta carga' });
+    equipos.push({ top: true, name: T('Mini Split 24,000 BTU (2 Ton)', 'Mini Split 24,000 BTU (2 Ton)'), detail: T('El tamano ideal para tu espacio. Cubre la carga calculada con el margen adecuado para trabajar eficientemente en el clima de PR.', 'The ideal size for your space. It covers the calculated load with the right margin to run efficiently in the Puerto Rico climate.'), price: T('Desde $1,450 instalado', 'From $1,450 installed'), seer: 'SEER 16-22', badge: T('Recomendado', 'Recommended') });
+    equipos.push({ top: false, name: T('Opcion: 36,000 BTU si tiene alta carga termica', 'Option: 36,000 BTU for a high heat load'), detail: T('Para locales con muchos equipos, personas o exposicion solar directa, el 36,000 BTU garantiza confort incluso en los dias mas calurosos.', 'For spaces with a lot of equipment, people or direct sun, the 36,000 BTU keeps things comfortable even on the hottest days.'), price: T('Desde $2,250 instalado', 'From $2,250 installed'), seer: 'SEER 16-21', badge: T('Alta carga', 'High load') });
   } else if (btu <= 36000) {
-    equipos.push({ top: true, name: 'Mini Split 36,000 BTU (3 Ton)', detail: 'El mayor disponible comunmente en PR para instalacion residencial y comercial pequena. Ideal para espacios grandes o con alta carga termica.', price: 'Desde $2,250 instalado', seer: 'SEER 16-21', badge: 'Recomendado' });
-    equipos.push({ top: false, name: 'Alternativa: 2 unidades de 18,000 BTU por zonas', detail: 'En vez de un solo equipo grande, dos unidades menores permiten controlar zonas independientes y son mas faciles de mantener.', price: 'Solicitar cotización', seer: 'SEER 17-23', badge: 'Por zonas' });
+    equipos.push({ top: true, name: T('Mini Split 36,000 BTU (3 Ton)', 'Mini Split 36,000 BTU (3 Ton)'), detail: T('El mayor disponible comunmente en PR para instalacion residencial y comercial pequena. Ideal para espacios grandes o con alta carga termica.', 'The largest size commonly available in Puerto Rico for residential and small commercial work. Ideal for large spaces or a high heat load.'), price: T('Desde $2,250 instalado', 'From $2,250 installed'), seer: 'SEER 16-21', badge: T('Recomendado', 'Recommended') });
+    equipos.push({ top: false, name: T('Alternativa: 2 unidades de 18,000 BTU por zonas', 'Alternative: two 18,000 BTU units, zoned'), detail: T('En vez de un solo equipo grande, dos unidades menores permiten controlar zonas independientes y son mas faciles de mantener.', 'Instead of one large unit, two smaller ones let you control separate zones and are easier to service.'), price: T('Solicitar cotización', 'Request a quote'), seer: 'SEER 17-23', badge: T('Por zonas', 'Zoned') });
   } else if (btu <= 60000) {
-    equipos.push({ top: true, name: 'Sistema multi-split o central (4-5 Ton)', detail: 'Tu carga supera lo que cubre un solo mini split de 36,000 BTU. Se recomienda un sistema central de 4-5 toneladas o multiples mini splits por zona. Requiere evaluacion profesional en sitio.', price: 'Solicitar cotización', seer: 'SEER 14-18', badge: 'Comercial' });
-    equipos.push({ top: false, name: 'Multi-split: 2-3 unidades de 24,000 BTU', detail: 'Sin ductos y con control por zona. Cada unidad cubre su area independientemente — mas eficiente que un sistema central en muchos casos.', price: 'Solicitar cotización', seer: 'SEER 16-22', badge: 'Sin ductos' });
+    equipos.push({ top: true, name: T('Sistema multi-split o central (4-5 Ton)', 'Multi-split or central system (4-5 Ton)'), detail: T('Tu carga supera lo que cubre un solo mini split de 36,000 BTU. Se recomienda un sistema central de 4-5 toneladas o multiples mini splits por zona. Requiere evaluacion profesional en sitio.', 'Your load is past what a single 36,000 BTU mini split can cover. We recommend a 4-5 ton central system or several zoned mini splits. This needs a professional on-site assessment.'), price: T('Solicitar cotización', 'Request a quote'), seer: 'SEER 14-18', badge: T('Comercial', 'Commercial') });
+    equipos.push({ top: false, name: T('Multi-split: 2-3 unidades de 24,000 BTU', 'Multi-split: two or three 24,000 BTU units'), detail: T('Sin ductos y con control por zona. Cada unidad cubre su area independientemente — mas eficiente que un sistema central en muchos casos.', 'Ductless, with zone-by-zone control. Each unit covers its own area — in many cases more efficient than a central system.'), price: T('Solicitar cotización', 'Request a quote'), seer: 'SEER 16-22', badge: T('Sin ductos', 'Ductless') });
   } else {
-    equipos.push({ top: true, name: 'Sistema VRF o central 6+ Ton', detail: 'Instalacion comercial o industrial de gran escala. Requiere planos, ingenieria mecanica certificada y permisos de construccion en PR.', price: 'A discusión — Solicitar cotización', seer: 'SEER 14-20', badge: 'Industrial' });
+    equipos.push({ top: true, name: T('Sistema VRF o central 6+ Ton', 'VRF or central system, 6+ Ton'), detail: T('Instalacion comercial o industrial de gran escala. Requiere planos, ingenieria mecanica certificada y permisos de construccion en PR.', 'Large-scale commercial or industrial installation. It requires drawings, certified mechanical engineering and construction permits in Puerto Rico.'), price: T('A discusión — Solicitar cotización', 'By consultation — request a quote'), seer: 'SEER 14-20', badge: T('Industrial', 'Industrial') });
   }
 
   document.getElementById('r-equipo').innerHTML = equipos.map(function(e) {
-    var borderColor = e.top ? 'rgba(249,115,22,0.4)' : 'rgba(249,115,22,0.12)';
-    var badgeColor = e.top ? 'var(--orange)' : 'var(--gray2)';
+    var borderColor = e.top ? 'var(--ambar)' : 'var(--filo)';
+    var badgeColor = e.top ? 'var(--ambar)' : 'var(--apagado)';
     return '<div class="rec-card" style="border-color:' + borderColor + '">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px">' +
         '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:' + badgeColor + '">' + (e.badge || '') + '</div>' +
-        '<div style="font-size:0.7rem;color:var(--bl);font-weight:600">' + e.seer + '</div>' +
+        '<div style="font-size:0.7rem;color:var(--azul);font-weight:600">' + e.seer + '</div>' +
       '</div>' +
       '<div class="rec-name">' + e.name + '</div>' +
       '<div class="rec-detail">' + e.detail + '</div>' +
@@ -578,63 +660,79 @@ function renderEquipo(btu, tons) {
 }
 
 // Init
+sincronizarSelects();
 update();
-</script>
-<script>
-function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark';var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('wifnix_theme',n);}catch(e){}}
-(function(){try{var s=localStorage.getItem('wifnix_theme')||'dark';document.documentElement.setAttribute('data-theme',s);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+
+// Al cambiar de idioma hay que volver a escribir lo que pinta el script:
+// el CSS solo alcanza a los pares .es/.en del marcado.
+if (window.MutationObserver) {
+  new MutationObserver(function () {
+    repintandoIdioma = true;
+    try { sincronizarSelects(); update(); }
+    finally { repintandoIdioma = false; }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-idioma'] });
+}
 </script>
 
 <!-- MODAL DE REGISTRO/LOGIN PREMIUM -->
-<div id="premium-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
-  <div style="background:var(--navy,#0D1526);border:1px solid rgba(11,143,204,0.3);border-radius:14px;padding:32px;width:100%;max-width:460px;max-height:92vh;overflow-y:auto;margin:auto;position:relative">
-    <button onclick="cerrarPremiumModal()" style="position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px">×</button>
-    
+<div id="premium-modal" style="display:none;position:fixed;inset:0;background:var(--velo);backdrop-filter:blur(8px);z-index:9999;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
+  <div style="background:var(--panel);border:1px solid var(--filo2);box-shadow:var(--sombra);border-radius:14px;padding:32px;width:100%;max-width:460px;max-height:92vh;overflow-y:auto;margin:auto;position:relative">
+    <button onclick="cerrarPremiumModal()" aria-label="Cerrar / Close" style="position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--texto);font-size:1.5rem;cursor:pointer;line-height:1;padding:4px 10px">×</button>
+
     <div style="text-align:center;margin-bottom:22px">
-      <div style="width:54px;height:54px;background:rgba(11,143,204,0.12);border:1px solid rgba(11,143,204,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
-        <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--bl);fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div style="width:54px;height:54px;background:var(--azul-tenue);border:1px solid var(--filo2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
+        <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:var(--azul);fill:none;stroke-width:2;stroke-linecap:round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
       </div>
-      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);margin:0 0 8px">Desbloquea tu reporte completo</h2>
-      <p style="font-size:0.85rem;color:var(--gray);line-height:1.6;margin:0">Crea tu cuenta gratis y obtén:</p>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:var(--tinta);margin:0 0 8px"><span class="es">Desbloquea tu reporte completo</span><span class="en">Unlock your full report</span></h2>
+      <p style="font-size:0.85rem;color:var(--texto);line-height:1.6;margin:0"><span class="es">Crea tu cuenta gratis y obtén:</span><span class="en">Create your free account and get:</span></p>
     </div>
-    
-    <div style="background:rgba(11,143,204,0.06);border:1px solid rgba(11,143,204,0.15);border-radius:8px;padding:14px 18px;margin-bottom:20px">
-      <ul style="margin:0;padding:0;list-style:none;font-size:0.83rem;color:var(--white);line-height:1.9">
-        <li style="display:flex;align-items:center;gap:8px"><span style="color:#00E5A0;font-weight:700">✓</span> Equipos específicos recomendados</li>
-        <li style="display:flex;align-items:center;gap:8px"><span style="color:#00E5A0;font-weight:700">✓</span> Precios estimados de instalación</li>
-        <li style="display:flex;align-items:center;gap:8px"><span style="color:#00E5A0;font-weight:700">✓</span> Plan de ahorro energético</li>
-        <li style="display:flex;align-items:center;gap:8px"><span style="color:#00E5A0;font-weight:700">✓</span> PDF descargable</li>
-        <li style="display:flex;align-items:center;gap:8px"><span style="color:#00E5A0;font-weight:700">✓</span> Asesoría del equipo Wifnix</li>
+
+    <div style="background:var(--azul-tenue);border:1px solid var(--filo2);border-radius:8px;padding:14px 18px;margin-bottom:20px">
+      <ul style="margin:0;padding:0;list-style:none;font-size:0.83rem;color:var(--tinta);line-height:1.9">
+        <li class="es" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Equipos específicos recomendados</li>
+        <li class="en" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Specific equipment recommendations</li>
+        <li class="es" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Precios estimados de instalación</li>
+        <li class="en" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Estimated installation prices</li>
+        <li class="es" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Plan de ahorro energético</li>
+        <li class="en" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> An energy savings plan</li>
+        <li class="es" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> PDF descargable</li>
+        <li class="en" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> A downloadable PDF</li>
+        <li class="es" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Asesoría del equipo Wifnix</li>
+        <li class="en" style="display:flex;align-items:center;gap:8px"><span style="color:var(--verde);font-weight:700">✓</span> Advice from the Wifnix team</li>
       </ul>
     </div>
-    
-    <div id="premium-tabs" style="display:flex;gap:8px;margin-bottom:18px;background:rgba(255,255,255,0.04);padding:4px;border-radius:8px">
-      <button id="tab-reg" onclick="premiumTab('reg')" style="flex:1;padding:8px;background:var(--bl);color:#06090F;border:none;border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer">Crear cuenta</button>
-      <button id="tab-log" onclick="premiumTab('log')" style="flex:1;padding:8px;background:transparent;color:var(--gray);border:none;border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer">Ya tengo cuenta</button>
+
+    <div id="premium-tabs" style="display:flex;gap:8px;margin-bottom:18px;background:var(--fondo2);padding:4px;border-radius:8px">
+      <button id="tab-reg" onclick="premiumTab('reg')" style="flex:1;padding:8px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer"><span class="es">Crear cuenta</span><span class="en">Create account</span></button>
+      <button id="tab-log" onclick="premiumTab('log')" style="flex:1;padding:8px;background:transparent;color:var(--texto);border:none;border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.78rem;cursor:pointer"><span class="es">Ya tengo cuenta</span><span class="en">I already have one</span></button>
     </div>
-    
+
     <!-- Form Registro -->
     <div id="premium-reg">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-        <input type="text" id="pm-nombre" placeholder="Nombre *" style="background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none">
-        <input type="text" id="pm-apellido" placeholder="Apellido *" style="background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none">
+        <input type="text" id="pm-nombre" placeholder="Nombre *" data-es="Nombre *" data-en="First name *" style="background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none">
+        <input type="text" id="pm-apellido" placeholder="Apellido *" data-es="Apellido *" data-en="Last name *" style="background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none">
       </div>
-      <input type="email" id="pm-email" placeholder="Email *" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
-      <input type="tel" id="pm-tel" placeholder="Teléfono (787) 000-0000" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
-      <input type="password" id="pm-pass" placeholder="Contraseña (mín. 8 caracteres) *" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:14px">
-      <div id="pm-alert-reg" style="display:none;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);border-radius:7px;padding:10px 12px;font-size:0.78rem;color:#FF5555;margin-bottom:10px"></div>
-      <button onclick="premiumRegistrarse()" id="btn-pm-reg" style="width:100%;padding:13px;background:var(--bl);color:#06090F;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Crear cuenta y ver reporte</button>
+      <input type="email" id="pm-email" placeholder="Email *" data-es="Email *" data-en="Email *" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
+      <input type="tel" id="pm-tel" placeholder="Teléfono (787) 000-0000" data-es="Teléfono (787) 000-0000" data-en="Phone (787) 000-0000" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
+      <input type="password" id="pm-pass" placeholder="Contraseña (mín. 8 caracteres) *" data-es="Contraseña (mín. 8 caracteres) *" data-en="Password (8 characters minimum) *" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:14px">
+      <div id="pm-alert-reg" style="display:none;background:rgba(255,107,107,0.10);border:1px solid rgba(255,107,107,0.25);border-radius:7px;padding:10px 12px;font-size:0.78rem;color:var(--rojo);margin-bottom:10px"></div>
+      <!-- El texto de este botón lo reescribe el script mientras envía, así
+           que no puede llevar gemelas .es/.en dentro: va en data-es/data-en,
+           que es lo que rellena wifnix-ui.js al cambiar de idioma. -->
+      <button onclick="premiumRegistrarse()" id="btn-pm-reg" data-es="Crear cuenta y ver reporte" data-en="Create account and see report" style="width:100%;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Crear cuenta y ver reporte</button>
     </div>
-    
+
     <!-- Form Login -->
     <div id="premium-log" style="display:none">
-      <input type="email" id="pm-log-email" placeholder="Email" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
-      <input type="password" id="pm-log-pass" placeholder="Contraseña" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(11,143,204,0.15);border-radius:7px;padding:10px 12px;color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:14px">
-      <div id="pm-alert-log" style="display:none;background:rgba(255,85,85,0.1);border:1px solid rgba(255,85,85,0.25);border-radius:7px;padding:10px 12px;font-size:0.78rem;color:#FF5555;margin-bottom:10px"></div>
-      <button onclick="premiumLogin()" id="btn-pm-log" style="width:100%;padding:13px;background:var(--bl);color:#06090F;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Iniciar sesión y ver reporte</button>
+      <input type="email" id="pm-log-email" placeholder="Email" data-es="Email" data-en="Email" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:10px">
+      <input type="password" id="pm-log-pass" placeholder="Contraseña" data-es="Contraseña" data-en="Password" style="width:100%;background:var(--fondo2);border:1px solid var(--filo2);border-radius:7px;padding:10px 12px;color:var(--tinta);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.84rem;outline:none;margin-bottom:14px">
+      <div id="pm-alert-log" style="display:none;background:rgba(255,107,107,0.10);border:1px solid rgba(255,107,107,0.25);border-radius:7px;padding:10px 12px;font-size:0.78rem;color:var(--rojo);margin-bottom:10px"></div>
+      <button onclick="premiumLogin()" id="btn-pm-log" data-es="Iniciar sesión y ver reporte" data-en="Sign in and see report" style="width:100%;padding:13px;background:var(--azul-fuerte);color:#fff;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:0.85rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer">Iniciar sesión y ver reporte</button>
     </div>
-    
-    <p style="font-size:0.7rem;color:var(--gray2);text-align:center;margin-top:14px;line-height:1.6">Al crear cuenta aceptas nuestros <a href="terminos.html" style="color:var(--bl)">Términos</a></p>
+
+    <p class="es" style="font-size:0.7rem;color:var(--apagado);text-align:center;margin-top:14px;line-height:1.6">Al crear cuenta aceptas nuestros <a href="terminos.html" style="color:var(--azul)">Términos</a></p>
+    <p class="en" style="font-size:0.7rem;color:var(--apagado);text-align:center;margin-top:14px;line-height:1.6">By creating an account you accept our <a href="terminos.html" style="color:var(--azul)">Terms</a></p>
   </div>
 </div>
 
@@ -650,17 +748,17 @@ function premiumTab(tab) {
   if (tab === 'reg') {
     document.getElementById('premium-reg').style.display = 'block';
     document.getElementById('premium-log').style.display = 'none';
-    document.getElementById('tab-reg').style.background = 'var(--bl)';
-    document.getElementById('tab-reg').style.color = '#06090F';
+    document.getElementById('tab-reg').style.background = 'var(--azul-fuerte)';
+    document.getElementById('tab-reg').style.color = '#fff';
     document.getElementById('tab-log').style.background = 'transparent';
-    document.getElementById('tab-log').style.color = 'var(--gray)';
+    document.getElementById('tab-log').style.color = 'var(--texto)';
   } else {
     document.getElementById('premium-reg').style.display = 'none';
     document.getElementById('premium-log').style.display = 'block';
-    document.getElementById('tab-log').style.background = 'var(--bl)';
-    document.getElementById('tab-log').style.color = '#06090F';
+    document.getElementById('tab-log').style.background = 'var(--azul-fuerte)';
+    document.getElementById('tab-log').style.color = '#fff';
     document.getElementById('tab-reg').style.background = 'transparent';
-    document.getElementById('tab-reg').style.color = 'var(--gray)';
+    document.getElementById('tab-reg').style.color = 'var(--texto)';
   }
 }
 
@@ -680,12 +778,13 @@ async function premiumRegistrarse() {
   var pass = document.getElementById('pm-pass').value;
   var alert = document.getElementById('pm-alert-reg');
   
-  if (!nombre || !apellido || !email || !pass) { alert.textContent='Completa los campos requeridos'; alert.style.display='block'; return; }
-  if (pass.length < 8) { alert.textContent='La contraseña debe tener mínimo 8 caracteres'; alert.style.display='block'; return; }
-  
+  if (!nombre || !apellido || !email || !pass) { alert.textContent=T('Completa los campos requeridos','Please fill in the required fields'); alert.style.display='block'; return; }
+  if (pass.length < 8) { alert.textContent=T('La contraseña debe tener mínimo 8 caracteres','Your password must be at least 8 characters'); alert.style.display='block'; return; }
+
   var btn = document.getElementById('btn-pm-reg');
-  btn.disabled = true; btn.textContent = 'Creando cuenta...';
-  
+  var etiquetaReg = T('Crear cuenta y ver reporte', 'Create account and see report');
+  btn.disabled = true; btn.textContent = T('Creando cuenta...', 'Creating account...');
+
   try {
     var resp = await fetch(API_URL + '/api/auth/registro', {
       method: 'POST', headers: {'Content-Type':'application/json'},
@@ -697,14 +796,14 @@ async function premiumRegistrarse() {
       localStorage.setItem('wifnix_user', JSON.stringify(data.usuario||data.user));
       await guardarSnapshotYDesbloquear(data.token);
     } else {
-      alert.textContent = data.error || 'Error creando cuenta';
+      alert.textContent = data.error || T('Error creando cuenta', 'Could not create the account');
       alert.style.display = 'block';
-      btn.disabled = false; btn.textContent = 'Crear cuenta y ver reporte';
+      btn.disabled = false; btn.textContent = etiquetaReg;
     }
   } catch(e) {
-    alert.textContent = 'Error de conexión';
+    alert.textContent = T('Error de conexión', 'Connection error');
     alert.style.display = 'block';
-    btn.disabled = false; btn.textContent = 'Crear cuenta y ver reporte';
+    btn.disabled = false; btn.textContent = etiquetaReg;
   }
 }
 
@@ -713,11 +812,12 @@ async function premiumLogin() {
   var pass = document.getElementById('pm-log-pass').value;
   var alert = document.getElementById('pm-alert-log');
   
-  if (!email || !pass) { alert.textContent='Email y contraseña requeridos'; alert.style.display='block'; return; }
-  
+  if (!email || !pass) { alert.textContent=T('Email y contraseña requeridos','Email and password are required'); alert.style.display='block'; return; }
+
   var btn = document.getElementById('btn-pm-log');
-  btn.disabled = true; btn.textContent = 'Iniciando...';
-  
+  var etiquetaLog = T('Iniciar sesión y ver reporte', 'Sign in and see report');
+  btn.disabled = true; btn.textContent = T('Iniciando...', 'Signing in...');
+
   try {
     var resp = await fetch(API_URL + '/api/auth/login-2fa', {
       method: 'POST', headers: {'Content-Type':'application/json'},
@@ -729,14 +829,14 @@ async function premiumLogin() {
       localStorage.setItem('wifnix_user', JSON.stringify(data.usuario||data.user));
       await guardarSnapshotYDesbloquear(data.token);
     } else {
-      alert.textContent = data.error || 'Credenciales incorrectas';
+      alert.textContent = data.error || T('Credenciales incorrectas', 'Incorrect email or password');
       alert.style.display = 'block';
-      btn.disabled = false; btn.textContent = 'Iniciar sesión y ver reporte';
+      btn.disabled = false; btn.textContent = etiquetaLog;
     }
   } catch(e) {
-    alert.textContent = 'Error de conexión';
+    alert.textContent = T('Error de conexión', 'Connection error');
     alert.style.display = 'block';
-    btn.disabled = false; btn.textContent = 'Iniciar sesión y ver reporte';
+    btn.disabled = false; btn.textContent = etiquetaLog;
   }
 }
 
@@ -766,5 +866,7 @@ function desbloquearReporte() {
   });
 }
 </script>
+
+<script src="/assets/wifnix-ui.js" defer></script>
 </body>
 </html>
