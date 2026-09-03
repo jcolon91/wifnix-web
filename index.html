@@ -2594,14 +2594,26 @@ document.addEventListener('DOMContentLoaded', () => {
 // Mientras no exista assets/marca-<id>.png se enseña el nombre en la
 // tipografía del sitio — que ademas evita la fila de logos de seis
 // colores distintos. En cuanto aparezca el archivo, entra solo.
+// El nombre de la marca ya está escrito en el HTML. Si algún día
+// existe su logo, se cambia por la imagen; si no, se queda el nombre.
+//
+// Se pregunta primero por la cabecera y no se pide la imagen a secas
+// porque el servidor responde con la página de inicio entera, y con
+// código 200, para cualquier archivo que no existe: un <img> que
+// "carga" no probaría nada y de paso se tragaba 385 KB por visita.
 document.querySelectorAll('[data-marca]').forEach(function(li){
-  var img=new Image();
-  img.onload=function(){
-    img.alt=li.textContent.trim();
-    img.loading='lazy'; img.decoding='async';
-    li.replaceChildren(img);
-  };
-  img.src='/assets/marca-'+li.dataset.marca+'.png';
+  var url='/assets/marca-'+li.dataset.marca+'.png';
+  fetch(url,{method:'HEAD'}).then(function(r){
+    var tipo=r.headers.get('content-type')||'';
+    if(!r.ok||tipo.indexOf('image/')!==0) return;
+    var img=new Image();
+    img.onload=function(){
+      img.alt=li.textContent.trim();
+      img.loading='lazy'; img.decoding='async';
+      li.replaceChildren(img);
+    };
+    img.src=url;
+  }).catch(function(){ /* sin red: se queda el nombre */ });
 });
 
 // FAQ
