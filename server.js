@@ -80,7 +80,17 @@ app.use('/api/auth', authLimiter);
 // HELPERS — AUTH
 // ============================================================
 
-const JWT_SECRET = process.env.JWT_SECRET || 'wifnix_jwt_secret_change_in_production';
+// Sin respaldo por defecto a proposito. Este repositorio es publico:
+// una cadena escrita aqui la puede leer cualquiera, y con ella se
+// fabrica un token de sesion valido para CUALQUIER cuenta. Antes
+// habia una, y si la variable faltaba el servidor arrancaba tan
+// tranquilo usandola. Mejor que no arranque.
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) {
+  console.error('FALTA JWT_SECRET en el .env (minimo 32 caracteres).');
+  console.error('Generar uno:  node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'base64url\'))"');
+  process.exit(1);
+}
 const JWT_EXPIRES = '7d';
 
 function signToken(payload) {
