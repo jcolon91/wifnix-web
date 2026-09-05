@@ -23,13 +23,15 @@ const rateLimit = require('express-rate-limit');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const oauth = require('./lib/oauth');
 const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
 const multer = require('multer');
 const Anthropic = require('@anthropic-ai/sdk');
 const Stripe = require('stripe');
 require('dotenv').config();
+
+// Despues de dotenv, no antes: este modulo necesita JWT_SECRET.
+const oauth = require('./lib/oauth');
 twilioClient = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 // EMAIL
@@ -4352,7 +4354,7 @@ app.get('/api/auth/oauth/:proveedor', (req, res) => {
 async function volverDelProveedor(req, res) {
   const clave = String(req.params.proveedor || '').toLowerCase();
   const fuente = req.method === 'POST' ? req.body : req.query;
-  const irAlPortal = (q) => res.redirect(oauth.PORTAL + '/?' + new URLSearchParams(q).toString());
+  const irAlPortal = (q) => res.redirect(oauth.PORTAL() + '/?' + new URLSearchParams(q).toString());
 
   try {
     if (!oauth.configurado(clave)) return irAlPortal({ oauth_error: 'no_disponible' });
