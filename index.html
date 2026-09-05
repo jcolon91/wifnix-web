@@ -2547,7 +2547,11 @@ document.addEventListener('DOMContentLoaded', () => {
         '" target="_blank" rel="noopener">our Google profile</a>.</p>';
   }
 
-  fetch('https://api.wifnix.com/api/resenas')
+  // /api/google/resenas, no /api/resenas: ese prefijo ya lo ocupan las
+  // resenas de PRODUCTOS del backend (crear, producto/:id, y un PUT y un
+  // DELETE sobre /api/resenas/:id). Separarlas evita que manana alguien
+  // anada una ruta ahi y se pisen.
+  fetch('https://api.wifnix.com/api/google/resenas')
     .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
     .then(function(d){
       if (!d || !d.resenas || !d.resenas.length) return soloEnlace(d && d.perfil);
