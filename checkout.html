@@ -280,6 +280,20 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
         </div>
       </div>
 
+      <!-- PAGO CON TARJETA — ESCONDIDO, NO BORRADO
+           STRIPE_SECRET_KEY salio del .env, asi que en el servidor
+           stripe queda en null y /api/stripe/crear-intento contesta 500.
+           El cliente elegia tarjeta, llenaba todo, y se estrellaba en el
+           ultimo paso: lo peor que puede pasar en un checkout.
+
+           Se queda comentado en vez de borrado porque el dia que vuelva
+           la llave esto se enciende quitando estas dos lineas. La logica
+           de procesarPagoStripe sigue intacta mas abajo; simplemente no
+           hay forma de llegar a ella mientras esta tarjeta no exista.
+
+           Ojo: la primera opcion, la de invoice por email, sigue diciendo
+           que se puede pagar con tarjeta. Eso es cierto y no se toca: ahi
+           el cobro se hace a mano, fuera de la web.
       <div class="option-card" onclick="seleccionarPago('stripe', this)">
         <input type="radio" name="pago" id="pay-stripe" value="stripe">
         <div class="option-info">
@@ -291,6 +305,7 @@ h1,h2,h3,.title{font-family:'Plus Jakarta Sans',sans-serif}
           <div class="en" style="margin-top:8px;display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--verde);font-weight:700">✓ Instant confirmation  ✓ SSL encrypted</div>
         </div>
       </div>
+      -->
 
       <div class="option-card" style="opacity:0.5">
         <input type="radio" name="pago" id="pay-paypal" value="paypal" disabled>

@@ -651,7 +651,9 @@ nav.scrolled{background:var(--velo)}
 .socials{display:flex;gap:8px;margin-top:28px}
 .social-btn{width:40px;height:40px;border:1px solid rgba(11,143,204,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;text-decoration:none;cursor:none;transition:all .2s}
 .social-btn:hover{background:rgba(11,143,204,0.15);border-color:var(--azul);transform:translateY(-2px)}
-.social-btn svg{width:16px;height:16px;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
+/* flex-shrink:0 para que el icono no se pueda volver a encoger a cero
+   si alguna regla futura vuelve a apretar el boton por los lados. */
+.social-btn svg{width:16px;height:16px;flex-shrink:0;stroke:var(--blue-light);fill:none;stroke-width:1.5;stroke-linecap:round}
 
 .contact-form{display:flex;flex-direction:column;gap:13px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
@@ -989,12 +991,19 @@ body{background:var(--fondo)}
 .section{padding:88px 0}
 @media(max-width:768px){ .section{padding:56px 0} }
 
-/* ── BOTONES: 14px, sin el barrido de brillo ── */
-.btn-primary,.btn-outline,.nav-cta,.social-btn{
+/* ── BOTONES: 14px, sin el barrido de brillo ──
+   .social-btn NO va aqui. Es un cuadrado de 34-40px con un icono
+   dentro, no un boton de texto: el padding de 14px 26px que lleva esta
+   regla se comia los 34px enteros de ancho, el hueco interior quedaba
+   en cero, y el icono se encogia hasta desaparecer. Los tres iconos
+   del pie llevaban invisibles desde entonces. */
+.btn-primary,.btn-outline,.nav-cta{
   border-radius:14px !important;
   text-transform:none !important;letter-spacing:.005em !important;
   font-size:.9rem !important;padding:14px 26px !important;
 }
+/* Mismo radio que los demas, pero sin relleno de texto. */
+.social-btn{border-radius:12px !important;padding:0 !important}
 .btn-primary::after,.nav-cta::after{display:none !important}
 .btn-primary{
   background:linear-gradient(180deg,#12A2E2,var(--azul-fuerte) 62%,#0A7DB2) !important;
@@ -2710,275 +2719,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- AGENTE WIFNIX -->
-<div id="chat-widget" style="position:fixed;bottom:24px;right:24px;z-index:1000;font-family:'DM Sans',sans-serif">
+<!-- ── HABLAR CON WIFNIX ──────────────────────────────────────
+     Aqui vivia un chat con IA. Se quito porque la llave de Anthropic
+     ya no esta en el .env: /api/chat/mensaje contestaba 500 y quien
+     escribia recibia un error. Un boton que no funciona es peor que
+     ninguno.
 
-  <button onclick="toggleChat()" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));border:none;cursor:pointer;box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s;position:relative" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-    <svg id="ico-open" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-    <svg id="ico-close" viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    <div id="chat-notif" style="position:absolute;top:0;right:0;width:14px;height:14px;background:var(--verde);border-radius:50%;border:2px solid var(--fondo)"></div>
-  </button>
-
-  <div id="chat-box" style="display:none;width:340px;background:var(--fondo2);border:1px solid rgba(11,143,204,0.25);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.5);margin-bottom:16px;position:absolute;bottom:76px;right:0;overflow:hidden;flex-direction:column">
-
-    <!-- HEADER -->
-    <div style="padding:14px 18px;background:linear-gradient(135deg,var(--panel),rgba(11,143,204,0.12));border-bottom:1px solid rgba(11,143,204,0.15);display:flex;align-items:center;gap:10px">
-      <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      </div>
-      <div style="flex:1">
-        <div style="font-weight:700;color:var(--tinta);font-size:0.88rem">Agente Wifnix</div>
-        <div style="font-size:0.65rem;color:var(--verde);display:flex;align-items:center;gap:4px">
-          <div style="width:5px;height:5px;background:var(--verde);border-radius:50%"></div>
-          <span class="es">En línea · Lun-Vie 8am-6pm</span><span class="en">Online · Mon-Fri 8am-6pm</span>
-        </div>
-      </div>
-      <button onclick="toggleChat()" style="background:none;border:none;cursor:pointer;color:var(--texto);padding:4px">
-        <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
-
-    <!-- MESSAGES -->
-    <div id="chat-messages" style="padding:14px;max-height:360px;overflow-y:auto;display:flex;flex-direction:column;gap:10px">
-
-      <!-- Welcome message -->
-      <div style="display:flex;gap:8px;align-items:flex-start">
-        <div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
-          <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        </div>
-        <div style="background:var(--panel);border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:10px 13px;max-width:260px;font-size:0.8rem;color:var(--tinta);line-height:1.6">
-          <span class="es">Hola, soy tu agente virtual de Wifnix. Si tienes alguna duda, aquí estoy para servirte. ¿En qué puedo ayudarte hoy?</span>
-          <span class="en">Hi, I am the Wifnix virtual agent. If you have any questions, I am here to help. What can I do for you today?</span>
-        </div>
-      </div>
-
-      <!-- Quick options -->
-      <div id="quick-opts" style="display:flex;flex-direction:column;gap:7px;padding-left:34px">
-        <div class="qopt" onclick="selOpt('servicios')">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-          <span class="es">Información sobre servicios</span><span class="en">Information about services</span>
-        </div>
-        <div class="qopt" onclick="selOpt('herramientas')">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1110 16H2m15.73-8.27A2 2 0 1119 12H2"/></svg>
-          <span class="es">Usar herramientas gratuitas</span><span class="en">Use the free tools</span>
-        </div>
-        <div class="qopt" onclick="selOpt('precios')">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          <span class="es">Ver precios y planes</span><span class="en">See pricing and plans</span>
-        </div>
-        <div class="qopt" onclick="selOpt('profesional')">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          <span class="es">Hablar con un profesional</span><span class="en">Talk to a specialist</span>
-        </div>
-        <div class="qopt" onclick="selOpt('otro')">
-          <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
-          <span class="es">Tengo otra pregunta</span><span class="en">I have another question</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- TYPING -->
-    <div id="chat-typing" style="display:none;padding:0 14px 8px;padding-left:48px">
-      <div style="display:flex;gap:4px;align-items:center">
-        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite"></div>
-        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite .2s"></div>
-        <div style="width:6px;height:6px;background:var(--azul);border-radius:50%;animation:bounce 1s infinite .4s"></div>
-      </div>
-    </div>
-
-    <!-- INPUT -->
-    <div style="padding:10px 14px;border-top:1px solid rgba(11,143,204,0.1);display:flex;gap:8px">
-      <input id="chat-input" type="text" data-es="Escribe tu mensaje..." data-en="Type your message..." placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()" style="flex:1;background:var(--panel2);border:1px solid rgba(11,143,204,0.2);border-radius:20px;padding:9px 14px;color:var(--tinta);font-family:'DM Sans',sans-serif;font-size:0.8rem;outline:none">
-      <button onclick="sendMessage()" style="width:36px;height:36px;border-radius:50%;background:var(--azul-fuerte);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0" onmouseover="this.style.background='var(--azul)'" onmouseout="this.style.background='var(--azul-fuerte)'">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-      </button>
-    </div>
-
-  </div>
-</div>
-
-<style>
-.qopt{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--panel2);border:1px solid rgba(11,143,204,0.12);border-radius:8px;cursor:pointer;font-size:0.78rem;color:var(--texto);transition:all .2s}
-.qopt:hover{border-color:rgba(11,143,204,0.4);color:var(--tinta);background:rgba(11,143,204,0.08)}
-.msg-ai{display:flex;gap:8px;align-items:flex-start}
-.msg-user{display:flex;justify-content:flex-end}
-.bbl-ai{background:var(--panel);border:1px solid rgba(11,143,204,0.15);border-radius:10px 10px 10px 0;padding:9px 12px;max-width:260px;font-size:0.8rem;color:var(--tinta);line-height:1.55}
-.bbl-user{background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));border-radius:10px 10px 0 10px;padding:9px 12px;max-width:260px;font-size:0.8rem;color:white;line-height:1.55}
-.ai-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-</style>
-
-<script>
-var chatOpen = false;
-var chatHistorial = [];
-var chatTypingActive = false;
-var quickOptsHidden = false;
-
-function toggleChat() {
-  chatOpen = !chatOpen;
-  var box = document.getElementById('chat-box');
-  document.getElementById('ico-open').style.display = chatOpen ? 'none' : 'block';
-  document.getElementById('ico-close').style.display = chatOpen ? 'block' : 'none';
-  document.getElementById('chat-notif').style.display = chatOpen ? 'none' : 'block';
-  box.style.display = chatOpen ? 'flex' : 'none';
-  if (chatOpen) setTimeout(function(){ document.getElementById('chat-input').focus(); }, 100);
-}
-
-function addAiMsg(text) {
-  var msgs = document.getElementById('chat-messages');
-  var div = document.createElement('div');
-  div.className = 'msg-ai';
-  div.innerHTML = '<div class="ai-avatar"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:white;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div><div class="bbl-ai">'+text+'</div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addUserMsg(text) {
-  var msgs = document.getElementById('chat-messages');
-  var div = document.createElement('div');
-  div.className = 'msg-user';
-  div.innerHTML = '<div class="bbl-user">'+text+'</div>';
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function hideQuickOpts() {
-  if (!quickOptsHidden) {
-    var opts = document.getElementById('quick-opts');
-    if (opts) opts.style.display = 'none';
-    quickOptsHidden = true;
-  }
-}
-
-function selOpt(opt) {
-  hideQuickOpts();
-  var labels = {
-    servicios: T('Información sobre servicios', 'Information about services'),
-    herramientas: T('Usar herramientas gratuitas', 'Use the free tools'),
-    precios: T('Ver precios y planes', 'See pricing and plans'),
-    profesional: T('Hablar con un profesional', 'Talk to a specialist'),
-    otro: T('Tengo otra pregunta', 'I have another question')
-  };
-  addUserMsg(labels[opt]);
-  chatHistorial.push({role:'user', content: labels[opt]});
-
-  if (opt === 'herramientas') {
-    setTimeout(function(){
-      var boton = ' style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:#FFFFFF;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
-      addAiMsg(T(
-        'Tenemos herramientas gratuitas para ayudarte a dimensionar tu sistema. Puedes calcular almacenamiento CCTV, BTU de HVAC, ancho de banda, ROI de seguridad y más.<br><br><a href="herramientas.html"' + boton + 'Ver todas las herramientas</a>',
-        'We have free tools that help you size your system. You can work out CCTV storage, HVAC BTU, bandwidth, security ROI and more.<br><br><a href="herramientas.html"' + boton + 'See all the tools</a>'));
-    }, 600);
-    return;
-  }
-
-  if (opt === 'profesional') {
-    setTimeout(function(){
-      var verde = ' target="_blank" style="display:inline-block;padding:8px 16px;background:var(--verde);color:var(--fondo);border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
-      addAiMsg(T(
-        'Con gusto te conectamos con uno de nuestros expertos para una evaluación gratuita.<br><br>Si creas tu cuenta gratis en el portal obtienes:<br>• Atención prioritaria<br>• Historial de servicios y garantías<br>• Seguimiento de tickets<br>• Cotizaciones guardadas<br><br><a href="https://portal.wifnix.com"' + verde + 'Crear cuenta gratis</a>',
-        'We would be glad to put you in touch with one of our specialists for a free evaluation.<br><br>Opening a free portal account gets you:<br>• Priority attention<br>• Service and warranty history<br>• Ticket tracking<br>• Saved quotes<br><br><a href="https://portal.wifnix.com"' + verde + 'Open a free account</a>'));
-      setTimeout(function(){
-        var tel = '<a href="tel:7873549596" style="color:var(--azul)">(787) 354-9596</a>';
-        var wa = '<a href="https://wa.me/17873549596" target="_blank" style="color:#25D366">WhatsApp</a>';
-        addAiMsg(T(
-          '¿Prefieres contactarnos directamente? Llámanos al ' + tel + ' o escríbenos por ' + wa + '. Horario: Lun-Vie 8am-6pm, Sáb 9am-1pm.',
-          'Would you rather reach us directly? Call us at ' + tel + ' or message us on ' + wa + '. Hours: Mon-Fri 8am-6pm, Sat 9am-1pm.'));
-      }, 1500);
-    }, 600);
-    return;
-  }
-
-  if (opt === 'precios') {
-    setTimeout(function(){
-      var boton2 = ' style="display:inline-block;padding:8px 16px;background:var(--azul-fuerte);color:#FFFFFF;border-radius:6px;font-size:0.75rem;font-weight:700;text-decoration:none;margin-top:4px">';
-      addAiMsg(T(
-        'Tenemos planes para cada tipo de negocio. Puedes comparar nuestras opciones en detalle.<br><br><a href="herramientas.html"' + boton2 + 'Ver comparador de planes</a>',
-        'We have plans for every kind of business. You can compare the options side by side.<br><br><a href="herramientas.html"' + boton2 + 'Open the plan comparison</a>'));
-    }, 600);
-    return;
-  }
-
-  // For servicios and otro - use AI
-  showTyping(true);
-  var prompt = opt === 'servicios'
-    ? T('El usuario quiere información sobre los servicios de Wifnix (CCTV, HVAC, redes, continuidad operacional, diseño web e IA). Da una respuesta concisa y atractiva. Contesta en español.',
-        'The user wants information about Wifnix services (CCTV, HVAC, networking, operational continuity, web design and AI). Give a short, appealing answer. Reply in English.')
-    : labels[opt] + T('', ' (reply in English)');
-
-  fetch('https://api.wifnix.com/api/chat/mensaje', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({mensaje: prompt, historial: chatHistorial.slice(-6)})
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    showTyping(false);
-    if (data.respuesta) {
-      addAiMsg(data.respuesta);
-      chatHistorial.push({role:'assistant', content: data.respuesta});
-    }
-  })
-  .catch(function(){
-    showTyping(false);
-    addAiMsg(T('Lo siento, tuve un problema. Llámanos al (787) 354-9596 o escríbenos por WhatsApp.',
-               'Sorry, something went wrong on my end. Call us at (787) 354-9596 or message us on WhatsApp.'));
-  });
-}
-
-function showTyping(show) {
-  document.getElementById('chat-typing').style.display = show ? 'block' : 'none';
-}
-
-function sendMessage() {
-  var input = document.getElementById('chat-input');
-  var msg = input.value.trim();
-  if (!msg || chatTypingActive) return;
-  input.value = '';
-  hideQuickOpts();
-  addUserMsg(msg);
-  chatHistorial.push({role:'user', content: msg});
-  chatTypingActive = true;
-  showTyping(true);
-
-  fetch('https://api.wifnix.com/api/chat/mensaje', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({mensaje: msg + T('', ' (reply in English)'), historial: chatHistorial.slice(-8)})
-  })
-  .then(function(r){return r.json();})
-  .then(function(data){
-    showTyping(false);
-    chatTypingActive = false;
-    if (data.respuesta) {
-      addAiMsg(data.respuesta);
-      chatHistorial.push({role:'assistant', content: data.respuesta});
-    }
-  })
-  .catch(function(){
-    showTyping(false);
-    chatTypingActive = false;
-    addAiMsg(T('Lo siento, tuve un problema. Llámanos al (787) 354-9596.',
-               'Sorry, something went wrong on my end. Call us at (787) 354-9596.'));
-  });
-}
-
-// Auto-open if #chat
-(function(){
-  if (window.location.hash === '#chat' || window.location.search.includes('chat=1')) {
-    var attempts = 0;
-    var t = setInterval(function(){
-      attempts++;
-      if (typeof toggleChat === 'function' && !chatOpen) {
-        clearInterval(t);
-        toggleChat();
-      }
-      if (attempts > 15) clearInterval(t);
-    }, 300);
-  }
-})();
-</script>
+     El boton se queda, en la misma esquina donde la gente ya lo busca,
+     pero abre WhatsApp, que es donde de verdad se contesta. El codigo
+     del chat esta en el historial de git si vuelve la llave. -->
+<a class="es" href="https://wa.me/17873549596" target="_blank" rel="noopener"
+   aria-label="Escribenos por WhatsApp" style="position:fixed;bottom:24px;right:24px;z-index:1000;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s"
+   onmouseover="this.style.transform=&#39;scale(1.08)&#39;"
+   onmouseout="this.style.transform=&#39;scale(1)&#39;">
+  <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:white" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.23 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.02h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 01-1.26-4.39c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 012.41 5.83c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
+</a>
+<a class="en" href="https://wa.me/17873549596" target="_blank" rel="noopener"
+   aria-label="Message us on WhatsApp" style="position:fixed;bottom:24px;right:24px;z-index:1000;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--azul-fuerte),var(--azul));box-shadow:0 8px 32px rgba(11,143,204,0.4);display:flex;align-items:center;justify-content:center;transition:transform .2s"
+   onmouseover="this.style.transform=&#39;scale(1.08)&#39;"
+   onmouseout="this.style.transform=&#39;scale(1)&#39;">
+  <svg viewBox="0 0 24 24" style="width:28px;height:28px;fill:white" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.23 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35z"/><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.02h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 01-1.26-4.39c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 012.41 5.83c0 4.54-3.7 8.23-8.24 8.23z"/></svg>
+</a>
 
 <script>
 // Un <select> cerrado sigue ensenando el texto de la opcion seleccionada
