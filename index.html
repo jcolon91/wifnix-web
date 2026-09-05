@@ -399,12 +399,31 @@ nav.scrolled{background:var(--velo)}
    Una fila de logotipos ajenos, cada uno con su color y su peso,
    es ruido. Van en gris, del mismo tamaño, y solo despiertan al
    pasar por encima. */
+/* Agrupadas por oficio. Un renglón de quince nombres seguidos no se
+   lee: se mira por encima. Partido en tres, cada marca queda al lado
+   del trabajo por el que la instalamos, y de paso la sección repite
+   los tres oficios sin decirlo otra vez. */
+.marcas-oficio{display:grid;grid-template-columns:180px 1fr;gap:0 32px;align-items:baseline}
+.marcas-tit{
+  font-family:var(--cuerpo);font-size:.9rem;font-weight:500;
+  color:var(--apagado);margin:0;padding-top:2px;
+  /* Se queda arriba cuando los nombres pasan a dos renglones. */
+  align-self:start;
+}
+@media (max-width:720px){
+  .marcas-oficio{grid-template-columns:1fr;gap:10px}
+  .marcas-tit{padding-top:0}
+}
+
 .marcas{
   list-style:none;margin:0;padding:0;
   display:flex;flex-wrap:wrap;align-items:center;
-  gap:14px 52px;
-  padding-bottom:26px;border-bottom:1px solid var(--filo);
+  gap:14px 44px;
+  padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--filo);
 }
+/* El último grupo no lleva raya: cerraría la sección justo antes de la
+   nota, y esa nota es parte de lo mismo, no algo aparte. */
+.marcas.ultima{border-bottom:0;padding-bottom:4px;margin-bottom:0}
 .marca{display:flex;align-items:center;min-height:34px}
 .marca img{
   max-height:30px;width:auto;display:block;
@@ -1586,16 +1605,44 @@ body{cursor:auto !important}
     <div class="si">
       <div class="seclabel es">Marcas que instalamos</div>
       <div class="seclabel en">Brands we install</div>
-      <ul class="marcas">
-          <li class="marca" data-marca="ubiquiti"><span class="marca-txt">Ubiquiti</span></li>
-          <li class="marca" data-marca="ens"><span class="marca-txt">ENS</span></li>
-          <li class="marca" data-marca="cambium"><span class="marca-txt">Cambium</span></li>
+      <div class="marcas-oficio">
+        <h3 class="marcas-tit es">Aires acondicionados</h3>
+        <h3 class="marcas-tit en">Air conditioning</h3>
+        <ul class="marcas">
+          <li class="marca" data-marca="carrier"><span class="marca-txt">Carrier</span></li>
+          <li class="marca" data-marca="fujitsu"><span class="marca-txt">Fujitsu</span></li>
+          <li class="marca" data-marca="midea"><span class="marca-txt">Midea</span></li>
+          <li class="marca" data-marca="gree"><span class="marca-txt">Gree</span></li>
+          <li class="marca" data-marca="tcl"><span class="marca-txt">TCL</span></li>
+          <li class="marca" data-marca="aux"><span class="marca-txt">AUX</span></li>
+        </ul>
+      </div>
+
+      <div class="marcas-oficio">
+        <h3 class="marcas-tit es">Cámaras y seguridad</h3>
+        <h3 class="marcas-tit en">Cameras and security</h3>
+        <ul class="marcas">
+          <li class="marca" data-marca="hikvision"><span class="marca-txt">Hikvision</span></li>
           <li class="marca" data-marca="unv"><span class="marca-txt">UNV</span></li>
-          <li class="marca" data-marca="tplink"><span class="marca-txt">TP-Link</span></li>
+          <li class="marca" data-marca="ens"><span class="marca-txt">ENS</span></li>
           <li class="marca" data-marca="titanium"><span class="marca-txt">Titanium</span></li>
-      </ul>
-      <p class="marcas-nota es">Trabajamos con equipo <strong>NDAA compliant</strong>, el estándar que exige el gobierno federal para instalaciones en agencias y contratistas. Si tu operación lo necesita, te lo especificamos por escrito en la propuesta.</p>
-      <p class="marcas-nota en">We work with <strong>NDAA compliant</strong> equipment, the standard the federal government requires for installations at agencies and contractors. If your operation needs it, we specify it in writing in the proposal.</p>
+          <li class="marca" data-marca="ajax"><span class="marca-txt">Ajax</span></li>
+          <li class="marca" data-marca="eufy"><span class="marca-txt">Eufy</span></li>
+        </ul>
+      </div>
+
+      <div class="marcas-oficio">
+        <h3 class="marcas-tit es">Redes y Wi-Fi</h3>
+        <h3 class="marcas-tit en">Networking and Wi-Fi</h3>
+        <ul class="marcas ultima">
+          <li class="marca" data-marca="ubiquiti"><span class="marca-txt">Ubiquiti</span></li>
+          <li class="marca" data-marca="cambium"><span class="marca-txt">Cambium</span></li>
+          <li class="marca" data-marca="tplink"><span class="marca-txt">TP-Link</span></li>
+        </ul>
+      </div>
+
+      <p class="marcas-nota es">Para agencias federales y contratistas cotizamos solo líneas <strong>NDAA compliant</strong> y lo especificamos por escrito en la propuesta. No todas las marcas de arriba lo son, así que si tu operación lo exige, dínoslo desde el principio.</p>
+      <p class="marcas-nota en">For federal agencies and contractors we quote only <strong>NDAA compliant</strong> lines and put it in writing in the proposal. Not every brand above qualifies, so if your operation requires it, tell us up front.</p>
     </div>
   </section>
 
