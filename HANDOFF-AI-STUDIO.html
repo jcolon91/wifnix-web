@@ -8,73 +8,89 @@
 main{max-width:820px;margin:0 auto;padding:20px 16px 60px}h1{font-size:1.5rem;margin:0 0 4px}h2{font-size:1.1rem;margin:28px 0 8px;color:var(--a)}
 .sub{color:var(--m);margin:0 0 18px}.card{background:var(--p);border:1px solid var(--b);border-radius:12px;padding:14px 16px;margin:10px 0}
 code,pre{font-family:ui-monospace,Menlo,monospace;font-size:.82rem}pre{background:var(--p);border:1px solid var(--b);border-radius:10px;padding:12px;overflow-x:auto;white-space:pre-wrap}
-ol,ul{padding-left:20px}li{margin:4px 0}.alerta{border-left:3px solid var(--g)}table{width:100%;border-collapse:collapse;font-size:.88rem}td,th{border-bottom:1px solid var(--b);padding:7px 4px;text-align:left;vertical-align:top}
+ol,ul{padding-left:20px}li{margin:4px 0}.alerta{border-left:3px solid var(--g)}
+.tabla{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.86rem}td,th{border-bottom:1px solid var(--b);padding:7px 5px;text-align:left;vertical-align:top}th{color:var(--m);font-size:.75rem;text-transform:uppercase}
 </style></head><body><main>
 <h1>Wifnix AI Studio</h1>
-<p class="sub">Handoff · 8 de octubre de 2026 · Créditos prepagados con Stripe + generación con la API de Higgsfield</p>
+<p class="sub">Handoff · 8 de octubre de 2026 · Rama <code>ai-studio</code> de jcolon91/wifnix-web</p>
 
 <h2>Qué es</h2>
-<div class="card">El cliente entra a <code>portal.wifnix.com/ai-studio.html</code> con su cuenta de Wifnix, recarga créditos ($10/$25/$50/$100) con Stripe Checkout, ve el precio exacto de cada imagen o video antes de generarlo, y el saldo se descuenta solo si lo aprueba. Si la generación falla, se le devuelve. El Estratega (Claude) le arma análisis, ángulos, guion y prompts. Higgsfield es el motor interno y el cliente no lo ve.</div>
+<div class="card">El cliente entra a <code>portal.wifnix.com/ai-studio.html</code> con su cuenta de Wifnix y recarga créditos ($10/$25/$50/$100) con Stripe; el dinero cae en la cuenta de Wifnix. Antes de cada imagen o video ve el precio exacto, y solo se descuenta si lo aprueba. Si falla, se le devuelve. Los modelos se usan <b>directo con cada proveedor</b>, y Higgsfield solo para Genjutsu y Kling. El Estratega (Claude) arma análisis, ángulos, guion y prompts por un precio fijo.</div>
 
-<h2>Cómo se garantiza la ganancia</h2>
+<h2>Modelos y precios</h2>
+<div class="tabla"><table>
+<tr><th>Modelo</th><th>Proveedor</th><th>Tu costo</th><th>Cliente paga (2×)</th></tr>
+<tr><td>Imagen · Nano Banana 2.1</td><td>Google</td><td>$0.034–0.113 + 1¢</td><td>mín. 25¢</td></tr>
+<tr><td>Imagen · Nano Banana Pro</td><td>Google</td><td>$0.134–0.24 + 3¢</td><td>33¢–54¢</td></tr>
+<tr><td>Imagen · Rápida (image-01)</td><td>MiniMax</td><td>$0.0035</td><td>25¢</td></tr>
+<tr><td>Video · Veo 3.1 Fast</td><td>Google</td><td>$0.10/s (720p), $0.12/s (1080p)</td><td>8 s 720p: $1.60</td></tr>
+<tr><td>Video · Veo 3.1 Lite</td><td>Google</td><td>$0.05/s, $0.08/s</td><td>8 s 720p: $0.80</td></tr>
+<tr><td>Video · Hailuo 2.3</td><td>MiniMax</td><td>$0.28 (6 s) · $0.56 (10 s) · $0.49 (1080P)</td><td>56¢ · $1.12 · 98¢</td></tr>
+<tr><td>Video · Hailuo 2.3 Fast</td><td>MiniMax</td><td>$0.19 · $0.32 · $0.33</td><td>38¢ · 64¢ · 66¢</td></tr>
+<tr><td>Genjutsu (movimiento y objeto)</td><td>Higgsfield</td><td>su estimado exacto</td><td>2×</td></tr>
+<tr><td>Kling 2.5 Pro</td><td>Higgsfield</td><td>su estimado exacto</td><td>2×</td></tr>
+<tr><td>Estratega</td><td>Anthropic</td><td>~5¢</td><td>15¢</td></tr>
+</table></div>
+<p class="sub">Las tarifas viven en <code>ai_modelos.tarifa</code>. Si un proveedor cambia su precio, actualiza la migración y vuelve a correrla: refresca tarifas sin tocar lo que activaste o desactivaste.</p>
+
+<h2>Cómo se protege la ganancia</h2>
 <ul>
-<li>Antes de cada generación se pide el costo real a Higgsfield (<code>/estimate</code>). Sin costo, no se genera.</li>
-<li>Precio = costo × <code>AI_MULTIPLICADOR</code> (2× por defecto, nunca menos de 1.10×), redondeado hacia arriba, mínimo 25¢. Todo en centavos enteros.</li>
-<li>La base de datos rechaza cualquier generación con precio menor que el costo.</li>
-<li>Si un envío queda ambiguo (Higgsfield pudo haber cobrado), no se reembolsa solo: pasa a <b>revisión</b> y te llega un correo.</li>
+<li>Sin costo conocido no se genera. Una combinación que no esté en la tarifa se rechaza.</li>
+<li>La base de datos no deja guardar una venta bajo costo ni un modelo de Google/MiniMax sin tarifa.</li>
+<li>Google y MiniMax no aceptan reintentos seguros: un envío dudoso (corte de red, reinicio del servidor, respuesta sin imagen) va a <b>revisión</b> con correo, nunca a reembolso automático ni a reenvío.</li>
+<li>Higgsfield sí: sus envíos cortados se reintentan con el mismo Idempotency-Key.</li>
+<li>Los archivos se copian al VPS al terminar (Google borra a los 2 días, MiniMax en minutos). Si no se pueden copiar en 8 intentos, la generación va a revisión.</li>
 </ul>
 
-<h2>Archivos nuevos</h2>
-<table>
-<tr><td><code>lib/ai-studio.js</code></td><td>Todo el backend: billetera, Stripe, Higgsfield, Estratega, reconciliador, admin</td></tr>
-<tr><td><code>migracion-ai-studio.sql</code></td><td>4 tablas: ai_billeteras, ai_movimientos, ai_generaciones, ai_modelos (6 modelos iniciales)</td></tr>
-<tr><td><code>ai-studio.html</code></td><td>Página del cliente (móvil primero, tema claro/oscuro, íconos SVG)</td></tr>
-<tr><td><code>ai_studio_instalar.py</code></td><td>Parche de server.js: 3 inserciones, idempotente, deja copia</td></tr>
+<h2>Archivos</h2>
+<div class="tabla"><table>
+<tr><td><code>lib/ai-studio.js</code></td><td>Billetera, Stripe, archivos, reconciliador, Estratega, admin</td></tr>
+<tr><td><code>lib/ai-proveedores.js</code></td><td>Conectores con Google, MiniMax y Higgsfield, y cálculo de tarifas</td></tr>
+<tr><td><code>migracion-ai-studio.sql</code></td><td>Tablas y los 10 modelos con su tarifa</td></tr>
+<tr><td><code>ai-studio.html</code></td><td>Página del cliente</td></tr>
+<tr><td><code>ai_studio_instalar.py</code></td><td>Parche de server.js (idempotente)</td></tr>
 <tr><td><code>.env.example</code></td><td>Variables nuevas al final</td></tr>
-</table>
+</table></div>
 
 <h2>Instalación en el VPS</h2>
 <ol>
-<li><b>Higgsfield:</b> crea la llave en <code>console.higgsfield.ai</code> y recarga saldo de API (es aparte de tu plan).</li>
-<li><b>Stripe:</b> Developers → Webhooks → Add endpoint <code>https://api.wifnix.com/api/ai/stripe/webhook</code> con los eventos <code>checkout.session.completed</code>, <code>checkout.session.async_payment_succeeded</code>, <code>charge.refunded</code>, <code>charge.dispute.created</code>. Copia el <code>whsec_</code>.</li>
-<li>Sube los archivos al repo y bájalos al servidor como siempre.</li>
+<li><b>Google:</b> aistudio.google.com → Get API key, con facturación activa.</li>
+<li><b>MiniMax:</b> platform.minimax.io → API Keys, y recarga saldo.</li>
+<li><b>Higgsfield:</b> console.higgsfield.ai → API keys, y recarga saldo de API.</li>
+<li><b>Stripe:</b> Developers → Webhooks → <code>https://api.wifnix.com/api/ai/stripe/webhook</code> con <code>checkout.session.completed</code>, <code>checkout.session.async_payment_succeeded</code>, <code>charge.refunded</code>, <code>charge.dispute.created</code>.</li>
 </ol>
 <pre>cd /var/www/wifnix/backend
 psql -U postgres -d wifnix -f migracion-ai-studio.sql
 mkdir -p /var/www/wifnix/ai-media
-# .env: HF_CREDENTIALS, STRIPE_AI_WEBHOOK_SECRET, AI_WEBHOOK_TOKEN, AI_FIRMA_SECRET (ver .env.example)
-openssl rand -hex 24   # AI_WEBHOOK_TOKEN
-openssl rand -hex 32   # AI_FIRMA_SECRET
+# .env: GOOGLE_AI_API_KEY, MINIMAX_API_KEY, HF_CREDENTIALS, STRIPE_AI_WEBHOOK_SECRET,
+#       AI_WEBHOOK_TOKEN (openssl rand -hex 24), AI_FIRMA_SECRET (openssl rand -hex 32)
 python3 ai_studio_instalar.py
 node --check server.js &amp;&amp; pm2 restart wifnix-api</pre>
-<p><code>ai-studio.html</code> va donde se sirve el portal, al lado de <code>portal.html</code>.</p>
-
-<h2>Probar antes de abrirlo</h2>
-<ol>
-<li>Usa llaves de Stripe en modo test y paga con <code>4242 4242 4242 4242</code>.</li>
-<li>Genera una imagen barata (Imagen realista, 2K, 1) y confirma que el saldo baja y el archivo aparece.</li>
-<li>Revisa <code>GET /api/admin/ai/resumen</code>: ingreso, costo y ganancia.</li>
-</ol>
+<p>Si nginx limita el tamaño de subida, súbelo a 110 MB para los videos de Genjutsu: <code>client_max_body_size 110m;</code> en el bloque de api.wifnix.com.</p>
+<p>Un proveedor sin llave simplemente no aparece para el cliente: puedes arrancar con uno solo.</p>
 
 <h2>Admin</h2>
 <ul>
-<li><code>GET /api/admin/ai/resumen?dias=30</code> — recargas, ingreso, costo de Higgsfield, ganancia, saldo pendiente de clientes</li>
-<li><code>GET /api/admin/ai/revision</code> — generaciones que necesitan que las mires</li>
-<li><code>PUT /api/admin/ai/generaciones/:id/resolver</code> con <code>{"accion":"reembolsar"}</code>, <code>{"accion":"vincular","hf_request_id":"..."}</code> o <code>{"accion":"cerrar"}</code></li>
-<li><code>PUT /api/admin/ai/billeteras/:uid/descongelar</code> — después de una disputa o reembolso</li>
+<li><code>GET /api/admin/ai/resumen?dias=30</code>: ingreso, costo por proveedor, ganancia y saldo pendiente de clientes</li>
+<li><code>GET /api/admin/ai/revision</code>: generaciones que necesitan que las mires</li>
+<li><code>PUT /api/admin/ai/generaciones/:id/resolver</code> con <code>{"accion":"reembolsar"}</code>, <code>{"accion":"vincular","proveedor_id":"..."}</code> o <code>{"accion":"cerrar"}</code></li>
+<li><code>PUT /api/admin/ai/billeteras/:uid/descongelar</code></li>
 </ul>
 
 <h2>Verificado</h2>
-<div class="card">42 pruebas contra PostgreSQL real con Stripe y Higgsfield simulados: recargas que no se duplican, 8 clics simultáneos con saldo para uno (solo 1 pasa), reembolsos únicos, webhooks falsos ignorados, envíos ambiguos a revisión, candado del reconciliador, 10,000 precios al azar nunca bajo costo. Firma real de Stripe validada con el SDK. server.js parcheado arranca y responde. Página renderizada en tamaño de iPhone, tema claro y oscuro, sin errores de JavaScript.</div>
+<div class="card">55 pruebas contra PostgreSQL real: dinero (recargas, cargos, reembolsos, doble gasto, revisión, admin), archivos (dueño, rutas, tipos, limpieza) y la forma exacta de cada llamada a Google, MiniMax y Higgsfield contra su documentación. Dos revisiones independientes del código; todos sus hallazgos corregidos con prueba. server.js parcheado arranca. Página revisada en tamaño de iPhone, claro y oscuro.</div>
 
 <h2>Pendientes y avisos</h2>
 <div class="card alerta"><ul>
-<li><b>Términos de Higgsfield</b> prohíben revender el acceso a la API (§5.2(i), §11.5); permiten apps para clientes con valor propio (§1.2). Pídeles confirmación por escrito antes de cobrar.</li>
-<li><b>El repo jcolon91/wifnix-web está público.</b> Ponlo privado.</li>
-<li><b>Bug existente:</b> el webhook de órdenes <code>/api/pagos/stripe/webhook</code> está registrado después de <code>express.json()</code>, así que la firma de Stripe nunca valida y las órdenes pagadas con Stripe no se marcan como pagadas.</li>
-<li><code>package-lock.json</code> no coincide con <code>package.json</code> (node-fetch 2 vs 3): <code>npm ci</code> falla.</li>
+<li><b>Veo 3.1 son modelos "preview"</b>: Google puede retirarlos desde el 22-oct-2026. Su reemplazo, Gemini Omni Flash, todavía no publica precio para 1080p ni cómo se fija la duración; cuando lo haga, se añade como modelo nuevo. Si Veo deja de funcionar, desactívalo: <code>UPDATE ai_modelos SET activo=false WHERE clave LIKE 'veo%';</code></li>
+<li><b>No probado en vivo</b> (no hay llaves en este ambiente): la primera generación real con cada proveedor debe hacerse con Stripe en modo test y tu propia cuenta.</li>
+<li>Los precios de Veo vienen de una fuente secundaria que cita a Google (sept. 2026). Confírmalos en la consola de Google antes de abrir.</li>
+<li>No sé si MiniMax cobra los videos que fallan; si los cobra, cada fallo te cuesta lo que costaba el video (el cliente igual recibe su crédito).</li>
+<li>Google empieza con un límite de $10 cada 10 minutos; sube cuando hayas pagado $100.</li>
+<li>Seedance (BytePlus) no está disponible en EE. UU./PR. Kling directo solo vende paquetes prepagados, por eso va por Higgsfield.</li>
+<li>Términos de Higgsfield: prohíben revender la API cruda (§5.2(i), §11.5). Ahora solo se usa para Genjutsu y Kling dentro de tu producto; igual pídeles confirmación por escrito.</li>
+<li>El repo jcolon91/wifnix-web está público. Ponlo privado.</li>
+<li>Bug existente: el webhook de órdenes <code>/api/pagos/stripe/webhook</code> está después de <code>express.json()</code> y nunca valida la firma.</li>
 <li>IVU: consulta con tu contable si aplica a los créditos.</li>
-<li>La página está solo en español; el resto del sitio es bilingüe.</li>
-<li>Modelos: solo los 6 verificados en el OpenAPI público. Para añadir Veo, Seedance u otros, busca su ruta en console.higgsfield.ai y haz INSERT en <code>ai_modelos</code>.</li>
 </ul></div>
 </main></body></html>

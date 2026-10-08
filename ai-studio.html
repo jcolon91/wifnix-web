@@ -14,6 +14,7 @@ d.setAttribute('data-tema',t);d.setAttribute('data-idioma','es');}catch(e){}})()
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
 body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);min-height:100vh;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.btn,.tab{font-family:'Plus Jakarta Sans',sans-serif}
 svg.i{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -64,6 +65,13 @@ svg.i{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-
 .subida img{width:64px;height:64px;object-fit:cover;border-radius:8px;background:var(--fondo3)}
 .subida .ph{width:64px;height:64px;border-radius:8px;background:var(--fondo3);display:flex;align-items:center;justify-content:center;color:var(--texto)}
 .subida div{font-size:.8rem;color:var(--texto)}
+.miniaturas{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.mini{position:relative;width:64px;height:64px;border-radius:8px;overflow:hidden;background:var(--fondo3);border:1px solid var(--filo2)}
+.mini img,.mini video{width:100%;height:100%;object-fit:cover}
+.mini button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.65);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.mini button svg.i{width:12px;height:12px}
+.mini.subiendo::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.grupo{font-size:.7rem;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px;grid-column:1/-1}
 
 .precio{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--fondo2);border:1px solid var(--filo2);border-radius:10px;padding:12px 14px;margin:6px 0 12px}
 .precio b{font-size:1.25rem}
@@ -184,20 +192,31 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
         <p class="sub">Empieza con una imagen del personaje o producto, y luego anímala en video.</p>
         <div class="modelos" id="modelos"></div>
 
+        <div id="bloqueVideo" hidden>
+          <div class="campo">
+            <label>Tu video (MP4, de 4 a 30 segundos)</label>
+            <div class="subida" onclick="$('archivoVideo').click()">
+              <div class="ph"><svg class="i"><use href="#i-video"/></svg></div>
+              <div id="txtVideo">Toca para subir el video que grabaste (hasta 100 MB)</div>
+            </div>
+            <input type="file" id="archivoVideo" accept="video/mp4" hidden>
+          </div>
+        </div>
+
         <div id="bloqueImagen" hidden>
           <div class="campo">
-            <label>Imagen de inicio</label>
-            <div class="subida" onclick="document.getElementById('archivo').click()">
-              <div class="ph" id="phImagen"><svg class="i"><use href="#i-subir"/></svg></div>
-              <img id="prevImagen" hidden alt="">
+            <label id="lblImagen">Imagen</label>
+            <div class="subida" onclick="$('archivo').click()">
+              <div class="ph"><svg class="i"><use href="#i-subir"/></svg></div>
               <div id="txtImagen">Toca para subir una foto (JPG, PNG o WEBP, hasta 10 MB)</div>
             </div>
+            <div class="miniaturas" id="miniaturas"></div>
             <input type="file" id="archivo" accept="image/jpeg,image/png,image/webp" hidden>
           </div>
         </div>
 
         <div class="campo">
-          <label for="prompt">Describe la escena</label>
+          <label for="prompt" id="lblPrompt">Describe la escena</label>
           <textarea id="prompt" maxlength="2500" placeholder="Ej: Mujer de 30 años en una cocina luminosa en Puerto Rico prepara un café frío, lo prueba y sonríe a cámara, luz natural de mañana, estilo video de celular"></textarea>
         </div>
         <div class="fila" id="parametros"></div>
@@ -217,7 +236,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
     <div class="vista" id="v-estratega">
       <div class="card">
         <h2>El Estratega</h2>
-        <p class="sub">Analiza a tu cliente ideal, propone ángulos de venta y te arma el guion escena por escena, con los prompts listos para generar. Gratis con saldo en tu cuenta.</p>
+        <p class="sub">Analiza a tu cliente ideal, propone ángulos de venta y te arma el guion escena por escena, con los prompts listos para generar. <span id="precioEstratega"></span></p>
         <div class="campo"><label for="eProducto">Tu producto o servicio</label>
           <textarea id="eProducto" maxlength="1500" placeholder="Ej: Café de especialidad tostado en Santurce. Bolsas de 12 oz, $18. Vendemos en la tienda y por envío a toda la isla."></textarea></div>
         <div class="fila">
@@ -263,7 +282,7 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 var API = 'https://api.wifnix.com';
 var token = null;
 try { token = localStorage.getItem('wifnix_token'); } catch (e) {}
-var estado = { saldo: 0, modelos: [], modelo: null, imagenUrl: null, precio: null, paquetes: [] };
+var estado = { saldo: 0, modelos: [], modelo: null, imagenes: [], video: null, precio: null, paquetes: [] };
 
 function $(id) { return document.getElementById(id); }
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -291,6 +310,7 @@ async function iniciar() {
   var r = await api('GET', '/api/ai/estado');
   if (!r.ok) return avisar('No se pudo cargar AI Studio.', true);
   estado.paquetes = r.d.paquetes || [];
+  if (r.d.estratega_centavos > 0) $('precioEstratega').textContent = 'Cada estrategia cuesta ' + dinero(r.d.estratega_centavos) + '.';
   ponerSaldo(r.d.saldo_centavos);
   if (r.d.congelada) { mostrar('app'); avisar('Tu cuenta de AI Studio está en revisión. Escríbenos a customerservice@wifnix.com.', true); }
   else if (!r.d.acepto_terminos) return mostrar('terminos');
@@ -330,22 +350,42 @@ function irA(v) {
 }
 
 /* ── Modelos y parámetros ── */
-var NOMBRES = { duration: 'Duración', aspect_ratio: 'Formato', resolution: 'Resolución', num_images: 'Cantidad', negative_prompt: 'Evitar' };
-var SUFIJO = { duration: ' segundos', num_images: '' };
+var NOMBRES = { duration: 'Duración', durationSeconds: 'Duración', aspect_ratio: 'Formato', aspectRatio: 'Formato',
+  resolution: 'Resolución', image_size: 'Calidad', negative_prompt: 'Evitar' };
+var SUFIJO = { duration: ' segundos', durationSeconds: ' segundos' };
+var GRUPOS = [['imagen', 'Imágenes'], ['video', 'Videos'], ['genjutsu', 'Genjutsu · con tu propio video']];
+function grupoDe(m) { return (m.entradas && m.entradas.video) ? 'genjutsu' : m.tipo; }
+function maxImg(m) { return ((m.entradas || {}).imagenes || [0, 0])[1]; }
+function minImg(m) { return ((m.entradas || {}).imagenes || [0, 0])[0]; }
+
 async function cargarModelos() {
   var r = await api('GET', '/api/ai/modelos');
   estado.modelos = r.d || [];
-  $('modelos').innerHTML = estado.modelos.map(function (m) {
-    return '<button class="modelo" data-k="' + esc(m.clave) + '"><b>' + icono(m.tipo === 'video' ? 'video' : 'imagen') + esc(m.nombre) + '</b><span>' + esc(m.descripcion || '') + '</span></button>';
+  $('modelos').innerHTML = GRUPOS.map(function (gr) {
+    var ms = estado.modelos.filter(function (m) { return grupoDe(m) === gr[0]; });
+    if (!ms.length) return '';
+    return '<div class="grupo">' + esc(gr[1]) + '</div>' + ms.map(function (m) {
+      return '<button class="modelo" data-k="' + esc(m.clave) + '"><b>' + icono(m.tipo === 'video' ? 'video' : 'imagen') + esc(m.nombre) + '</b><span>' + esc(m.descripcion || '') + '</span></button>';
+    }).join('');
   }).join('');
   $('modelos').querySelectorAll('.modelo').forEach(function (b) { b.onclick = function () { escogerModelo(b.dataset.k); }; });
   if (estado.modelos.length) escogerModelo(estado.modelos[0].clave);
 }
 function escogerModelo(k) {
   estado.modelo = estado.modelos.find(function (m) { return m.clave === k; });
+  var m = estado.modelo;
   document.querySelectorAll('.modelo').forEach(function (b) { b.classList.toggle('on', b.dataset.k === k); });
-  $('bloqueImagen').hidden = !estado.modelo.requiere_imagen;
-  var p = estado.modelo.parametros || {};
+  var max = maxImg(m), min = minImg(m);
+  // Se quedan las imágenes que quepan en el modelo nuevo.
+  estado.imagenes = estado.imagenes.slice(0, max);
+  $('bloqueImagen').hidden = max === 0;
+  $('lblImagen').textContent = m.entradas && m.entradas.video
+    ? 'Tu personaje o producto (' + (max > 1 ? '1 a ' + max + ' fotos' : '1 foto') + ')'
+    : (min ? 'Imagen de inicio' : (max > 1 ? 'Fotos de referencia (opcional, hasta ' + max + ')' : 'Imagen de inicio (opcional)'));
+  $('bloqueVideo').hidden = !(m.entradas && m.entradas.video);
+  $('lblPrompt').textContent = m.prompt_requerido === false ? 'Instrucciones (opcional)' : 'Describe la escena';
+  pintarMiniaturas();
+  var p = m.parametros || {};
   $('parametros').innerHTML = Object.keys(p).map(function (k2) {
     var regla = p[k2];
     if (Array.isArray(regla)) {
@@ -361,24 +401,46 @@ function invalidarPrecio() { estado.precio = null; $('cajaPrecio').hidden = true
 $('prompt').addEventListener('input', invalidarPrecio);
 
 function cuerpoGeneracion() {
-  var c = { modelo: estado.modelo.clave, prompt: $('prompt').value.trim() };
-  if (estado.modelo.requiere_imagen) c.image_url = estado.imagenUrl;
+  var c = { modelo: estado.modelo.clave, prompt: $('prompt').value.trim(), imagenes: estado.imagenes.map(function (x) { return x.ref; }) };
+  if (estado.modelo.entradas && estado.modelo.entradas.video && estado.video) c.video = estado.video.ref;
   $('parametros').querySelectorAll('[data-p]').forEach(function (el) { if (el.value) c[el.dataset.p] = el.value; });
   return c;
 }
 
-/* ── Subir imagen ── */
+/* ── Subir archivos ── */
+function pintarMiniaturas() {
+  $('miniaturas').innerHTML = estado.imagenes.map(function (x, i) {
+    return '<div class="mini"><img src="' + esc(x.vista) + '" alt=""><button aria-label="Quitar" onclick="quitarImagen(' + i + ')">' + icono('x') + '</button></div>';
+  }).join('');
+  var max = estado.modelo ? maxImg(estado.modelo) : 0;
+  $('txtImagen').textContent = estado.imagenes.length >= max && max > 0
+    ? 'Listo. Quita una para cambiarla.'
+    : 'Toca para subir una foto (JPG, PNG o WEBP, hasta 10 MB)';
+}
+function quitarImagen(i) { estado.imagenes.splice(i, 1); pintarMiniaturas(); invalidarPrecio(); }
+async function subirArchivo(f) {
+  var fd = new FormData(); fd.append('archivo', f);
+  return api('POST', '/api/ai/subir', fd, true);
+}
 $('archivo').addEventListener('change', async function () {
-  var f = this.files[0]; if (!f) return;
+  var f = this.files[0]; this.value = ''; if (!f) return;
+  if (estado.imagenes.length >= maxImg(estado.modelo)) return avisar('Ya tienes el máximo de fotos para este modelo.', true);
   if (f.size > 10 * 1024 * 1024) return avisar('La imagen pasa de 10 MB.', true);
-  $('prevImagen').src = URL.createObjectURL(f); $('prevImagen').hidden = false; $('phImagen').hidden = true;
   $('txtImagen').textContent = 'Subiendo...';
-  estado.imagenUrl = null; invalidarPrecio();
-  var fd = new FormData(); fd.append('imagen', f);
-  var r = await api('POST', '/api/ai/subir', fd, true);
-  if (r.ok) { estado.imagenUrl = r.d.url; $('txtImagen').textContent = 'Imagen lista. Toca para cambiarla.'; }
-  else { $('txtImagen').textContent = r.d.error || 'No se pudo subir.'; avisar(r.d.error || 'No se pudo subir la imagen.', true); }
-  this.value = '';
+  var r = await subirArchivo(f);
+  if (!r.ok) { pintarMiniaturas(); return avisar(r.d.error || 'No se pudo subir la imagen.', true); }
+  estado.imagenes.push({ ref: r.d.ref, vista: URL.createObjectURL(f) });
+  pintarMiniaturas(); invalidarPrecio();
+});
+$('archivoVideo').addEventListener('change', async function () {
+  var f = this.files[0]; this.value = ''; if (!f) return;
+  if (f.size > 100 * 1024 * 1024) return avisar('El video pasa de 100 MB.', true);
+  $('txtVideo').textContent = 'Subiendo ' + (f.size / 1048576).toFixed(1) + ' MB...';
+  estado.video = null; invalidarPrecio();
+  var r = await subirArchivo(f);
+  if (!r.ok) { $('txtVideo').textContent = r.d.error || 'No se pudo subir.'; return avisar(r.d.error || 'No se pudo subir el video.', true); }
+  estado.video = { ref: r.d.ref };
+  $('txtVideo').textContent = 'Video listo: ' + f.name + '. Toca para cambiarlo.';
 });
 
 /* ── Cotizar y generar ── */
@@ -389,8 +451,10 @@ function actualizarDespues() {
 }
 async function cotizar() {
   if (!estado.modelo) return;
-  if (estado.modelo.requiere_imagen && !estado.imagenUrl) return avisar('Sube la imagen de inicio primero.', true);
-  if ($('prompt').value.trim().length < 3) return avisar('Describe la escena.', true);
+  var m = estado.modelo;
+  if (estado.imagenes.length < minImg(m)) return avisar(m.entradas && m.entradas.video ? 'Sube la foto de tu personaje o producto.' : 'Sube la imagen de inicio primero.', true);
+  if (m.entradas && m.entradas.video && !estado.video) return avisar('Sube tu video primero.', true);
+  if (m.prompt_requerido !== false && $('prompt').value.trim().length < 3) return avisar('Describe la escena.', true);
   var b = $('btnCotizar'); b.disabled = true; b.innerHTML = icono('carga', 'girar') + 'Calculando';
   try {
     var r = await api('POST', '/api/ai/cotizar', cuerpoGeneracion());
@@ -413,7 +477,9 @@ async function generar() {
   if (!r.ok) { invalidarPrecio(); return avisar(r.d.error || 'No se pudo generar.', true); }
   ponerSaldo(r.d.saldo_centavos);
   invalidarPrecio();
-  avisar(r.d.generacion.estado === 'fallido' ? r.d.generacion.error : 'Generando. Te aviso cuando esté.', r.d.generacion.estado === 'fallido');
+  var est = r.d.generacion.estado;
+  var malo = ['fallido', 'nsfw'].indexOf(est) >= 0;
+  avisar(malo || est === 'revision' ? r.d.generacion.error : (est === 'completado' ? 'Listo.' : 'Generando. Te aviso cuando esté.'), malo);
   irA('creaciones');
 }
 
@@ -427,14 +493,14 @@ var ESTADOS = {
 function tarjeta(g) {
   var e = ESTADOS[g.estado] || [g.estado, '', 'ok'];
   var abierta = ['pendiente', 'en_cola', 'en_proceso'].indexOf(g.estado) >= 0;
-  var media = '<div class="media sin">' + (abierta ? icono('carga', 'girar') + '&nbsp;Generando...' : (g.error ? esc(g.error) : 'Sin vista previa')) + '</div>';
+  var media = '<div class="media sin">' + (abierta || g.estado === 'revision' ? icono('carga', 'girar') + '&nbsp;' + (g.estado === 'revision' ? 'Verificando...' : 'Generando...') : (g.copiando ? icono('carga', 'girar') + '&nbsp;Preparando el archivo...' : (g.error ? esc(g.error) : 'Sin vista previa'))) + '</div>';
   var a = (g.archivos || [])[0];
   if (a && a.tipo === 'video') media = '<div class="media"><video src="' + esc(a.url) + '" controls playsinline preload="metadata"></video></div>';
   else if (a) media = '<div class="media"><img src="' + esc(a.url) + '" alt="" loading="lazy"></div>';
   var bajar = (g.archivos || []).map(function (x, i) {
     return '<a class="btn sec chico" href="' + esc(x.url) + '" download target="_blank" rel="noopener">' + icono('bajar') + 'Descargar' + ((g.archivos.length > 1) ? ' ' + (i + 1) : '') + '</a>';
   }).join(' ');
-  if (a && a.tipo === 'imagen') bajar += ' <button class="btn chico" onclick="animar(\'' + esc(a.url) + '\')">' + icono('video') + 'Animar</button>';
+  if (a && a.tipo === 'imagen') bajar += ' <button class="btn chico" onclick="animar(\'' + esc(a.ref) + '\',\'' + esc(a.url) + '\')">' + icono('video') + 'Animar</button>';
   return '<article class="item" id="g-' + esc(g.id) + '">' + media + '<div class="info">' +
     '<span class="chip ' + e[1] + '">' + icono(e[2], abierta ? 'girar' : '') + esc(e[0]) + '</span>' +
     '<p>' + esc(g.prompt) + '</p>' +
@@ -474,13 +540,12 @@ async function revisar(g) {
 
 // Una imagen ya creada pasa a ser el primer cuadro de un video,
 // sin descargarla y volverla a subir.
-function animar(url) {
-  var m = estado.modelos.find(function (x) { return x.requiere_imagen; });
+function animar(ref, vista) {
+  var m = estado.modelos.find(function (x) { return x.tipo === 'video' && maxImg(x) > 0 && !(x.entradas && x.entradas.video); });
   if (!m) return;
   irA('crear'); escogerModelo(m.clave);
-  estado.imagenUrl = url;
-  $('prevImagen').src = url; $('prevImagen').hidden = false; $('phImagen').hidden = true;
-  $('txtImagen').textContent = 'Usando tu imagen creada. Toca para cambiarla.';
+  estado.imagenes = [{ ref: ref, vista: vista }];
+  pintarMiniaturas(); invalidarPrecio();
   $('prompt').focus();
 }
 
@@ -521,6 +586,7 @@ async function estratega() {
     if (r.s === 402) { abrirRecarga(); return avisar(r.d.error, true); }
     if (!r.ok) return avisar(r.d.error || 'No se pudo armar la estrategia.', true);
     pintarEstrategia(r.d);
+    var s2 = await api('GET', '/api/ai/estado'); if (s2.ok) ponerSaldo(s2.d.saldo_centavos);
   } finally { b.disabled = false; b.innerHTML = icono('cerebro') + 'Armar estrategia'; }
 }
 var escenas = [];
@@ -547,14 +613,18 @@ function pintarEstrategia(d) {
 }
 function usarEscena(i, tipo) {
   var e = escenas[i]; if (!e) return;
-  var clave = tipo === 'imagen' ? 'soul-imagen' : (e.modelo && e.modelo !== 'soul-imagen' ? e.modelo : 'kling-pro-imagen-a-video');
-  if (!estado.modelos.some(function (m) { return m.clave === clave; })) clave = estado.modelos[0].clave;
+  var existe = function (k) { return estado.modelos.some(function (m) { return m.clave === k; }); };
+  var clave = tipo === 'imagen' ? e.modelo_imagen : e.modelo_video;
+  if (!existe(clave)) {
+    var alt = estado.modelos.find(function (m) { return m.tipo === tipo && !(m.entradas && m.entradas.video); });
+    if (!alt) return avisar('No hay modelos de ' + tipo + ' disponibles.', true);
+    clave = alt.clave;
+  }
   irA('crear'); escogerModelo(clave);
-  var texto = tipo === 'imagen' ? e.prompt_imagen : (e.prompt_video || '') + (e.dialogo ? '\nShe/he says: "' + e.dialogo + '"' : '');
-  $('prompt').value = texto || '';
-  var ar = document.querySelector('[data-p="aspect_ratio"]'); if (ar) ar.value = '9:16';
+  $('prompt').value = (tipo === 'imagen' ? e.prompt_imagen : (e.prompt_video || '') + (e.dialogo ? '\nShe/he says: "' + e.dialogo + '"' : '')) || '';
+  ['aspect_ratio', 'aspectRatio'].forEach(function (k) { var el = document.querySelector('[data-p="' + k + '"]'); if (el) el.value = '9:16'; });
   invalidarPrecio();
-  if (tipo === 'video' && !estado.imagenUrl) avisar('Sube la imagen de la escena (la que generaste) como imagen de inicio.');
+  if (tipo === 'video' && !estado.imagenes.length) avisar('Si ya creaste la imagen de esta escena, ve a Creaciones y toca Animar.');
 }
 
 iniciar().catch(function (e) { if (e.message !== 'sesion') avisar('Error cargando AI Studio.', true); });
