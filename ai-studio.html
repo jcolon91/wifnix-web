@@ -71,6 +71,11 @@ svg.i{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-
 .mini button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.65);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .mini button svg.i{width:12px;height:12px}
 .mini.subiendo::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.modo{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--fondo2);border:1px solid var(--filo2);border-radius:11px;padding:4px;margin-bottom:12px}
+.modo button{border:none;background:none;color:var(--texto);border-radius:8px;padding:9px 6px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.modo button small{font-family:'DM Sans',sans-serif;font-weight:500;font-size:.68rem;opacity:.85}
+.modo button.on{background:var(--azul-fuerte);color:#fff}
+.nota-ia{display:flex;gap:8px;align-items:flex-start;background:var(--azul-tenue);border:1px solid var(--filo2);border-radius:9px;padding:10px 12px;font-size:.8rem;margin:-4px 0 12px;line-height:1.45}
 .grupo{font-size:.7rem;font-weight:700;color:var(--texto);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px;grid-column:1/-1}
 
 .precio{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--fondo2);border:1px solid var(--filo2);border-radius:10px;padding:12px 14px;margin:6px 0 12px}
@@ -221,10 +226,18 @@ td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
           </div>
         </div>
 
+        <div class="modo" role="radiogroup" aria-label="Modo de generación">
+          <button type="button" class="on" data-modo="directo" onclick="ponerModo('directo')">Directo<small>Escribes tu descripción</small></button>
+          <button type="button" data-modo="asistido" onclick="ponerModo('asistido')">Asistido por IA<small id="precioAsistido">La IA arma el prompt</small></button>
+        </div>
         <div class="campo">
           <label for="prompt" id="lblPrompt">Describe la escena</label>
           <textarea id="prompt" maxlength="2500" placeholder="Ej: Mujer de 30 años en una cocina luminosa en Puerto Rico prepara un café frío, lo prueba y sonríe a cámara, luz natural de mañana, estilo video de celular"></textarea>
         </div>
+        <div id="bloqueMejorar" hidden>
+          <button class="btn sec full" id="btnMejorar" onclick="mejorarPrompt()" style="margin:-4px 0 12px"><svg class="i"><use href="#i-chispa"/></svg>Mejorar con IA</button>
+        </div>
+        <div class="nota-ia" id="notaIA" hidden><svg class="i"><use href="#i-chispa"/></svg><span id="txtNotaIA"></span></div>
         <div class="fila" id="parametros"></div>
 
         <div class="precio" id="cajaPrecio" hidden>
@@ -325,6 +338,8 @@ async function iniciar() {
   if (!r.ok) return avisar('No se pudo cargar AI Studio.', true);
   estado.paquetes = r.d.paquetes || [];
   estado.esAdmin = !!r.d.es_admin;
+  estado.asistidoCentavos = r.d.asistido_centavos || 0;
+  if (estado.asistidoCentavos) $('precioAsistido').textContent = 'Mejor resultado · +' + dinero(estado.asistidoCentavos);
   if (r.d.estratega_centavos > 0) $('precioEstratega').textContent = 'Cada estrategia cuesta ' + dinero(r.d.estratega_centavos) + '.';
   ponerSaldo(r.d.saldo_centavos);
   if (r.d.congelada) { mostrar('app'); avisar('Tu cuenta de AI Studio está en revisión. Escríbenos a customerservice@wifnix.com.', true); }
@@ -399,7 +414,7 @@ function escogerModelo(k) {
     ? 'Tu personaje o producto (' + (max > 1 ? '1 a ' + max + ' fotos' : '1 foto') + ')'
     : (min ? 'Imagen de inicio' : (max > 1 ? 'Fotos de referencia (opcional, hasta ' + max + ')' : 'Imagen de inicio (opcional)'));
   $('bloqueVideo').hidden = !(m.entradas && m.entradas.video);
-  $('lblPrompt').textContent = m.prompt_requerido === false ? 'Instrucciones (opcional)' : 'Describe la escena';
+  actualizarEtiquetaPrompt();
   pintarMiniaturas();
   var p = m.parametros || {};
   $('parametros').innerHTML = Object.keys(p).map(function (k2) {
@@ -421,6 +436,42 @@ function cuerpoGeneracion() {
   if (estado.modelo.entradas && estado.modelo.entradas.video && estado.video) c.video = estado.video.ref;
   $('parametros').querySelectorAll('[data-p]').forEach(function (el) { if (el.value) c[el.dataset.p] = el.value; });
   return c;
+}
+
+/* ── Modo directo o asistido ── */
+estado.modo = 'directo';
+function ponerModo(m) {
+  estado.modo = m;
+  document.querySelectorAll('.modo button').forEach(function (b) { b.classList.toggle('on', b.dataset.modo === m); });
+  $('bloqueMejorar').hidden = m !== 'asistido';
+  if (m === 'directo') $('notaIA').hidden = true;
+  actualizarEtiquetaPrompt();
+}
+function actualizarEtiquetaPrompt() {
+  var m = estado.modelo; if (!m) return;
+  $('lblPrompt').textContent = estado.modo === 'asistido'
+    ? 'Tu idea, en tus palabras'
+    : (m.prompt_requerido === false ? 'Instrucciones (opcional)' : 'Describe la escena');
+  $('prompt').placeholder = estado.modo === 'asistido'
+    ? 'Ej: una muchacha en su cocina prueba nuestro café frío y le encanta'
+    : 'Ej: Mujer de 30 años en una cocina luminosa en Puerto Rico prepara un café frío, lo prueba y sonríe a cámara, luz natural de mañana, estilo video de celular';
+}
+async function mejorarPrompt() {
+  if ($('prompt').value.trim().length < 3) return avisar('Escribe tu idea primero, aunque sea corta.', true);
+  if (estado.asistidoCentavos && estado.saldo < estado.asistidoCentavos) return abrirRecarga();
+  var b = $('btnMejorar'); b.disabled = true; b.innerHTML = icono('carga', 'girar') + 'La IA está escribiendo tu prompt';
+  try {
+    var c = cuerpoGeneracion();
+    var r = await api('POST', '/api/ai/mejorar-prompt', c);
+    if (r.s === 402) return abrirRecarga();
+    if (!r.ok) return avisar(r.d.error || 'No se pudo mejorar.', true);
+    $('prompt').value = r.d.prompt;
+    $('txtNotaIA').textContent = (r.d.notas ? r.d.notas + ' ' : '') + 'Puedes editarlo antes de generar.';
+    $('notaIA').hidden = false;
+    $('lblPrompt').textContent = 'Prompt mejorado por IA (puedes editarlo)';
+    ponerSaldo(r.d.saldo_centavos);
+    invalidarPrecio();
+  } finally { b.disabled = false; b.innerHTML = icono('chispa') + 'Mejorar otra vez'; }
 }
 
 /* ── Subir archivos ── */

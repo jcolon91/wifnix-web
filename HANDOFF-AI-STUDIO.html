@@ -30,6 +30,7 @@ ol,ul{padding-left:20px}li{margin:4px 0}.alerta{border-left:3px solid var(--g)}
 <tr><td>Genjutsu (movimiento y objeto)</td><td>Higgsfield</td><td>su estimado exacto</td><td>2×</td></tr>
 <tr><td>Kling 2.5 Pro</td><td>Higgsfield</td><td>su estimado exacto</td><td>2×</td></tr>
 <tr><td>Estratega</td><td>Anthropic</td><td>~5¢</td><td>15¢</td></tr>
+<tr><td>Modo asistido (mejorar prompt)</td><td>Anthropic</td><td>~1–2¢</td><td>10¢ + la generación</td></tr>
 </table></div>
 <p class="sub">Las tarifas viven en <code>ai_modelos.tarifa</code>. Si un proveedor cambia su precio, actualiza la migración y vuelve a correrla: refresca tarifas sin tocar lo que activaste o desactivaste.</p>
 
@@ -70,6 +71,9 @@ node --check server.js &amp;&amp; pm2 restart wifnix-api</pre>
 <p>Si nginx limita el tamaño de subida, súbelo a 110 MB para los videos de Genjutsu: <code>client_max_body_size 110m;</code> en el bloque de api.wifnix.com.</p>
 <p>Un proveedor sin llave simplemente no aparece para el cliente: puedes arrancar con uno solo.</p>
 
+<h2>Dos modos de generar</h2>
+<div class="card"><b>Directo:</b> el cliente escribe su descripción y genera. <b>Asistido por IA:</b> el cliente escribe su idea en sus palabras; Claude la convierte en un prompt profesional para el modelo escogido (y mira la foto de inicio si hay), cobra un cargo fijo y el cliente puede editar el resultado antes de generar. Si la IA falla, el cargo se devuelve.</div>
+
 <h2>Galería "Hecho con Wifnix AI"</h2>
 <div class="card">Genera tus ejemplos en tu propia cuenta de AI Studio. En <b>Creaciones</b>, toca <b>Publicar</b> en los mejores: aparecen en la pestaña <b>Ideas</b> y en la página pública con la insignia de Wifnix AI y el botón "Crear algo así". Solo puedes publicar creaciones tuyas, nunca las de un cliente. Mientras no publiques nada, las dos páginas muestran espacios de muestra.<br><br>
 Ocultar: <code>PUT /api/admin/ai/ejemplos/:id {"publicado":false}</code> · Orden: <code>{"orden":1}</code> · Borrar: <code>DELETE /api/admin/ai/ejemplos/:id</code></div>
@@ -83,7 +87,7 @@ Ocultar: <code>PUT /api/admin/ai/ejemplos/:id {"publicado":false}</code> · Orde
 </ul>
 
 <h2>Verificado</h2>
-<div class="card">60 pruebas contra PostgreSQL real: dinero (recargas, cargos, reembolsos, doble gasto, revisión, admin), archivos (dueño, rutas, tipos, limpieza) y la forma exacta de cada llamada a Google, MiniMax y Higgsfield contra su documentación. Dos revisiones independientes del código; todos sus hallazgos corregidos con prueba. server.js parcheado arranca. Página revisada en tamaño de iPhone, claro y oscuro.</div>
+<div class="card">63 pruebas contra PostgreSQL real: dinero (recargas, cargos, reembolsos, doble gasto, revisión, admin), archivos (dueño, rutas, tipos, limpieza) y la forma exacta de cada llamada a Google, MiniMax y Higgsfield contra su documentación. Dos revisiones independientes del código; todos sus hallazgos corregidos con prueba. server.js parcheado arranca. Página revisada en tamaño de iPhone, claro y oscuro.</div>
 
 <h2>Pendientes y avisos</h2>
 <div class="card alerta"><ul>
