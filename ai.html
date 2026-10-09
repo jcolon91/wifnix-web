@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wifnix AI — Anuncios con inteligencia artificial para tu negocio</title>
+<meta name="description" content="Crea imágenes y videos para anunciar tu negocio con inteligencia artificial. Sin suscripción: pagas solo lo que generas. Hecho en Puerto Rico.">
+<meta property="og:title" content="Wifnix AI — Anuncios con IA para tu negocio">
+<meta property="og:description" content="Imágenes y videos para tus anuncios, sin filmar y sin suscripción. Pagas solo lo que generas.">
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('wx-tema');
+if(!t)t=matchMedia('(prefers-color-scheme: light)').matches?'claro':'oscuro';
+d.setAttribute('data-tema',t);d.setAttribute('data-idioma','es');}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/wifnix.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important}
+body{font-family:'DM Sans',sans-serif;background:var(--fondo);color:var(--tinta);-webkit-font-smoothing:antialiased;line-height:1.55}
+h1,h2,h3,.btn{font-family:'Plus Jakarta Sans',sans-serif}
+a{color:inherit}
+svg.i{width:20px;height:20px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+section{padding:56px 0}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--azul)}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;line-height:1.15;margin:8px 0 10px}
+.lead{color:var(--texto);font-size:1rem;max-width:620px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;background:var(--azul-fuerte);color:#fff;font-weight:700;font-size:.88rem;border-radius:10px;border:none;text-decoration:none;cursor:pointer;transition:filter .2s}
+.btn:hover{filter:brightness(1.1)}
+.btn.sec{background:transparent;color:var(--tinta);border:1px solid var(--filo2)}
+
+/* Cabecera */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--fondo) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--filo2)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.marca{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif}
+.marca span{color:var(--azul)}
+.nav .acciones{display:flex;gap:8px}
+.nav .btn{padding:9px 14px;font-size:.8rem}
+
+/* Portada */
+.hero{padding:48px 16px 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding-top:32px}}
+.hero h1{font-size:clamp(2rem,6vw,3.3rem);font-weight:800;line-height:1.05;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--azul)}
+.hero .lead{margin:16px 0 22px;font-size:1.05rem}
+.hero .ctas{display:flex;gap:10px;flex-wrap:wrap}
+.datos{display:flex;gap:22px;margin-top:22px;flex-wrap:wrap}
+.datos div{font-size:.82rem;color:var(--texto);display:flex;align-items:center;gap:7px}
+.datos svg.i{color:var(--azul);width:18px;height:18px}
+.vitrina{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vitrina .tel:nth-child(2){margin-top:36px}
+
+/* Tarjetas de medios con la marca */
+.tel{position:relative;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,var(--fondo2),var(--fondo3));border:1px solid var(--filo2)}
+.tel video,.tel img{width:100%;height:100%;object-fit:cover;display:block}
+.tel .vacio{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--texto);font-size:.78rem;text-align:center;padding:16px}
+.tel .vacio svg.i{width:30px;height:30px;opacity:.6}
+.insignia{position:absolute;left:10px;top:10px;display:inline-flex;align-items:center;gap:5px;background:rgba(10,47,79,.85);color:#fff;font-size:.66rem;font-weight:700;padding:5px 9px;border-radius:999px;backdrop-filter:blur(4px)}
+.insignia svg.i{width:12px;height:12px}
+.pie{position:absolute;left:0;right:0;bottom:0;padding:28px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff}
+.pie b{display:block;font-size:.85rem}
+.pie small{font-size:.7rem;opacity:.85}
+
+/* Pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:760px){.pasos{grid-template-columns:1fr}}
+.paso{background:var(--panel);border:1px solid var(--filo2);border-radius:14px;padding:20px}
+.paso .num{width:36px;height:36px;border-radius:10px;background:var(--azul-tenue);color:var(--azul);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.paso h3{font-size:1rem;margin-bottom:6px}
+.paso p{font-size:.88rem;color:var(--texto)}
+
+/* Galería */
+.galeria{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+@media(max-width:860px){.galeria{grid-template-columns:repeat(2,1fr);gap:10px}}
+.pie b{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+
+/* Modelos */
+.grupos{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+@media(max-width:860px){.grupos{grid-template-columns:1fr}}
+.grupo{background:var(--panel);border:1px solid var(--filo2);border-radius:14px;padding:18px}
+.grupo h3{display:flex;align-items:center;gap:8px;font-size:1rem;margin-bottom:12px}
+.modelo{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid var(--filo2);font-size:.86rem}
+.modelo:first-of-type{border-top:none}
+.modelo small{display:block;color:var(--texto);font-size:.76rem;line-height:1.4;margin-top:2px}
+.modelo .p{white-space:nowrap;font-weight:700;color:var(--azul);font-size:.84rem;text-align:right}
+.modelo .p small{text-align:right}
+
+/* Ventajas */
+.ventajas{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+@media(max-width:860px){.ventajas{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ventajas{grid-template-columns:1fr}}
+.ventaja svg.i{width:26px;height:26px;color:var(--azul);margin-bottom:10px}
+.ventaja h3{font-size:.95rem;margin-bottom:4px}
+.ventaja p{font-size:.84rem;color:var(--texto)}
+
+/* Precios */
+.paquetes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+@media(max-width:760px){.paquetes{grid-template-columns:1fr 1fr}}
+.paquete{background:var(--panel);border:1px solid var(--filo2);border-radius:14px;padding:20px;text-align:center}
+.paquete b{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.7rem;display:block}
+.paquete small{color:var(--texto);font-size:.78rem}
+
+/* Preguntas */
+details{background:var(--panel);border:1px solid var(--filo2);border-radius:12px;padding:14px 16px;margin-top:10px}
+summary{cursor:pointer;font-weight:700;font-size:.92rem;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:'+';color:var(--azul);font-size:1.2rem;line-height:1}
+details[open] summary::after{content:'−'}
+details p{color:var(--texto);font-size:.88rem;margin-top:10px}
+
+.cierre{text-align:center;background:var(--panel);border:1px solid var(--filo2);border-radius:18px;padding:40px 20px}
+.cierre .lead{margin:0 auto 20px}
+footer{border-top:1px solid var(--filo2);padding:24px 0;color:var(--texto);font-size:.8rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chispa" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 3v4M17 5h4"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3z"/></symbol>
+  <symbol id="i-imagen" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></symbol>
+  <symbol id="i-cerebro" viewBox="0 0 24 24"><path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 6 1V5a2 2 0 0 0-3-1z"/><path d="M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-6 1"/></symbol>
+  <symbol id="i-billetera" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14.5" r="1"/></symbol>
+  <symbol id="i-bajar" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-persona" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-isla" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="marca" href="/"><img src="/assets/logo-wifnix.png" alt="" width="30" height="30" style="border-radius:7px">Wifnix <span>AI</span></a>
+    <div class="acciones">
+      <a class="btn sec" href="https://portal.wifnix.com/ai-studio.html">Entrar</a>
+      <a class="btn" href="https://portal.wifnix.com/ai-studio.html">Empezar</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow">Anuncios con inteligencia artificial</div>
+      <h1>Videos e imágenes para vender más, <em>sin filmar</em>.</h1>
+      <p class="lead">Describe tu producto o servicio y crea anuncios listos para Instagram, Facebook y TikTok. Sin suscripción: recargas créditos y pagas solo lo que generas.</p>
+      <div class="ctas">
+        <a class="btn" href="https://portal.wifnix.com/ai-studio.html">Crear mi primer anuncio<svg class="i"><use href="#i-flecha"/></svg></a>
+        <a class="btn sec" href="#ejemplos">Ver ejemplos</a>
+      </div>
+      <div class="datos">
+        <div><svg class="i"><use href="#i-billetera"/></svg>Sin mensualidad</div>
+        <div><svg class="i"><use href="#i-escudo"/></svg>Si falla, te devolvemos el crédito</div>
+        <div><svg class="i"><use href="#i-isla"/></svg>Hecho en Puerto Rico</div>
+      </div>
+    </div>
+    <div class="vitrina" id="vitrina"></div>
+  </div>
+
+  <section id="como">
+    <div class="wrap">
+      <div class="eyebrow">Cómo funciona</div>
+      <h2>De la idea al anuncio en minutos</h2>
+      <div class="pasos">
+        <div class="paso"><div class="num"><svg class="i"><use href="#i-cerebro"/></svg></div><h3>1. Arma la estrategia</h3><p>El Estratega analiza a tu cliente ideal, te propone ángulos de venta y escribe el guion escena por escena.</p></div>
+        <div class="paso"><div class="num"><svg class="i"><use href="#i-chispa"/></svg></div><h3>2. Genera las escenas</h3><p>Crea fotos de tu personaje o producto y anímalas en video. Ves el precio exacto antes de cada una.</p></div>
+        <div class="paso"><div class="num"><svg class="i"><use href="#i-bajar"/></svg></div><h3>3. Descarga y publica</h3><p>Tus archivos quedan en tu cuenta. Úsalos en tus anuncios o en los de tus clientes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ejemplos">
+    <div class="wrap">
+      <div class="eyebrow">Hecho con Wifnix AI</div>
+      <h2>Ejemplos reales</h2>
+      <p class="lead">Cada uno se hizo en Wifnix AI. Entra y toca "Crear algo así" para adaptarlo a tu negocio.</p>
+      <div class="galeria" id="galeria"></div>
+    </div>
+  </section>
+
+  <section id="modelos">
+    <div class="wrap">
+      <div class="eyebrow">Los mejores modelos, en un solo lugar</div>
+      <h2>Escoge el modelo para cada escena</h2>
+      <p class="lead">Los modelos de inteligencia artificial más avanzados del momento, sin pagar una suscripción por cada uno.</p>
+      <div class="grupos" id="grupos"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Por qué Wifnix AI</div>
+      <h2>Pensado para negocios, no para expertos</h2>
+      <div class="ventajas">
+        <div class="ventaja"><svg class="i"><use href="#i-billetera"/></svg><h3>Pagas lo que usas</h3><p>Sin mensualidades. Tus créditos no vencen.</p></div>
+        <div class="ventaja"><svg class="i"><use href="#i-escudo"/></svg><h3>Sin sorpresas</h3><p>Ves el precio antes de generar. Si algo falla, el crédito vuelve a tu cuenta.</p></div>
+        <div class="ventaja"><svg class="i"><use href="#i-persona"/></svg><h3>Tu propia cara</h3><p>Con Genjutsu te grabas actuando y tu personaje hace los mismos movimientos.</p></div>
+        <div class="ventaja"><svg class="i"><use href="#i-reloj"/></svg><h3>Más anuncios, menos tiempo</h3><p>Prueba ángulos, personajes y formatos nuevos cada semana sin otra sesión de fotos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="precios">
+    <div class="wrap">
+      <div class="eyebrow">Precios</div>
+      <h2>Recarga lo que necesites</h2>
+      <p class="lead">Pago seguro con tarjeta, Apple Pay o Google Pay. Cada imagen o video muestra su precio exacto antes de generarse.</p>
+      <div class="paquetes" id="paquetes"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Preguntas</div>
+      <h2>Lo que te puedes estar preguntando</h2>
+      <details><summary>¿Necesito saber de inteligencia artificial?</summary><p>No. El Estratega te escribe el guion y las descripciones de cada escena; tú solo escoges, ajustas y generas.</p></details>
+      <details><summary>¿Puedo hacer anuncios para mis clientes?</summary><p>Sí. Puedes usar comercialmente lo que generes, para tu negocio o el de tus clientes.</p></details>
+      <details><summary>¿Qué pasa si una generación sale mal o falla?</summary><p>Si falla o es rechazada por los filtros de contenido, el crédito se te devuelve completo de forma automática.</p></details>
+      <details><summary>¿Puedo usar mi cara o la de otra persona?</summary><p>La tuya sí. La de otra persona solo con su permiso por escrito, y nunca la de figuras públicas.</p></details>
+      <details><summary>¿Funciona desde el celular?</summary><p>Sí. Todo funciona desde el teléfono: subir fotos, generar y descargar.</p></details>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cierre">
+        <h2>Crea tu primer anuncio hoy</h2>
+        <p class="lead">Entra con tu cuenta de Wifnix, recarga desde $10 y empieza a generar.</p>
+        <a class="btn" href="https://portal.wifnix.com/ai-studio.html">Empezar ahora<svg class="i"><use href="#i-flecha"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Wifnix LLC · Caguas, Puerto Rico</span>
+    <span><a href="/terminos.html">Términos</a> · <a href="/privacidad.html">Privacidad</a></span>
+  </div>
+</footer>
+
+<script>
+'use strict';
+var API = 'https://api.wifnix.com';
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function icono(n) { return '<svg class="i"><use href="#i-' + n + '"/></svg>'; }
+function dinero(c) { return '$' + (Number(c) / 100).toFixed(2); }
+
+// Tarjeta con la insignia de Wifnix AI. Sin ejemplo, un espacio de muestra.
+function tarjeta(e, vacioTexto) {
+  if (!e) return '<div class="tel"><div class="vacio">' + icono('video') + esc(vacioTexto || 'Ejemplo próximamente') + '</div><span class="insignia">' + icono('chispa') + 'Wifnix AI</span></div>';
+  var media = e.tipo === 'video'
+    ? '<video src="' + esc(e.url) + '" muted loop playsinline autoplay preload="metadata"></video>'
+    : '<img src="' + esc(e.url) + '" alt="' + esc(e.titulo) + '" loading="lazy">';
+  return '<div class="tel">' + media + '<span class="insignia">' + icono('chispa') + 'Wifnix AI</span>' +
+    '<div class="pie"><b>' + esc(e.titulo) + '</b>' + (e.modelo_nombre ? '<small>' + esc(e.modelo_nombre) + '</small>' : '') + '</div></div>';
+}
+
+async function cargar() {
+  var ejemplos = [], catalogo = { modelos: [], paquetes: [10, 25, 50, 100] };
+  try { ejemplos = await fetch(API + '/api/ai/ejemplos').then(function (r) { return r.json(); }); } catch (e) {}
+  try { catalogo = await fetch(API + '/api/ai/catalogo').then(function (r) { return r.json(); }); } catch (e) {}
+  if (!Array.isArray(ejemplos)) ejemplos = [];
+
+  // Portada: los dos primeros videos (o imágenes) de la galería.
+  var destacados = ejemplos.filter(function (e) { return e.tipo === 'video'; }).concat(ejemplos.filter(function (e) { return e.tipo !== 'video'; }));
+  document.getElementById('vitrina').innerHTML = tarjeta(destacados[0], 'Tu anuncio aquí') + tarjeta(destacados[1], 'Tu producto aquí');
+
+  // Galería: los ejemplos publicados, o 4 espacios de muestra.
+  document.getElementById('galeria').innerHTML = ejemplos.length
+    ? ejemplos.map(function (e) { return tarjeta(e); }).join('')
+    : [0, 1, 2, 3].map(function () { return tarjeta(null); }).join('');
+
+  // Modelos agrupados con su precio "desde".
+  var GRUPOS = [['imagen', 'Imágenes', 'imagen'], ['video', 'Videos', 'video'], ['genjutsu', 'Genjutsu · con tu video', 'persona']];
+  document.getElementById('grupos').innerHTML = GRUPOS.map(function (g) {
+    var ms = (catalogo.modelos || []).filter(function (m) { return m.grupo === g[0]; });
+    if (!ms.length) return '';
+    return '<div class="grupo"><h3>' + icono(g[2]) + esc(g[1]) + '</h3>' + ms.map(function (m) {
+      var precio = m.desde_centavos ? '<small>desde</small>' + dinero(m.desde_centavos) : '<small>precio exacto</small>al generar';
+      return '<div class="modelo"><div>' + esc(m.nombre.replace(/^(Imagen|Video) · /, '')) + '<small>' + esc(m.descripcion || '') + '</small></div><div class="p">' + precio + '</div></div>';
+    }).join('') + '</div>';
+  }).join('');
+
+  document.getElementById('paquetes').innerHTML = (catalogo.paquetes || []).map(function (p) {
+    return '<div class="paquete"><b>$' + p + '</b><small>en créditos</small></div>';
+  }).join('');
+}
+cargar();
+</script>
+<script src="/assets/wifnix-ui.js" defer></script>
+</body>
+</html>

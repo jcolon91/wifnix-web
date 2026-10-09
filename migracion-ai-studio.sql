@@ -111,6 +111,26 @@ CREATE UNIQUE INDEX IF NOT EXISTS ai_mov_stripe_unico ON ai_movimientos (tipo, s
 CREATE UNIQUE INDEX IF NOT EXISTS ai_mov_gen_unico ON ai_movimientos (generacion_id, tipo)
   WHERE generacion_id IS NOT NULL;
 
+-- Galería pública de ejemplos ("Hecho con Wifnix AI"). Solo se publican
+-- creaciones del propio admin; el archivo se copia aparte para que borrar
+-- la generación no rompa la galería.
+CREATE TABLE IF NOT EXISTS ai_ejemplos (
+  id             UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  titulo         TEXT NOT NULL,
+  descripcion    TEXT,
+  categoria      TEXT,
+  tipo           TEXT NOT NULL CHECK (tipo IN ('imagen','video')),
+  archivo        TEXT NOT NULL,          -- nombre dentro de AI_STORAGE_DIR/_ejemplos
+  modelo_clave   TEXT REFERENCES ai_modelos(clave) ON DELETE SET NULL,
+  prompt         TEXT,                   -- NULL si no se quiere mostrar
+  parametros     JSONB NOT NULL DEFAULT '{}'::jsonb,
+  generacion_id  UUID REFERENCES ai_generaciones(id) ON DELETE SET NULL,
+  publicado      BOOLEAN NOT NULL DEFAULT true,
+  orden          INT NOT NULL DEFAULT 100,
+  creado_en      TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS ai_ejemplos_pub_idx ON ai_ejemplos (publicado, orden);
+
 -- ── Modelos iniciales ────────────────────────────────────────
 -- Precios oficiales en USD, verificados el 8 de octubre de 2026.
 -- Si un proveedor cambia su precio, cambia "tarifa" aquí y vuelve a correr

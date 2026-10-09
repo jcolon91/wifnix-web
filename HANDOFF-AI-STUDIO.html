@@ -47,7 +47,8 @@ ol,ul{padding-left:20px}li{margin:4px 0}.alerta{border-left:3px solid var(--g)}
 <tr><td><code>lib/ai-studio.js</code></td><td>Billetera, Stripe, archivos, reconciliador, Estratega, admin</td></tr>
 <tr><td><code>lib/ai-proveedores.js</code></td><td>Conectores con Google, MiniMax y Higgsfield, y cálculo de tarifas</td></tr>
 <tr><td><code>migracion-ai-studio.sql</code></td><td>Tablas y los 10 modelos con su tarifa</td></tr>
-<tr><td><code>ai-studio.html</code></td><td>Página del cliente</td></tr>
+<tr><td><code>ai-studio.html</code></td><td>Página del cliente: Crear, Ideas, Estratega, Creaciones, Pagos</td></tr>
+<tr><td><code>ai.html</code></td><td>Página pública de venta (wifnix.com/ai.html): portada, cómo funciona, ejemplos, modelos con precio "desde", paquetes, preguntas</td></tr>
 <tr><td><code>ai_studio_instalar.py</code></td><td>Parche de server.js (idempotente)</td></tr>
 <tr><td><code>.env.example</code></td><td>Variables nuevas al final</td></tr>
 </table></div>
@@ -69,6 +70,10 @@ node --check server.js &amp;&amp; pm2 restart wifnix-api</pre>
 <p>Si nginx limita el tamaño de subida, súbelo a 110 MB para los videos de Genjutsu: <code>client_max_body_size 110m;</code> en el bloque de api.wifnix.com.</p>
 <p>Un proveedor sin llave simplemente no aparece para el cliente: puedes arrancar con uno solo.</p>
 
+<h2>Galería "Hecho con Wifnix AI"</h2>
+<div class="card">Genera tus ejemplos en tu propia cuenta de AI Studio. En <b>Creaciones</b>, toca <b>Publicar</b> en los mejores: aparecen en la pestaña <b>Ideas</b> y en la página pública con la insignia de Wifnix AI y el botón "Crear algo así". Solo puedes publicar creaciones tuyas, nunca las de un cliente. Mientras no publiques nada, las dos páginas muestran espacios de muestra.<br><br>
+Ocultar: <code>PUT /api/admin/ai/ejemplos/:id {"publicado":false}</code> · Orden: <code>{"orden":1}</code> · Borrar: <code>DELETE /api/admin/ai/ejemplos/:id</code></div>
+
 <h2>Admin</h2>
 <ul>
 <li><code>GET /api/admin/ai/resumen?dias=30</code>: ingreso, costo por proveedor, ganancia y saldo pendiente de clientes</li>
@@ -78,7 +83,7 @@ node --check server.js &amp;&amp; pm2 restart wifnix-api</pre>
 </ul>
 
 <h2>Verificado</h2>
-<div class="card">55 pruebas contra PostgreSQL real: dinero (recargas, cargos, reembolsos, doble gasto, revisión, admin), archivos (dueño, rutas, tipos, limpieza) y la forma exacta de cada llamada a Google, MiniMax y Higgsfield contra su documentación. Dos revisiones independientes del código; todos sus hallazgos corregidos con prueba. server.js parcheado arranca. Página revisada en tamaño de iPhone, claro y oscuro.</div>
+<div class="card">60 pruebas contra PostgreSQL real: dinero (recargas, cargos, reembolsos, doble gasto, revisión, admin), archivos (dueño, rutas, tipos, limpieza) y la forma exacta de cada llamada a Google, MiniMax y Higgsfield contra su documentación. Dos revisiones independientes del código; todos sus hallazgos corregidos con prueba. server.js parcheado arranca. Página revisada en tamaño de iPhone, claro y oscuro.</div>
 
 <h2>Pendientes y avisos</h2>
 <div class="card alerta"><ul>
